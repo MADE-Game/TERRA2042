@@ -7,7 +7,7 @@ mongoose.connect('mongodb://localhost/made', {
 
 mongoose.connection
   .once('open', () => {
-    console.log('connected')
+    console.log('connected to MongoDB')
   })
   .on('error', error => {
     console.log('eror:', error)

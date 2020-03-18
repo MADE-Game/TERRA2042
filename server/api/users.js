@@ -15,7 +15,7 @@ router.get('/', async (req, res, next) => {
 //one user
 router.get('/:userId', async (req, res, next) => {
   try {
-    const user = await User.findById( req.params.userId)
+    const user = await User.findById(req.params.userId)
     res.json(user)
   } catch (err) {
     next(err)
@@ -23,13 +23,13 @@ router.get('/:userId', async (req, res, next) => {
 })
 
 //new user
-router.post('/:userId', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     const user = new User({
-     email: req.body.email,
-     userName: req.body.userName,
-     colletions: req.body.colletions,
-     googleId: req.body.googleId,
+      email: req.body.email,
+      userName: req.body.userName,
+      colletions: req.body.colletions,
+      googleId: req.body.googleId
     })
     const savedUser = await user.save()
     res.json(savedUser)
