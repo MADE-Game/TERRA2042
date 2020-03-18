@@ -1,5 +1,5 @@
 {
-  "name": "boilermaker",
+  "name": "made",
   "version": "2.0.0",
   "description": "Some boilerplate code to get you started - get shakin'!",
   "engines": {
@@ -43,15 +43,13 @@
   "dependencies": {
     "axios": "^0.19.0",
     "compression": "^1.7.3",
-    "connect-session-sequelize": "^6.0.0",
     "express": "^4.16.4",
     "express-session": "^1.15.1",
     "history": "^4.9.0",
+    "mongoose": "^5.9.5",
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
     "passport-google-oauth": "^2.0.0",
-    "pg": "^7.9.0",
-    "pg-hstore": "^2.3.2",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -60,7 +58,6 @@
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "sequelize": "^5.15.1",
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
@@ -94,7 +91,7 @@
     "mocha": "^6.1.4",
     "nodemon": "^1.18.3",
     "npm-merge-driver": "^2.3.5",
-    "prettier": "1.11.1",
+    "prettier": "1.19.1",
     "react-test-renderer": "^16.4.2",
     "redux-devtools-extension": "^2.13.5",
     "redux-mock-store": "^1.5.3",

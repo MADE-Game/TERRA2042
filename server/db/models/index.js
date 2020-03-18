@@ -1,4 +1,7 @@
 const User = require('./user')
+const Game = require('./game')
+const Collection = require('./collection')
+const Card = require('./card')
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -14,5 +17,8 @@ const User = require('./user')
  * instead of: const User = require('../db/models/user')
  */
 module.exports = {
-  User
+  User,
+  Game,
+  Collection,
+  Card
 }
