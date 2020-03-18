@@ -7,16 +7,39 @@ const dummyProps = {
   name: 'Test',
   imageUrl: 'favicon.ico',
   attack: 1,
-  defense: 4
+  defense: 4,
+  id: 1
 }
+const dummyProps2 = {
+  name: 'Test',
+  imageUrl: 'favicon.ico',
+  attack: 1,
+  defense: 4,
+  id: 2
+}
+const dummyProps3 = {
+  name: 'Test',
+  imageUrl: 'favicon.ico',
+  attack: 1,
+  defense: 4,
+  id: 3
+}
+const dummyProps4 = {
+  name: 'Test',
+  imageUrl: 'favicon.ico',
+  attack: 1,
+  defense: 4,
+  id: 4
+}
+
 const enemySide = {
   inPlay: [dummyProps, dummyProps],
   hand: [dummyProps],
   heroUrl: 'favicon.ico'
 }
 const playerSide = {
-  inPlay: [dummyProps, dummyProps, dummyProps],
-  hand: [dummyProps, dummyProps],
+  inPlay: [dummyProps3, dummyProps4],
+  hand: [dummyProps, dummyProps2],
   heroUrl: 'favicon.ico'
 }
 const Board = props => {

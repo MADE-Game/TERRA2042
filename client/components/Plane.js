@@ -9,7 +9,8 @@ const Plane = props => {
     drop: () => {
       console.log('dropped!')
       console.log(item.card)
-      props.inPlay.push(item.card)
+      // props.inPlay.push(item.card)
+      props.playCard(item.card)
     },
     collect: monitor => ({
       isOver: !!monitor.isOver(),

@@ -38,3 +38,7 @@ form div {
   display: flex;
   flex-direction: column;
 }
+
+.plane {
+  min-height: 150px;
+}

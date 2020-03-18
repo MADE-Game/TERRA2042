@@ -3,12 +3,14 @@ import {ItemTypes} from '../dnd/types'
 import {useDrag} from 'react-dnd'
 
 const Card = props => {
-  const [{isDragging}, drag] = useDrag({
-    item: {type: ItemTypes.CARD, card: props.card},
-    collect: monitor => ({
-      isDragging: !!monitor.isDragging()
+  if (props.player === 'hero') {
+    const [{isDragging}, drag] = useDrag({
+      item: {type: ItemTypes.CARD, card: props.card},
+      collect: monitor => ({
+        isDragging: !!monitor.isDragging()
+      })
     })
-  })
+  }
 
   const {name, attack, defense, imageUrl} = props.card
   return (
