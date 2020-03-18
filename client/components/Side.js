@@ -1,5 +1,6 @@
 import React from 'react'
 import Card from './Card'
+import Plane from './Plane'
 
 const Side = props => {
   return (
@@ -15,21 +16,11 @@ const Side = props => {
               return <Card card={card} />
             })}
           </div>
-          <div className="plane">
-            PLANE:
-            {props.side.inPlay.map(card => {
-              return <Card card={card} />
-            })}
-          </div>
+          <Plane inPlay={props.side.inPlay} />
         </div>
       ) : (
         <div>
-          <div className="plane">
-            PLANE:
-            {props.side.inPlay.map(card => {
-              return <Card card={card} />
-            })}
-          </div>
+          <Plane inPlay={props.side.inPlay} />
           <div className="hand">
             HAND:
             {props.side.hand.map(card => {
