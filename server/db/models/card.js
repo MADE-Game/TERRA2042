@@ -4,8 +4,10 @@ const Schema = mongoose.Schema
 const CardSchema = new Schema({
   name: String,
   imageUrl: String,
-  attackPoints: Number,
-  defensePoints: Number
+  cost: Number,
+  type: String,
+  attack: Number,
+  health: Number
 })
 
 module.exports = mongoose.model('card', CardSchema)

@@ -48,8 +48,10 @@ for (let j = 0; j < monsterNames.length; j++) {
   cardDocs.push({
     name: monsterNames[j],
     imageUrl: `/images/${j + 1}.png`,
-    attackPoints: Math.floor(Math.random() * (95 - 55) + 55),
-    defensePoints: Math.floor(Math.random() * (95 - 55) + 55)
+    cost: 10,
+    type: 'fighter',
+    attack: Math.floor(Math.random() * (95 - 55) + 55),
+    health: Math.floor(Math.random() * (95 - 55) + 55)
   })
 }
 

@@ -3,6 +3,7 @@ const Schema = mongoose.Schema
 
 const CollectionSchema = new Schema({
   userId: String,
+  name: String,
   cards: Array,
   isDeck: Boolean
 })
