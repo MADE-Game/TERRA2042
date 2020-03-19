@@ -15,7 +15,7 @@ router.get('/', async (req, res, next) => {
 //one card
 router.get('/:cardId', async (req, res, next) => {
   try {
-    const card = await Card.findById( req.params.cardId)
+    const card = await Card.findById(req.params.cardId)
     res.json(card)
   } catch (err) {
     next(err)
