@@ -6,7 +6,7 @@ module.exports = router
 router.get('/', async (req, res, next) => {
   try {
     const games = await Game.find()
-    res.json(games)
+    res.json(games[0].player1)
   } catch (err) {
     next(err)
   }
