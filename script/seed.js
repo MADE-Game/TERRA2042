@@ -1,21 +1,90 @@
 'use strict'
 
 const seeder = require('mongoose-seed')
-const {User, Card} = require('../server/db/models')
 
-seeder.connect('mongodb://localhost/made', () => {
-  seeder.loadModels([
-    '../server/db/models/user.js',
-    '../server/db/models/card.js'
-  ])
-})
+const userDocs = []
+const cardDocs = []
 
-// Execute the `seed` function, IF we ran this module directly (`node seed`).
-// `Async` functions always return a promise, so we can use `catch` to handle
-// any errors that might occur inside of `seed`.
-if (module === require.main) {
-  runSeed()
+const emails = [
+  'cmax1018@gmail.com',
+  'akil.grant.93@gmail.com',
+  'dyhorgan@gmail.com',
+  'ecanals07@gmail.com'
+]
+
+const monsterNames = [
+  'Centaurs',
+  'Basilisks',
+  'Chimera',
+  'Medusa',
+  'Cyclopes',
+  'Minotaur',
+  'Kraken',
+  'Cerberus',
+  'Sphinx',
+  'Lernaean',
+  'Hydra',
+  'Kappas',
+  'Lamia',
+  'Charybdis',
+  'Harpies',
+  'Typhon',
+  'Echidna',
+  'Furies',
+  'Scylla',
+  'Banshees'
+]
+
+for (let i = 0; i < emails.length; i++) {
+  userDocs.push({
+    email: emails[i],
+    userName: emails[i].split('@')[0],
+    googleId: emails[i],
+    collections: []
+  })
 }
 
-// we export the seed function for testing purposes (see `./seed.spec.js`)
-module.exports = seed
+for (let j = 0; j < monsterNames.length; j++) {
+  cardDocs.push({
+    name: monsterNames[j],
+    imageUrl: `/images/${j + 1}.png`,
+    attackPoints: Math.floor(Math.random() * (95 - 55) + 55),
+    defensePoints: Math.floor(Math.random() * (95 - 55) + 55)
+  })
+}
+
+const data = [
+  {
+    model: 'user',
+    documents: userDocs
+  },
+
+  {
+    model: 'card',
+    documents: cardDocs
+  }
+]
+
+// Execute the `seed` function, IF we ran this module directly (`node seed`).
+if (module === require.main) {
+  try {
+    seeder.connect(
+      'mongodb://localhost/made',
+      {useUnifiedTopology: true},
+      () => {
+        seeder.loadModels([
+          'server/db/models/user.js',
+          'server/db/models/card.js'
+        ])
+
+        seeder.clearModels(['user', 'card'], () => {
+          seeder.populateModels(data, () => {
+            seeder.disconnect()
+          })
+        })
+      }
+    )
+  } catch (error) {
+    console.error('Error seeding database:', error)
+  }
+}
