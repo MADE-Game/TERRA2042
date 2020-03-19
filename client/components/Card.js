@@ -8,19 +8,22 @@ const Card = props => {
   const [{isDragging}, drag] = useDrag({
     item: {
       type: props.player === 'hero' ? ItemTypes.CARD : ItemTypes.ENEMY_CARD,
-      card: props.card
+      card: props.card,
+      inHand: props.inHand
     },
-    collect: monitor => ({
-      isDragging: !!monitor.isDragging()
-    })
+    collect: monitor => {
+      return {
+        isDragging: !!monitor.isDragging()
+      }
+    }
   })
   const [{isOver, canDrop, item}, drop] = useDrop({
     accept: props.player === 'hero' ? ItemTypes.ENEMY_CARD : ItemTypes.CARD,
+
     drop: () => {
-      console.log('dropped on card')
-      console.log(item.card)
-      // props.inPlay.push(item.card)
-      props.attackCard(item.card, props.card)
+      if (props.player === 'enemy' && !props.inHand && !item.inHand) {
+        props.attackCard(item.card, props.card)
+      }
     },
     collect: monitor => ({
       isOver: !!monitor.isOver(),
@@ -30,6 +33,7 @@ const Card = props => {
   })
 
   const {name, attack, defense, imageUrl} = props.card
+
   return (
     <div ref={drag}>
       <div

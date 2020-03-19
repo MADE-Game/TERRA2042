@@ -14,19 +14,31 @@ const Side = props => {
           </div>
           <div className="hand">
             HAND:
-            {props.side.hand.map(card => {
-              return <Card card={card} key={card.id} player="enemy" />
+            {props.opponentHand.map(card => {
+              return (
+                <Card card={card} key={card.id} player="enemy" inHand="true" />
+              )
             })}
           </div>
-          <Plane inPlay={props.side.inPlay} />
+          <Plane
+            inPlay={props.opponentInPlay}
+            playCard={props.playCard}
+            player="enemy"
+          />
         </div>
       ) : (
         <div>
-          <Plane inPlay={props.inPlay} playCard={props.playCard} />
+          <Plane
+            inPlay={props.inPlay}
+            playCard={props.playCard}
+            player="hero"
+          />
           <div className="hand">
             HAND:
             {props.hand.map(card => {
-              return <Card card={card} key={card.id} player="hero" />
+              return (
+                <Card card={card} key={card.id} player="hero" inHand={true} />
+              )
             })}
           </div>
           <div className="hero">
@@ -44,7 +56,9 @@ const Side = props => {
 const mapStateToProps = function(state) {
   return {
     inPlay: state.game.player1.inPlay,
-    hand: state.game.player1.hand
+    opponentInPlay: state.game.player2.inPlay,
+    hand: state.game.player1.hand,
+    opponentHand: state.game.player2.hand
   }
 }
 

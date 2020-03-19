@@ -39,6 +39,7 @@ form div {
   flex-direction: column;
 }
 
-.plane {
+.plane,
+.hand {
   min-height: 150px;
 }
