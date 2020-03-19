@@ -5,6 +5,7 @@ import {playCard, drawCard} from '../store/game'
 import {connect} from 'react-redux'
 
 const Side = props => {
+  console.log(props.hand)
   return (
     <div className="side">
       {props.top ? (
