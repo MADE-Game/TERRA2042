@@ -22,7 +22,6 @@ const gameDocs = [
     }),
 
     isFinished: false,
-
     isP1Turn: true
   }
 ]

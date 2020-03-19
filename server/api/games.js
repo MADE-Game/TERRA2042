@@ -6,6 +6,10 @@ module.exports = router
 router.get('/', async (req, res, next) => {
   try {
     const games = await Game.find()
+    // should we create another route to do this?
+    // this doesn't include the isFinished and isP1Turn props
+    // maybe have another route like '/snapshot' that only sends the game prop
+    // and have a regular route that sends all props
     res.json(JSON.parse(games[0].game))
   } catch (err) {
     next(err)
