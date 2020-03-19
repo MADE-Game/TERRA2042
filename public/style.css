@@ -1,5 +1,6 @@
 body {
   font-family: sans-serif;
+  background-color: #f39f86;
 }
 
 a {
@@ -21,21 +22,22 @@ form div {
 }
 
 .side,
-.card,
 .board,
 .hand,
 .plane {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  border: 2px solid black;
+  border: 2px solid rgb(70, 70, 70)
 }
 .board,
 .side {
   flex-direction: column;
 }
-.stats {
+.card {
   display: flex;
+  border-radius: 25px;
+  border: 2px solid rgb(70, 70, 70);
   flex-direction: column;
 }
 

@@ -36,16 +36,32 @@ const Card = props => {
         className="card"
         ref={drop}
         style={{
-          fontSize: 25,
-          fontWeight: 'bold',
-          cursor: 'move'
-        }}
+          fontSize:25,
+          fontWeight:'bold',
+          cursor:'move'
+          }}
       >
-        <h1>{name}</h1>
+        <div>
+          <h3 style={{
+            textAlign: 'right',
+            paddingRight: '1em'
+          }}>
+            Cost
+          </h3>
+        </div>
         <img src={imageUrl} />
-        <div className="stats">
-          <h2>{attack}</h2>
-          <h2>{defense}</h2>
+        <h2 style={{
+          textAlign: 'center'
+        }}>{name}</h2>
+        <div className="stats"
+          style={{
+            // paddingRight: '1em',
+            display:'flex',
+            flexDirection:'row',
+            justifyContent:'space-evenly'
+          }}>
+          <h3>{attack}</h3>
+          <h3>{defense}</h3>
         </div>
       </div>
     </div>

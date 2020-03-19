@@ -17,7 +17,7 @@ const AttackedCard = (attacker, defender) => ({
 const drewCard = (
   card = {
     name: 'Test',
-    imageUrl: 'favicon.ico',
+    imageUrl: '/images/monsters/15.png',
     attack: 1,
     defense: 4,
     id: 5
@@ -46,28 +46,28 @@ export const drawCard = () => {
 }
 const dummyProps = {
   name: 'Test',
-  imageUrl: 'favicon.ico',
+  imageUrl: '/images/monsters/12.png',
   attack: 1,
   defense: 4,
   id: 1
 }
 const dummyProps2 = {
   name: 'Test',
-  imageUrl: 'favicon.ico',
+  imageUrl: '/images/monsters/15.png',
   attack: 1,
   defense: 4,
   id: 2
 }
 const dummyProps3 = {
   name: 'Test',
-  imageUrl: 'favicon.ico',
+  imageUrl: '/images/monsters/8.png',
   attack: 1,
   defense: 4,
   id: 3
 }
 const dummyProps4 = {
   name: 'Test',
-  imageUrl: 'favicon.ico',
+  imageUrl: '/images/monsters/17.png',
   attack: 1,
   defense: 4,
   id: 4
