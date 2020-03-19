@@ -1,37 +1,58 @@
 import React from 'react'
 import {ItemTypes} from '../dnd/types'
-import {useDrag} from 'react-dnd'
+import {useDrag, useDrop} from 'react-dnd'
+import {attackCard} from '../store/game'
+import {connect} from 'react-redux'
 
 const Card = props => {
-  if (props.player === 'hero') {
-    const [{isDragging}, drag] = useDrag({
-      item: {type: ItemTypes.CARD, card: props.card},
-      collect: monitor => ({
-        isDragging: !!monitor.isDragging()
-      })
+  const [{isDragging}, drag] = useDrag({
+    item: {
+      type: props.player === 'hero' ? ItemTypes.CARD : ItemTypes.ENEMY_CARD,
+      card: props.card
+    },
+    collect: monitor => ({
+      isDragging: !!monitor.isDragging()
     })
-  }
+  })
+  const [{isOver, canDrop, item}, drop] = useDrop({
+    accept: props.player === 'hero' ? ItemTypes.ENEMY_CARD : ItemTypes.CARD,
+    drop: () => {
+      console.log('dropped on card')
+      console.log(item.card)
+      // props.inPlay.push(item.card)
+      props.attackCard(item.card, props.card)
+    },
+    collect: monitor => ({
+      isOver: !!monitor.isOver(),
+      canDrop: !!monitor.canDrop(),
+      item: monitor.getItem()
+    })
+  })
 
   const {name, attack, defense, imageUrl} = props.card
   return (
-    <div
-      className="card"
-      ref={drag}
-      style={{
-        opacity: isDragging ? 0.5 : 1,
-        fontSize: 25,
-        fontWeight: 'bold',
-        cursor: 'move'
-      }}
-    >
-      <h1>{name}</h1>
-      <img src={imageUrl} />
-      <div className="stats">
-        <h2>{attack}</h2>
-        <h2>{defense}</h2>
+    <div ref={drag}>
+      <div
+        className="card"
+        ref={drop}
+        style={{
+          fontSize: 25,
+          fontWeight: 'bold',
+          cursor: 'move'
+        }}
+      >
+        <h1>{name}</h1>
+        <img src={imageUrl} />
+        <div className="stats">
+          <h2>{attack}</h2>
+          <h2>{defense}</h2>
+        </div>
       </div>
     </div>
   )
 }
+const mapDispatch = dispatch => ({
+  attackCard: (attacker, defender) => dispatch(attackCard(attacker, defender))
+})
 
-export default Card
+export default connect(null, mapDispatch)(Card)
