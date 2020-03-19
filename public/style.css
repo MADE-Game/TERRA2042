@@ -19,3 +19,26 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.side,
+.card,
+.board,
+.hand,
+.plane {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  border: 2px solid black;
+}
+.board,
+.side {
+  flex-direction: column;
+}
+.stats {
+  display: flex;
+  flex-direction: column;
+}
+
+.plane {
+  min-height: 150px;
+}
