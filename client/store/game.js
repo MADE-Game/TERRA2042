@@ -73,14 +73,45 @@ const dummyProps4 = {
   id: 4
 }
 
+const dummyProps7 = {
+  name: 'Test',
+  imageUrl: 'favicon.ico',
+  attack: 1,
+  defense: 4,
+  id: 7
+}
+
+const dummyProps8 = {
+  name: 'Test',
+  imageUrl: 'favicon.ico',
+  attack: 1,
+  defense: 4,
+  id: 8
+}
+
+const dummyProps9 = {
+  name: 'Test',
+  imageUrl: 'favicon.ico',
+  attack: 1,
+  defense: 4,
+  id: 9
+}
+const dummyProps10 = {
+  name: 'Test',
+  imageUrl: 'favicon.ico',
+  attack: 1,
+  defense: 4,
+  id: 9
+}
+
 const defaultGame = {
   player1: {
     inPlay: [],
     hand: [dummyProps, dummyProps2, dummyProps3, dummyProps4]
   },
   player2: {
-    inPlay: [],
-    hand: []
+    inPlay: [dummyProps9, dummyProps8],
+    hand: [dummyProps7, dummyProps10]
   }
 }
 
@@ -117,7 +148,7 @@ export default function(state = defaultGame, action) {
         },
         player2: {
           ...state.player2,
-          inPlay: state.player1.inPlay.map(card => {
+          inPlay: state.player2.inPlay.map(card => {
             if (card.id === action.defender.id) {
               return action.defender
             } else {

@@ -7,10 +7,9 @@ const Plane = props => {
   const [{isOver, canDrop, item}, drop] = useDrop({
     accept: ItemTypes.CARD,
     drop: () => {
-      console.log('dropped!')
-      console.log(item.card)
-      // props.inPlay.push(item.card)
-      props.playCard(item.card)
+      if (props.player === 'hero' && item.inHand === true) {
+        props.playCard(item.card)
+      }
     },
     collect: monitor => ({
       isOver: !!monitor.isOver(),
@@ -23,7 +22,14 @@ const Plane = props => {
     <div className="plane" ref={drop}>
       PLANE:
       {props.inPlay.map(card => {
-        return <Card card={card} />
+        return (
+          <Card
+            card={card}
+            key={card.id}
+            player={props.player}
+            inHand={false}
+          />
+        )
       })}
     </div>
   )
