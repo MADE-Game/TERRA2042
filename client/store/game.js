@@ -1,9 +1,17 @@
 const PLAY_CARD = 'PLAY_CARD'
 const DRAW_CARD = 'DRAW_CARD'
+const ATTACK_CARD = 'ATTACK_CARD'
+
+import {attack} from '../engine/index'
 
 const playedCard = card => ({
   type: PLAY_CARD,
   card
+})
+const AttackedCard = (attacker, defender) => ({
+  type: ATTACK_CARD,
+  attacker,
+  defender
 })
 
 const drewCard = (
@@ -24,7 +32,13 @@ export const playCard = card => {
     dispatch(playedCard(card))
   }
 }
+export const attackCard = (attacker, defender) => {
+  const result = attack(attacker, defender)
 
+  return dispatch => {
+    dispatch(AttackedCard(...result))
+  }
+}
 export const drawCard = () => {
   return dispatch => {
     dispatch(drewCard())
@@ -87,6 +101,30 @@ export default function(state = defaultGame, action) {
       return {
         ...state,
         player1: {...state.player1, hand: [...state.player1.hand, action.card]}
+      }
+    case ATTACK_CARD:
+      return {
+        ...state,
+        player1: {
+          ...state.player1,
+          inPlay: state.player1.inPlay.map(card => {
+            if (card.id === action.attacker.id) {
+              return action.attacker
+            } else {
+              return card
+            }
+          })
+        },
+        player2: {
+          ...state.player2,
+          inPlay: state.player1.inPlay.map(card => {
+            if (card.id === action.defender.id) {
+              return action.defender
+            } else {
+              return card
+            }
+          })
+        }
       }
     default:
       return state

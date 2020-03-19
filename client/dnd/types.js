@@ -1,3 +1,4 @@
 export const ItemTypes = {
-  CARD: 'CARD'
+  CARD: 'CARD',
+  ENEMY_CARD: 'ENEMY_CARD'
 }

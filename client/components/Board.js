@@ -33,8 +33,11 @@ const dummyProps4 = {
 }
 
 const enemySide = {
-  inPlay: [dummyProps, dummyProps],
-  hand: [dummyProps],
+  inPlay: [
+    {...dummyProps, id: 10},
+    {...dummyProps, id: 11}
+  ],
+  hand: [{...dummyProps, id: 14}],
   heroUrl: 'favicon.ico'
 }
 const playerSide = {
