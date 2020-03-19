@@ -37,7 +37,7 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
       const collections = []
 
       try {
-        const user = await User.find({googleId: googleId})
+        const user = await User.findOne({googleId: googleId})
 
         if (!user) {
           const newUser = new User({
