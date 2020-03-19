@@ -15,7 +15,7 @@ router.get('/', async (req, res, next) => {
 //one game
 router.get('/:gameId', async (req, res, next) => {
   try {
-    const game = await Game.findById( req.params.gameId)
+    const game = await Game.findById(req.params.gameId)
     res.json(game)
   } catch (err) {
     next(err)
@@ -35,7 +35,7 @@ router.get('/completed', async (req, res, next) => {
 //games in progress
 router.get('/running', async (req, res, next) => {
   try {
-    const games = await Game.find({inProgress: true})
+    const games = await Game.find({isFinished: false})
     res.json(games)
   } catch (err) {
     next(err)

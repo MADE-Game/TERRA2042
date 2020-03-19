@@ -23,7 +23,7 @@ router.get('/:userId', async (req, res, next) => {
 })
 
 //new user
-router.post('/', async (req, res, next) => {
+router.post('/ ', async (req, res, next) => {
   try {
     const user = new User({
       email: req.body.email,
