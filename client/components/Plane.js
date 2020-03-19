@@ -7,7 +7,7 @@ const Plane = props => {
   const [{isOver, canDrop, item}, drop] = useDrop({
     accept: ItemTypes.CARD,
     drop: () => {
-      if (props.player === 'hero') {
+      if (props.player === 'hero' && item.inHand === true) {
         props.playCard(item.card)
       }
     },
