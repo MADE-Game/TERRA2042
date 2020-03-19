@@ -5,6 +5,7 @@ const compression = require('compression')
 const session = require('express-session')
 const passport = require('passport')
 const db = require('./db')
+const User = require('./db/models/user')
 const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
@@ -31,7 +32,7 @@ passport.serializeUser((user, done) => done(null, user.id))
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await db.models.user.findByPk(id)
+    const user = await User.findById(id)
     done(null, user)
   } catch (err) {
     done(err)

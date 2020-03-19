@@ -4,6 +4,28 @@ const seeder = require('mongoose-seed')
 
 const userDocs = []
 const cardDocs = []
+const gameDocs = [
+  {
+    game: JSON.stringify({
+      player1: {
+        hand: ['this', 'is', 'the', 'hand'],
+        deck: [],
+        inPlay: [],
+        settlers: 10
+      },
+      player2: {
+        hand: [],
+        deck: [],
+        inPlay: [],
+        settlers: 10
+      }
+    }),
+
+    isFinished: false,
+
+    isP1Turn: true
+  }
+]
 
 const emails = [
   'cmax1018@gmail.com',
@@ -64,6 +86,11 @@ const data = [
   {
     model: 'card',
     documents: cardDocs
+  },
+
+  {
+    model: 'game',
+    documents: gameDocs
   }
 ]
 
@@ -76,10 +103,11 @@ if (module === require.main) {
       () => {
         seeder.loadModels([
           'server/db/models/user.js',
-          'server/db/models/card.js'
+          'server/db/models/card.js',
+          'server/db/models/game.js'
         ])
 
-        seeder.clearModels(['user', 'card'], () => {
+        seeder.clearModels(['user', 'card', 'game'], () => {
           seeder.populateModels(data, () => {
             seeder.disconnect()
           })
