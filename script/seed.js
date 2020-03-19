@@ -6,11 +6,24 @@ const userDocs = []
 const cardDocs = []
 const gameDocs = [
   {
-    game: JSON.stringify({}),
+    game: JSON.stringify({
+      player1: {
+        hand: ['this', 'is', 'the', 'hand'],
+        deck: [],
+        inPlay: [],
+        settlers: 10
+      },
+      player2: {
+        hand: [],
+        deck: [],
+        inPlay: [],
+        settlers: 10
+      }
+    }),
 
     isFinished: false,
 
-    turn: '123'
+    isP1Turn: true
   }
 ]
 
