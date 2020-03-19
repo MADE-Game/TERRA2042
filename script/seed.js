@@ -1,44 +1,92 @@
 'use strict'
 
-const db = require('../server/db')
-const {User} = require('../server/db/models')
+const seeder = require('mongoose-seed')
 
-async function seed() {
-  await db.sync({force: true})
-  console.log('db synced!')
+const userDocs = []
+const cardDocs = []
 
-  const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
-  ])
+const emails = [
+  'cmax1018@gmail.com',
+  'akil.grant.93@gmail.com',
+  'dyhorgan@gmail.com',
+  'ecanals07@gmail.com'
+]
 
-  console.log(`seeded ${users.length} users`)
-  console.log(`seeded successfully`)
+const monsterNames = [
+  'Centaurs',
+  'Basilisks',
+  'Chimera',
+  'Medusa',
+  'Cyclopes',
+  'Minotaur',
+  'Kraken',
+  'Cerberus',
+  'Sphinx',
+  'Lernaean',
+  'Hydra',
+  'Kappas',
+  'Lamia',
+  'Charybdis',
+  'Harpies',
+  'Typhon',
+  'Echidna',
+  'Furies',
+  'Scylla',
+  'Banshees'
+]
+
+for (let i = 0; i < emails.length; i++) {
+  userDocs.push({
+    email: emails[i],
+    userName: emails[i].split('@')[0],
+    googleId: emails[i],
+    collections: []
+  })
 }
 
-// We've separated the `seed` function from the `runSeed` function.
-// This way we can isolate the error handling and exit trapping.
-// The `seed` function is concerned only with modifying the database.
-async function runSeed() {
-  console.log('seeding...')
-  try {
-    await seed()
-  } catch (err) {
-    console.error(err)
-    process.exitCode = 1
-  } finally {
-    console.log('closing db connection')
-    await db.close()
-    console.log('db connection closed')
+for (let j = 0; j < monsterNames.length; j++) {
+  cardDocs.push({
+    name: monsterNames[j],
+    imageUrl: `/images/${j + 1}.png`,
+    cost: 10,
+    type: 'fighter',
+    attack: Math.floor(Math.random() * (95 - 55) + 55),
+    health: Math.floor(Math.random() * (95 - 55) + 55)
+  })
+}
+
+const data = [
+  {
+    model: 'user',
+    documents: userDocs
+  },
+
+  {
+    model: 'card',
+    documents: cardDocs
   }
-}
+]
 
 // Execute the `seed` function, IF we ran this module directly (`node seed`).
-// `Async` functions always return a promise, so we can use `catch` to handle
-// any errors that might occur inside of `seed`.
 if (module === require.main) {
-  runSeed()
-}
+  try {
+    seeder.connect(
+      'mongodb://localhost/made',
+      {useUnifiedTopology: true},
+      () => {
+        seeder.loadModels([
+          'server/db/models/user.js',
+          'server/db/models/card.js'
+        ])
 
-// we export the seed function for testing purposes (see `./seed.spec.js`)
-module.exports = seed
+        seeder.clearModels(['user', 'card'], () => {
+          seeder.populateModels(data, () => {
+            seeder.disconnect()
+          })
+        })
+      }
+    )
+  } catch (error) {
+    console.error('Error seeding database:', error)
+  }
+}
