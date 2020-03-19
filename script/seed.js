@@ -2,7 +2,6 @@
 
 const seeder = require('mongoose-seed')
 
-const userDocs = []
 const cardDocs = []
 const gameDocs = [
   {
@@ -22,16 +21,8 @@ const gameDocs = [
     }),
 
     isFinished: false,
-
     isP1Turn: true
   }
-]
-
-const emails = [
-  'cmax1018@gmail.com',
-  'akil.grant.93@gmail.com',
-  'dyhorgan@gmail.com',
-  'ecanals07@gmail.com'
 ]
 
 const monsterNames = [
@@ -57,15 +48,6 @@ const monsterNames = [
   'Banshees'
 ]
 
-for (let i = 0; i < emails.length; i++) {
-  userDocs.push({
-    email: emails[i],
-    userName: emails[i].split('@')[0],
-    googleId: emails[i],
-    collections: []
-  })
-}
-
 for (let j = 0; j < monsterNames.length; j++) {
   cardDocs.push({
     name: monsterNames[j],
@@ -78,11 +60,6 @@ for (let j = 0; j < monsterNames.length; j++) {
 }
 
 const data = [
-  {
-    model: 'user',
-    documents: userDocs
-  },
-
   {
     model: 'card',
     documents: cardDocs
@@ -102,12 +79,11 @@ if (module === require.main) {
       {useUnifiedTopology: true},
       () => {
         seeder.loadModels([
-          'server/db/models/user.js',
           'server/db/models/card.js',
           'server/db/models/game.js'
         ])
 
-        seeder.clearModels(['user', 'card', 'game'], () => {
+        seeder.clearModels(['card', 'game'], () => {
           seeder.populateModels(data, () => {
             seeder.disconnect()
           })

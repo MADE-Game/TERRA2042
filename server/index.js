@@ -28,7 +28,10 @@ module.exports = app
 if (process.env.NODE_ENV !== 'production') require('../secrets')
 
 // passport registration
-passport.serializeUser((user, done) => done(null, user.id))
+passport.serializeUser((user, done) => {
+  console.log('user: ', user)
+  done(null, user.id)
+})
 
 passport.deserializeUser(async (id, done) => {
   try {

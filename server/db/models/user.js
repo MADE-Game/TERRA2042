@@ -5,6 +5,7 @@ const _ = require('lodash')
 
 const UserSchema = new Schema({
   email: String,
+  imgUrl: String,
   userName: String,
   password: String,
   googleId: String,

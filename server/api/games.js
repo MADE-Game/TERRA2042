@@ -6,7 +6,7 @@ module.exports = router
 router.get('/', async (req, res, next) => {
   try {
     const games = await Game.find()
-    res.json(JSON.parse(games[0].game))
+    res.json(games)
   } catch (err) {
     next(err)
   }
@@ -19,6 +19,30 @@ router.get('/:gameId', async (req, res, next) => {
     res.json(game)
   } catch (err) {
     next(err)
+  }
+})
+
+router.get('/load/:gameId', async (req, res, next) => {
+  try {
+    const game = await Game.findOne({_id: req.params.gameId, isFinished: false})
+
+    res.json(game)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put('/save/:gameId', async (req, res, next) => {
+  try {
+    const game = await Game.findByIdAndUpdate(req.params.gameId, {
+      game: req.body.game,
+      isFinished: req.body.isFinished,
+      isP1Turn: req.body.isP1Turn
+    })
+
+    res.json(game)
+  } catch (error) {
+    next(error)
   }
 })
 
