@@ -2,6 +2,7 @@ import React from 'react'
 import Side from './Side'
 import {DndProvider} from 'react-dnd'
 import Backend from 'react-dnd-html5-backend'
+import {connect} from 'react-redux'
 
 import io from 'socket.io-client'
 const socket = io()
@@ -49,18 +50,24 @@ const playerSide = {
   heroUrl: '/images/monsters/14.png'
 }
 const Board = props => {
+  console.log('logging isFinished in Board: ', props.isFinished)
   return (
     <DndProvider backend={Backend}>
-      <div className="board">
-        ENEMY SIDE:
-        <Side side={enemySide} top={true} />
-        PLAYER SIDE:
-        <button type="button">End Turn</button>
-        <Side side={playerSide} />
-      </div>
+      {!props.isFinished ? (
+        <div className="board">
+          ENEMY SIDE:
+          <Side side={enemySide} top={true} />
+          PLAYER SIDE:
+          <button type="button">End Turn</button>
+          <Side side={playerSide} />
+        </div>
+      ) : (
+        <h1>Game Over!</h1>
+      )}
     </DndProvider>
   )
 }
+
 
 socket.on('play card', data => {
   // eslint-disable-next-line no-alert
@@ -80,3 +87,12 @@ socket.on('draw card', () => {
 })
 
 export default Board
+
+const mapStateToProps = state => {
+  return {
+    isFinished: state.game.isFinished
+  }
+}
+
+export default connect(mapStateToProps, null)(Board)
+

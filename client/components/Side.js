@@ -3,6 +3,7 @@ import Card from './Card'
 import Plane from './Plane'
 import {playCard, drawCard} from '../store/game'
 import {connect} from 'react-redux'
+import Player from './Player'
 
 const Side = props => {
   console.log(props.hand)
@@ -10,9 +11,7 @@ const Side = props => {
     <div className="side">
       {props.top ? (
         <div>
-          <div className="hero">
-            <img src={props.side.heroUrl} />
-          </div>
+          <Player imgUrl={props.side.heroUrl} player={props.enemy} side="top" />
           <div className="hand">
             HAND:
             {props.opponentHand.map(card => {
@@ -42,9 +41,11 @@ const Side = props => {
               )
             })}
           </div>
-          <div className="hero">
-            <img src={props.side.heroUrl} />
-          </div>
+          <Player
+            imgUrl={props.side.heroUrl}
+            player={props.player}
+            side="bottom"
+          />
           <button type="submit" onClick={props.drawCard}>
             Draw Card Button
           </button>
@@ -56,10 +57,12 @@ const Side = props => {
 
 const mapStateToProps = function(state) {
   return {
-    inPlay: state.game.player1.inPlay,
-    opponentInPlay: state.game.player2.inPlay,
-    hand: state.game.player1.hand,
-    opponentHand: state.game.player2.hand
+    inPlay: state.game.player.inPlay,
+    opponentInPlay: state.game.enemy.inPlay,
+    hand: state.game.player.hand,
+    opponentHand: state.game.enemy.hand,
+    enemy: state.game.enemy,
+    player: state.game.player
   }
 }
 
