@@ -1,8 +1,10 @@
 const PLAY_CARD = 'PLAY_CARD'
 const DRAW_CARD = 'DRAW_CARD'
 const ATTACK_CARD = 'ATTACK_CARD'
+const ATTACK_HERO = 'ATTACK_HERO'
+const HERO_DEAD = 'HERO_DEAD'
 
-import {attack} from '../engine/index'
+import {attack, heroAttack} from '../engine/index'
 
 const playedCard = card => ({
   type: PLAY_CARD,
@@ -12,6 +14,13 @@ const AttackedCard = (attacker, defender) => ({
   type: ATTACK_CARD,
   attacker,
   defender
+})
+const AttackedHero = hero => ({
+  type: ATTACK_HERO,
+  hero
+})
+const heroDied = () => ({
+  type: HERO_DEAD
 })
 
 const drewCard = (
@@ -42,6 +51,16 @@ export const attackCard = (attacker, defender) => {
 export const drawCard = () => {
   return dispatch => {
     dispatch(drewCard())
+  }
+}
+export const attackHero = (attacker, hero) => {
+  const result = heroAttack(attacker, hero)
+  if (result.settlers <= 0) {
+    return dispatch => dispatch(heroDied())
+  } else {
+    return dispatch => {
+      dispatch(AttackedHero(result))
+    }
   }
 }
 const dummyProps = {
@@ -105,14 +124,17 @@ const dummyProps10 = {
 }
 
 const defaultGame = {
-  player1: {
+  player: {
     inPlay: [],
-    hand: [dummyProps, dummyProps2, dummyProps3, dummyProps4]
+    hand: [dummyProps, dummyProps2, dummyProps3, dummyProps4],
+    settlers: 10
   },
-  player2: {
+  enemy: {
     inPlay: [dummyProps9, dummyProps8],
-    hand: [dummyProps7, dummyProps10]
-  }
+    hand: [dummyProps7, dummyProps10],
+    settlers: 10
+  },
+  isFinished: false
 }
 
 export default function(state = defaultGame, action) {
@@ -120,10 +142,10 @@ export default function(state = defaultGame, action) {
     case PLAY_CARD:
       return {
         ...state,
-        player1: {
-          ...state.player1,
-          inPlay: [...state.player1.inPlay, action.card],
-          hand: state.player1.hand.filter(function(card) {
+        player: {
+          ...state.player,
+          inPlay: [...state.player.inPlay, action.card],
+          hand: state.player.hand.filter(function(card) {
             return card.id !== action.card.id
           })
         }
@@ -131,14 +153,14 @@ export default function(state = defaultGame, action) {
     case DRAW_CARD:
       return {
         ...state,
-        player1: {...state.player1, hand: [...state.player1.hand, action.card]}
+        player: {...state.player, hand: [...state.player.hand, action.card]}
       }
     case ATTACK_CARD:
       return {
         ...state,
-        player1: {
-          ...state.player1,
-          inPlay: state.player1.inPlay.map(card => {
+        player: {
+          ...state.player,
+          inPlay: state.player.inPlay.map(card => {
             if (card.id === action.attacker.id) {
               return action.attacker
             } else {
@@ -146,9 +168,9 @@ export default function(state = defaultGame, action) {
             }
           })
         },
-        player2: {
-          ...state.player2,
-          inPlay: state.player2.inPlay.map(card => {
+        enemy: {
+          ...state.enemy,
+          inPlay: state.enemy.inPlay.map(card => {
             if (card.id === action.defender.id) {
               return action.defender
             } else {
@@ -157,6 +179,10 @@ export default function(state = defaultGame, action) {
           })
         }
       }
+    case ATTACK_HERO:
+      return {...state, enemy: {...state.enemy, settlers: action.hero.settlers}}
+    case HERO_DEAD:
+      return {...state, isFinished: true}
     default:
       return state
   }

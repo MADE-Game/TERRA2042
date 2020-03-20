@@ -2,6 +2,7 @@ import React from 'react'
 import Side from './Side'
 import {DndProvider} from 'react-dnd'
 import Backend from 'react-dnd-html5-backend'
+import {connect} from 'react-redux'
 
 const dummyProps = {
   name: 'Test',
@@ -46,17 +47,28 @@ const playerSide = {
   heroUrl: '/images/monsters/14.png'
 }
 const Board = props => {
+  console.log('logging isFinished in Board: ', props.isFinished)
   return (
     <DndProvider backend={Backend}>
-      <div className="board">
-        ENEMY SIDE:
-        <Side side={enemySide} top={true} />
-        PLAYER SIDE:
-        <button type="button">End Turn</button>
-        <Side side={playerSide} />
-      </div>
+      {!props.isFinished ? (
+        <div className="board">
+          ENEMY SIDE:
+          <Side side={enemySide} top={true} />
+          PLAYER SIDE:
+          <button type="button">End Turn</button>
+          <Side side={playerSide} />
+        </div>
+      ) : (
+        <h1>Game Over!</h1>
+      )}
     </DndProvider>
   )
 }
 
-export default Board
+const mapStateToProps = state => {
+  return {
+    isFinished: state.game.isFinished
+  }
+}
+
+export default connect(mapStateToProps, null)(Board)
