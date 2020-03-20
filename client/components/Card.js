@@ -33,8 +33,7 @@ const Card = props => {
     })
   })
 
-  const {name, attack, defense, imageUrl} = props.card
-
+  const {name, attack, health, imageUrl, cost} = props.card
   return (
     <div ref={drag}>
       <div
@@ -53,7 +52,8 @@ const Card = props => {
               paddingRight: '1em'
             }}
           >
-            Cost
+            Cost: {cost}
+
           </h3>
         </div>
         <img src={imageUrl} />
@@ -74,7 +74,7 @@ const Card = props => {
           }}
         >
           <h3>{attack}</h3>
-          <h3>{defense}</h3>
+          <h3>{health}</h3>
         </div>
       </div>
     </div>
