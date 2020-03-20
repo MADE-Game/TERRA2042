@@ -59,6 +59,6 @@ export default class Chat extends React.Component {
 socket.on('send msg', data => {
   const display = document.getElementById('msg')
   const message = document.createElement('p')
-  message.innerText = data.user + ': ' + data.message
+  message.innerText = `${data.user}: ${data.message}`
   display.appendChild(message)
 })
