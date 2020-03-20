@@ -2,6 +2,9 @@ const PLAY_CARD = 'PLAY_CARD'
 const DRAW_CARD = 'DRAW_CARD'
 const ATTACK_CARD = 'ATTACK_CARD'
 
+import io from 'socket.io-client'
+const socket = io()
+
 import {attack} from '../engine/index'
 
 const playedCard = card => ({
@@ -30,6 +33,7 @@ const drewCard = (
 export const playCard = card => {
   return dispatch => {
     dispatch(playedCard(card))
+    socket.emit('play card', card)
   }
 }
 export const attackCard = (attacker, defender) => {
@@ -37,11 +41,16 @@ export const attackCard = (attacker, defender) => {
 
   return dispatch => {
     dispatch(AttackedCard(...result))
+    socket.emit('attack', {
+      attacker: result[0],
+      defender: result[1]
+    })
   }
 }
 export const drawCard = () => {
   return dispatch => {
     dispatch(drewCard())
+    socket.emit('draw card')
   }
 }
 const dummyProps = {

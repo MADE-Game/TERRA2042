@@ -9,5 +9,17 @@ module.exports = io => {
     socket.on('send msg', data => {
       io.emit('send msg', data)
     })
+
+    socket.on('play card', data => {
+      io.emit('play card', data)
+    })
+
+    socket.on('attack', data => {
+      io.emit('attack', data)
+    })
+
+    socket.on('draw card', () => {
+      io.emit('draw card')
+    })
   })
 }

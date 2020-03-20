@@ -3,6 +3,9 @@ import Side from './Side'
 import {DndProvider} from 'react-dnd'
 import Backend from 'react-dnd-html5-backend'
 
+import io from 'socket.io-client'
+const socket = io()
+
 const dummyProps = {
   name: 'Test',
   imageUrl: '/images/monsters/1.png',
@@ -58,5 +61,22 @@ const Board = props => {
     </DndProvider>
   )
 }
+
+socket.on('play card', data => {
+  // eslint-disable-next-line no-alert
+  alert(
+    `${data.name} was played!\n${data.attack} attack points\n${data.defense} defense points`
+  )
+})
+
+socket.on('attack', data => {
+  // eslint-disable-next-line no-alert
+  alert(`${data.attacker.name} attacked ${data.defender.name}!`)
+})
+
+socket.on('draw card', () => {
+  // eslint-disable-next-line no-alert
+  alert('A card was drawn!')
+})
 
 export default Board
