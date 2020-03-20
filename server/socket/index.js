@@ -33,6 +33,11 @@ const GAMENSP = gameNsp => {
     socket.on('disconnect', () => {
       console.log(`Connection ${socket.id} has left the lobby`)
     })
+
+    socket.on('join', data => {
+      socket.join(`room${data.id}`)
+      gameNsp.to(`room${data.id}`).emit('joined room', data)
+    })
   })
 }
 
