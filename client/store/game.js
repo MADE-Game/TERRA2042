@@ -5,10 +5,8 @@ const ATTACK_HERO = 'ATTACK_HERO'
 const HERO_DEAD = 'HERO_DEAD'
 const GET_ALL_CARDS = 'GET_ALL_CARDS'
 
-
 import io from 'socket.io-client'
 const socket = io()
-
 
 import engine from '../engine/index'
 import Axios from 'axios'
@@ -88,6 +86,7 @@ export const attackHero = (attacker, hero) => {
       dispatch(AttackedHero(result))
     }
   }
+}
 
 const dummyProps7 = {
   name: 'Test',
@@ -126,7 +125,6 @@ const dummyProps10 = {
 
 const defaultGame = {
   player: {
-
     deck: [],
     inPlay: [],
     hand: [],
