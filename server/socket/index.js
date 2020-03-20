@@ -36,7 +36,7 @@ const GAMENSP = gameNsp => {
 
     socket.on('join', data => {
       socket.join(`room${data.id}`)
-      gameNsp.to(`room${data.id}`).emit('joined room', data)
+      gameNsp.to(`room${data.id}`).emit('join', data)
     })
   })
 }

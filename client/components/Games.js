@@ -5,7 +5,7 @@ const socket = io('/games')
 
 export const Games = () => {
   socket.on('welcome', () => alert('welcome to the games lobby'))
-  socket.on('joined room', data => {
+  socket.on('join', data => {
     alert(`you have joined romm #${data.id}`)
   })
   return (
