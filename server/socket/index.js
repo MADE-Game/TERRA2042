@@ -36,6 +36,8 @@ const GAMENSP = gameNsp => {
 
     socket.on('join', data => {
       socket.join(`room${data.id}`)
+      // sends to all in "room${data.id}" except sender
+      // to include sender, use the .in method
       gameNsp.to(`room${data.id}`).emit('join', data)
     })
   })
