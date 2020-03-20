@@ -5,6 +5,7 @@ import Backend from 'react-dnd-html5-backend'
 import {connect} from 'react-redux'
 import {getAllCards} from '../store/game'
 
+
 import io from 'socket.io-client'
 const socket = io()
 
@@ -54,6 +55,7 @@ const playerSide = {
   hand: [dummyProps, dummyProps2],
   heroUrl: '/images/monsters/14.png'
 }
+
 class Board extends React.Component {
   componentDidMount() {
     this.props.getAllCards()
@@ -94,6 +96,7 @@ socket.on('draw card', () => {
   // eslint-disable-next-line no-alert
   alert('A card was drawn!')
 })
+
 
 export default Board
 

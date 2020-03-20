@@ -53,6 +53,7 @@ const Card = props => {
             }}
           >
             Cost: {cost}
+
           </h3>
         </div>
         <img src={imageUrl} />
