@@ -5,7 +5,6 @@ import Backend from 'react-dnd-html5-backend'
 import {connect} from 'react-redux'
 import {getAllCards} from '../store/game'
 
-
 import io from 'socket.io-client'
 const socket = io()
 
@@ -79,7 +78,6 @@ class Board extends React.Component {
   }
 }
 
-
 socket.on('play card', data => {
   // eslint-disable-next-line no-alert
   alert(
@@ -97,9 +95,6 @@ socket.on('draw card', () => {
   alert('A card was drawn!')
 })
 
-
-export default Board
-
 const mapStateToProps = state => {
   return {
     isFinished: state.game.isFinished,
@@ -111,6 +106,5 @@ const mapDispatchToProps = dispatch => {
     getAllCards: () => dispatch(getAllCards())
   }
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board)
