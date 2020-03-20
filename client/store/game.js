@@ -5,6 +5,9 @@ const ATTACK_HERO = 'ATTACK_HERO'
 const HERO_DEAD = 'HERO_DEAD'
 const GET_ALL_CARDS = 'GET_ALL_CARDS'
 
+import io from 'socket.io-client'
+const socket = io()
+
 import engine from '../engine/index'
 import Axios from 'axios'
 
@@ -14,6 +17,7 @@ const gotAllCards = cards => ({
 })
 
 const playedCard = (hero, card) => ({
+
   type: PLAY_CARD,
   hero,
   card
@@ -45,6 +49,7 @@ export const playCard = (hero, card) => {
     }
   }
   return dispatch => {
+    socket.emit('play card', card)
     dispatch(playedCard(hero, card))
   }
 }
@@ -60,11 +65,16 @@ export const attackCard = (attacker, defender) => {
   const result = engine.attack(attacker, defender)
   return dispatch => {
     dispatch(AttackedCard(...result))
+    socket.emit('attack', {
+      attacker: result[0],
+      defender: result[1]
+    })
   }
 }
 export const drawCard = deck => {
   const {newDeck, card} = engine.drawCard(deck)
   return dispatch => {
+    socket.emit('draw card')
     dispatch(drewCard(newDeck, card))
   }
 }
