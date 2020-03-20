@@ -4,7 +4,6 @@ const morgan = require('morgan')
 const compression = require('compression')
 const session = require('express-session')
 const passport = require('passport')
-const db = require('./db')
 const User = require('./db/models/user')
 const PORT = process.env.PORT || 8080
 const app = express()
@@ -106,10 +105,7 @@ const startListening = () => {
   require('./socket')(io)
 }
 
-// const syncDb = () => db.sync()
-
 async function bootApp() {
-  // await syncDb()
   await createApp()
   await startListening()
 }
