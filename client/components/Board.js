@@ -3,12 +3,14 @@ import Side from './Side'
 import {DndProvider} from 'react-dnd'
 import Backend from 'react-dnd-html5-backend'
 import {connect} from 'react-redux'
+import {getAllCards} from '../store/game'
 
 const dummyProps = {
   name: 'Test',
   imageUrl: '/images/monsters/1.png',
   attack: 1,
   defense: 4,
+  cost: 1,
   id: 1
 }
 const dummyProps2 = {
@@ -16,6 +18,7 @@ const dummyProps2 = {
   imageUrl: '/images/monsters/3.png',
   attack: 1,
   defense: 4,
+  cost: 1,
   id: 2
 }
 const dummyProps3 = {
@@ -23,6 +26,7 @@ const dummyProps3 = {
   imageUrl: '/images/monsters/4.png',
   attack: 1,
   defense: 4,
+  cost: 1,
   id: 3
 }
 const dummyProps4 = {
@@ -30,6 +34,7 @@ const dummyProps4 = {
   imageUrl: '/images/monsters/2.png',
   attack: 1,
   defense: 4,
+  cost: 1,
   id: 4
 }
 
@@ -46,29 +51,39 @@ const playerSide = {
   hand: [dummyProps, dummyProps2],
   heroUrl: '/images/monsters/14.png'
 }
-const Board = props => {
-  console.log('logging isFinished in Board: ', props.isFinished)
-  return (
-    <DndProvider backend={Backend}>
-      {!props.isFinished ? (
-        <div className="board">
-          ENEMY SIDE:
-          <Side side={enemySide} top={true} />
-          PLAYER SIDE:
-          <button type="button">End Turn</button>
-          <Side side={playerSide} />
-        </div>
-      ) : (
-        <h1>Game Over!</h1>
-      )}
-    </DndProvider>
-  )
+class Board extends React.Component {
+  componentDidMount() {
+    this.props.getAllCards()
+  }
+  render() {
+    return (
+      <DndProvider backend={Backend}>
+        {!this.props.isFinished ? (
+          <div className="board">
+            ENEMY SIDE:
+            <Side side={enemySide} top={true} />
+            PLAYER SIDE:
+            <button type="button">End Turn</button>
+            <Side side={playerSide} />
+          </div>
+        ) : (
+          <h1>Game Over!</h1>
+        )}
+      </DndProvider>
+    )
+  }
 }
 
 const mapStateToProps = state => {
   return {
-    isFinished: state.game.isFinished
+    isFinished: state.game.isFinished,
+    cards: state.game.cards
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    getAllCards: () => dispatch(getAllCards())
   }
 }
 
-export default connect(mapStateToProps, null)(Board)
+export default connect(mapStateToProps, mapDispatchToProps)(Board)

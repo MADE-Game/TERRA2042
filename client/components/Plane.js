@@ -17,7 +17,6 @@ const Plane = props => {
       item: monitor.getItem()
     })
   })
-
   return (
     <div className="plane" ref={drop}>
       PLANE:
@@ -25,7 +24,7 @@ const Plane = props => {
         return (
           <Card
             card={card}
-            key={card.id}
+            key={card.id || card._id}
             player={props.player}
             inHand={false}
           />

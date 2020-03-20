@@ -3,11 +3,19 @@ const DRAW_CARD = 'DRAW_CARD'
 const ATTACK_CARD = 'ATTACK_CARD'
 const ATTACK_HERO = 'ATTACK_HERO'
 const HERO_DEAD = 'HERO_DEAD'
+const GET_ALL_CARDS = 'GET_ALL_CARDS'
 
-import {attack, heroAttack} from '../engine/index'
+import engine from '../engine/index'
+import Axios from 'axios'
 
-const playedCard = card => ({
+const gotAllCards = cards => ({
+  type: GET_ALL_CARDS,
+  cards
+})
+
+const playedCard = (hero, card) => ({
   type: PLAY_CARD,
+  hero,
   card
 })
 const AttackedCard = (attacker, defender) => ({
@@ -23,38 +31,45 @@ const heroDied = () => ({
   type: HERO_DEAD
 })
 
-const drewCard = (
-  card = {
-    name: 'Test',
-    imageUrl: '/images/monsters/15.png',
-    attack: 1,
-    defense: 4,
-    id: 5
-  }
-) => ({
+const drewCard = (deck, card) => ({
   type: DRAW_CARD,
-  card
+  card,
+  deck
 })
 
-export const playCard = card => {
+export const playCard = (hero, card) => {
+  const result = engine.payCost(hero, card)
+  if (result.settlers <= 0) {
+    return dispatch => {
+      dispatch(heroDied())
+    }
+  }
   return dispatch => {
-    dispatch(playedCard(card))
+    dispatch(playedCard(hero, card))
   }
 }
-export const attackCard = (attacker, defender) => {
-  const result = attack(attacker, defender)
 
+export const getAllCards = () => {
+  return async dispatch => {
+    const {data: cards} = await Axios.get('/api/cards')
+    dispatch(gotAllCards(cards))
+  }
+}
+
+export const attackCard = (attacker, defender) => {
+  const result = engine.attack(attacker, defender)
   return dispatch => {
     dispatch(AttackedCard(...result))
   }
 }
-export const drawCard = () => {
+export const drawCard = deck => {
+  const {newDeck, card} = engine.drawCard(deck)
   return dispatch => {
-    dispatch(drewCard())
+    dispatch(drewCard(newDeck, card))
   }
 }
 export const attackHero = (attacker, hero) => {
-  const result = heroAttack(attacker, hero)
+  const result = engine.heroAttack(attacker, hero)
   if (result.settlers <= 0) {
     return dispatch => dispatch(heroDied())
   } else {
@@ -63,40 +78,13 @@ export const attackHero = (attacker, hero) => {
     }
   }
 }
-const dummyProps = {
-  name: 'Test',
-  imageUrl: '/images/monsters/12.png',
-  attack: 1,
-  defense: 4,
-  id: 1
-}
-const dummyProps2 = {
-  name: 'Test',
-  imageUrl: '/images/monsters/15.png',
-  attack: 1,
-  defense: 4,
-  id: 2
-}
-const dummyProps3 = {
-  name: 'Test',
-  imageUrl: '/images/monsters/8.png',
-  attack: 1,
-  defense: 4,
-  id: 3
-}
-const dummyProps4 = {
-  name: 'Test',
-  imageUrl: '/images/monsters/17.png',
-  attack: 1,
-  defense: 4,
-  id: 4
-}
 
 const dummyProps7 = {
   name: 'Test',
   imageUrl: 'favicon.ico',
   attack: 1,
-  defense: 4,
+  health: 4,
+  cost: 1,
   id: 7
 }
 
@@ -104,7 +92,8 @@ const dummyProps8 = {
   name: 'Test',
   imageUrl: 'favicon.ico',
   attack: 1,
-  defense: 4,
+  health: 4,
+  cost: 1,
   id: 8
 }
 
@@ -112,21 +101,24 @@ const dummyProps9 = {
   name: 'Test',
   imageUrl: 'favicon.ico',
   attack: 1,
-  defense: 4,
-  id: 9
+  health: 4,
+  cost: 1,
+  id: 10
 }
 const dummyProps10 = {
   name: 'Test',
   imageUrl: 'favicon.ico',
   attack: 1,
-  defense: 4,
+  health: 4,
+  cost: 1,
   id: 9
 }
 
 const defaultGame = {
   player: {
+    deck: [],
     inPlay: [],
-    hand: [dummyProps, dummyProps2, dummyProps3, dummyProps4],
+    hand: [],
     settlers: 10
   },
   enemy: {
@@ -146,43 +138,54 @@ export default function(state = defaultGame, action) {
           ...state.player,
           inPlay: [...state.player.inPlay, action.card],
           hand: state.player.hand.filter(function(card) {
-            return card.id !== action.card.id
-          })
+            return card._id !== action.card._id
+          }),
+          settlers: action.hero.settlers
         }
       }
     case DRAW_CARD:
       return {
         ...state,
-        player: {...state.player, hand: [...state.player.hand, action.card]}
+        player: {
+          ...state.player,
+          deck: action.deck,
+          hand: [...state.player.hand, action.card]
+        }
       }
     case ATTACK_CARD:
       return {
         ...state,
         player: {
           ...state.player,
-          inPlay: state.player.inPlay.map(card => {
-            if (card.id === action.attacker.id) {
-              return action.attacker
-            } else {
-              return card
-            }
-          })
+          inPlay: state.player.inPlay
+            .filter(card => card.health > 0)
+            .map(card => {
+              if (card._id === action.attacker._id) {
+                return action.attacker
+              } else {
+                return card
+              }
+            })
         },
         enemy: {
           ...state.enemy,
-          inPlay: state.enemy.inPlay.map(card => {
-            if (card.id === action.defender.id) {
-              return action.defender
-            } else {
-              return card
-            }
-          })
+          inPlay: state.enemy.inPlay
+            .filter(card => card.health > 0)
+            .map(card => {
+              if (card.id === action.defender.id) {
+                return action.defender
+              } else {
+                return card
+              }
+            })
         }
       }
     case ATTACK_HERO:
       return {...state, enemy: {...state.enemy, settlers: action.hero.settlers}}
     case HERO_DEAD:
       return {...state, isFinished: true}
+    case GET_ALL_CARDS:
+      return {...state, player: {...state.player, deck: action.cards}}
     default:
       return state
   }

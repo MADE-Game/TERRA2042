@@ -51,8 +51,8 @@ const monsterNames = [
 for (let j = 0; j < monsterNames.length; j++) {
   cardDocs.push({
     name: monsterNames[j],
-    imageUrl: `/images/${j + 1}.png`,
-    cost: 10,
+    imageUrl: `images/monsters/${j + 1}.png`,
+    cost: 1,
     type: 'fighter',
     attack: Math.floor(Math.random() * (95 - 55) + 55),
     health: Math.floor(Math.random() * (95 - 55) + 55)
