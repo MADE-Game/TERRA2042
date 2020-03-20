@@ -2,8 +2,6 @@ import React from 'react'
 import io from 'socket.io-client'
 const socket = io()
 
-socket.on('send msg', data => console.log(data.message))
-
 export default class Chat extends React.Component {
   constructor() {
     super()
@@ -15,8 +13,15 @@ export default class Chat extends React.Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
-  handleSubmit() {
-    socket.emit('send msg', {message: this.state.message})
+  handleSubmit(event) {
+    event.preventDefault()
+    socket.emit('send msg', {
+      message: this.state.message,
+      user: this.state.userName
+    })
+    this.setState({
+      message: ''
+    })
   }
 
   handleChange(event) {
@@ -26,8 +31,9 @@ export default class Chat extends React.Component {
   render() {
     return (
       <div>
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <div id="msg"></div>
+          <br />
           <input
             name="userName"
             value={this.state.userName}
@@ -43,11 +49,16 @@ export default class Chat extends React.Component {
             placeholder="message"
           ></textarea>
           <br />
-          <button type="submit" onSubmit={this.handleSubmit}>
-            Send
-          </button>
+          <button type="submit">Send</button>
         </form>
       </div>
     )
   }
 }
+
+socket.on('send msg', data => {
+  const display = document.getElementById('msg')
+  const message = document.createElement('p')
+  message.innerText = data.user + ': ' + data.message
+  display.appendChild(message)
+})
