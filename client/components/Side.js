@@ -6,7 +6,6 @@ import {connect} from 'react-redux'
 import Player from './Player'
 
 const Side = props => {
-  console.log(props.hand)
   return (
     <div className="side">
       {props.top ? (
@@ -22,7 +21,7 @@ const Side = props => {
           </div>
           <Plane
             inPlay={props.opponentInPlay}
-            playCard={props.playCard}
+            playCard={card => props.playCard(props.enemy, card)}
             player="enemy"
           />
         </div>
@@ -30,14 +29,14 @@ const Side = props => {
         <div>
           <Plane
             inPlay={props.inPlay}
-            playCard={props.playCard}
+            playCard={card => props.playCard(props.player, card)}
             player="hero"
           />
           <div className="hand">
             HAND:
             {props.hand.map(card => {
               return (
-                <Card card={card} key={card.id} player="hero" inHand={true} />
+                <Card card={card} key={card._id} player="hero" inHand={true} />
               )
             })}
           </div>
@@ -46,7 +45,10 @@ const Side = props => {
             player={props.player}
             side="bottom"
           />
-          <button type="submit" onClick={props.drawCard}>
+          <button
+            type="submit"
+            onClick={() => props.drawCard(props.player.deck)}
+          >
             Draw Card Button
           </button>
         </div>
@@ -68,8 +70,8 @@ const mapStateToProps = function(state) {
 
 const mapDispatchToProps = function(dispatch) {
   return {
-    playCard: card => dispatch(playCard(card)),
-    drawCard: () => dispatch(drawCard())
+    playCard: (hero, card) => dispatch(playCard(hero, card)),
+    drawCard: deck => dispatch(drawCard(deck))
   }
 }
 
