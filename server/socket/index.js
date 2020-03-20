@@ -1,4 +1,4 @@
-module.exports = io => {
+const IO = io => {
   io.on('connection', socket => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
 
@@ -22,4 +22,21 @@ module.exports = io => {
       io.emit('draw card')
     })
   })
+}
+
+const GAMENSP = gameNsp => {
+  gameNsp.on('connection', socket => {
+    console.log(`A socket connection to games has been made: ${socket.id}`)
+
+    gameNsp.emit('welcome')
+
+    socket.on('disconnect', () => {
+      console.log(`Connection ${socket.id} has left the lobby`)
+    })
+  })
+}
+
+module.exports = {
+  IO,
+  GAMENSP
 }

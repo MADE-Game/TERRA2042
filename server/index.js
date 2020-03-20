@@ -8,7 +8,6 @@ const User = require('./db/models/user')
 const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
-require('./db/db')
 module.exports = app
 
 // This is a global Mocha hook, used for resource cleanup.
@@ -103,10 +102,15 @@ const startListening = () => {
 
   // set up our socket control center
   const io = socketio(server)
-  require('./socket')(io)
+  const gameNsp = io.of('/games')
+  const {IO} = require('./socket')
+  const {GAMENSP} = require('./socket')
+  IO(io)
+  GAMENSP(gameNsp)
 }
 
 async function bootApp() {
+  require('./db/db')
   await createApp()
   await startListening()
 }
