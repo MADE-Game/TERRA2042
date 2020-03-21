@@ -1,6 +1,7 @@
 /* eslint-disable no-alert */
 import React from 'react'
 import io from 'socket.io-client'
+import {Link} from 'react-router-dom'
 const socket = io('/games')
 
 export const Games = () => {
@@ -11,9 +12,11 @@ export const Games = () => {
   return (
     <div>
       <h1>Games</h1>
-      <button type="button" onClick={() => socket.emit('join', {id: 1})}>
-        Join Game room #1
-      </button>
+      <Link to="/games/room/1">
+        <button type="button" onClick={() => socket.emit('join', {id: 1})}>
+          Join Game room #1
+        </button>
+      </Link>
     </div>
   )
 }

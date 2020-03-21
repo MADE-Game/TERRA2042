@@ -1,6 +1,6 @@
 import React from 'react'
 import io from 'socket.io-client'
-const socket = io()
+const socket = io('/games')
 
 export default class Chat extends React.Component {
   constructor() {

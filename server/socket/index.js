@@ -6,10 +6,6 @@ const IO = io => {
       console.log(`Connection ${socket.id} has left the building`)
     })
 
-    socket.on('send msg', data => {
-      io.emit('send msg', data)
-    })
-
     socket.on('play card', data => {
       io.emit('play card', data)
     })
@@ -26,9 +22,8 @@ const IO = io => {
 
 const GAMENSP = gameNsp => {
   gameNsp.on('connection', socket => {
+    gameNsp.to(socket.id).emit('welcome')
     console.log(`A socket connection to games has been made: ${socket.id}`)
-
-    gameNsp.emit('welcome')
 
     socket.on('disconnect', () => {
       console.log(`Connection ${socket.id} has left the lobby`)
@@ -36,9 +31,13 @@ const GAMENSP = gameNsp => {
 
     socket.on('join', data => {
       socket.join(`room${data.id}`)
-      // sends to all in "room${data.id}" except sender
+      // sends to all users in "room${data.id}" except sender
       // to include sender, use the .in method
-      gameNsp.to(`room${data.id}`).emit('join', data)
+      gameNsp.to(socket.id).emit('join', data)
+    })
+
+    socket.on('send msg', data => {
+      gameNsp.emit('send msg', data)
     })
   })
 }
