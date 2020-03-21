@@ -1,7 +1,7 @@
 import React from 'react'
 import {ItemTypes} from '../dnd/types'
 import {useDrag, useDrop} from 'react-dnd'
-import {attackCard} from '../store/game'
+import {playerAttackCard} from '../store/thunksAndActionCreators'
 import {connect} from 'react-redux'
 
 const Card = props => {
@@ -53,7 +53,6 @@ const Card = props => {
             }}
           >
             Cost: {cost}
-
           </h3>
         </div>
         <img src={imageUrl} />
@@ -81,7 +80,8 @@ const Card = props => {
   )
 }
 const mapDispatch = dispatch => ({
-  attackCard: (attacker, defender) => dispatch(attackCard(attacker, defender))
+  attackCard: (attacker, defender) =>
+    dispatch(playerAttackCard(attacker, defender))
 })
 
 export default connect(null, mapDispatch)(Card)
