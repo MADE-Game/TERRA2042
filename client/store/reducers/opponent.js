@@ -1,7 +1,7 @@
 import {PLAYER_ATTACK_CARD, PLAYER_ATTACK_HERO} from '../actionTypes'
 
 const dummyProps7 = {
-  name: 'Test',
+  name: 'dp7',
   imageUrl: 'favicon.ico',
   attack: 1,
   health: 4,
@@ -10,7 +10,7 @@ const dummyProps7 = {
 }
 
 const dummyProps8 = {
-  name: 'Test',
+  name: 'dp8',
   imageUrl: 'favicon.ico',
   attack: 1,
   health: 4,
@@ -19,7 +19,7 @@ const dummyProps8 = {
 }
 
 const dummyProps9 = {
-  name: 'Test',
+  name: 'dp9',
   imageUrl: 'favicon.ico',
   attack: 1,
   health: 4,
@@ -27,7 +27,7 @@ const dummyProps9 = {
   id: 10
 }
 const dummyProps10 = {
-  name: 'Test',
+  name: 'dp10',
   imageUrl: 'favicon.ico',
   attack: 1,
   health: 4,
