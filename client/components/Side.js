@@ -6,7 +6,6 @@ import {connect} from 'react-redux'
 import Player from './Player'
 
 const Side = props => {
-  console.log('props in side', props)
   return (
     <div className="side">
       {props.top ? (
@@ -63,7 +62,6 @@ const Side = props => {
 }
 
 const mapStateToProps = function(state) {
-  console.log('state in map state', state)
   return {
     inPlay: state.game.player.inPlay,
     opponentInPlay: state.game.opponent.inPlay,
