@@ -1,4 +1,4 @@
-import {PLAYER_ATTACK_CARD, PLAYER_ATTACK_HERO} from './actionTypes'
+import {PLAYER_ATTACK_CARD, PLAYER_ATTACK_HERO} from '../actionTypes'
 
 const dummyProps7 = {
   name: 'Test',

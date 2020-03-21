@@ -7,6 +7,7 @@ import {
   PLAYER_DRAW_CARD,
   OPP_HERO_DEAD
 } from './actionTypes'
+
 import engine from '../engine/index'
 import io from 'socket.io-client'
 import Axios from 'axios'
@@ -58,14 +59,17 @@ export const playerPlayCard = (hero, card) => {
     dispatch(playerPlayedCard(hero, card))
   }
 }
+//Retrieves all cards from the database
 
+//[DEVELOPMENT]: This thunk will load the cards into the player deck.
 export const getAllCards = () => {
   return async dispatch => {
     const {data: cards} = await Axios.get('/api/cards')
     dispatch(gotAllCards(cards))
   }
 }
-
+//the player attacks an enemy card[defender] with their own
+//card[attacker].
 export const playerAttackCard = (attacker, defender) => {
   const result = engine.attack(attacker, defender)
   return dispatch => {
@@ -76,6 +80,8 @@ export const playerAttackCard = (attacker, defender) => {
     })
   }
 }
+
+//a player draws a card from their deck and adds it to their hand
 export const playerDrawCard = deck => {
   const {newDeck, card} = engine.drawCard(deck)
   return dispatch => {

@@ -3,7 +3,7 @@ import {
   PLAYER_DRAW_CARD,
   PLAYER_PLAY_CARD,
   GET_ALL_CARDS
-} from './actionTypes'
+} from '../actionTypes'
 
 const initialState = {
   deck: [],
