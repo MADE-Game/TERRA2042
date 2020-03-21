@@ -1,7 +1,7 @@
 import React from 'react'
 import {ItemTypes} from '../dnd/types'
 import {useDrop} from 'react-dnd'
-import {attackHero} from '../store/game'
+import {playerAttackHero} from '../store/thunksAndActionCreators'
 import {connect} from 'react-redux'
 
 const Player = props => {
@@ -28,7 +28,7 @@ const Player = props => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    attackHero: (attacker, hero) => dispatch(attackHero(attacker, hero))
+    attackHero: (attacker, hero) => dispatch(playerAttackHero(attacker, hero))
   }
 }
 

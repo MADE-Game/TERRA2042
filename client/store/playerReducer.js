@@ -1,9 +1,9 @@
-const PLAY_CARD = 'PLAY_CARD'
-const DRAW_CARD = 'DRAW_CARD'
-const ATTACK_CARD = 'ATTACK_CARD'
-const ATTACK_HERO = 'ATTACK_HERO'
-const HERO_DEAD = 'HERO_DEAD'
-const GET_ALL_CARDS = 'GET_ALL_CARDS'
+import {
+  PLAYER_ATTACK_CARD,
+  PLAYER_DRAW_CARD,
+  PLAYER_PLAY_CARD,
+  GET_ALL_CARDS
+} from './actionTypes'
 
 const initialState = {
   deck: [],
@@ -14,19 +14,19 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case PLAY_CARD:
+    case PLAYER_PLAY_CARD:
       return {
         ...state,
         inPlay: [...state.inPlay, action.card],
         hand: state.hand.filter(card => card._id !== action.card._id)
       }
-    case DRAW_CARD:
+    case PLAYER_DRAW_CARD:
       return {
         ...state,
         deck: action.deck,
         hand: [...state.hand, action.card]
       }
-    case ATTACK_CARD:
+    case PLAYER_ATTACK_CARD:
       return {
         ...state,
         inPlay: state.inPlay

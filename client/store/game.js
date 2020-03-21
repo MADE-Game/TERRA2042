@@ -9,89 +9,9 @@ import player from './playerReducer'
 import opponent from './opponentReducer'
 import data from './gameDataReducer'
 
-import io from 'socket.io-client'
-const socket = io()
-
 import engine from '../engine/index'
 import Axios from 'axios'
 import {combineReducers} from 'redux'
-
-const gotAllCards = cards => ({
-  type: GET_ALL_CARDS,
-  cards
-})
-
-const playedCard = (hero, card) => ({
-  type: PLAY_CARD,
-  hero,
-  card
-})
-const AttackedCard = (attacker, defender) => ({
-  type: ATTACK_CARD,
-  attacker,
-  defender
-})
-const AttackedHero = hero => ({
-  type: ATTACK_HERO,
-  hero
-})
-const heroDied = () => ({
-  type: HERO_DEAD
-})
-
-const drewCard = (deck, card) => ({
-  type: DRAW_CARD,
-  card,
-  deck
-})
-
-export const playCard = (hero, card) => {
-  const result = engine.payCost(hero, card)
-  if (result.settlers <= 0) {
-    return dispatch => {
-      dispatch(heroDied())
-    }
-  }
-  return dispatch => {
-    socket.emit('play card', card)
-    dispatch(playedCard(hero, card))
-  }
-}
-
-export const getAllCards = () => {
-  return async dispatch => {
-    const {data: cards} = await Axios.get('/api/cards')
-    dispatch(gotAllCards(cards))
-  }
-}
-
-export const attackCard = (attacker, defender) => {
-  const result = engine.attack(attacker, defender)
-  return dispatch => {
-    dispatch(AttackedCard(...result))
-    socket.emit('attack', {
-      attacker: result[0],
-      defender: result[1]
-    })
-  }
-}
-export const drawCard = deck => {
-  const {newDeck, card} = engine.drawCard(deck)
-  return dispatch => {
-    socket.emit('draw card')
-    dispatch(drewCard(newDeck, card))
-  }
-}
-export const attackHero = (attacker, hero) => {
-  const result = engine.heroAttack(attacker, hero)
-  if (result.settlers <= 0) {
-    return dispatch => dispatch(heroDied())
-  } else {
-    return dispatch => {
-      dispatch(AttackedHero(result))
-    }
-  }
-}
 
 // const defaultGame = {
 //   player: {

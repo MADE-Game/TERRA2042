@@ -3,7 +3,7 @@ import Side from './Side'
 import {DndProvider} from 'react-dnd'
 import Backend from 'react-dnd-html5-backend'
 import {connect} from 'react-redux'
-import {getAllCards} from '../store/game'
+import {getAllCards} from '../store/thunksAndActionCreators'
 
 import io from 'socket.io-client'
 const socket = io()

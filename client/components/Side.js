@@ -1,7 +1,7 @@
 import React from 'react'
 import Card from './Card'
 import Plane from './Plane'
-import {playCard, drawCard} from '../store/game'
+import {playerPlayCard, playerDrawCard} from '../store/thunksAndActionCreators'
 import {connect} from 'react-redux'
 import Player from './Player'
 
@@ -74,8 +74,8 @@ const mapStateToProps = function(state) {
 
 const mapDispatchToProps = function(dispatch) {
   return {
-    playCard: (hero, card) => dispatch(playCard(hero, card)),
-    drawCard: deck => dispatch(drawCard(deck))
+    playCard: (hero, card) => dispatch(playerPlayCard(hero, card)),
+    drawCard: deck => dispatch(playerDrawCard(deck))
   }
 }
 
