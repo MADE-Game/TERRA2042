@@ -5,11 +5,16 @@ const ATTACK_HERO = 'ATTACK_HERO'
 const HERO_DEAD = 'HERO_DEAD'
 const GET_ALL_CARDS = 'GET_ALL_CARDS'
 
+import player from './playerReducer'
+import opponent from './opponentReducer'
+import data from './gameDataReducer'
+
 import io from 'socket.io-client'
 const socket = io()
 
 import engine from '../engine/index'
 import Axios from 'axios'
+import {combineReducers} from 'redux'
 
 const gotAllCards = cards => ({
   type: GET_ALL_CARDS,
@@ -88,57 +93,22 @@ export const attackHero = (attacker, hero) => {
   }
 }
 
-const dummyProps7 = {
-  name: 'Test',
-  imageUrl: 'favicon.ico',
-  attack: 1,
-  health: 4,
-  cost: 1,
-  id: 7
-}
+// const defaultGame = {
+//   player: {
+//     deck: [],
+//     inPlay: [],
+//     hand: [],
+//     settlers: 10
+//   },
+//   enemy: {
+//     inPlay: [dummyProps9, dummyProps8],
+//     hand: [dummyProps7, dummyProps10],
+//     settlers: 10
+//   },
+//   isFinished: false
+// }
 
-const dummyProps8 = {
-  name: 'Test',
-  imageUrl: 'favicon.ico',
-  attack: 1,
-  health: 4,
-  cost: 1,
-  id: 8
-}
-
-const dummyProps9 = {
-  name: 'Test',
-  imageUrl: 'favicon.ico',
-  attack: 1,
-  health: 4,
-  cost: 1,
-  id: 10
-}
-const dummyProps10 = {
-  name: 'Test',
-  imageUrl: 'favicon.ico',
-  attack: 1,
-  health: 4,
-  cost: 1,
-  id: 9
-}
-
-const defaultGame = {
-  player: {
-    deck: [],
-    inPlay: [],
-    hand: [],
-    settlers: 10
-  },
-  enemy: {
-    inPlay: [dummyProps9, dummyProps8],
-    hand: [dummyProps7, dummyProps10],
-    settlers: 10
-  },
-  isFinished: false
-}
-
-export default function(state = defaultGame, action) {
+const oldReducer = function(state = defaultGame, action) {
   switch (action.type) {
     case PLAY_CARD:
       return {
@@ -199,3 +169,5 @@ export default function(state = defaultGame, action) {
       return state
   }
 }
+// export default oldReducer;
+export default combineReducers({player, opponent, data})

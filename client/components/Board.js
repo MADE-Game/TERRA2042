@@ -97,7 +97,7 @@ socket.on('draw card', () => {
 
 const mapStateToProps = state => {
   return {
-    isFinished: state.game.isFinished,
+    isFinished: state.game.data.isFinished,
     cards: state.game.cards
   }
 }

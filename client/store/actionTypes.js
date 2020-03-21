@@ -1,0 +1,6 @@
+export const PLAY_CARD = 'PLAY_CARD'
+export const DRAW_CARD = 'DRAW_CARD'
+export const ATTACK_CARD = 'ATTACK_CARD'
+export const ATTACK_HERO = 'ATTACK_HERO'
+export const HERO_DEAD = 'HERO_DEAD'
+export const GET_ALL_CARDS = 'GET_ALL_CARDS'

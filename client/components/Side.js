@@ -6,14 +6,19 @@ import {connect} from 'react-redux'
 import Player from './Player'
 
 const Side = props => {
+  console.log('props in side', props)
   return (
     <div className="side">
       {props.top ? (
         <div>
-          <Player imgUrl={props.side.heroUrl} player={props.enemy} side="top" />
+          <Player
+            imgUrl={props.side.heroUrl}
+            player={props.opponent}
+            side="top"
+          />
           <div className="hand">
             HAND:
-            {props.opponentHand.map(card => {
+            {props.opponent.hand.map(card => {
               return (
                 <Card card={card} key={card.id} player="enemy" inHand="true" />
               )
@@ -21,7 +26,7 @@ const Side = props => {
           </div>
           <Plane
             inPlay={props.opponentInPlay}
-            playCard={card => props.playCard(props.enemy, card)}
+            playCard={card => props.playCard(props.opponent, card)}
             player="enemy"
           />
         </div>
@@ -58,12 +63,13 @@ const Side = props => {
 }
 
 const mapStateToProps = function(state) {
+  console.log('state in map state', state)
   return {
     inPlay: state.game.player.inPlay,
-    opponentInPlay: state.game.enemy.inPlay,
+    opponentInPlay: state.game.opponent.inPlay,
     hand: state.game.player.hand,
-    opponentHand: state.game.enemy.hand,
-    enemy: state.game.enemy,
+    opponentHand: state.game.opponent.hand,
+    opponent: state.game.opponent,
     player: state.game.player
   }
 }
