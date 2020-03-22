@@ -2,7 +2,8 @@ import {
   PLAYER_ATTACK_CARD,
   PLAYER_DRAW_CARD,
   PLAYER_PLAY_CARD,
-  GET_ALL_CARDS
+  GET_ALL_CARDS,
+  LOAD_GAME
 } from '../actionTypes'
 
 const initialState = {
@@ -14,6 +15,14 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
+    case LOAD_GAME:
+      return {
+        ...state,
+        deck: action.game.player1.deck,
+        inPlay: action.game.player1.inPlay,
+        hand: action.game.player1.hand,
+        settlers: action.game.player1.settlers
+      }
     case PLAYER_PLAY_CARD:
       return {
         ...state,

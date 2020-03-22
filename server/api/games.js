@@ -22,6 +22,19 @@ router.get('/:gameId', async (req, res, next) => {
   }
 })
 
+router.get('/load/test', async (req, res, next) => {
+  try {
+    const games = await Game.find()
+    console.log('game', games[0])
+    const game = games[0]
+    const newGame = {...game, game: JSON.parse(game.game)}
+    console.log('newgame', game)
+    res.json(newGame)
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.get('/load/:gameId', async (req, res, next) => {
   try {
     const game = await Game.findOne({_id: req.params.gameId, isFinished: false})

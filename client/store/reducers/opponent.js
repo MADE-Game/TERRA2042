@@ -1,4 +1,4 @@
-import {PLAYER_ATTACK_CARD, PLAYER_ATTACK_HERO} from '../actionTypes'
+import {PLAYER_ATTACK_CARD, PLAYER_ATTACK_HERO, LOAD_GAME} from '../actionTypes'
 
 const dummyProps7 = {
   name: 'dp7',
@@ -36,13 +36,21 @@ const dummyProps10 = {
 }
 const initialState = {
   deck: [],
-  inPlay: [dummyProps9, dummyProps8],
-  hand: [dummyProps7, dummyProps10],
+  inPlay: [],
+  hand: [],
   settlers: 10
 }
 
 export default function(state = initialState, action) {
   switch (action.type) {
+    case LOAD_GAME:
+      return {
+        ...state,
+        inPlay: action.game.player2.inPlay,
+        hand: action.game.player2.hand,
+        deck: action.game.player2.deck,
+        settlers: action.game.player2.settlers
+      }
     case PLAYER_ATTACK_CARD:
       return {
         ...state,

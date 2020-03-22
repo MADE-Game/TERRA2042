@@ -6,20 +6,44 @@ const cardDocs = []
 const gameDocs = [
   {
     game: JSON.stringify({
-      player1: {
-        hand: ['this', 'is', 'the', 'hand'],
-        deck: [],
-        inPlay: [],
+      player2: {
+        hand: [
+          {
+            id: 13,
+            name: 'handtest',
+            attack: 1,
+            health: 2,
+            imageUrl: `images/monsters/1.png`
+          }
+        ],
+        deck: [
+          {
+            id: 12,
+            name: 'decktest',
+            attack: 1,
+            health: 2,
+            imageUrl: `images/monsters/2.png`
+          }
+        ],
+        inPlay: [
+          {
+            id: 11,
+            name: 'inplaytest',
+            attack: 1,
+            health: 2,
+            imageUrl: `images/monsters/4.png`
+          }
+        ],
         settlers: 10
       },
-      player2: {
+      player1: {
         hand: [],
         deck: [],
         inPlay: [],
         settlers: 10
       }
     }),
-
+    identify: 'test',
     isFinished: false,
     isP1Turn: true
   }

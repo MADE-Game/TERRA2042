@@ -5,7 +5,8 @@ import {
   ATTACK_HERO,
   PLAYER_HERO_DEAD,
   PLAYER_DRAW_CARD,
-  OPP_HERO_DEAD
+  OPP_HERO_DEAD,
+  LOAD_GAME
 } from './actionTypes'
 
 import engine from '../engine/index'
@@ -16,6 +17,10 @@ const socket = io()
 const gotAllCards = cards => ({
   type: GET_ALL_CARDS,
   cards
+})
+const loadedGame = game => ({
+  type: LOAD_GAME,
+  game
 })
 
 const playerPlayedCard = (hero, card) => ({
@@ -66,6 +71,14 @@ export const getAllCards = () => {
   return async dispatch => {
     const {data: cards} = await Axios.get('/api/cards')
     dispatch(gotAllCards(cards))
+  }
+}
+export const loadGame = () => {
+  return async dispatch => {
+    const {data} = await Axios.get('/api/games/load/test')
+    const gameToSend = {...data.game, ...data._doc}
+    console.log(gameToSend)
+    dispatch(loadedGame(gameToSend))
   }
 }
 //the player attacks an enemy card[defender] with their own
