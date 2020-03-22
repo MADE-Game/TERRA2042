@@ -80,7 +80,7 @@ class Board extends React.Component {
 
 socket.on('play card', data => {
   console.log(
-    `${data.name} was played!\n${data.attack} attack points\n${data.defense} defense points`
+    `${data.name} was played!\n${data.attack} attack points\n${data.health} defense points`
   )
 })
 

@@ -2,7 +2,7 @@ import {
   GET_ALL_CARDS,
   PLAYER_PLAY_CARD,
   PLAYER_ATTACK_CARD,
-  ATTACK_HERO,
+  PLAYER_ATTACK_HERO,
   PLAYER_HERO_DEAD,
   PLAYER_DRAW_CARD,
   OPP_HERO_DEAD
@@ -30,7 +30,7 @@ const playerAttackedCard = (attacker, defender) => ({
   defender
 })
 const playerAttackedHero = hero => ({
-  type: ATTACK_HERO,
+  type: PLAYER_ATTACK_HERO,
   hero
 })
 
