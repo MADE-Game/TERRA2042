@@ -25,9 +25,9 @@ router.get('/:gameId', async (req, res, next) => {
 router.get('/load/test', async (req, res, next) => {
   try {
     const games = await Game.find()
+    //converting to from database form to redux form.
     const {_id, game, isFinished, isP1Turn} = games[0]
     const gameToSend = {_id, game: JSON.parse(game), isFinished, isP1Turn}
-    console.log('sending game', gameToSend)
     res.json(gameToSend)
   } catch (error) {
     next(error)
@@ -36,8 +36,8 @@ router.get('/load/test', async (req, res, next) => {
 router.put('/save/test', async (req, res, next) => {
   try {
     console.log('req.body', req.body)
+    //converting to from redux form to database form.
     const {player: player1, opponent: player2, data} = req.body
-
     const normalized = {
       game: {
         player1,
@@ -46,6 +46,7 @@ router.put('/save/test', async (req, res, next) => {
         isP1Turn: data.isP1Turn
       }
     }
+    //converting to from database form to redux form.
 
     const gameToSave = await Game.findOne()
     gameToSave.game = JSON.stringify(normalized.game)

@@ -127,7 +127,6 @@ export const loadGame = () => {
   }
 }
 export const saveGame = gameState => {
-  console.log('game in save game thunk', gameState)
   return async dispatch => {
     await Axios.put('/api/games/save/test', gameState)
     dispatch(savedGame())
