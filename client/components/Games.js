@@ -1,10 +1,13 @@
 /* eslint-disable no-alert */
 import React from 'react'
 import {Link} from 'react-router-dom'
+import mainSocket from '../socket'
+mainSocket.disconnect()
 import io from 'socket.io-client'
 export const socket = io('/games')
 
 export const Games = () => {
+  socket.emit('welcome')
   socket.on('welcome', () => alert('welcome to the games lobby'))
   socket.on('join', data => {
     alert(`you have joined romm #${data.id}`)
