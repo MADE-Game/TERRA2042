@@ -22,8 +22,13 @@ const Card = props => {
     accept: props.player === 'hero' ? ItemTypes.ENEMY_CARD : ItemTypes.CARD,
 
     drop: () => {
-      if (props.player === 'enemy' && !props.inHand && !item.inHand) {
-        props.attackCard(item.card, props.card)
+      if (!item.card.attackOccurred) {
+        if (props.player === 'enemy' && !props.inHand && !item.inHand) {
+          props.attackCard(item.card, props.card)
+        }
+      } else {
+        // eslint-disable-next-line no-alert
+        alert('Fighters can only attack once per turn!')
       }
     },
     collect: monitor => ({
@@ -79,6 +84,7 @@ const Card = props => {
     </div>
   )
 }
+
 const mapDispatch = dispatch => ({
   attackCard: (attacker, defender) =>
     dispatch(playerAttackCard(attacker, defender))

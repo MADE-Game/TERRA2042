@@ -4,7 +4,7 @@ export const PLAYER_DRAW_CARD = 'PLAYER_DRAW_CARD'
 export const PLAYER_ATTACK_CARD = 'PLAYER_ATTACK_CARD'
 export const PLAYER_ATTACK_HERO = 'PLAYER_ATTACK_HERO'
 export const PLAYER_HERO_DEAD = 'PLAYER_HERO_DEAD'
-
+export const END_TURN = 'END_TURN'
 //opponent actions
 export const OPP_HERO_DEAD = 'OPP_HERO_DEAD'
 

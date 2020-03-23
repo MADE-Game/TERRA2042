@@ -2,12 +2,13 @@ import {
   GET_ALL_CARDS,
   PLAYER_PLAY_CARD,
   PLAYER_ATTACK_CARD,
-  ATTACK_HERO,
+  PLAYER_ATTACK_HERO,
   PLAYER_HERO_DEAD,
   PLAYER_DRAW_CARD,
   OPP_HERO_DEAD,
   LOAD_GAME,
-  SAVE_GAME
+  SAVE_GAME,
+  END_TURN
 } from './actionTypes'
 
 import engine from '../engine/index'
@@ -39,7 +40,7 @@ const playerAttackedCard = (attacker, defender) => ({
   defender
 })
 const playerAttackedHero = hero => ({
-  type: ATTACK_HERO,
+  type: PLAYER_ATTACK_HERO,
   hero
 })
 
@@ -54,6 +55,10 @@ const playerDrewCard = (deck, card) => ({
   type: PLAYER_DRAW_CARD,
   card,
   deck
+})
+
+export const endTurn = () => ({
+  type: END_TURN
 })
 
 export const playerPlayCard = (hero, card) => {
@@ -74,7 +79,12 @@ export const playerPlayCard = (hero, card) => {
 export const getAllCards = () => {
   return async dispatch => {
     const {data: cards} = await Axios.get('/api/cards')
-    dispatch(gotAllCards(cards))
+    let theCards = cards.map(function(card) {
+      card = {...card, attackOccurred: false}
+      return card
+    })
+
+    dispatch(gotAllCards(theCards))
   }
 }
 
