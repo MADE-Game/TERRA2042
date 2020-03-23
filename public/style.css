@@ -39,6 +39,7 @@ form div {
   border-radius: 25px;
   border: 2px solid rgb(70, 70, 70);
   flex-direction: column;
+  background-color: white;
 }
 
 .plane,

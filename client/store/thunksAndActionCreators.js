@@ -6,6 +6,8 @@ import {
   PLAYER_HERO_DEAD,
   PLAYER_DRAW_CARD,
   OPP_HERO_DEAD,
+  LOAD_GAME,
+  SAVE_GAME,
   END_TURN,
   HURT_BY_DRAW
 } from './actionTypes'
@@ -18,6 +20,13 @@ const socket = io()
 const gotAllCards = cards => ({
   type: GET_ALL_CARDS,
   cards
+})
+const loadedGame = game => ({
+  type: LOAD_GAME,
+  game
+})
+const savedGame = () => ({
+  type: SAVE_GAME
 })
 
 const playerPlayedCard = (hero, card) => ({
@@ -84,6 +93,7 @@ export const getAllCards = () => {
     dispatch(gotAllCards(theCards))
   }
 }
+
 //the player attacks an enemy card[defender] with their own
 //card[attacker].
 export const playerAttackCard = (attacker, defender) => {
@@ -115,7 +125,19 @@ export const playerAttackHero = (attacker, hero) => {
     }
   }
 }
-
+export const loadGame = () => {
+  return async dispatch => {
+    const {data: game} = await Axios.get('/api/games/load/test')
+    //sends just the game board at the moment. No other data.
+    dispatch(loadedGame(game.game))
+  }
+}
+export const saveGame = gameState => {
+  return async dispatch => {
+    await Axios.put('/api/games/save/test', gameState)
+    dispatch(savedGame())
+  }
+}
 export const hurtByTheDraw = hero => {
   const result = engine.hurtByDraw(hero)
   if (result.settlers <= 0) {
