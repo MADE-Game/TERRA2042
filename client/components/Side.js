@@ -16,7 +16,7 @@ const Side = props => {
             side="top"
           />
           <div className="hand">
-            HAND:
+            HAND:a
             {props.opponent.hand.map(card => {
               return (
                 <Card card={card} key={card.id} player="enemy" inHand="true" />
@@ -37,7 +37,7 @@ const Side = props => {
             player="hero"
           />
           <div className="hand">
-            HAND:
+            HAND:a
             {props.hand.map(card => {
               return (
                 <Card card={card} key={card._id} player="hero" inHand={true} />

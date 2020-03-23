@@ -6,7 +6,8 @@ import {
   PLAYER_HERO_DEAD,
   PLAYER_DRAW_CARD,
   OPP_HERO_DEAD,
-  LOAD_GAME
+  LOAD_GAME,
+  SAVE_GAME
 } from './actionTypes'
 
 import engine from '../engine/index'
@@ -21,6 +22,9 @@ const gotAllCards = cards => ({
 const loadedGame = game => ({
   type: LOAD_GAME,
   game
+})
+const savedGame = () => ({
+  type: SAVE_GAME
 })
 
 const playerPlayedCard = (hero, card) => ({
@@ -73,14 +77,7 @@ export const getAllCards = () => {
     dispatch(gotAllCards(cards))
   }
 }
-export const loadGame = () => {
-  return async dispatch => {
-    const {data} = await Axios.get('/api/games/load/test')
-    const gameToSend = {...data.game, ...data._doc}
-    console.log(gameToSend)
-    dispatch(loadedGame(gameToSend))
-  }
-}
+
 //the player attacks an enemy card[defender] with their own
 //card[attacker].
 export const playerAttackCard = (attacker, defender) => {
@@ -110,5 +107,20 @@ export const playerAttackHero = (attacker, hero) => {
     return dispatch => {
       dispatch(playerAttackedHero(result))
     }
+  }
+}
+export const loadGame = () => {
+  return async dispatch => {
+    const {data} = await Axios.get('/api/games/load/test')
+    const gameToSend = {...data.game, ...data._doc}
+    console.log(gameToSend)
+    dispatch(loadedGame(gameToSend))
+  }
+}
+export const saveGame = gameState => {
+  console.log('game in save game thunk', gameState)
+  return async dispatch => {
+    await Axios.put('/api/games/save/test', gameState)
+    dispatch(savedGame())
   }
 }
