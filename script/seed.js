@@ -13,7 +13,7 @@ const gameDocs = [
             name: 'handtest',
             attack: 1,
             health: 2,
-            imageUrl: `images/monsters/1.png`
+            imageUrl: `/images/monsters/1.png`
           }
         ],
         deck: [
@@ -22,7 +22,7 @@ const gameDocs = [
             name: 'decktest',
             attack: 1,
             health: 2,
-            imageUrl: `images/monsters/2.png`
+            imageUrl: `/images/monsters/2.png`
           }
         ],
         inPlay: [
@@ -31,7 +31,7 @@ const gameDocs = [
             name: 'inplaytest',
             attack: 1,
             health: 2,
-            imageUrl: `images/monsters/4.png`
+            imageUrl: `/images/monsters/4.png`
           }
         ],
         settlers: 10
@@ -43,7 +43,6 @@ const gameDocs = [
         settlers: 10
       }
     }),
-    identify: 'test',
     isFinished: false,
     isP1Turn: true
   }
@@ -75,7 +74,7 @@ const monsterNames = [
 for (let j = 0; j < monsterNames.length; j++) {
   cardDocs.push({
     name: monsterNames[j],
-    imageUrl: `images/monsters/${j + 1}.png`,
+    imageUrl: `/images/monsters/${j + 1}.png`,
     cost: 1,
     type: 'fighter',
     attack: Math.floor(Math.random() * (95 - 55) + 55),

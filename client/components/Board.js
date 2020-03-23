@@ -13,39 +13,6 @@ import {
 import io from 'socket.io-client'
 const socket = io()
 
-const dummyProps = {
-  name: 'Test',
-  imageUrl: '/images/monsters/1.png',
-  attack: 1,
-  defense: 4,
-  cost: 1,
-  id: 1
-}
-const dummyProps2 = {
-  name: 'Test',
-  imageUrl: '/images/monsters/3.png',
-  attack: 1,
-  defense: 4,
-  cost: 1,
-  id: 2
-}
-const dummyProps3 = {
-  name: 'Test',
-  imageUrl: '/images/monsters/4.png',
-  attack: 1,
-  defense: 4,
-  cost: 1,
-  id: 3
-}
-const dummyProps4 = {
-  name: 'Test',
-  imageUrl: '/images/monsters/2.png',
-  attack: 1,
-  defense: 4,
-  cost: 1,
-  id: 4
-}
-
 const enemySide = {
   heroUrl: '/images/monsters/11.png'
 }
