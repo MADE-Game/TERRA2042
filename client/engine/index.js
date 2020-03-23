@@ -4,6 +4,7 @@ const engine = {
     const newDefender = defender
     newAttacker.health -= defender.attack
     newDefender.health -= attacker.attack
+    newAttacker.attackOccurred = true
     return [newAttacker, newDefender]
   },
 
@@ -29,4 +30,3 @@ const engine = {
 }
 
 export default engine
-
