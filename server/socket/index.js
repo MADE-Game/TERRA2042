@@ -38,7 +38,6 @@ const GAMENSP = gameNsp => {
     })
 
     socket.on('send msg', data => {
-      // gameNsp.emit('send msg', data)
       gameNsp.in('room1').emit('send msg', data)
     })
   })

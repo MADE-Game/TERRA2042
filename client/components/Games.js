@@ -1,9 +1,9 @@
 /* eslint-disable no-alert */
 import React from 'react'
 import {Link} from 'react-router-dom'
+import io from 'socket.io-client'
 import mainSocket from '../socket'
 mainSocket.disconnect()
-import io from 'socket.io-client'
 export const socket = io('/games')
 
 export const Games = () => {

@@ -10,8 +10,6 @@ import {
   saveGame
 } from '../store/thunksAndActionCreators'
 import {socket} from './Games'
-// import io from 'socket.io-client'
-// const socket = io('/games')
 
 const dummyProps = {
   name: 'Test',
