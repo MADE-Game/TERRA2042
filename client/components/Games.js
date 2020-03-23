@@ -1,8 +1,8 @@
 /* eslint-disable no-alert */
 import React from 'react'
-import io from 'socket.io-client'
 import {Link} from 'react-router-dom'
-const socket = io('/games')
+import io from 'socket.io-client'
+export const socket = io('/games')
 
 export const Games = () => {
   socket.on('welcome', () => alert('welcome to the games lobby'))

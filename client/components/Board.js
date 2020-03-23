@@ -9,9 +9,9 @@ import {
   endTurn,
   saveGame
 } from '../store/thunksAndActionCreators'
-
-import io from 'socket.io-client'
-const socket = io('/games')
+import {socket} from './Games'
+// import io from 'socket.io-client'
+// const socket = io('/games')
 
 const dummyProps = {
   name: 'Test',

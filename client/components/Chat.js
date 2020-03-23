@@ -1,7 +1,8 @@
 import React from 'react'
-import io from 'socket.io-client'
-const socket = io('/games')
+// import io from 'socket.io-client'
+// const socket = io('/games')
 import Board from './Board'
+import {socket} from './Games'
 
 export default class Chat extends React.Component {
   constructor() {
