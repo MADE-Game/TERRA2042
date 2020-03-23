@@ -28,7 +28,7 @@ form div {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  border: 2px solid rgb(70, 70, 70)
+  border: 2px solid rgb(70, 70, 70);
 }
 .board,
 .side {
@@ -44,4 +44,12 @@ form div {
 .plane,
 .hand {
   min-height: 150px;
+}
+
+#buttonContainer {
+  display: flex;
+  justify-content: center;
+}
+.turnButton {
+  width: 10%;
 }

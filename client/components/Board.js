@@ -68,9 +68,15 @@ class Board extends React.Component {
             ENEMY SIDE:
             <Side side={enemySide} top={true} />
             PLAYER SIDE:
-            <button type="button" onClick={this.props.endTurn}>
-              End Turn
-            </button>
+            <div id="buttonContainer">
+              <button
+                type="submit"
+                onClick={this.props.endTurn}
+                className="turnButton"
+              >
+                End Turn
+              </button>
+            </div>
             <Side side={playerSide} />
           </div>
         ) : (
