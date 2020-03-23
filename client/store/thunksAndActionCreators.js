@@ -5,7 +5,8 @@ import {
   PLAYER_ATTACK_HERO,
   PLAYER_HERO_DEAD,
   PLAYER_DRAW_CARD,
-  OPP_HERO_DEAD
+  OPP_HERO_DEAD,
+  END_TURN
 } from './actionTypes'
 
 import engine from '../engine/index'
@@ -45,6 +46,10 @@ const playerDrewCard = (deck, card) => ({
   type: PLAYER_DRAW_CARD,
   card,
   deck
+})
+
+export const endTurn = () => ({
+  type: END_TURN
 })
 
 export const playerPlayCard = (hero, card) => {
