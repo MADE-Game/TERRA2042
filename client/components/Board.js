@@ -6,7 +6,7 @@ import {connect} from 'react-redux'
 import {getAllCards} from '../store/thunksAndActionCreators'
 
 import io from 'socket.io-client'
-const socket = io()
+const socket = io('/games')
 
 const dummyProps = {
   name: 'Test',

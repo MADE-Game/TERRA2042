@@ -11,7 +11,7 @@ import {
 import engine from '../engine/index'
 import io from 'socket.io-client'
 import Axios from 'axios'
-const socket = io()
+const socket = io('/games')
 
 const gotAllCards = cards => ({
   type: GET_ALL_CARDS,

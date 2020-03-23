@@ -5,18 +5,6 @@ const IO = io => {
     socket.on('disconnect', () => {
       console.log(`Connection ${socket.id} has left the building`)
     })
-
-    socket.on('play card', data => {
-      io.emit('play card', data)
-    })
-
-    socket.on('attack', data => {
-      io.emit('attack', data)
-    })
-
-    socket.on('draw card', () => {
-      io.emit('draw card')
-    })
   })
 }
 
@@ -27,6 +15,18 @@ const GAMENSP = gameNsp => {
 
     socket.on('disconnect', () => {
       console.log(`Connection ${socket.id} has left the lobby`)
+    })
+
+    socket.on('play card', data => {
+      gameNsp.emit('play card', data)
+    })
+
+    socket.on('attack', data => {
+      gameNsp.emit('attack', data)
+    })
+
+    socket.on('draw card', () => {
+      gameNsp.emit('draw card')
     })
 
     socket.on('join', data => {
