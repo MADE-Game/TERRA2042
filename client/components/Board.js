@@ -3,7 +3,7 @@ import Side from './Side'
 import {DndProvider} from 'react-dnd'
 import Backend from 'react-dnd-html5-backend'
 import {connect} from 'react-redux'
-import {getAllCards} from '../store/thunksAndActionCreators'
+import {getAllCards, endTurn} from '../store/thunksAndActionCreators'
 
 import io from 'socket.io-client'
 const socket = io('/games')
@@ -59,6 +59,7 @@ class Board extends React.Component {
   componentDidMount() {
     this.props.getAllCards()
   }
+
   render() {
     return (
       <DndProvider backend={Backend}>
@@ -67,7 +68,9 @@ class Board extends React.Component {
             ENEMY SIDE:
             <Side side={enemySide} top={true} />
             PLAYER SIDE:
-            <button type="button">End Turn</button>
+            <button type="button" onClick={this.props.endTurn}>
+              End Turn
+            </button>
             <Side side={playerSide} />
           </div>
         ) : (
@@ -95,12 +98,14 @@ socket.on('draw card', () => {
 const mapStateToProps = state => {
   return {
     isFinished: state.game.data.isFinished,
-    cards: state.game.cards
+    cards: state.game.cards,
+    inPlay: state.game.player.inPlay
   }
 }
 const mapDispatchToProps = dispatch => {
   return {
-    getAllCards: () => dispatch(getAllCards())
+    getAllCards: () => dispatch(getAllCards()),
+    endTurn: () => dispatch(endTurn())
   }
 }
 

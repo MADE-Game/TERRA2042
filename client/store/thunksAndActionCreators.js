@@ -5,7 +5,8 @@ import {
   PLAYER_ATTACK_HERO,
   PLAYER_HERO_DEAD,
   PLAYER_DRAW_CARD,
-  OPP_HERO_DEAD
+  OPP_HERO_DEAD,
+  END_TURN
 } from './actionTypes'
 
 import engine from '../engine/index'
@@ -47,6 +48,10 @@ const playerDrewCard = (deck, card) => ({
   deck
 })
 
+export const endTurn = () => ({
+  type: END_TURN
+})
+
 export const playerPlayCard = (hero, card) => {
   const result = engine.payCost(hero, card)
   if (result.settlers <= 0) {
@@ -65,7 +70,12 @@ export const playerPlayCard = (hero, card) => {
 export const getAllCards = () => {
   return async dispatch => {
     const {data: cards} = await Axios.get('/api/cards')
-    dispatch(gotAllCards(cards))
+    let theCards = cards.map(function(card) {
+      card = {...card, attackOccurred: false}
+      return card
+    })
+
+    dispatch(gotAllCards(theCards))
   }
 }
 //the player attacks an enemy card[defender] with their own
