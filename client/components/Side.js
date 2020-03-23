@@ -77,7 +77,9 @@ const mapStateToProps = function(state) {
 const mapDispatchToProps = function(dispatch) {
   return {
     playCard: (hero, card) => dispatch(playerPlayCard(hero, card)),
-    drawCard: deck => dispatch(playerDrawCard(deck))
+    drawCard: deck => {
+      dispatch(playerDrawCard(deck))
+    }
   }
 }
 

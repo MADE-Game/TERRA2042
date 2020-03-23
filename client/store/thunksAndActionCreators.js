@@ -121,10 +121,9 @@ export const playerAttackHero = (attacker, hero) => {
 }
 export const loadGame = () => {
   return async dispatch => {
-    const {data} = await Axios.get('/api/games/load/test')
-    const gameToSend = {...data.game, ...data._doc}
-    console.log(gameToSend)
-    dispatch(loadedGame(gameToSend))
+    const {data: game} = await Axios.get('/api/games/load/test')
+    //sends just the game board at the moment. No other data.
+    dispatch(loadedGame(game.game))
   }
 }
 export const saveGame = gameState => {

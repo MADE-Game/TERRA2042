@@ -25,9 +25,10 @@ router.get('/:gameId', async (req, res, next) => {
 router.get('/load/test', async (req, res, next) => {
   try {
     const games = await Game.find()
-    const game = games[0]
-    const newGame = {...game, game: JSON.parse(game.game)}
-    res.json(newGame)
+    const {_id, game, isFinished, isP1Turn} = games[0]
+    const gameToSend = {_id, game: JSON.parse(game), isFinished, isP1Turn}
+    console.log('sending game', gameToSend)
+    res.json(gameToSend)
   } catch (error) {
     next(error)
   }
@@ -35,11 +36,21 @@ router.get('/load/test', async (req, res, next) => {
 router.put('/save/test', async (req, res, next) => {
   try {
     console.log('req.body', req.body)
-    const {game, isFinished, isP1Turn} = req.body
+    const {player: player1, opponent: player2, data} = req.body
+
+    const normalized = {
+      game: {
+        player1,
+        player2,
+        isFinished: data.isFinished,
+        isP1Turn: data.isP1Turn
+      }
+    }
+
     const gameToSave = await Game.findOne()
-    gameToSave.game = game
-    gameToSave.isFinished = isFinished
-    gameToSave.isP1Turn = isP1Turn
+    gameToSave.game = JSON.stringify(normalized.game)
+    gameToSave.isFinished = normalized.isFinished
+    gameToSave.isP1Turn = normalized.isP1Turn
     await gameToSave.save()
     res.json(gameToSave)
   } catch (error) {
