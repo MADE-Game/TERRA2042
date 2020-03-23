@@ -35,6 +35,7 @@ const Side = props => {
             inPlay={props.inPlay}
             playCard={card => props.playCard(props.player, card)}
             player="hero"
+            planeFull={props.planeFull}
           />
           <div className="hand">
             HAND:
@@ -68,7 +69,8 @@ const mapStateToProps = function(state) {
     hand: state.game.player.hand,
     opponentHand: state.game.opponent.hand,
     opponent: state.game.opponent,
-    player: state.game.player
+    player: state.game.player,
+    planeFull: state.game.player.planeFull
   }
 }
 

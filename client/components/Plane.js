@@ -7,8 +7,13 @@ const Plane = props => {
   const [{isOver, canDrop, item}, drop] = useDrop({
     accept: ItemTypes.CARD,
     drop: () => {
-      if (props.player === 'hero' && item.inHand === true) {
-        props.playCard(item.card)
+      if (!props.planeFull) {
+        if (props.player === 'hero' && item.inHand === true) {
+          props.playCard(item.card)
+        }
+      } else {
+        // eslint-disable-next-line no-alert
+        alert('Your Battlefield is Full!')
       }
     },
     collect: monitor => ({
