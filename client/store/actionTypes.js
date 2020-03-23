@@ -9,4 +9,7 @@ export const HURT_BY_DRAW = 'HURT_BY_DRAW'
 //opponent actions
 export const OPP_HERO_DEAD = 'OPP_HERO_DEAD'
 
+//
 export const GET_ALL_CARDS = 'GET_ALL_CARDS'
+export const LOAD_GAME = 'LOAD_GAME'
+export const SAVE_GAME = 'SAVE_GAME'

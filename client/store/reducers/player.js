@@ -3,6 +3,7 @@ import {
   PLAYER_DRAW_CARD,
   PLAYER_PLAY_CARD,
   GET_ALL_CARDS,
+  LOAD_GAME,
   END_TURN,
   HURT_BY_DRAW
 } from '../actionTypes'
@@ -18,6 +19,14 @@ const initialState = {
 // eslint-disable-next-line complexity
 export default function(state = initialState, action) {
   switch (action.type) {
+    case LOAD_GAME:
+      return {
+        ...state,
+        deck: action.game.player1.deck,
+        inPlay: action.game.player1.inPlay,
+        hand: action.game.player1.hand,
+        settlers: action.game.player1.settlers
+      }
     case PLAYER_PLAY_CARD:
       if (state.inPlay.length < 4) {
         return {

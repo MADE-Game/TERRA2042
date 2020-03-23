@@ -3,7 +3,12 @@ import Side from './Side'
 import {DndProvider} from 'react-dnd'
 import Backend from 'react-dnd-html5-backend'
 import {connect} from 'react-redux'
-import {getAllCards, endTurn} from '../store/thunksAndActionCreators'
+import {
+  getAllCards,
+  loadGame,
+  endTurn,
+  saveGame
+} from '../store/thunksAndActionCreators'
 
 import io from 'socket.io-client'
 const socket = io()
@@ -42,31 +47,28 @@ const dummyProps4 = {
 }
 
 const enemySide = {
-  inPlay: [
-    {...dummyProps, id: 10},
-    {...dummyProps3, id: 11}
-  ],
-  hand: [{...dummyProps, id: 14}],
   heroUrl: '/images/monsters/11.png'
 }
 const playerSide = {
-  inPlay: [dummyProps3, dummyProps4],
-  hand: [dummyProps, dummyProps2],
   heroUrl: '/images/monsters/14.png'
 }
 
 class Board extends React.Component {
-  componentDidMount() {
-    this.props.getAllCards()
+  async componentDidMount() {
+    await this.props.loadGame()
+    //this line is for testing, and initializes the players deck with all the cards in the database.
+    if (this.props.gameState.player.deck.length === 0) this.props.getAllCards()
   }
-
+  componentDidUpdate() {
+    this.props.saveGame(this.props.gameState)
+  }
   render() {
     return (
       <DndProvider backend={Backend}>
         {!this.props.isFinished ? (
           <div className="board">
             ENEMY SIDE:
-            <Side side={enemySide} top={true} />
+            <Side top={true} side={enemySide} />
             PLAYER SIDE:
             <button type="button" onClick={this.props.endTurn}>
               End Turn
@@ -102,13 +104,16 @@ const mapStateToProps = state => {
   return {
     isFinished: state.game.data.isFinished,
     cards: state.game.cards,
-    inPlay: state.game.player.inPlay
+    inPlay: state.game.player.inPlay,
+    gameState: state.game
   }
 }
 const mapDispatchToProps = dispatch => {
   return {
     getAllCards: () => dispatch(getAllCards()),
-    endTurn: () => dispatch(endTurn())
+    loadGame: () => dispatch(loadGame()),
+    endTurn: () => dispatch(endTurn()),
+    saveGame: gameState => dispatch(saveGame(gameState))
   }
 }
 
