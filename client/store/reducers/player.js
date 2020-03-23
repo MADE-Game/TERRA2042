@@ -4,7 +4,8 @@ import {
   PLAYER_PLAY_CARD,
   GET_ALL_CARDS,
   LOAD_GAME,
-  END_TURN
+  END_TURN,
+  HURT_BY_DRAW
 } from '../actionTypes'
 
 const initialState = {
@@ -74,6 +75,11 @@ export default function(state = initialState, action) {
           card.attackOccurred = false
           return card
         })
+      }
+    case HURT_BY_DRAW:
+      return {
+        ...state,
+        settlers: action.hero.settlers
       }
     default:
       return state

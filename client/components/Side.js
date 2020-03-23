@@ -1,7 +1,11 @@
 import React from 'react'
 import Card from './Card'
 import Plane from './Plane'
-import {playerPlayCard, playerDrawCard} from '../store/thunksAndActionCreators'
+import {
+  playerPlayCard,
+  playerDrawCard,
+  hurtByTheDraw
+} from '../store/thunksAndActionCreators'
 import {connect} from 'react-redux'
 import Player from './Player'
 
@@ -50,12 +54,21 @@ const Side = props => {
             player={props.player}
             side="bottom"
           />
-          <button
-            type="submit"
-            onClick={() => props.drawCard(props.player.deck)}
-          >
-            Draw Card Button
-          </button>
+          {props.player.deck.length ? (
+            <button
+              type="submit"
+              onClick={() => props.drawCard(props.player.deck)}
+            >
+              Draw Card Button
+            </button>
+          ) : (
+            <button
+              type="submit"
+              onClick={() => props.hurtByDraw(props.player)}
+            >
+              Draw Card Button
+            </button>
+          )}
         </div>
       )}
     </div>
@@ -77,9 +90,8 @@ const mapStateToProps = function(state) {
 const mapDispatchToProps = function(dispatch) {
   return {
     playCard: (hero, card) => dispatch(playerPlayCard(hero, card)),
-    drawCard: deck => {
-      dispatch(playerDrawCard(deck))
-    }
+    drawCard: deck => dispatch(playerDrawCard(deck)),
+    hurtByDraw: hero => dispatch(hurtByTheDraw(hero))
   }
 }
 

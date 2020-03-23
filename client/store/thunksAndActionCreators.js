@@ -8,7 +8,8 @@ import {
   OPP_HERO_DEAD,
   LOAD_GAME,
   SAVE_GAME,
-  END_TURN
+  END_TURN,
+  HURT_BY_DRAW
 } from './actionTypes'
 
 import engine from '../engine/index'
@@ -55,6 +56,11 @@ const playerDrewCard = (deck, card) => ({
   type: PLAYER_DRAW_CARD,
   card,
   deck
+})
+
+const hurtByDrawnCard = hero => ({
+  type: HURT_BY_DRAW,
+  hero
 })
 
 export const endTurn = () => ({
@@ -130,5 +136,15 @@ export const saveGame = gameState => {
   return async dispatch => {
     await Axios.put('/api/games/save/test', gameState)
     dispatch(savedGame())
+  }
+}
+export const hurtByTheDraw = hero => {
+  const result = engine.hurtByDraw(hero)
+  if (result.settlers <= 0) {
+    return dispatch => {
+      dispatch(playerHeroDied())
+    }
+  } else {
+    return dispatch => dispatch(hurtByDrawnCard(result))
   }
 }
