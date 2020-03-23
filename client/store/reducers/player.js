@@ -3,7 +3,8 @@ import {
   PLAYER_DRAW_CARD,
   PLAYER_PLAY_CARD,
   GET_ALL_CARDS,
-  END_TURN
+  END_TURN,
+  HURT_BY_DRAW
 } from '../actionTypes'
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   planeFull: false
 }
 
+// eslint-disable-next-line complexity
 export default function(state = initialState, action) {
   switch (action.type) {
     case PLAYER_PLAY_CARD:
@@ -64,6 +66,11 @@ export default function(state = initialState, action) {
           card.attackOccurred = false
           return card
         })
+      }
+    case HURT_BY_DRAW:
+      return {
+        ...state,
+        settlers: action.hero.settlers
       }
     default:
       return state
