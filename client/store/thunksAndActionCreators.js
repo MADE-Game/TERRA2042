@@ -6,7 +6,8 @@ import {
   PLAYER_HERO_DEAD,
   PLAYER_DRAW_CARD,
   OPP_HERO_DEAD,
-  END_TURN
+  END_TURN,
+  HURT_BY_DRAW
 } from './actionTypes'
 
 import engine from '../engine/index'
@@ -46,6 +47,11 @@ const playerDrewCard = (deck, card) => ({
   type: PLAYER_DRAW_CARD,
   card,
   deck
+})
+
+const hurtByDrawnCard = hero => ({
+  type: HURT_BY_DRAW,
+  hero
 })
 
 export const endTurn = () => ({
@@ -107,5 +113,16 @@ export const playerAttackHero = (attacker, hero) => {
     return dispatch => {
       dispatch(playerAttackedHero(result))
     }
+  }
+}
+
+export const hurtByTheDraw = hero => {
+  const result = engine.hurtByDraw(hero)
+  if (result.settlers <= 0) {
+    return dispatch => {
+      dispatch(playerHeroDied())
+    }
+  } else {
+    return dispatch => dispatch(hurtByDrawnCard(result))
   }
 }

@@ -26,6 +26,11 @@ const engine = {
       newDeck: deck,
       card
     }
+  },
+  hurtByDraw: hero => {
+    const newHero = hero
+    newHero.settlers -= 2
+    return newHero
   }
 }
 
