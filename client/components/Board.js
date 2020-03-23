@@ -22,6 +22,7 @@ const playerSide = {
 
 class Board extends React.Component {
   async componentDidMount() {
+    console.log('props', this.props)
     await this.props.loadGame(this.props.match.params.id)
     //this line is for testing, and initializes the players deck with all the cards in the database.
     if (this.props.gameState.player.deck.length === 0) this.props.getAllCards()

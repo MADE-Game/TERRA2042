@@ -47,7 +47,6 @@ router.put('/save/test', async (req, res, next) => {
       }
     }
     //converting to from database form to redux form.
-
     const gameToSave = await Game.findOne()
     gameToSave.game = JSON.stringify(normalized.game)
     gameToSave.isFinished = normalized.isFinished
