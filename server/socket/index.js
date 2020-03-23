@@ -10,7 +10,8 @@ const IO = io => {
 
 const GAMENSP = gameNsp => {
   gameNsp.on('connection', socket => {
-    gameNsp.to(socket.id).emit('welcome')
+    // gameNsp.to(socket.id).emit('welcome')
+    socket.emit('welcome')
     console.log(`A socket connection to games has been made: ${socket.id}`)
 
     socket.on('disconnect', () => {
@@ -18,25 +19,27 @@ const GAMENSP = gameNsp => {
     })
 
     socket.on('play card', data => {
-      gameNsp.emit('play card', data)
+      // gameNsp.emit('play card', data)
+      socket.to('room1').emit('play card', data)
     })
 
     socket.on('attack', data => {
-      gameNsp.emit('attack', data)
+      // gameNsp.emit('attack', data)
+      socket.to('room1').emit('attack', data)
     })
 
     socket.on('draw card', () => {
-      gameNsp.emit('draw card')
+      // gameNsp.emit('draw card')
+      socket.to('room1').emit('draw card')
     })
 
     socket.on('join', data => {
       socket.join(`room${data.id}`)
-      // sends to all users in "room${data.id}" except sender
-      // to include sender, use the .in method
       gameNsp.to(socket.id).emit('join', data)
     })
 
     socket.on('send msg', data => {
+      // this is global, need to make private
       gameNsp.emit('send msg', data)
     })
   })
