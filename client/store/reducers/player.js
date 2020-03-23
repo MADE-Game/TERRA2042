@@ -2,7 +2,8 @@ import {
   PLAYER_ATTACK_CARD,
   PLAYER_DRAW_CARD,
   PLAYER_PLAY_CARD,
-  GET_ALL_CARDS
+  GET_ALL_CARDS,
+  END_TURN
 } from '../actionTypes'
 
 const initialState = {
@@ -52,11 +53,18 @@ export default function(state = initialState, action) {
             } else {
               return card
             }
-          }),
-        attackOccurred: true
+          })
       }
     case GET_ALL_CARDS:
       return {...state, deck: action.cards}
+    case END_TURN:
+      return {
+        ...state,
+        inPlay: state.inPlay.map(function(card) {
+          card.attackOccurred = false
+          return card
+        })
+      }
     default:
       return state
   }
