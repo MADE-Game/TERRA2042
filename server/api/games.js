@@ -31,7 +31,10 @@ router.get('/load/:gameId', async (req, res, next) => {
     //converting to from database form to redux form.
     const {_id, game, isFinished, isP1Turn, p1, p2} = gameFound
     const parsedGame = JSON.parse(game)
-    const relativeBoard = relativizeBoard({p1, p2, ...parsedGame}, req.user._id)
+    const relativeBoard = relativizeBoard(
+      {p1, p2, ...parsedGame, isP1Turn},
+      req.user._id
+    )
     const gameToSend = {_id, game: relativeBoard, isFinished, isP1Turn, p1, p2}
     res.json(gameToSend)
   } catch (error) {
@@ -49,14 +52,17 @@ router.put('/save/:gameId', async (req, res, next) => {
       {p1: gameToSave.p1, game: JSON.parse(gameToSave.game)},
       req.user._id
     )
-    validateBoard(objectifiedGame, gameToSave.game) //will throw error on invalid move.
+    validateBoard(
+      objectifiedGame,
+      {...gameToSave, game: JSON.parse(gameToSave.game)},
+      req.user._id.toString()
+    ) //will throw error on invalid move.
     gameToSave.game = JSON.stringify(objectifiedGame)
     gameToSave.isFinished = data.isFinished
     gameToSave.isP1Turn = data.isP1Turn
     await gameToSave.save()
     res.json(gameToSave)
   } catch (error) {
-    console.log('caught error: ', error)
     if (error.message.startsWith('Invalid move!')) {
       return res.status(401).send(error.message)
     }
