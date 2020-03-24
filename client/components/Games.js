@@ -7,20 +7,15 @@ mainSocket.disconnect()
 export const socket = io('/games')
 
 export const Games = () => {
-  socket.emit('welcome')
-  socket.on('welcome', () => alert('welcome to the games lobby'))
-  socket.on('join', data => {
-    alert(`you have joined romm #${data.id}`)
-  })
   return (
     <div>
       <h1>Games</h1>
-      <Link to="/games/room/1">
+      <Link to="/games/room/111111111111111111111110">
         <button type="button" onClick={() => socket.emit('join', {id: 1})}>
           Join Game room #1
         </button>
       </Link>
-      <Link to="/games/room/2">
+      <Link to="/games/room/111111111111111111111112">
         <button type="button" onClick={() => socket.emit('join', {id: 2})}>
           Join Game room #2
         </button>

@@ -72,7 +72,6 @@ const Side = props => {
 }
 
 const mapStateToProps = function(state) {
-  console.log('mapping state: ', state)
   return {
     inPlay: state.game.player.inPlay,
     opponentInPlay: state.game.opponent.inPlay,
