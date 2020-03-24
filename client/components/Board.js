@@ -25,6 +25,9 @@ class Board extends React.Component {
     this.props.loadGame(this.props.match.params.id)
     //this line is for testing, and initializes the players deck with all the cards in the database.
     if (this.props.gameState.player.deck.length === 0) this.props.getAllCards()
+    globalVar.callback = () => {
+      this.props.loadGame(this.props.match.params.id)
+    }
   }
   componentDidUpdate() {
     this.props.saveGame(this.props.match.params.id, this.props.gameState)
@@ -50,9 +53,7 @@ class Board extends React.Component {
   }
 }
 
-socket.on('play card', data => {
-  // eslint-disable-next-line no-alert
-})
+socket.on('play card', globalVar.callback)
 
 socket.on('attack', data => {
   // eslint-disable-next-line no-alert
