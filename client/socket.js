@@ -1,9 +1,9 @@
 import io from 'socket.io-client'
 
-const socket = io(window.location.origin)
+const mainSocket = io(window.location.origin)
 
-socket.on('connect', () => {
+mainSocket.on('connect', () => {
   console.log('Connected!')
 })
 
-export default socket
+export default mainSocket

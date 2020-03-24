@@ -1,6 +1,6 @@
 import React from 'react'
-import io from 'socket.io-client'
-const socket = io()
+import Board from './Board'
+import {socket} from './Games'
 
 export default class Chat extends React.Component {
   constructor() {
@@ -31,6 +31,7 @@ export default class Chat extends React.Component {
   render() {
     return (
       <div>
+        <Board />
         <form onSubmit={this.handleSubmit}>
           <div id="msg"></div>
           <br />

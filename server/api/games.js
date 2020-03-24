@@ -35,7 +35,6 @@ router.get('/load/test', async (req, res, next) => {
 })
 router.put('/save/test', async (req, res, next) => {
   try {
-    console.log('req.body', req.body)
     //converting to from redux form to database form.
     const {player: player1, opponent: player2, data} = req.body
     const normalized = {
