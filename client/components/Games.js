@@ -20,6 +20,11 @@ export const Games = () => {
           Join Game room #1
         </button>
       </Link>
+      <Link to="/games/room/2">
+        <button type="button" onClick={() => socket.emit('join', {id: 2})}>
+          Join Game room #2
+        </button>
+      </Link>
     </div>
   )
 }

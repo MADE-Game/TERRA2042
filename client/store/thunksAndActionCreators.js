@@ -98,11 +98,11 @@ export const getAllCards = () => {
 export const playerAttackCard = (attacker, defender) => {
   const result = engine.attack(attacker, defender)
   return dispatch => {
-    dispatch(playerAttackedCard(...result))
     socket.emit('attack', {
       attacker: result[0],
       defender: result[1]
     })
+    dispatch(playerAttackedCard(...result))
   }
 }
 
