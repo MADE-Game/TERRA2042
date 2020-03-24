@@ -10,7 +10,8 @@ const UserSchema = new Schema({
   password: String,
   googleId: String,
   collections: Array,
-  salt: String
+  salt: String,
+  games: Array
 })
 UserSchema.static('encryptPassword', function(plainText, salt) {
   const hash = crypto.createHash('sha1')
@@ -20,7 +21,6 @@ UserSchema.static('encryptPassword', function(plainText, salt) {
 })
 //instance methods
 UserSchema.methods.correctPassword = function(attempted) {
-  console.log(UserSchema)
   return (
     UserSchema.statics.encryptPassword(attempted, this.salt) === this.password
   )

@@ -10,55 +10,25 @@ import {
   saveGame
 } from '../store/thunksAndActionCreators'
 import {socket} from './Games'
-
-const dummyProps = {
-  name: 'Test',
-  imageUrl: '/images/monsters/1.png',
-  attack: 1,
-  defense: 4,
-  cost: 1,
-  id: 1
-}
-const dummyProps2 = {
-  name: 'Test',
-  imageUrl: '/images/monsters/3.png',
-  attack: 1,
-  defense: 4,
-  cost: 1,
-  id: 2
-}
-const dummyProps3 = {
-  name: 'Test',
-  imageUrl: '/images/monsters/4.png',
-  attack: 1,
-  defense: 4,
-  cost: 1,
-  id: 3
-}
-const dummyProps4 = {
-  name: 'Test',
-  imageUrl: '/images/monsters/2.png',
-  attack: 1,
-  defense: 4,
-  cost: 1,
-  id: 4
-}
-
+console.log('socket', socket)
 const enemySide = {
   heroUrl: '/images/monsters/11.png'
 }
 const playerSide = {
   heroUrl: '/images/monsters/14.png'
 }
-
+const globalVar = {}
 class Board extends React.Component {
-  async componentDidMount() {
-    await this.props.loadGame()
+  componentDidMount() {
+    this.props.loadGame(this.props.match.params.id)
     //this line is for testing, and initializes the players deck with all the cards in the database.
     if (this.props.gameState.player.deck.length === 0) this.props.getAllCards()
+    globalVar.callback = () => {
+      this.props.loadGame(this.props.match.params.id)
+    }
   }
   componentDidUpdate() {
-    this.props.saveGame(this.props.gameState)
+    this.props.saveGame(this.props.match.params.id, this.props.gameState)
   }
   render() {
     return (
@@ -106,9 +76,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getAllCards: () => dispatch(getAllCards()),
-    loadGame: () => dispatch(loadGame()),
+    loadGame: id => dispatch(loadGame(id)),
     endTurn: () => dispatch(endTurn()),
-    saveGame: gameState => dispatch(saveGame(gameState))
+    saveGame: (id, gameState) => dispatch(saveGame(id, gameState))
   }
 }
 

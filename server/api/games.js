@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const {Game} = require('../db/models')
 module.exports = router
-
+const {relativizeBoard, objectifyBoard} = require('../utils/index.js')
 //all games
 router.get('/', async (req, res, next) => {
   try {
@@ -21,61 +21,36 @@ router.get('/:gameId', async (req, res, next) => {
     next(err)
   }
 })
-
-router.get('/load/test', async (req, res, next) => {
+router.get('/load/:gameId', async (req, res, next) => {
   try {
-    const games = await Game.find()
+    const gameFound = await Game.findById(req.params.gameId)
     //converting to from database form to redux form.
-    const {_id, game, isFinished, isP1Turn} = games[0]
-    const gameToSend = {_id, game: JSON.parse(game), isFinished, isP1Turn}
+    const {_id, game, isFinished, isP1Turn, p1, p2} = gameFound
+    const parsedGame = JSON.parse(game)
+    const relativeBoard = relativizeBoard({p1, p2, ...parsedGame}, req.user._id)
+    const gameToSend = {_id, game: relativeBoard, isFinished, isP1Turn, p1, p2}
     res.json(gameToSend)
   } catch (error) {
     next(error)
   }
 })
-router.put('/save/test', async (req, res, next) => {
-  try {
-    //converting to from redux form to database form.
-    const {player: player1, opponent: player2, data} = req.body
-    const normalized = {
-      game: {
-        player1,
-        player2,
-        isFinished: data.isFinished,
-        isP1Turn: data.isP1Turn
-      }
-    }
-    //converting to from database form to redux form.
-
-    const gameToSave = await Game.findOne()
-    gameToSave.game = JSON.stringify(normalized.game)
-    gameToSave.isFinished = normalized.isFinished
-    gameToSave.isP1Turn = normalized.isP1Turn
-    await gameToSave.save()
-    res.json(gameToSave)
-  } catch (error) {
-    next(error)
-  }
-})
-router.get('/load/:gameId', async (req, res, next) => {
-  try {
-    const game = await Game.findOne({_id: req.params.gameId, isFinished: false})
-
-    res.json(game)
-  } catch (error) {
-    next(error)
-  }
-})
-
 router.put('/save/:gameId', async (req, res, next) => {
   try {
-    const game = await Game.findByIdAndUpdate(req.params.gameId, {
-      game: req.body.game,
-      isFinished: req.body.isFinished,
-      isP1Turn: req.body.isP1Turn
-    })
+    //converting to from redux form to database form
+    const {data} = req.body
+    //converting to from database form to redux form.
+    const gameToSave = await Game.findById(req.params.gameId)
+    const objectifiedGame = objectifyBoard(
+      req.body,
+      {p1: gameToSave.p1, game: JSON.parse(gameToSave.game)},
+      req.user._id
+    )
 
-    res.json(game)
+    gameToSave.game = JSON.stringify(objectifiedGame)
+    gameToSave.isFinished = data.isFinished
+    gameToSave.isP1Turn = data.isP1Turn
+    await gameToSave.save()
+    res.json(gameToSave)
   } catch (error) {
     next(error)
   }
