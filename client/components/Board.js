@@ -25,19 +25,16 @@ class Board extends React.Component {
         `${data.name} was played!\n${data.attack} attack points\n${data.health} defense points`
       )
       this.props.loadGame(this.props.match.params.id)
-      // this.props.saveGame(this.props.match.params.id, this.props.gameState)
     })
 
     socket.on('attack', data => {
       console.log(`${data.attacker.name} attacked ${data.defender.name}!`)
       this.props.loadGame(this.props.match.params.id)
-      // this.props.saveGame(this.props.match.params.id, this.props.gameState)
     })
 
     socket.on('draw card', () => {
       console.log('A card was drawn!')
       this.props.loadGame(this.props.match.params.id)
-      // this.props.saveGame(this.props.match.params.id, this.props.gameState)
     })
 
     this.props.loadGame(this.props.match.params.id)
@@ -71,7 +68,6 @@ class Board extends React.Component {
     )
   }
 }
-// need to move into class
 
 const mapStateToProps = state => {
   return {

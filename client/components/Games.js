@@ -10,12 +10,12 @@ export const Games = () => {
   return (
     <div>
       <h1>Games</h1>
-      <Link to="/games/room/111111111111111111111110">
+      <Link to="/games/rooms">
         <button type="button" onClick={() => socket.emit('join', {id: 1})}>
           Join Game room #1
         </button>
       </Link>
-      <Link to="/games/room/111111111111111111111112">
+      <Link to="/games/rooms">
         <button type="button" onClick={() => socket.emit('join', {id: 2})}>
           Join Game room #2
         </button>

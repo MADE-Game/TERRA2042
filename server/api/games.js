@@ -75,3 +75,19 @@ router.get('/running', async (req, res, next) => {
     next(err)
   }
 })
+
+router.post('/newGame', async (req, res, next) => {
+  try {
+    const game = new Game({
+      game: JSON.stringify(req.body.game),
+      p1: req.body.p1,
+      p2: req.body.p2,
+      isFinished: false,
+      isP1Turn: true
+    })
+    const savedGame = await game.save()
+    res.json(savedGame)
+  } catch (error) {
+    next(error)
+  }
+})

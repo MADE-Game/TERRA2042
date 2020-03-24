@@ -6,6 +6,7 @@ import {Login, Signup, UserHome, Board} from './components'
 import {Games} from './components/Games'
 import {me} from './store'
 import Chat from './components/Chat'
+import Room from './components/Room'
 
 /**
  * COMPONENT
@@ -26,8 +27,9 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route exact path="/games" component={Games} />
-            <Route path="/games/room/:id" component={Board} />
-            <Route path="/games/room/:id" component={Chat} />
+            <Route exact path="/games/rooms" component={Room} />
+            <Route path="/games/rooms/game/:id" component={Board} />
+            <Route path="/games/rooms/game/:id" component={Chat} />
             <Route path="/home" component={UserHome} />
           </Switch>
         )}
