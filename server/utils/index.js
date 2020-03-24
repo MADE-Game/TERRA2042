@@ -50,5 +50,9 @@ module.exports = {
         }
       }
     }
+  },
+  validateBoard: function(boardToValidate, boardInDB) {
+    //is it the players turn.
+    throw new Error('Invalid move! You cannot do that')
   }
 }

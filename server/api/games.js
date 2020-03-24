@@ -1,7 +1,11 @@
 const router = require('express').Router()
 const {Game} = require('../db/models')
 module.exports = router
-const {relativizeBoard, objectifyBoard} = require('../utils/index.js')
+const {
+  relativizeBoard,
+  objectifyBoard,
+  validateBoard
+} = require('../utils/index.js')
 //all games
 router.get('/', async (req, res, next) => {
   try {
@@ -45,13 +49,17 @@ router.put('/save/:gameId', async (req, res, next) => {
       {p1: gameToSave.p1, game: JSON.parse(gameToSave.game)},
       req.user._id
     )
-
+    validateBoard(objectifiedGame, gameToSave.game) //will throw error on invalid move.
     gameToSave.game = JSON.stringify(objectifiedGame)
     gameToSave.isFinished = data.isFinished
     gameToSave.isP1Turn = data.isP1Turn
     await gameToSave.save()
     res.json(gameToSave)
   } catch (error) {
+    console.log('caught error: ', error)
+    if (error.message.startsWith('Invalid move!')) {
+      return res.status(401).send(error.message)
+    }
     next(error)
   }
 })
