@@ -38,7 +38,6 @@ router.put('/save/:gameId', async (req, res, next) => {
   try {
     //converting to from redux form to database form
     const {data} = req.body
-
     //converting to from database form to redux form.
     const gameToSave = await Game.findById(req.params.gameId)
     const objectifiedGame = objectifyBoard(

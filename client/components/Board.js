@@ -9,9 +9,7 @@ import {
   endTurn,
   saveGame
 } from '../store/thunksAndActionCreators'
-
-import io from 'socket.io-client'
-const socket = io()
+import {socket} from './Games'
 
 const enemySide = {
   heroUrl: '/images/monsters/11.png'
@@ -53,15 +51,18 @@ class Board extends React.Component {
   }
 }
 
-socket.on('play card', globalVar.callback)
+socket.on('play card', data => {
+  console.log(
+    `${data.name} was played!\n${data.attack} attack points\n${data.health} defense points`
+  )
+})
 
 socket.on('attack', data => {
-  // eslint-disable-next-line no-alert
-  alert(`${data.attacker.name} attacked ${data.defender.name}!`)
+  console.log(`${data.attacker.name} attacked ${data.defender.name}!`)
 })
 
 socket.on('draw card', () => {
-  // eslint-disable-next-line no-alert
+  console.log('A card was drawn!')
 })
 
 const mapStateToProps = state => {

@@ -13,9 +13,8 @@ import {
 } from './actionTypes'
 
 import engine from '../engine/index'
-import io from 'socket.io-client'
 import Axios from 'axios'
-const socket = io()
+import {socket} from '../components/Games'
 
 const gotAllCards = cards => ({
   type: GET_ALL_CARDS,
