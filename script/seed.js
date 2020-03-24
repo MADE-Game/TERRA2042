@@ -48,6 +48,12 @@ const gameDocs = [
     isP1Turn: true
   }
 ]
+const userDocs = [
+  {
+    email: 'sampleEmail@email.com',
+    userName: 'SampleName'
+  }
+]
 
 const monsterNames = [
   'Centaurs',
@@ -92,6 +98,10 @@ const data = [
   {
     model: 'game',
     documents: gameDocs
+  },
+  {
+    model: 'user',
+    documents: userDocs
   }
 ]
 
@@ -104,10 +114,11 @@ if (module === require.main) {
       () => {
         seeder.loadModels([
           'server/db/models/card.js',
-          'server/db/models/game.js'
+          'server/db/models/game.js',
+          'server/db/models/user.js'
         ])
 
-        seeder.clearModels(['card', 'game'], () => {
+        seeder.clearModels(['card', 'game', 'user'], () => {
           seeder.populateModels(data, () => {
             seeder.disconnect()
           })
