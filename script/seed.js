@@ -9,31 +9,31 @@ const gameDocs = [
     game: JSON.stringify({
       player2: {
         hand: [
-          {
-            id: 13,
-            name: 'handtest',
-            attack: 1,
-            health: 2,
-            imageUrl: `/images/monsters/1.png`
-          }
+          // {
+          //   id: 13,
+          //   name: 'handtest',
+          //   attack: 1,
+          //   health: 2,
+          //   imageUrl: `/images/monsters/1.png`
+          // }
         ],
         deck: [
-          {
-            id: 12,
-            name: 'decktest',
-            attack: 1,
-            health: 2,
-            imageUrl: `/images/monsters/2.png`
-          }
+          // {
+          //   id: 12,
+          //   name: 'decktest',
+          //   attack: 1,
+          //   health: 2,
+          //   imageUrl: `/images/monsters/2.png`
+          // }
         ],
         inPlay: [
-          {
-            id: 11,
-            name: 'inplaytest',
-            attack: 1,
-            health: 2,
-            imageUrl: `/images/monsters/4.png`
-          }
+          // {
+          //   id: 11,
+          //   name: 'inplaytest',
+          //   attack: 1,
+          //   health: 2,
+          //   imageUrl: `/images/monsters/4.png`
+          // }
         ],
         settlers: 10
       },
@@ -46,8 +46,8 @@ const gameDocs = [
     }),
     isFinished: false,
     isP1Turn: true,
-    p1: 'me',
-    p2: 'you'
+    p1: '111111111111111111111111',
+    p2: '111111111111111111111112'
   }
 ]
 const userDocs = [
@@ -55,13 +55,13 @@ const userDocs = [
     _id: ObjectId('111111111111111111111111'),
     email: 'cmax1018@gmail.com',
     password: 'abc',
-    games: ['randId']
+    games: [ObjectId('111111111111111111111110')]
   },
   {
     _id: ObjectId('111111111111111111111112'),
     email: 'opp@gmail.com',
     password: 'abc',
-    games: ['randId']
+    games: [ObjectId('111111111111111111111110')]
   }
 ]
 

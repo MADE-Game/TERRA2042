@@ -19,11 +19,10 @@ const enemySide = {
 const playerSide = {
   heroUrl: '/images/monsters/14.png'
 }
-
+const globalVar = {}
 class Board extends React.Component {
-  async componentDidMount() {
-    console.log('props', this.props)
-    await this.props.loadGame(this.props.match.params.id)
+  componentDidMount() {
+    this.props.loadGame(this.props.match.params.id)
     //this line is for testing, and initializes the players deck with all the cards in the database.
     if (this.props.gameState.player.deck.length === 0) this.props.getAllCards()
   }
@@ -53,9 +52,6 @@ class Board extends React.Component {
 
 socket.on('play card', data => {
   // eslint-disable-next-line no-alert
-  alert(
-    `${data.name} was played!\n${data.attack} attack points\n${data.defense} defense points`
-  )
 })
 
 socket.on('attack', data => {
@@ -65,7 +61,6 @@ socket.on('attack', data => {
 
 socket.on('draw card', () => {
   // eslint-disable-next-line no-alert
-  alert('A card was drawn!')
 })
 
 const mapStateToProps = state => {

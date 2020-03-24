@@ -1,43 +1,9 @@
 import {PLAYER_ATTACK_CARD, PLAYER_ATTACK_HERO, LOAD_GAME} from '../actionTypes'
 
-const dummyProps7 = {
-  name: 'dp7',
-  imageUrl: 'favicon.ico',
-  attack: 1,
-  health: 4,
-  cost: 1,
-  id: 7
-}
-
-const dummyProps8 = {
-  name: 'dp8',
-  imageUrl: 'favicon.ico',
-  attack: 1,
-  health: 4,
-  cost: 1,
-  id: 8
-}
-
-const dummyProps9 = {
-  name: 'dp9',
-  imageUrl: 'favicon.ico',
-  attack: 1,
-  health: 4,
-  cost: 1,
-  id: 10
-}
-const dummyProps10 = {
-  name: 'dp10',
-  imageUrl: 'favicon.ico',
-  attack: 1,
-  health: 4,
-  cost: 1,
-  id: 9
-}
 const initialState = {
-  deck: [],
+  deck: 0,
   inPlay: [],
-  hand: [],
+  hand: 0,
   settlers: 10
 }
 
@@ -46,10 +12,10 @@ export default function(state = initialState, action) {
     case LOAD_GAME:
       return {
         ...state,
-        inPlay: action.game.player2.inPlay,
-        hand: action.game.player2.hand,
-        deck: action.game.player2.deck,
-        settlers: action.game.player2.settlers
+        inPlay: action.game.opponent.inPlay,
+        hand: action.game.opponent.hand,
+        deck: action.game.opponent.deck,
+        settlers: action.game.opponent.settlers
       }
     case PLAYER_ATTACK_CARD:
       return {

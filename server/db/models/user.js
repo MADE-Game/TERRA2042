@@ -21,7 +21,6 @@ UserSchema.static('encryptPassword', function(plainText, salt) {
 })
 //instance methods
 UserSchema.methods.correctPassword = function(attempted) {
-  console.log(UserSchema)
   return (
     UserSchema.statics.encryptPassword(attempted, this.salt) === this.password
   )

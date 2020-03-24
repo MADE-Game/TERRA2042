@@ -127,20 +127,13 @@ export const playerAttackHero = (attacker, hero) => {
 }
 export const loadGame = id => {
   return async dispatch => {
-    if (id) {
-      const {data: game} = await Axios.get(`/api/games/load/${id}`)
-      console.log(game)
-      //sends just the game board at the moment. No other data.
-      dispatch(loadedGame(game.game))
-    } else {
-      const {data: game} = await Axios.get('/api/games/load/test')
-      //sends just the game board at the moment. No other data.
-      dispatch(loadedGame(game.game))
-    }
+    const {data: game} = await Axios.get(`/api/games/load/${id}`)
+    //sends just the game board at the moment. No other data.
+    console.log('game in load thunk', game)
+    dispatch(loadedGame(game.game))
   }
 }
 export const saveGame = (id, gameState) => {
-  console.log('in thunk. id:' + id, 'gameState: ', gameState)
   return async dispatch => {
     await Axios.put('/api/games/save/' + id, gameState)
     dispatch(savedGame())
