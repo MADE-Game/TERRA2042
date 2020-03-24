@@ -124,16 +124,16 @@ export const playerAttackHero = (attacker, hero) => {
     }
   }
 }
-export const loadGame = () => {
+export const loadGame = id => {
   return async dispatch => {
-    const {data: game} = await Axios.get('/api/games/load/test')
+    const {data: game} = await Axios.get(`/api/games/load/${id}`)
     //sends just the game board at the moment. No other data.
     dispatch(loadedGame(game.game))
   }
 }
-export const saveGame = gameState => {
+export const saveGame = (id, gameState) => {
   return async dispatch => {
-    await Axios.put('/api/games/save/test', gameState)
+    await Axios.put('/api/games/save/' + id, gameState)
     dispatch(savedGame())
   }
 }
