@@ -10,7 +10,7 @@ import {
   saveGame
 } from '../store/thunksAndActionCreators'
 import {socket} from './Games'
-console.log('socket', socket)
+
 const enemySide = {
   heroUrl: '/images/monsters/11.png'
 }
@@ -20,16 +20,37 @@ const playerSide = {
 const globalVar = {}
 class Board extends React.Component {
   componentDidMount() {
+    socket.on('play card', data => {
+      console.log(
+        `${data.name} was played!\n${data.attack} attack points\n${data.health} defense points`
+      )
+      this.props.loadGame(this.props.match.params.id)
+      // this.props.saveGame(this.props.match.params.id, this.props.gameState)
+    })
+
+    socket.on('attack', data => {
+      console.log(`${data.attacker.name} attacked ${data.defender.name}!`)
+      this.props.loadGame(this.props.match.params.id)
+      // this.props.saveGame(this.props.match.params.id, this.props.gameState)
+    })
+
+    socket.on('draw card', () => {
+      console.log('A card was drawn!')
+      this.props.loadGame(this.props.match.params.id)
+      // this.props.saveGame(this.props.match.params.id, this.props.gameState)
+    })
+
     this.props.loadGame(this.props.match.params.id)
     //this line is for testing, and initializes the players deck with all the cards in the database.
     if (this.props.gameState.player.deck.length === 0) this.props.getAllCards()
-    globalVar.callback = () => {
+    globalVar.load = () => {
       this.props.loadGame(this.props.match.params.id)
     }
   }
   componentDidUpdate() {
     this.props.saveGame(this.props.match.params.id, this.props.gameState)
   }
+
   render() {
     return (
       <DndProvider backend={Backend}>
@@ -50,20 +71,7 @@ class Board extends React.Component {
     )
   }
 }
-
-socket.on('play card', data => {
-  console.log(
-    `${data.name} was played!\n${data.attack} attack points\n${data.health} defense points`
-  )
-})
-
-socket.on('attack', data => {
-  console.log(`${data.attacker.name} attacked ${data.defender.name}!`)
-})
-
-socket.on('draw card', () => {
-  console.log('A card was drawn!')
-})
+// need to move into class
 
 const mapStateToProps = state => {
   return {

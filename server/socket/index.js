@@ -16,13 +16,8 @@ const GAMENSP = gameNsp => {
       console.log(`Connection ${socket.id} has left the lobby`)
     })
 
-    socket.on('welcome', () => {
-      socket.emit('welcome')
-    })
-
     socket.on('join', data => {
       socket.join(`room${data.id}`)
-      gameNsp.to(socket.id).emit('join', data)
     })
 
     socket.on('play card', data => {
