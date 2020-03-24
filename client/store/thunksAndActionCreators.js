@@ -128,7 +128,6 @@ export const loadGame = id => {
   return async dispatch => {
     const {data: game} = await Axios.get(`/api/games/load/${id}`)
     //sends just the game board at the moment. No other data.
-    console.log('game in load thunk', game)
     dispatch(loadedGame(game.game))
   }
 }

@@ -10,7 +10,7 @@ import {
   saveGame
 } from '../store/thunksAndActionCreators'
 import {socket} from './Games'
-
+console.log('socket', socket)
 const enemySide = {
   heroUrl: '/images/monsters/11.png'
 }
