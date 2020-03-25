@@ -22,10 +22,10 @@ export default function(state = initialState, action) {
     case LOAD_GAME:
       return {
         ...state,
-        deck: action.game.player.deck,
-        inPlay: action.game.player.inPlay,
-        hand: action.game.player.hand,
-        settlers: action.game.player.settlers
+        deck: action.game.game.player.deck,
+        inPlay: action.game.game.player.inPlay,
+        hand: action.game.game.player.hand,
+        settlers: action.game.game.player.settlers
       }
     case PLAYER_PLAY_CARD:
       if (state.inPlay.length < 4) {

@@ -45,22 +45,22 @@ const Card = props => {
         className="card"
         ref={drop}
         style={{
-          fontSize: 25,
+          fontSize: 12,
           fontWeight: 'bold',
           cursor: 'move'
         }}
       >
         <div>
-          <h3
+          <p
             style={{
               textAlign: 'right',
               paddingRight: '1em'
             }}
           >
             Cost: {cost}
-          </h3>
+          </p>
         </div>
-        <img src={imageUrl} />
+        <img src={imageUrl} style={{width: '11vh'}} />
         <h2
           style={{
             textAlign: 'center'
@@ -77,8 +77,8 @@ const Card = props => {
             justifyContent: 'space-evenly'
           }}
         >
-          <h3>{attack}</h3>
-          <h3>{health}</h3>
+          <p>{attack}</p>
+          <p>{health}</p>
         </div>
       </div>
     </div>

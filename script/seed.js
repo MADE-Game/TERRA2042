@@ -102,15 +102,15 @@ const userDocs = [
     // _id: ObjectId('111111111111111111111111'),
     email: 'cmax1018@gmail.com',
     password: 'abc',
-    games: []
-    // games: [ObjectId('111111111111111111111110')]
+    games: [],
+    userName: 'max'
   },
   {
     // _id: ObjectId('111111111111111111111112'),
     email: 'opp@gmail.com',
     password: 'abc',
-    games: []
-    // games: [ObjectId('111111111111111111111110')]
+    games: [],
+    userName: 'opp'
   }
 ]
 
@@ -148,6 +148,16 @@ for (let j = 0; j < monsterNames.length; j++) {
   })
 }
 
+const collection1 = {
+  name: 'defaultDeck',
+  cards: cardDocs.slice(0, 20),
+  isDeck: true
+}
+
+const collectionDocs = []
+
+collectionDocs.push(collection1)
+
 const data = [
   {
     model: 'card',
@@ -161,6 +171,10 @@ const data = [
   {
     model: 'user',
     documents: userDocs
+  },
+  {
+    model: 'collection',
+    documents: collectionDocs
   }
 ]
 
@@ -174,10 +188,11 @@ if (module === require.main) {
         seeder.loadModels([
           'server/db/models/card.js',
           'server/db/models/game.js',
-          'server/db/models/user.js'
+          'server/db/models/user.js',
+          'server/db/models/collection.js'
         ])
 
-        seeder.clearModels(['card', 'game', 'user'], () => {
+        seeder.clearModels(['card', 'game', 'user', 'collection'], () => {
           seeder.populateModels(data, () => {
             seeder.disconnect()
           })
