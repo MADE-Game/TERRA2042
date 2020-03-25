@@ -9,7 +9,7 @@ import {
   endTurn,
   saveGame
 } from '../store/thunksAndActionCreators'
-import {socket} from './Games'
+import {socket} from './Room'
 
 const enemySide = {
   heroUrl: '/images/monsters/11.png'

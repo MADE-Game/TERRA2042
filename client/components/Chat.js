@@ -1,5 +1,5 @@
 import React from 'react'
-import {socket} from './Games'
+import {socket} from './Room'
 
 export default class Chat extends React.Component {
   constructor() {

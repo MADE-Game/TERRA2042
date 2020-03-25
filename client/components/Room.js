@@ -1,16 +1,44 @@
 import React, {Component} from 'react'
 import axios from 'axios'
 import history from '../history'
+import io from 'socket.io-client'
+export const socket = io('/games')
 
 export default class Room extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.startGame = this.startGame.bind(this)
+    // this.state = {
+    //   loading: true
+    // }
   }
 
-  async startGame() {
+  async componentDidMount() {
     const {data: user} = await axios.get('/auth/me')
 
+    socket.emit('join', {roomId: this.props.match.params.id})
+    socket.on('join', data => {
+      if (data.numPpl === 2) {
+        socket.emit('id exchange', {
+          pId: user._id,
+          roomId: this.props.match.params.id
+        })
+      }
+    })
+    socket.on('id exchange', data => {
+      this.startGame(user._id, data.pId)
+    })
+    socket.on('game started', data => {
+      history.push(`/games/rooms/game/${data.gameId}`)
+    })
+
+    // this.setState({
+    //   loading: false
+    // })
+  }
+
+  async startGame(p1Id, p2Id) {
+    const {data: user} = await axios.get('/auth/me')
     const gameObj = {
       game: {
         player2: {
@@ -28,24 +56,40 @@ export default class Room extends Component {
         }
       },
 
-      p1: `${user._id}`,
-      p2: 'player 2 id',
+      p1: p1Id,
+      p2: p2Id,
       isFinished: false,
       isP1Turn: true
     }
 
     const {data: game} = await axios.post('/api/games/newGame', gameObj)
-    user.games.push(game._id) //  <=== doesnt work
+    await axios.put(`/api/users/${user._id}`, {
+      email: user.email,
+      userName: user.userName,
+      imgUrl: user.imgUrl,
+      collections: user.collections,
+      games: [...user.games, game._id]
+    })
+
+    socket.emit('game started', {
+      gameId: game._id,
+      roomId: this.props.match.params.id
+    })
+
     history.push(`/games/rooms/game/${game._id}`)
   }
 
   render() {
-    return (
-      <div>
-        <button type="button" onClick={this.startGame}>
-          Start Game
-        </button>
-      </div>
-    )
+    // return this.state.loading ? (
+    //   <img src="/images/monsters/1.png" />
+    // ) : (
+    //   <div>
+    //     {/* <button type="button" onClick={this.startGame}>
+    //       Start Game
+    //     </button> */}
+    //     <h1>Should not be seeing this</h1>
+    //   </div>
+    // )
+    return <h1>Waiting for players ...</h1>
   }
 }

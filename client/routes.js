@@ -27,7 +27,11 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route exact path="/games" component={Games} />
-            <Route exact path="/games/rooms" component={Room} />
+            <Route
+              exact
+              path="/games/rooms/:id"
+              render={({match}) => <Room match={match} />}
+            />
             <Route path="/games/rooms/game/:id" component={Board} />
             <Route path="/games/rooms/game/:id" component={Chat} />
             <Route path="/home" component={UserHome} />

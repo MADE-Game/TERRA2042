@@ -17,7 +17,19 @@ const GAMENSP = gameNsp => {
     })
 
     socket.on('join', data => {
-      socket.join(`room${data.id}`)
+      socket.join(`room${data.roomId}`)
+      gameNsp.to(socket.id).emit('join', {
+        numPpl: gameNsp.adapter.rooms[`room${data.roomId}`].length
+      })
+    })
+
+    socket.on('id exchange', data => {
+      socket.to(`room${data.roomId}`).emit('id exchange', data)
+      // gameNsp.in(`room${data.roomId}`).emit('id exchange', data)
+    })
+
+    socket.on('game started', data => {
+      socket.to(`room${data.roomId}`).emit('game started', data)
     })
 
     socket.on('play card', data => {
@@ -35,6 +47,14 @@ const GAMENSP = gameNsp => {
     socket.on('send msg', data => {
       gameNsp.in('room1').emit('send msg', data)
     })
+
+    // socket.on('waiting', data => {
+    //   socket.to('room1').emit('waiting', {
+    //     ...data,
+    //     numPpl: gameNsp.adapter.rooms['room1'].length // <=== maybe will do this in the "join" event
+    //   })
+    //   // socket.to('room1').emit('player id', data)
+    // })
   })
 }
 
