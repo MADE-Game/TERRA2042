@@ -3,6 +3,8 @@ import axios from 'axios'
 import history from '../history'
 import io from 'socket.io-client'
 export const socket = io('/games')
+// import mainSocket from '../socket'
+// mainSocket.disconnect()
 
 export default class Room extends Component {
   constructor(props) {

@@ -20,6 +20,7 @@ const playerSide = {
 const globalVar = {}
 class Board extends React.Component {
   componentDidMount() {
+    socket.emit('join', {roomId: this.props.match.params.roomId})
     socket.on('play card', data => {
       console.log(
         `${data.name} was played!\n${data.attack} attack points\n${data.health} defense points`
