@@ -43,15 +43,20 @@ class Board extends React.Component {
     this.props.loadGame(this.props.match.params.id)
     //this line is for testing, and initializes the players deck with all the cards in the database.
     if (this.props.gameState.player.deck.length === 0) this.props.getAllCards()
+    if (this.props.isMyTurn) {
+      this.props.saveGame(this.props.match.params.id, this.props.gameState)
+    }
     globalVar.load = () => {
       this.props.loadGame(this.props.match.params.id)
     }
   }
   componentDidUpdate() {
-    this.props.saveGame(this.props.match.params.id, this.props.gameState)
+    if (this.props.isMyTurn)
+      this.props.saveGame(this.props.match.params.id, this.props.gameState)
   }
 
   render() {
+    console.log('its my turn! ', this.props.isMyTurn)
     return (
       <DndProvider backend={Backend}>
         {!this.props.isFinished ? (
@@ -59,15 +64,19 @@ class Board extends React.Component {
             ENEMY SIDE:
             <Side top={true} side={enemySide} />
             PLAYER SIDE:
-            <div id="buttonContainer">
-              <button
-                type="submit"
-                onClick={this.props.endTurn}
-                className="turnButton"
-              >
-                End Turn
-              </button>
-            </div>
+            {this.props.canEnd ? (
+              <div id="buttonContainer">
+                <button
+                  type="submit"
+                  onClick={this.props.endTurn}
+                  className="turnButton"
+                >
+                  End Turn
+                </button>
+              </div>
+            ) : (
+              'not my turn'
+            )}
             <Side side={playerSide} />
           </div>
         ) : (
@@ -84,7 +93,9 @@ const mapStateToProps = state => {
     isFinished: state.game.data.isFinished,
     cards: state.game.cards,
     inPlay: state.game.player.inPlay,
-    gameState: state.game
+    gameState: state.game,
+    isMyTurn: state.game.data.localTurn,
+    canEnd: state.game.data.isMyTurn
   }
 }
 const mapDispatchToProps = dispatch => {
