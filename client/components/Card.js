@@ -45,6 +45,7 @@ const Card = props => {
         className="card"
         ref={drop}
         style={{
+          fontSize: 12,
           fontWeight: 'bold',
           cursor: 'move'
         }}
@@ -59,14 +60,14 @@ const Card = props => {
             Cost: {cost}
           </p>
         </div>
-        <img src={imageUrl} />
-        <p
+        <img src={imageUrl} style={{width: '11vh'}} />
+        <h2
           style={{
             textAlign: 'center'
           }}
         >
           {name}
-        </p>
+        </h2>
         <div
           className="stats"
           style={{

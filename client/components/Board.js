@@ -65,9 +65,15 @@ class Board extends React.Component {
             <Side top={true} side={enemySide} />
             PLAYER SIDE:
             {this.props.canEnd ? (
-              <button type="button" onClick={this.props.endTurn}>
-                End Turn
-              </button>
+              <div id="buttonContainer">
+                <button
+                  type="submit"
+                  onClick={this.props.endTurn}
+                  className="turnButton"
+                >
+                  End Turn
+                </button>
+              </div>
             ) : (
               'not my turn'
             )}
