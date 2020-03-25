@@ -145,6 +145,16 @@ for (let j = 0; j < monsterNames.length; j++) {
   })
 }
 
+const collection1 = {
+  name: 'defaultDeck',
+  cards: cardDocs.slice(0, 20),
+  isDeck: true
+}
+
+const collectionDocs = []
+
+collectionDocs.push(collection1)
+
 const data = [
   {
     model: 'card',
@@ -158,6 +168,10 @@ const data = [
   {
     model: 'user',
     documents: userDocs
+  },
+  {
+    model: 'collection',
+    documents: collectionDocs
   }
 ]
 
@@ -171,10 +185,11 @@ if (module === require.main) {
         seeder.loadModels([
           'server/db/models/card.js',
           'server/db/models/game.js',
-          'server/db/models/user.js'
+          'server/db/models/user.js',
+          'server/db/models/collection.js'
         ])
 
-        seeder.clearModels(['card', 'game', 'user'], () => {
+        seeder.clearModels(['card', 'game', 'user', 'collection'], () => {
           seeder.populateModels(data, () => {
             seeder.disconnect()
           })

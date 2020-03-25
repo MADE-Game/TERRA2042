@@ -25,7 +25,7 @@ router.get('/:userId', async (req, res, next) => {
 //new user
 router.post('/ ', async (req, res, next) => {
   try {
-    // console.log('logging in Post - req.body', req.body)
+    console.log('logging collections', req.body.collections)
     const user = new User({
       email: req.body.email,
       userName: req.body.userName,

@@ -72,6 +72,23 @@ export class UserHome extends React.Component {
       </div>
     )
   }
+  // return (
+  //   <div
+  //     id="homepage"
+  //     style={{
+  //       display: 'flex',
+  //       flexDirection: 'column',
+  //       justifyContent: 'center',
+  //       alignItems: 'center',
+  //       minHeight: '100vh'
+  //     }}
+  //   >
+  //     <Link to="/games">Play</Link>
+  //     <Link to="/">Shop</Link>
+  //     <Link to="/decks">Collection</Link>
+  //     <Link to="/">Logout</Link>
+  //   </div>
+  // )
 }
 
 /**

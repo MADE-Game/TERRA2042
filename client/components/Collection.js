@@ -1,5 +1,5 @@
 import React from 'react'
 
-export const Collection = () => {
-  return <h1>Collection Component!</h1>
+export default function Collection(props) {
+  return <div className="collection">Collection + {`${props._id}`}</div>
 }

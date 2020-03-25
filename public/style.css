@@ -7,6 +7,11 @@ a {
   text-decoration: none;
 }
 
+h2,
+h3 {
+  margin: 1vh auto;
+}
+
 label {
   display: block;
 }
@@ -27,19 +32,32 @@ form div {
 .plane {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
   border: 2px solid rgb(70, 70, 70);
 }
 .board,
 .side {
   flex-direction: column;
 }
+
+.collectionCard,
 .card {
   display: flex;
-  border-radius: 25px;
   border: 2px solid rgb(70, 70, 70);
   flex-direction: column;
   background-color: white;
+}
+
+.card {
+  border-radius: 25px;
+}
+.collectionCard {
+  margin-left: 0.5vh;
+  margin-right: 0.5vh;
+  border-radius: 10px;
+}
+
+.collectionCardImg {
+  width: 11vh;
 }
 
 .plane,
@@ -154,3 +172,42 @@ form div {
 /* .vertSpace {
   max-height: 5px
 } */
+.hero img {
+  width: 11vh;
+}
+
+#collections {
+  display: flex;
+}
+
+#selectedCollection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.collection {
+  border: 2px solid rgb(70, 70, 70);
+  padding-top: 7vh;
+  border-radius: 1vh;
+  margin-left: 0.5vh;
+  margin-right: 0.5vh;
+  padding-bottom: 7vh;
+  text-align: center;
+}
+
+#homepage a {
+  width: 20%;
+  text-align: center;
+  padding-top: 0.5vh;
+  background-color: hsl(14, 82%, 24%);
+  color: #fff;
+  padding-bottom: 0.5vh;
+  margin-bottom: 2vh;
+  border-radius: 20px;
+}
+
+#homepage a:hover {
+  background-color: rgba(0, 0, 0, 0.25);
+  color: hsl(14, 82%, 24%);
+}

@@ -29,7 +29,7 @@ export default class Chat extends React.Component {
 
   render() {
     return (
-      <div className="navCenter">
+      <div id="chat">
         <form onSubmit={this.handleSubmit}>
           <div id="msg"></div>
           <br />

@@ -4,11 +4,12 @@ import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome} from './components'
 import {Games} from './components/Games'
-import {Collection} from './components/Collection'
+import Collection from './components/Collection'
 import {Shop} from './components/Shop'
 import Board from './components/Board'
 import NotFound from './components/not-found'
 import {me} from './store'
+import CollectionList from './components/CollectionList'
 import Chat from './components/Chat'
 
 /**
@@ -20,6 +21,7 @@ class Routes extends Component {
   }
 
   render() {
+    console.log(this.props)
     const {isLoggedIn} = this.props
     return (
       <Switch>
@@ -33,6 +35,7 @@ class Routes extends Component {
             <Route exact path="/games" component={Games} />
             <Route path="/games/room/:id" component={Board} />
             <Route path="/games/room/:id" component={Chat} />
+            <Route path="/decks" component={CollectionList} />
             <Route path="/home" component={UserHome} />
             <Route path="/games" component={Board} />
             <Route exact path="/" component={UserHome} />
