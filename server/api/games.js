@@ -29,13 +29,18 @@ router.get('/load/:gameId', async (req, res, next) => {
   try {
     const gameFound = await Game.findById(req.params.gameId)
     //converting to from database form to redux form.
-    const {_id, game, isFinished, isP1Turn, p1, p2} = gameFound
+    const {_id, game, p1, p2} = gameFound
     const parsedGame = JSON.parse(game)
+    const isPlayer1 = gameFound.p1 === req.user._id.toString()
+    const isPlayer2 = gameFound.p2 === req.user._id.toString()
+
+    const isMyTurn =
+      (gameFound.isP1Turn && isPlayer1) || (!gameFound.isP1Turn && isPlayer2)
     const relativeBoard = relativizeBoard(
-      {p1, p2, ...parsedGame, isP1Turn},
+      {p1, p2, ...parsedGame, isMyTurn},
       req.user._id
     )
-    const gameToSend = {_id, game: relativeBoard, isFinished, p1, p2}
+    const gameToSend = {_id, game: relativeBoard, p1, p2}
     res.json(gameToSend)
   } catch (error) {
     next(error)
@@ -52,7 +57,8 @@ router.put('/save/:gameId', async (req, res, next) => {
     const isPlayer1 = gameToSave.p1 === req.user._id.toString()
     const isPlayer2 = gameToSave.p2 === req.user._id.toString()
 
-    const isMyTurn = gameToSave.isP1Turn && isPlayer1
+    const isMyTurn =
+      (gameToSave.isP1Turn && isPlayer1) || (!gameToSave.isP1Turn && isPlayer2)
     if (!isPlayer1 && !isPlayer2) {
       return res.status(401).send('you are not a player of this game!')
     }

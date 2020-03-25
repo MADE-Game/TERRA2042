@@ -11,6 +11,9 @@ const relativizeBoard = (game, userId) => {
       ...opponent,
       deck: opponent.deck.length,
       hand: opponent.hand.length
+    },
+    data: {
+      isMyTurn: game.isMyTurn
     }
   }
   return gameToReturn

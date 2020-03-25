@@ -48,7 +48,8 @@ class Board extends React.Component {
     }
   }
   componentDidUpdate() {
-    this.props.saveGame(this.props.match.params.id, this.props.gameState)
+    if (this.props.isMyTurn)
+      this.props.saveGame(this.props.match.params.id, this.props.gameState)
   }
 
   render() {
@@ -78,7 +79,8 @@ const mapStateToProps = state => {
     isFinished: state.game.data.isFinished,
     cards: state.game.cards,
     inPlay: state.game.player.inPlay,
-    gameState: state.game
+    gameState: state.game,
+    isMyTurn: state.game.data.isMyTurn
   }
 }
 const mapDispatchToProps = dispatch => {
