@@ -64,7 +64,7 @@ class Board extends React.Component {
             ENEMY SIDE:
             <Side top={true} side={enemySide} />
             PLAYER SIDE:
-            {this.props.isMyTurn ? (
+            {this.props.canEnd ? (
               <button type="button" onClick={this.props.endTurn}>
                 End Turn
               </button>
@@ -88,7 +88,8 @@ const mapStateToProps = state => {
     cards: state.game.cards,
     inPlay: state.game.player.inPlay,
     gameState: state.game,
-    isMyTurn: state.game.data.localTurn
+    isMyTurn: state.game.data.localTurn,
+    canEnd: state.game.data.isMyTurn
   }
 }
 const mapDispatchToProps = dispatch => {
