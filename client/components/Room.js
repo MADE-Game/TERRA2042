@@ -21,6 +21,7 @@ export default class Room extends Component {
     socket.emit('join', {roomId: this.props.match.params.roomId})
     socket.on('join', data => {
       if (data.numPpl === 2) {
+        console.log('emit id exchange') // incog
         socket.emit('id exchange', {
           pId: user._id,
           roomId: this.props.match.params.roomId
@@ -28,9 +29,11 @@ export default class Room extends Component {
       }
     })
     socket.on('id exchange', data => {
+      console.log('hurd id exchange') // me
       this.startGame(user._id, data.pId)
     })
     socket.on('game started', data => {
+      console.log('hurd game started') // incog
       history.push(
         `/games/rooms/${this.props.match.params.roomId}/game/${data.gameId}`
       )
@@ -42,17 +45,18 @@ export default class Room extends Component {
   }
 
   async startGame(p1Id, p2Id) {
+    console.log('starting game') // me
     const {data: user} = await axios.get('/auth/me')
     const gameObj = {
       game: {
-        player2: {
+        player1: {
           hand: [],
           deck: [],
           inPlay: [],
           settlers: 10
         },
 
-        player1: {
+        player2: {
           hand: [],
           deck: [],
           inPlay: [],
