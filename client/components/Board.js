@@ -17,7 +17,6 @@ const enemySide = {
 const playerSide = {
   heroUrl: '/images/monsters/14.png'
 }
-const globalVar = {}
 class Board extends React.Component {
   componentDidMount() {
     socket.on('play card', data => {
@@ -25,19 +24,20 @@ class Board extends React.Component {
         `${data.name} was played!\n${data.attack} attack points\n${data.health} defense points`
       )
       this.props.loadGame(this.props.match.params.id)
-      // this.props.saveGame(this.props.match.params.id, this.props.gameState)
+    })
+    socket.on('end turn', () => {
+      console.log(`ended their turn`)
+      this.props.loadGame(this.props.match.params.id)
     })
 
     socket.on('attack', data => {
       console.log(`${data.attacker.name} attacked ${data.defender.name}!`)
       this.props.loadGame(this.props.match.params.id)
-      // this.props.saveGame(this.props.match.params.id, this.props.gameState)
     })
 
     socket.on('draw card', () => {
       console.log('A card was drawn!')
       this.props.loadGame(this.props.match.params.id)
-      // this.props.saveGame(this.props.match.params.id, this.props.gameState)
     })
 
     this.props.loadGame(this.props.match.params.id)
@@ -46,9 +46,6 @@ class Board extends React.Component {
     if (this.props.isMyTurn) {
       this.props.saveGame(this.props.match.params.id, this.props.gameState)
     }
-    globalVar.load = () => {
-      this.props.loadGame(this.props.match.params.id)
-    }
   }
   componentDidUpdate() {
     if (this.props.isMyTurn)
@@ -56,7 +53,6 @@ class Board extends React.Component {
   }
 
   render() {
-    console.log('its my turn! ', this.props.isMyTurn)
     return (
       <DndProvider backend={Backend}>
         {!this.props.isFinished ? (

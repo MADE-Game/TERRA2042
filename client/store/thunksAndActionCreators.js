@@ -62,9 +62,15 @@ const hurtByDrawnCard = hero => ({
   hero
 })
 
-export const endTurn = () => ({
+const endedTurn = () => ({
   type: END_TURN
 })
+
+export const endTurn = () => dispatch => {
+  socket.emit('end turn')
+  console.log('emitted')
+  dispatch(endedTurn())
+}
 
 export const playerPlayCard = (hero, card) => {
   const result = engine.payCost(hero, card)
