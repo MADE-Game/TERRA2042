@@ -46,13 +46,7 @@ export const me = () => async dispatch => {
 export const auth = (email, password, method, userName) => async dispatch => {
   let res
   try {
-    let collections = []
-    let defaultDeck = {
-      name: 'defaultDeck',
-      cards: {name: 'Sample Card'},
-      isDeck: true
-    }
-    collections.push(defaultDeck)
+    const collections = []
     res = await axios.post(`/auth/${method}`, {
       email,
       password,
@@ -70,12 +64,14 @@ export const auth = (email, password, method, userName) => async dispatch => {
   }
 }
 
-export const getAllUserCollections = () => {
+export const getAllUserCollections = id => {
   return async dispatch => {
-    const {data: collections} = await axios.get('/api/collections')
+    const {data: collections} = await axios.get(`/api/collections/${id}`)
+
     let theCollections = collections.map(function(collection) {
       return {...collection.cards}
     })
+    console.log('logging theCollections allUserColl', theCollections)
     dispatch(gotAllCollections(theCollections))
   }
 }
@@ -83,7 +79,7 @@ export const getAllUserCollections = () => {
 export const getCollectionCards = () => {
   return async dispatch => {
     const {data: collections} = await axios.get('/api/collections/')
-
+    console.log('logging collections in thunk', collections)
     const collection = collections[0]
     dispatch(gotCollection(collection))
   }
@@ -107,7 +103,7 @@ export default function(state = initialState, action) {
     case GET_USER:
       return {...state, ...action.user}
     case REMOVE_USER:
-      return {...state, user: state.defaultUser}
+      return initialState
     case ALL_COLLECTIONS_FOR_USER:
       return {...state, collections: action.collections}
     case ALL_CARDS_IN_COLLECTION:

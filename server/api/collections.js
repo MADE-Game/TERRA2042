@@ -2,11 +2,11 @@ const router = require('express').Router()
 const {Collection} = require('../db/models')
 module.exports = router
 
-//all collections
-router.get('/', async (req, res, next) => {
+//all of a user's collections
+router.get('/:userId', async (req, res, next) => {
   try {
-    const collections = await Collection.find({
-      userId: req.user.id
+    const collections = await Collection.findOne({
+      userId: req.params.userId
     })
     res.json(collections)
   } catch (err) {
