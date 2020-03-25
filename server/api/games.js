@@ -45,27 +45,30 @@ router.put('/save/:gameId', async (req, res, next) => {
   try {
     //converting to from redux form to database form
     const {data} = req.body
+
     //converting to from database form to redux form.
     const gameToSave = await Game.findById(req.params.gameId)
+    //establish what player makes this request.
+    const isPlayer1 = gameToSave.p1 === req.user._id.toString()
+    const isPlayer2 = gameToSave.p2 === req.user._id.toString()
+
+    const isMyTurn = gameToSave.isP1Turn && isPlayer1
+    if (!isPlayer1 && !isPlayer2) {
+      return res.status(401).send('you are not a player of this game!')
+    }
+    if (!isMyTurn) {
+      return res.status(401).send('it is not your turn!')
+    }
     const objectifiedGame = objectifyBoard(
       req.body,
       {p1: gameToSave.p1, game: JSON.parse(gameToSave.game)},
       req.user._id
     )
-    validateBoard(
-      objectifiedGame,
-      {...gameToSave, game: JSON.parse(gameToSave.game)},
-      req.user._id.toString()
-    ) //will throw error on invalid move.
     gameToSave.game = JSON.stringify(objectifiedGame)
     gameToSave.isFinished = data.isFinished
-    gameToSave.isP1Turn = data.isP1Turn
     await gameToSave.save()
     res.json(gameToSave)
   } catch (error) {
-    if (error.message.startsWith('Invalid move!')) {
-      return res.status(401).send(error.message)
-    }
     next(error)
   }
 })
