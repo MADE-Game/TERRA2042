@@ -54,7 +54,6 @@ class Board extends React.Component {
   }
 
   render() {
-    console.log('its my turn! ', this.props.isMyTurn)
     return (
       <DndProvider backend={Backend}>
         {!this.props.isFinished ? (

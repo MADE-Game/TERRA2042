@@ -44,7 +44,6 @@ router.get('/userCollection', async (req, res, next) => {
 
 //create new collection
 router.post('/', async (req, res, next) => {
-  console.log(req.body.id)
   try {
     const collection = new Collection({
       userId: req.body.userId,

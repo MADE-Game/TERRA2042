@@ -16,19 +16,27 @@ export default class Room extends Component {
     socket.emit('join', {roomId: this.props.match.params.roomId})
     socket.on('join', data => {
       if (data.numPpl === 2) {
-        console.log('emit id exchange') // incog
         socket.emit('id exchange', {
-          pId: user._id,
+          oppId: user._id,
           roomId: this.props.match.params.roomId
         })
       }
     })
+
     socket.on('id exchange', data => {
-      console.log('hurd id exchange') // me
-      this.startGame(user._id, data.pId)
+      if (socket.id === data.host) this.startGame(user._id, data.oppId)
     })
-    socket.on('game started', data => {
-      console.log('hurd game started') // incog
+
+    socket.on('game started', async data => {
+      await axios.put(`/api/users/${user._id}`, {
+        email: user.email,
+        userName: user.userName,
+        imgUrl: user.imgUrl,
+        collections: user.collections,
+        games: user.games.includes(data.gameId)
+          ? user.games
+          : [...user.games, data.gameId]
+      })
       history.push(
         `/games/rooms/${this.props.match.params.roomId}/game/${data.gameId}`
       )
@@ -36,7 +44,6 @@ export default class Room extends Component {
   }
 
   async startGame(p1Id, p2Id) {
-    console.log('starting game') // me
     const {data: user} = await axios.get('/auth/me')
     const gameObj = {
       game: {
@@ -67,7 +74,9 @@ export default class Room extends Component {
       userName: user.userName,
       imgUrl: user.imgUrl,
       collections: user.collections,
-      games: [...user.games, game._id]
+      games: user.games.includes(game._id)
+        ? user.games
+        : [...user.games, game._id]
     })
 
     socket.emit('game started', {

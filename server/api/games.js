@@ -51,8 +51,6 @@ router.put('/save/:gameId', async (req, res, next) => {
   try {
     //converting to from redux form to database form
     const {data} = req.body
-    console.log('data', data)
-    console.log('data.isMyTurn', data.isMyTurn)
     //converting to from database form to redux form.
     const gameToSave = await Game.findById(req.params.gameId)
     //establish what player makes this request.
@@ -65,14 +63,6 @@ router.put('/save/:gameId', async (req, res, next) => {
     //subjectifies turn.
     const isMyTurn =
       (gameToSave.isP1Turn && isPlayer1) || (!gameToSave.isP1Turn && isPlayer2)
-    console.log(
-      'I AM PLAYER 1?',
-      isPlayer1,
-      'is p1 turn in db is',
-      gameToSave.isP1Turn,
-      'is my turn?',
-      isMyTurn
-    )
     if (!isMyTurn) {
       return res.status(401).send('it is not your turn!')
     }
@@ -83,7 +73,6 @@ router.put('/save/:gameId', async (req, res, next) => {
     )
     gameToSave.game = JSON.stringify(objectifiedGame)
     gameToSave.isFinished = data.isFinished
-    console.log('if Im player1 i will set is p1turn to ', data.isMyTurn)
 
     gameToSave.isP1Turn = isPlayer1 ? data.isMyTurn : !data.isMyTurn
     await gameToSave.save()
@@ -115,15 +104,24 @@ router.get('/running', async (req, res, next) => {
 
 router.post('/newGame', async (req, res, next) => {
   try {
-    const game = new Game({
-      game: JSON.stringify(req.body.game),
+    const game = await Game.findOne({
       p1: req.body.p1,
       p2: req.body.p2,
-      isFinished: false,
-      isP1Turn: true
+      isFinished: false
     })
-    const savedGame = await game.save()
-    res.json(savedGame)
+
+    if (game) {
+      return res.json(game)
+    } else {
+      const newGame = await Game.create({
+        game: JSON.stringify(req.body.game),
+        p1: req.body.p1,
+        p2: req.body.p2,
+        isFinished: false,
+        isP1Turn: true
+      })
+      return res.json(newGame)
+    }
   } catch (error) {
     next(error)
   }
