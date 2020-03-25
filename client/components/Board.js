@@ -7,7 +7,8 @@ import {
   getAllCards,
   loadGame,
   endTurn,
-  saveGame
+  saveGame,
+  startTurn
 } from '../store/thunksAndActionCreators'
 import {socket} from './Games'
 
@@ -27,6 +28,8 @@ class Board extends React.Component {
     })
     socket.on('end turn', () => {
       console.log(`ended their turn`)
+      //while race condition with saves exist...
+      this.props.startTurn()
       this.props.loadGame(this.props.match.params.id)
     })
 
@@ -37,7 +40,7 @@ class Board extends React.Component {
 
     socket.on('draw card', () => {
       console.log('A card was drawn!')
-      this.props.loadGame(this.props.match.params.id)
+      //this.props.loadGame(this.props.match.params.id)
     })
 
     this.props.loadGame(this.props.match.params.id)
@@ -99,7 +102,8 @@ const mapDispatchToProps = dispatch => {
     getAllCards: () => dispatch(getAllCards()),
     loadGame: id => dispatch(loadGame(id)),
     endTurn: () => dispatch(endTurn()),
-    saveGame: (id, gameState) => dispatch(saveGame(id, gameState))
+    saveGame: (id, gameState) => dispatch(saveGame(id, gameState)),
+    startTurn: () => dispatch(startTurn())
   }
 }
 

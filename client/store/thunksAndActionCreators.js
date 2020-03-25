@@ -9,7 +9,8 @@ import {
   LOAD_GAME,
   SAVE_GAME,
   END_TURN,
-  HURT_BY_DRAW
+  HURT_BY_DRAW,
+  START_TURN
 } from './actionTypes'
 
 import engine from '../engine/index'
@@ -65,11 +66,17 @@ const hurtByDrawnCard = hero => ({
 const endedTurn = () => ({
   type: END_TURN
 })
+const startedTurn = () => ({
+  type: START_TURN
+})
 
 export const endTurn = () => dispatch => {
   socket.emit('end turn')
   console.log('emitted')
   dispatch(endedTurn())
+}
+export const startTurn = () => dispatch => {
+  dispatch(startedTurn())
 }
 
 export const playerPlayCard = (hero, card) => {
@@ -81,6 +88,7 @@ export const playerPlayCard = (hero, card) => {
   }
   return dispatch => {
     socket.emit('play card', card)
+    console.log('emitted')
     dispatch(playerPlayedCard(hero, card))
   }
 }
@@ -117,6 +125,7 @@ export const playerDrawCard = deck => {
   const {newDeck, card} = engine.drawCard(deck)
   return dispatch => {
     socket.emit('draw card')
+    console.log('emitted')
     dispatch(playerDrewCard(newDeck, card))
   }
 }
