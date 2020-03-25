@@ -18,7 +18,9 @@ const GAMENSP = gameNsp => {
     socket.on('join', data => {
       socket.join(`room${data.id}`)
     })
-
+    socket.on('move made', data => {
+      socket.to('room1').emit('move made')
+    })
     socket.on('play card', data => {
       console.log('emitting from gameNSP')
       socket.to('room1').emit('play card', data)

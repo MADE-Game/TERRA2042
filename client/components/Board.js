@@ -20,28 +20,33 @@ const playerSide = {
 }
 class Board extends React.Component {
   componentDidMount() {
-    socket.on('play card', data => {
-      console.log(
-        `${data.name} was played!\n${data.attack} attack points\n${data.health} defense points`
-      )
+    socket.emit('join', {id: 1})
+    socket.on('move made', data => {
+      console.log('move made')
       this.props.loadGame(this.props.match.params.id)
     })
-    socket.on('end turn', () => {
-      console.log(`ended their turn`)
-      //while race condition with saves exist...
-      this.props.startTurn()
-      this.props.loadGame(this.props.match.params.id)
-    })
+    // socket.on('play card', data => {
+    //   console.log(
+    //     `${data.name} was played!\n${data.attack} attack points\n${data.health} defense points`
+    //   )
+    //   this.props.loadGame(this.props.match.params.id)
+    // })
+    // socket.on('end turn', () => {
+    //   console.log(`ended their turn`)
+    //   //while race condition with saves exist...
+    //   this.props.startTurn()
+    //   this.props.loadGame(this.props.match.params.id)
+    // })
 
-    socket.on('attack', data => {
-      console.log(`${data.attacker.name} attacked ${data.defender.name}!`)
-      this.props.loadGame(this.props.match.params.id)
-    })
+    // socket.on('attack', data => {
+    //   console.log(`${data.attacker.name} attacked ${data.defender.name}!`)
+    //   this.props.loadGame(this.props.match.params.id)
+    // })
 
-    socket.on('draw card', () => {
-      console.log('A card was drawn!')
-      //this.props.loadGame(this.props.match.params.id)
-    })
+    // socket.on('draw card', () => {
+    //   console.log('A card was drawn!')
+    //   //this.props.loadGame(this.props.match.params.id)
+    // })
 
     this.props.loadGame(this.props.match.params.id)
     //this line is for testing, and initializes the players deck with all the cards in the database.
@@ -102,7 +107,10 @@ const mapDispatchToProps = dispatch => {
     getAllCards: () => dispatch(getAllCards()),
     loadGame: id => dispatch(loadGame(id)),
     endTurn: () => dispatch(endTurn()),
-    saveGame: (id, gameState) => dispatch(saveGame(id, gameState)),
+    saveGame: async (id, gameState) => {
+      await dispatch(saveGame(id, gameState))
+      socket.emit('move made')
+    },
     startTurn: () => dispatch(startTurn())
   }
 }
