@@ -31,3 +31,49 @@ router.get('/userCollection', async (req, res, next) => {
     next(err)
   }
 })
+
+//create new collection
+router.post('/', async (req, res, next) => {
+  console.log(req.body.id)
+  try {
+    const collection = new Collection({
+      userId: req.body.userId,
+      name: req.body.name,
+      cards: req.body.cards,
+      isDeck: req.body.isDeck
+    })
+    const savedCollection = await collection.save()
+    res.json(savedCollection)
+  } catch (err) {
+    next(err)
+  }
+})
+
+//delete collection
+router.delete('/:collectionId', async (req, res, next) => {
+  try {
+    const collection = await Collection.findByIdAndRemove(
+      req.params.collectionId
+    )
+    res.json(collection)
+  } catch (err) {
+    next(err)
+  }
+})
+
+//update collection info
+router.put('/:collectionId', async (req, res, next) => {
+  try {
+    const collection = await Collection.findByIdAndUpdate(
+      req.params.collectionId,
+      {
+        cards: req.body.cards,
+        name: req.body.name,
+        isDeck: req.body.isDeck
+      }
+    )
+    res.json(collection)
+  } catch (err) {
+    next(err)
+  }
+})
