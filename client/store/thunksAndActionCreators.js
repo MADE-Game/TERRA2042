@@ -70,10 +70,9 @@ const startedTurn = () => ({
   type: START_TURN
 })
 
-export const endTurn = () => dispatch => {
+export const endTurn = () => async dispatch => {
+  await dispatch(endedTurn())
   socket.emit('end turn')
-  console.log('emitted')
-  dispatch(endedTurn())
 }
 export const startTurn = () => dispatch => {
   dispatch(startedTurn())
@@ -82,14 +81,14 @@ export const startTurn = () => dispatch => {
 export const playerPlayCard = (hero, card) => {
   const result = engine.payCost(hero, card)
   if (result.settlers <= 0) {
-    return dispatch => {
-      dispatch(playerHeroDied())
+    return async dispatch => {
+      await dispatch(playerHeroDied())
     }
   }
-  return dispatch => {
-    socket.emit('play card', card)
+  return async dispatch => {
     console.log('emitted')
-    dispatch(playerPlayedCard(hero, card))
+    await dispatch(playerPlayedCard(hero, card))
+    socket.emit('play card', card)
   }
 }
 //Retrieves all cards from the database
@@ -111,22 +110,21 @@ export const getAllCards = () => {
 //card[attacker].
 export const playerAttackCard = (attacker, defender) => {
   const result = engine.attack(attacker, defender)
-  return dispatch => {
+  return async dispatch => {
+    await dispatch(playerAttackedCard(...result))
     socket.emit('attack', {
       attacker: result[0],
       defender: result[1]
     })
-    dispatch(playerAttackedCard(...result))
   }
 }
 
 //a player draws a card from their deck and adds it to their hand
 export const playerDrawCard = deck => {
   const {newDeck, card} = engine.drawCard(deck)
-  return dispatch => {
+  return async dispatch => {
+    await dispatch(playerDrewCard(newDeck, card))
     socket.emit('draw card')
-    console.log('emitted')
-    dispatch(playerDrewCard(newDeck, card))
   }
 }
 export const playerAttackHero = (attacker, hero) => {
