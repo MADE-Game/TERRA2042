@@ -15,6 +15,7 @@ class CollectionList extends Component {
   }
 
   render() {
+    console.log('logging selectedCollection', this.props.selectedCollection)
     if (this.props.selectedCollection.cards) {
       return (
         <div>

@@ -1,9 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Navbar, Login} from './components'
+import {Navbar, Login, Signup} from './components'
 import Routes from './routes'
 import Chat from './components/Chat'
 import {me} from './store'
+import {Route, Switch} from 'react-router-dom'
 
 class App extends React.Component {
   componentDidMount() {
@@ -19,7 +20,11 @@ class App extends React.Component {
             {/* <Chat /> */}
           </div>
         ) : (
-          <Login />
+          <Switch>
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route exact path="/" component={Login} />
+          </Switch>
         )}
       </div>
     )

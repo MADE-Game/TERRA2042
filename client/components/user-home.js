@@ -49,7 +49,7 @@ export class UserHome extends React.Component {
               </div>
               <p className="vertSpace"></p>
               <div>
-                <Link to="/collection">
+                <Link to="/decks">
                   <button type="submit" className="buttonStyle3 bigger-button">
                     My Collection
                   </button>

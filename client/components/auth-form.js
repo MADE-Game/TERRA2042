@@ -45,11 +45,19 @@ const AuthForm = props => {
             <button type="submit" className="buttonStyle1">
               {displayName}
             </button>
-            {displayName === 'Login' && (
+            {displayName === 'Login' ? (
               <Link to="/signup">
                 <div>
                   <button type="submit" className="buttonStyle1">
                     Sign Up
+                  </button>
+                </div>
+              </Link>
+            ) : (
+              <Link to="/login">
+                <div>
+                  <button type="submit" className="buttonStyle1">
+                    Login
                   </button>
                 </div>
               </Link>
@@ -94,9 +102,14 @@ const mapDispatch = dispatch => {
     handleSubmit(evt) {
       evt.preventDefault()
       const formName = evt.target.name
-      const email = evt.target.email.value
+
+      let email = ''
+      if (evt.target.email) {
+        email = evt.target.email.value
+      }
       const password = evt.target.password.value
       const username = evt.target.username.value
+
       dispatch(auth(email, password, formName, username))
     }
   }

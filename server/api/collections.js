@@ -5,7 +5,9 @@ module.exports = router
 //all collections
 router.get('/', async (req, res, next) => {
   try {
-    const collections = await Collection.find()
+    const collections = await Collection.find({
+      userId: req.user.id
+    })
     res.json(collections)
   } catch (err) {
     next(err)
@@ -23,6 +25,14 @@ router.get('/:collectionId', async (req, res, next) => {
 })
 
 //one collection for a user
+// router.get('/userCollection', async (req, res, next) => {
+//   try {
+//     const collection = await Collection.findOne({userId: req.user.id})
+//     res.json(collection)
+//   } catch (err) {
+//     next(err)
+//   }
+// })
 router.get('/userCollection', async (req, res, next) => {
   try {
     const collection = await Collection.findOne({userId: req.user.id})
