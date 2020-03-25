@@ -50,20 +50,24 @@ const Side = props => {
             player={props.player}
             side="bottom"
           />
-          {props.player.deck.length ? (
-            <button
-              type="submit"
-              onClick={() => props.drawCard(props.player.deck)}
-            >
-              Draw Card Button
-            </button>
+          {props.canDraw ? (
+            props.player.deck.length ? (
+              <button
+                type="submit"
+                onClick={() => props.drawCard(props.player.deck)}
+              >
+                Draw Card Button
+              </button>
+            ) : (
+              <button
+                type="submit"
+                onClick={() => props.hurtByDraw(props.player)}
+              >
+                Draw Card Button
+              </button>
+            )
           ) : (
-            <button
-              type="submit"
-              onClick={() => props.hurtByDraw(props.player)}
-            >
-              Draw Card Button
-            </button>
+            ''
           )}
         </div>
       )}
@@ -79,7 +83,8 @@ const mapStateToProps = function(state) {
     hand: state.game.player.hand,
     opponent: state.game.opponent,
     player: state.game.player,
-    planeFull: state.game.player.planeFull
+    planeFull: state.game.player.planeFull,
+    canDraw: state.game.data.isMyTurn
   }
 }
 
