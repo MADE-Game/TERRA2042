@@ -10,7 +10,7 @@ import {
   saveGame,
   startTurn
 } from '../store/thunksAndActionCreators'
-import {socket} from './Games'
+import {socket} from './Room'
 
 const enemySide = {
   heroUrl: '/images/monsters/11.png'
@@ -20,11 +20,7 @@ const playerSide = {
 }
 class Board extends React.Component {
   componentDidMount() {
-    socket.emit('join', {id: 1})
-    // socket.on('move made', data => {
-    //   console.log('move made')
-    //   this.props.loadGame(this.props.match.params.id)
-    // })
+    socket.emit('join', {roomId: this.props.match.params.roomId})
     socket.on('play card', data => {
       console.log(
         `${data.name} was played!\n${data.attack} attack points\n${data.health} defense points`
@@ -91,7 +87,6 @@ class Board extends React.Component {
     )
   }
 }
-// need to move into class
 
 const mapStateToProps = state => {
   return {

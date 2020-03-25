@@ -11,11 +11,9 @@ class CollectionList extends Component {
   componentDidMount() {
     this.props.loadInitialData(this.props.user._id)
     this.props.loadCards()
-    // console.log(this.props)
   }
 
   render() {
-    console.log('logging Props in CollectionList', this.props)
     if (this.props.selectedCollection.cards) {
       return (
         <div>
@@ -46,7 +44,6 @@ class CollectionList extends Component {
   }
 }
 const mapState = state => {
-  console.log(state)
   return {
     userCollections: state.user.collections,
 

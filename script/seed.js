@@ -3,112 +3,113 @@ const {ObjectId} = require('mongodb')
 const seeder = require('mongoose-seed')
 
 const cardDocs = []
-const gameDocs = [
-  {
-    _id: ObjectId('111111111111111111111110'),
-    game: JSON.stringify({
-      player2: {
-        hand: [
-          // {
-          //   id: 13,
-          //   name: 'handtest',
-          //   attack: 1,
-          //   health: 2,
-          //   imageUrl: `/images/monsters/1.png`
-          // }
-        ],
-        deck: [
-          // {
-          //   id: 12,
-          //   name: 'decktest',
-          //   attack: 1,
-          //   health: 2,
-          //   imageUrl: `/images/monsters/2.png`
-          // }
-        ],
-        inPlay: [
-          // {
-          //   id: 11,
-          //   name: 'inplaytest',
-          //   attack: 1,
-          //   health: 2,
-          //   imageUrl: `/images/monsters/4.png`
-          // }
-        ],
-        settlers: 10
-      },
-      player1: {
-        hand: [],
-        deck: [],
-        inPlay: [],
-        settlers: 10
-      }
-    }),
-    isFinished: false,
-    isP1Turn: true,
-    p1: '111111111111111111111111',
-    p2: '111111111111111111111112'
-  },
+// const gameDocs = [
+//   {
+//     _id: ObjectId('111111111111111111111110'),
+//     game: JSON.stringify({
+//       player2: {
+//         hand: [
+//           // {
+//           //   id: 13,
+//           //   name: 'handtest',
+//           //   attack: 1,
+//           //   health: 2,
+//           //   imageUrl: `/images/monsters/1.png`
+//           // }
+//         ],
+//         deck: [
+//           // {
+//           //   id: 12,
+//           //   name: 'decktest',
+//           //   attack: 1,
+//           //   health: 2,
+//           //   imageUrl: `/images/monsters/2.png`
+//           // }
+//         ],
+//         inPlay: [
+//           // {
+//           //   id: 11,
+//           //   name: 'inplaytest',
+//           //   attack: 1,
+//           //   health: 2,
+//           //   imageUrl: `/images/monsters/4.png`
+//           // }
+//         ],
+//         settlers: 10
+//       },
+//       player1: {
+//         hand: [],
+//         deck: [],
+//         inPlay: [],
+//         settlers: 10
+//       }
+//     }),
+//     isFinished: false,
+//     isP1Turn: true,
+//     p1: '111111111111111111111111',
+//     p2: '111111111111111111111112'
+//   },
 
-  {
-    _id: ObjectId('111111111111111111111112'),
-    game: JSON.stringify({
-      player2: {
-        hand: [
-          // {
-          //   id: 13,
-          //   name: 'handtest',
-          //   attack: 1,
-          //   health: 2,
-          //   imageUrl: `/images/monsters/1.png`
-          // }
-        ],
-        deck: [
-          // {
-          //   id: 12,
-          //   name: 'decktest',
-          //   attack: 1,
-          //   health: 2,
-          //   imageUrl: `/images/monsters/2.png`
-          // }
-        ],
-        inPlay: [
-          // {
-          //   id: 11,
-          //   name: 'inplaytest',
-          //   attack: 1,
-          //   health: 2,
-          //   imageUrl: `/images/monsters/4.png`
-          // }
-        ],
-        settlers: 10
-      },
-      player1: {
-        hand: [],
-        deck: [],
-        inPlay: [],
-        settlers: 10
-      }
-    }),
-    isFinished: false,
-    isP1Turn: true,
-    p1: '111111111111111111111111',
-    p2: '111111111111111111111112'
-  }
-]
+//   {
+//     _id: ObjectId('111111111111111111111112'),
+//     game: JSON.stringify({
+//       player2: {
+//         hand: [
+//           // {
+//           //   id: 13,
+//           //   name: 'handtest',
+//           //   attack: 1,
+//           //   health: 2,
+//           //   imageUrl: `/images/monsters/1.png`
+//           // }
+//         ],
+//         deck: [
+//           // {
+//           //   id: 12,
+//           //   name: 'decktest',
+//           //   attack: 1,
+//           //   health: 2,
+//           //   imageUrl: `/images/monsters/2.png`
+//           // }
+//         ],
+//         inPlay: [
+//           // {
+//           //   id: 11,
+//           //   name: 'inplaytest',
+//           //   attack: 1,
+//           //   health: 2,
+//           //   imageUrl: `/images/monsters/4.png`
+//           // }
+//         ],
+//         settlers: 10
+//       },
+//       player1: {
+//         hand: [],
+//         deck: [],
+//         inPlay: [],
+//         settlers: 10
+//       }
+//     }),
+//     isFinished: false,
+//     isP1Turn: true,
+//     p1: '111111111111111111111111',
+//     p2: '111111111111111111111112'
+//   }
+// ]
+
 const userDocs = [
   {
-    _id: ObjectId('111111111111111111111111'),
+    // _id: ObjectId('111111111111111111111111'),
     email: 'cmax1018@gmail.com',
     password: 'abc',
-    games: [ObjectId('111111111111111111111110')],
+    games: [],
     userName: 'max'
   },
   {
-    _id: ObjectId('111111111111111111111112'),
+    // _id: ObjectId('111111111111111111111112'),
     email: 'opp@gmail.com',
     password: 'abc',
-    games: [ObjectId('111111111111111111111110')],
+    games: [],
     userName: 'opp'
   }
 ]
@@ -163,10 +164,10 @@ const data = [
     documents: cardDocs
   },
 
-  {
-    model: 'game',
-    documents: gameDocs
-  },
+  // {
+  //   model: 'game',
+  //   documents: gameDocs
+  // },
   {
     model: 'user',
     documents: userDocs

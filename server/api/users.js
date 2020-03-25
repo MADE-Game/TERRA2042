@@ -53,7 +53,10 @@ router.put('/:userId', async (req, res, next) => {
   try {
     const user = await User.findByIdAndUpdate(req.params.userId, {
       email: req.body.email,
-      userName: req.body.userName
+      userName: req.body.userName,
+      imgUrl: req.body.imgUrl,
+      games: req.body.games,
+      collections: req.body.collections
     })
     res.json(user)
   } catch (err) {

@@ -15,7 +15,7 @@ import {
 
 import engine from '../engine/index'
 import Axios from 'axios'
-import {socket} from '../components/Games'
+import {socket} from '../components/Room'
 
 const gotAllCards = cards => ({
   type: GET_ALL_CARDS,
