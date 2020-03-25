@@ -46,22 +46,33 @@ router.get('/load/:gameId', async (req, res, next) => {
     next(error)
   }
 })
+// eslint-disable-next-line complexity
 router.put('/save/:gameId', async (req, res, next) => {
   try {
     //converting to from redux form to database form
     const {data} = req.body
-
+    console.log('data', data)
+    console.log('data.isMyTurn', data.isMyTurn)
     //converting to from database form to redux form.
     const gameToSave = await Game.findById(req.params.gameId)
     //establish what player makes this request.
     const isPlayer1 = gameToSave.p1 === req.user._id.toString()
     const isPlayer2 = gameToSave.p2 === req.user._id.toString()
-
-    const isMyTurn =
-      (gameToSave.isP1Turn && isPlayer1) || (!gameToSave.isP1Turn && isPlayer2)
+    //checks both users.
     if (!isPlayer1 && !isPlayer2) {
       return res.status(401).send('you are not a player of this game!')
     }
+    //subjectifies turn.
+    const isMyTurn =
+      (gameToSave.isP1Turn && isPlayer1) || (!gameToSave.isP1Turn && isPlayer2)
+    console.log(
+      'I AM PLAYER 1?',
+      isPlayer1,
+      'is p1 turn in db is',
+      gameToSave.isP1Turn,
+      'is my turn?',
+      isMyTurn
+    )
     if (!isMyTurn) {
       return res.status(401).send('it is not your turn!')
     }
@@ -72,6 +83,9 @@ router.put('/save/:gameId', async (req, res, next) => {
     )
     gameToSave.game = JSON.stringify(objectifiedGame)
     gameToSave.isFinished = data.isFinished
+    console.log('if Im player1 i will set is p1turn to ', data.isMyTurn)
+
+    gameToSave.isP1Turn = isPlayer1 ? data.isMyTurn : !data.isMyTurn
     await gameToSave.save()
     res.json(gameToSave)
   } catch (error) {

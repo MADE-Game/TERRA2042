@@ -43,16 +43,17 @@ class Board extends React.Component {
     this.props.loadGame(this.props.match.params.id)
     //this line is for testing, and initializes the players deck with all the cards in the database.
     if (this.props.gameState.player.deck.length === 0) this.props.getAllCards()
+    this.props.saveGame(this.props.match.params.id, this.props.gameState)
     globalVar.load = () => {
       this.props.loadGame(this.props.match.params.id)
     }
   }
   componentDidUpdate() {
-    if (this.props.isMyTurn)
-      this.props.saveGame(this.props.match.params.id, this.props.gameState)
+    this.props.saveGame(this.props.match.params.id, this.props.gameState)
   }
 
   render() {
+    console.log('its my turn! ', this.props.isMyTurn)
     return (
       <DndProvider backend={Backend}>
         {!this.props.isFinished ? (
@@ -60,9 +61,13 @@ class Board extends React.Component {
             ENEMY SIDE:
             <Side top={true} side={enemySide} />
             PLAYER SIDE:
-            <button type="button" onClick={this.props.endTurn}>
-              End Turn
-            </button>
+            {this.props.isMyTurn ? (
+              <button type="button" onClick={this.props.endTurn}>
+                End Turn
+              </button>
+            ) : (
+              'not my turn'
+            )}
             <Side side={playerSide} />
           </div>
         ) : (
