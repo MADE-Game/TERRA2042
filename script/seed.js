@@ -101,13 +101,15 @@ const userDocs = [
     _id: ObjectId('111111111111111111111111'),
     email: 'cmax1018@gmail.com',
     password: 'abc',
-    games: [ObjectId('111111111111111111111110')]
+    games: [ObjectId('111111111111111111111110')],
+    userName: 'max'
   },
   {
     _id: ObjectId('111111111111111111111112'),
     email: 'opp@gmail.com',
     password: 'abc',
-    games: [ObjectId('111111111111111111111110')]
+    games: [ObjectId('111111111111111111111110')],
+    userName: 'opp'
   }
 ]
 
