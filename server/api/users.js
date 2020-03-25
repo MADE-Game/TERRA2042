@@ -25,10 +25,11 @@ router.get('/:userId', async (req, res, next) => {
 //new user
 router.post('/ ', async (req, res, next) => {
   try {
+    // console.log('logging in Post - req.body', req.body)
     const user = new User({
       email: req.body.email,
       userName: req.body.userName,
-      colletions: req.body.colletions,
+      collections: req.body.collections,
       googleId: req.body.googleId
     })
     const savedUser = await user.save()
@@ -51,6 +52,7 @@ router.delete('/:userId', async (req, res, next) => {
 //update user info
 router.put('/:userId', async (req, res, next) => {
   try {
+    console.log('signup is hitting this')
     const user = await User.findByIdAndUpdate(req.params.userId, {
       email: req.body.email,
       userName: req.body.userName
