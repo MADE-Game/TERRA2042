@@ -6,6 +6,7 @@ import {
 } from '../actionTypes'
 
 const initialState = {
+  localTurn: false,
   isFinished: false,
   isMyTurn: true,
   winner: ''
@@ -14,7 +15,11 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case LOAD_GAME:
-      return {...state, isMyTurn: action.game.game.data.isMyTurn}
+      return {
+        ...state,
+        isMyTurn: action.game.game.data.isMyTurn,
+        localTurn: action.game.game.data.isMyTurn
+      }
     case END_TURN:
       return {...state, isMyTurn: false}
     case PLAYER_HERO_DEAD:

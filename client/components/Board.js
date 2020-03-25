@@ -43,13 +43,16 @@ class Board extends React.Component {
     this.props.loadGame(this.props.match.params.id)
     //this line is for testing, and initializes the players deck with all the cards in the database.
     if (this.props.gameState.player.deck.length === 0) this.props.getAllCards()
-    this.props.saveGame(this.props.match.params.id, this.props.gameState)
+    if (this.props.isMyTurn) {
+      this.props.saveGame(this.props.match.params.id, this.props.gameState)
+    }
     globalVar.load = () => {
       this.props.loadGame(this.props.match.params.id)
     }
   }
   componentDidUpdate() {
-    this.props.saveGame(this.props.match.params.id, this.props.gameState)
+    if (this.props.isMyTurn)
+      this.props.saveGame(this.props.match.params.id, this.props.gameState)
   }
 
   render() {
@@ -85,7 +88,7 @@ const mapStateToProps = state => {
     cards: state.game.cards,
     inPlay: state.game.player.inPlay,
     gameState: state.game,
-    isMyTurn: state.game.data.isMyTurn
+    isMyTurn: state.game.data.localTurn
   }
 }
 const mapDispatchToProps = dispatch => {
