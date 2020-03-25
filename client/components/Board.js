@@ -9,42 +9,7 @@ import {
   endTurn,
   saveGame
 } from '../store/thunksAndActionCreators'
-
-import io from 'socket.io-client'
-const socket = io()
-
-const dummyProps = {
-  name: 'Test',
-  imageUrl: '/images/monsters/1.png',
-  attack: 1,
-  defense: 4,
-  cost: 1,
-  id: 1
-}
-const dummyProps2 = {
-  name: 'Test',
-  imageUrl: '/images/monsters/3.png',
-  attack: 1,
-  defense: 4,
-  cost: 1,
-  id: 2
-}
-const dummyProps3 = {
-  name: 'Test',
-  imageUrl: '/images/monsters/4.png',
-  attack: 1,
-  defense: 4,
-  cost: 1,
-  id: 3
-}
-const dummyProps4 = {
-  name: 'Test',
-  imageUrl: '/images/monsters/2.png',
-  attack: 1,
-  defense: 4,
-  cost: 1,
-  id: 4
-}
+import {socket} from './Games'
 
 const enemySide = {
   heroUrl: '/images/monsters/11.png'
@@ -52,16 +17,40 @@ const enemySide = {
 const playerSide = {
   heroUrl: '/images/monsters/14.png'
 }
-
+const globalVar = {}
 class Board extends React.Component {
-  async componentDidMount() {
-    await this.props.loadGame()
+  componentDidMount() {
+    socket.on('play card', data => {
+      console.log(
+        `${data.name} was played!\n${data.attack} attack points\n${data.health} defense points`
+      )
+      this.props.loadGame(this.props.match.params.id)
+      // this.props.saveGame(this.props.match.params.id, this.props.gameState)
+    })
+
+    socket.on('attack', data => {
+      console.log(`${data.attacker.name} attacked ${data.defender.name}!`)
+      this.props.loadGame(this.props.match.params.id)
+      // this.props.saveGame(this.props.match.params.id, this.props.gameState)
+    })
+
+    socket.on('draw card', () => {
+      console.log('A card was drawn!')
+      this.props.loadGame(this.props.match.params.id)
+      // this.props.saveGame(this.props.match.params.id, this.props.gameState)
+    })
+
+    this.props.loadGame(this.props.match.params.id)
     //this line is for testing, and initializes the players deck with all the cards in the database.
     if (this.props.gameState.player.deck.length === 0) this.props.getAllCards()
+    globalVar.load = () => {
+      this.props.loadGame(this.props.match.params.id)
+    }
   }
   componentDidUpdate() {
-    this.props.saveGame(this.props.gameState)
+    this.props.saveGame(this.props.match.params.id, this.props.gameState)
   }
+
   render() {
     return (
       <DndProvider backend={Backend}>
@@ -88,23 +77,7 @@ class Board extends React.Component {
     )
   }
 }
-
-socket.on('play card', data => {
-  // eslint-disable-next-line no-alert
-  alert(
-    `${data.name} was played!\n${data.attack} attack points\n${data.defense} defense points`
-  )
-})
-
-socket.on('attack', data => {
-  // eslint-disable-next-line no-alert
-  alert(`${data.attacker.name} attacked ${data.defender.name}!`)
-})
-
-socket.on('draw card', () => {
-  // eslint-disable-next-line no-alert
-  alert('A card was drawn!')
-})
+// need to move into class
 
 const mapStateToProps = state => {
   return {
@@ -117,9 +90,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getAllCards: () => dispatch(getAllCards()),
-    loadGame: () => dispatch(loadGame()),
+    loadGame: id => dispatch(loadGame(id)),
     endTurn: () => dispatch(endTurn()),
-    saveGame: gameState => dispatch(saveGame(gameState))
+    saveGame: (id, gameState) => dispatch(saveGame(id, gameState))
   }
 }
 

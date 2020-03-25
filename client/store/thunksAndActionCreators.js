@@ -13,9 +13,8 @@ import {
 } from './actionTypes'
 
 import engine from '../engine/index'
-import io from 'socket.io-client'
 import Axios from 'axios'
-const socket = io()
+import {socket} from '../components/Games'
 
 const gotAllCards = cards => ({
   type: GET_ALL_CARDS,
@@ -99,11 +98,11 @@ export const getAllCards = () => {
 export const playerAttackCard = (attacker, defender) => {
   const result = engine.attack(attacker, defender)
   return dispatch => {
-    dispatch(playerAttackedCard(...result))
     socket.emit('attack', {
       attacker: result[0],
       defender: result[1]
     })
+    dispatch(playerAttackedCard(...result))
   }
 }
 
@@ -125,16 +124,16 @@ export const playerAttackHero = (attacker, hero) => {
     }
   }
 }
-export const loadGame = () => {
+export const loadGame = id => {
   return async dispatch => {
-    const {data: game} = await Axios.get('/api/games/load/test')
+    const {data: game} = await Axios.get(`/api/games/load/${id}`)
     //sends just the game board at the moment. No other data.
     dispatch(loadedGame(game.game))
   }
 }
-export const saveGame = gameState => {
+export const saveGame = (id, gameState) => {
   return async dispatch => {
-    await Axios.put('/api/games/save/test', gameState)
+    await Axios.put('/api/games/save/' + id, gameState)
     dispatch(savedGame())
   }
 }

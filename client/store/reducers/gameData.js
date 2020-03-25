@@ -2,6 +2,7 @@ import {PLAYER_HERO_DEAD, OPP_HERO_DEAD} from '../actionTypes'
 
 const initialState = {
   isFinished: false,
+  isMyTurn: true,
   winner: ''
 }
 

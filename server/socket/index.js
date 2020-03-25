@@ -5,22 +5,6 @@ const IO = io => {
     socket.on('disconnect', () => {
       console.log(`Connection ${socket.id} has left the building`)
     })
-
-    socket.on('send msg', data => {
-      io.emit('send msg', data)
-    })
-
-    socket.on('play card', data => {
-      io.emit('play card', data)
-    })
-
-    socket.on('attack', data => {
-      io.emit('attack', data)
-    })
-
-    socket.on('draw card', () => {
-      io.emit('draw card')
-    })
   })
 }
 
@@ -28,17 +12,28 @@ const GAMENSP = gameNsp => {
   gameNsp.on('connection', socket => {
     console.log(`A socket connection to games has been made: ${socket.id}`)
 
-    gameNsp.emit('welcome')
-
     socket.on('disconnect', () => {
       console.log(`Connection ${socket.id} has left the lobby`)
     })
 
     socket.on('join', data => {
       socket.join(`room${data.id}`)
-      // sends to all in "room${data.id}" except sender
-      // to include sender, use the .in method
-      gameNsp.to(`room${data.id}`).emit('join', data)
+    })
+
+    socket.on('play card', data => {
+      socket.to('room1').emit('play card', data)
+    })
+
+    socket.on('attack', data => {
+      socket.to('room1').emit('attack', data)
+    })
+
+    socket.on('draw card', () => {
+      socket.to('room1').emit('draw card')
+    })
+
+    socket.on('send msg', data => {
+      gameNsp.in('room1').emit('send msg', data)
     })
   })
 }

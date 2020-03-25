@@ -16,7 +16,7 @@ class App extends React.Component {
           <div>
             <Navbar />
             <Routes />
-            <Chat />
+            {/* <Chat /> */}
           </div>
         ) : (
           <Login />
