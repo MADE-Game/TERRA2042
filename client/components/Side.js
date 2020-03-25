@@ -19,13 +19,9 @@ const Side = props => {
             player={props.opponent}
             side="top"
           />
+          deck: {props.opponent.deck} cards left.
           <div className="hand">
-            HAND:a
-            {props.opponent.hand.map(card => {
-              return (
-                <Card card={card} key={card.id} player="enemy" inHand="true" />
-              )
-            })}
+            opponent hand size is: {props.opponent.hand}
           </div>
           <Plane
             inPlay={props.opponentInPlay}
@@ -86,8 +82,8 @@ const mapStateToProps = function(state) {
   return {
     inPlay: state.game.player.inPlay,
     opponentInPlay: state.game.opponent.inPlay,
+    opponentDeck: state.game.opponent.deck,
     hand: state.game.player.hand,
-    opponentHand: state.game.opponent.hand,
     opponent: state.game.opponent,
     player: state.game.player,
     planeFull: state.game.player.planeFull
