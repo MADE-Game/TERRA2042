@@ -29,11 +29,11 @@ class Routes extends Component {
             <Route exact path="/games" component={Games} />
             <Route
               exact
-              path="/games/rooms/:id"
+              path="/games/rooms/:roomId"
               render={({match}) => <Room match={match} />}
             />
-            <Route path="/games/rooms/game/:id" component={Board} />
-            <Route path="/games/rooms/game/:id" component={Chat} />
+            <Route path="/games/rooms/:roomId/game/:id" component={Board} />
+            <Route path="/games/rooms/:roomId/game/:id" component={Chat} />
             <Route path="/home" component={UserHome} />
           </Switch>
         )}

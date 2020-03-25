@@ -16,12 +16,12 @@ export default class Room extends Component {
   async componentDidMount() {
     const {data: user} = await axios.get('/auth/me')
 
-    socket.emit('join', {roomId: this.props.match.params.id})
+    socket.emit('join', {roomId: this.props.match.params.roomId})
     socket.on('join', data => {
       if (data.numPpl === 2) {
         socket.emit('id exchange', {
           pId: user._id,
-          roomId: this.props.match.params.id
+          roomId: this.props.match.params.roomId
         })
       }
     })
@@ -29,7 +29,9 @@ export default class Room extends Component {
       this.startGame(user._id, data.pId)
     })
     socket.on('game started', data => {
-      history.push(`/games/rooms/game/${data.gameId}`)
+      history.push(
+        `/games/rooms/${this.props.match.params.roomId}/game/${data.gameId}`
+      )
     })
 
     // this.setState({
@@ -73,10 +75,12 @@ export default class Room extends Component {
 
     socket.emit('game started', {
       gameId: game._id,
-      roomId: this.props.match.params.id
+      roomId: this.props.match.params.roomId
     })
 
-    history.push(`/games/rooms/game/${game._id}`)
+    history.push(
+      `/games/rooms/${this.props.match.params.roomId}/game/${game._id}`
+    )
   }
 
   render() {
