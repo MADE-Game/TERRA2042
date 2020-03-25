@@ -3,16 +3,11 @@ import axios from 'axios'
 import history from '../history'
 import io from 'socket.io-client'
 export const socket = io('/games')
-// import mainSocket from '../socket'
-// mainSocket.disconnect()
 
 export default class Room extends Component {
   constructor(props) {
     super(props)
     this.startGame = this.startGame.bind(this)
-    // this.state = {
-    //   loading: true
-    // }
   }
 
   async componentDidMount() {
@@ -38,10 +33,6 @@ export default class Room extends Component {
         `/games/rooms/${this.props.match.params.roomId}/game/${data.gameId}`
       )
     })
-
-    // this.setState({
-    //   loading: false
-    // })
   }
 
   async startGame(p1Id, p2Id) {
@@ -90,16 +81,6 @@ export default class Room extends Component {
   }
 
   render() {
-    // return this.state.loading ? (
-    //   <img src="/images/monsters/1.png" />
-    // ) : (
-    //   <div>
-    //     {/* <button type="button" onClick={this.startGame}>
-    //       Start Game
-    //     </button> */}
-    //     <h1>Should not be seeing this</h1>
-    //   </div>
-    // )
     return <h1>Waiting for players ...</h1>
   }
 }
