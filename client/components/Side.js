@@ -42,18 +42,25 @@ const Side = props => {
             planeFull={props.planeFull}
           />
           <div className="hand">
-            HAND:a
-            {props.hand.map(card => {
-              return (
-                <Card card={card} key={card._id} player="hero" inHand={true} />
-              )
-            })}
+            <Player
+              imgUrl={props.side.heroUrl}
+              player={props.player}
+              side="bottom"
+            />
+            <div className="hand">
+              HAND:a
+              {props.hand.map(card => {
+                return (
+                  <Card
+                    card={card}
+                    key={card._id}
+                    player="hero"
+                    inHand={true}
+                  />
+                )
+              })}
+            </div>
           </div>
-          <Player
-            imgUrl={props.side.heroUrl}
-            player={props.player}
-            side="bottom"
-          />
           {props.player.deck.length ? (
             <button
               type="submit"

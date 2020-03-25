@@ -6,7 +6,7 @@ import Chat from './components/Chat'
 
 const App = () => {
   return (
-    <div>
+    <div id="container">
       <Navbar />
       <Routes />
       <Chat />

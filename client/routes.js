@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import {Login, Signup, UserHome} from './components'
 import {Games} from './components/Games'
 import {me} from './store'
+import CollectionList from './components/CollectionList'
 
 /**
  * COMPONENT
@@ -15,6 +16,7 @@ class Routes extends Component {
   }
 
   render() {
+    console.log(this.props)
     const {isLoggedIn} = this.props
 
     return (
@@ -23,6 +25,7 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/games" component={Games} />
+        <Route path="/decks" component={CollectionList} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
