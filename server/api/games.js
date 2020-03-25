@@ -35,7 +35,7 @@ router.get('/load/:gameId', async (req, res, next) => {
       {p1, p2, ...parsedGame, isP1Turn},
       req.user._id
     )
-    const gameToSend = {_id, game: relativeBoard, isFinished, isP1Turn, p1, p2}
+    const gameToSend = {_id, game: relativeBoard, isFinished, p1, p2}
     res.json(gameToSend)
   } catch (error) {
     next(error)
