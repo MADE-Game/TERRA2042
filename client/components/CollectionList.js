@@ -9,12 +9,13 @@ import React, {Component} from 'react'
 
 class CollectionList extends Component {
   componentDidMount() {
-    this.props.loadInitialData()
+    this.props.loadInitialData(this.props.user._id)
     this.props.loadCards()
     // console.log(this.props)
   }
 
   render() {
+    console.log('logging Props in CollectionList', this.props)
     if (this.props.selectedCollection.cards) {
       return (
         <div>
@@ -45,11 +46,13 @@ class CollectionList extends Component {
   }
 }
 const mapState = state => {
-  // console.log(state)
+  console.log(state)
   return {
     userCollections: state.user.collections,
 
-    selectedCollection: state.user.selectedCollection
+    selectedCollection: state.user.selectedCollection,
+
+    user: state.user
   }
 }
 
@@ -58,9 +61,9 @@ const mapDispatch = dispatch => {
     loadCards: () => {
       dispatch(getCollectionCards())
     },
-    loadInitialData: () => {
+    loadInitialData: id => {
       //at some point this will have to refer to an actual user
-      dispatch(getAllUserCollections())
+      dispatch(getAllUserCollections(id))
     }
   }
 }

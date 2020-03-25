@@ -43,14 +43,19 @@ export const me = () => async dispatch => {
   }
 }
 
-export const auth = (email, password, method) => async dispatch => {
+export const auth = (email, password, method, userName) => async dispatch => {
   let res
   try {
-    res = await axios.post(`/auth/${method}`, {email, password})
+    const collections = []
+    res = await axios.post(`/auth/${method}`, {
+      email,
+      password,
+      userName,
+      collections
+    })
   } catch (authError) {
     return dispatch(getUser({error: authError}))
   }
-
   try {
     dispatch(getUser(res.data))
     history.push('/home')
@@ -59,12 +64,14 @@ export const auth = (email, password, method) => async dispatch => {
   }
 }
 
-export const getAllUserCollections = () => {
+export const getAllUserCollections = id => {
   return async dispatch => {
-    const {data: collections} = await axios.get('/api/collections')
+    const {data: collections} = await axios.get(`/api/collections/${id}`)
+
     let theCollections = collections.map(function(collection) {
       return {...collection.cards}
     })
+    console.log('logging theCollections allUserColl', theCollections)
     dispatch(gotAllCollections(theCollections))
   }
 }
@@ -72,7 +79,7 @@ export const getAllUserCollections = () => {
 export const getCollectionCards = () => {
   return async dispatch => {
     const {data: collections} = await axios.get('/api/collections/')
-
+    console.log('logging collections in thunk', collections)
     const collection = collections[0]
     dispatch(gotCollection(collection))
   }
@@ -94,9 +101,9 @@ export const logout = () => async dispatch => {
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_USER:
-      return {...state, user: action.user}
+      return {...state, ...action.user}
     case REMOVE_USER:
-      return {...state, user: state.defaultUser}
+      return initialState
     case ALL_COLLECTIONS_FOR_USER:
       return {...state, collections: action.collections}
     case ALL_CARDS_IN_COLLECTION:
