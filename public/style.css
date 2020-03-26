@@ -123,8 +123,13 @@ form div {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+@font-face {
+  font-family: 'FoxStyle';
+  src: url('fonts/Dirty_Fox.ttf');
+}
 .madeStyle {
-  font-family: 'Dirty Fox';
+  font-family: 'FoxStyle';
   font-size: 19vw;
   color: white;
   -webkit-text-stroke: 1px white;
