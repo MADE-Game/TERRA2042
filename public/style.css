@@ -39,6 +39,8 @@ form div {
 .board,
 .side {
   flex-direction: column;
+  width: 100%;
+  height: 100%;
 }
 
 .collectionCard,
@@ -47,6 +49,9 @@ form div {
   border: 2px solid rgb(70, 70, 70);
   flex-direction: column;
   background-color: white;
+  font-size: 10px;
+  padding: 10px;
+  align-items: center;
 }
 
 .card {
@@ -65,7 +70,8 @@ form div {
 
 .plane,
 .hand {
-  min-height: 150px;
+  min-height: 16%;
+  max-height: 16%;
 }
 
 #buttonContainer {

@@ -1,8 +1,9 @@
 const mongoose = require('mongoose')
-
-mongoose.connect('mongodb://localhost/made', {
+console.log('logging process.env', process.env)
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/made', {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useFindAndModify: false
 })
 
 mongoose.connection

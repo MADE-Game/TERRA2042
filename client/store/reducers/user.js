@@ -45,6 +45,16 @@ export const me = () => async dispatch => {
 }
 
 export const auth = (email, password, method, userName) => async dispatch => {
+  console.log(
+    'logging email',
+    email,
+    'logging password',
+    password,
+    'logging username',
+    userName,
+    'logging method',
+    method
+  )
   let res
   try {
     const collections = []
@@ -72,7 +82,6 @@ export const getAllUserCollections = id => {
     let theCollections = collections.map(function(collection) {
       return {...collection.cards}
     })
-    console.log('logging theCollections allUserColl', theCollections)
     dispatch(gotAllCollections(theCollections))
   }
 }
@@ -80,7 +89,6 @@ export const getAllUserCollections = id => {
 export const getCollectionCards = () => {
   return async dispatch => {
     const {data: collections} = await axios.get('/api/collections/')
-    console.log('logging collections in thunk', collections)
     const collection = collections[0]
     dispatch(gotCollection(collection))
   }
