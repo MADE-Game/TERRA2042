@@ -6,18 +6,19 @@ module.exports = router
 
 router.post('/login', async (req, res, next) => {
   try {
-    console.log('logging req.body', req.body)
     const user = await User.findOne({userName: req.body.userName})
+    const {userName, email} = user
+    const password = req.body.password
+
     if (!user) {
-      console.log('No such user found:', req.body.email)
       res.status(401).send('Wrong username and/or password')
     } else if (!user.correctPassword(req.body.password)) {
-      console.log('Incorrect password for user:', req.body.email)
       res.status(401).send('Wrong username and/or password')
     } else {
       req.login(user, err => (err ? next(err) : res.json(user)))
     }
   } catch (err) {
+    console.log('firing catch error')
     next(err)
   }
 })
@@ -28,7 +29,8 @@ router.post('/signup', async (req, res, next) => {
       email: req.body.email,
       userName: req.body.userName,
       collections: [],
-      googleId: req.body.googleId
+      googleId: req.body.googleId,
+      password: req.body.password
     })
     let savedUser = await user.save()
 
