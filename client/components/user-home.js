@@ -19,56 +19,39 @@ export class UserHome extends React.Component {
     let {email, userName, user} = this.props
 
     return (
-      <div className="userHomeStyle imgContainer">
-        <img
-          src="https://i.pinimg.com/originals/e5/09/17/e5091761fa86b225581597e4e761d81e.jpg"
-          className="userHomeBackground"
-        />
-        <div className="centered">
-          <h1 className="welcomeStyle">Welcome, {userName}</h1>
-          <div className="column">
-            <div>
-              <img src={user.imgUrl} className="userPic" />
-            </div>
-            <p className="vertSpace"></p>
-            <div className="column">
-              <div>
-                <Link to="/games">
-                  <button type="submit" className="buttonStyle3 bigger-button">
-                    Play
-                  </button>
-                </Link>
-              </div>
-              <p className="vertSpace"></p>
-              <div>
-                <Link to="/shop">
-                  <button type="submit" className="buttonStyle3 bigger-button">
-                    Shop
-                  </button>
-                </Link>
-              </div>
-              <p className="vertSpace"></p>
-              <div>
-                <Link to="/decks">
-                  <button type="submit" className="buttonStyle3 bigger-button">
-                    My Collection
-                  </button>
-                </Link>
-              </div>
-              <p className="vertSpace"></p>
-              <div>
-                <a href="#" onClick={this.props.handleClick}>
-                  <button type="submit" className="buttonStyle3 bigger-button">
-                    Logout
-                  </button>
-                </a>
-              </div>
-              <p></p>
-            </div>
+      <div id="userHomeStyle">
+        <div className="column">
+          <p id="welcomeStyle">Welcome, {userName}</p>
+          <div>
+            <Link to="/games">
+              <button type="submit" className="buttonStyle2">
+                Play
+              </button>
+            </Link>
           </div>
+          <div>
+            <Link to="/shop">
+              <button type="submit" className="buttonStyle2">
+                Shop
+              </button>
+            </Link>
+          </div>
+          <div>
+            <Link to="/decks">
+              <button type="submit" className="buttonStyle2">
+                My Collection
+              </button>
+            </Link>
+          </div>
+          <div>
+            <a href="#" onClick={this.props.handleClick}>
+              <button type="submit" className="buttonStyle2">
+                Logout
+              </button>
+            </a>
+          </div>
+          <p></p>
         </div>
-        {/* board:
-      <Board /> */}
       </div>
     )
   }
