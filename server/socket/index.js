@@ -21,10 +21,7 @@ const GAMENSP = gameNsp => {
       if (gameNsp.adapter.rooms[`room${data.roomId}`].length === 1) {
         gameNsp.adapter.rooms[`room${data.roomId}`].host = socket.id
       }
-      // console.log(
-      //   'this is room 1 host:',
-      //   gameNsp.adapter.rooms[`room${data.roomId}`].host
-      // )
+
       gameNsp.to(socket.id).emit('join', {
         numPpl: gameNsp.adapter.rooms[`room${data.roomId}`].length
       })
