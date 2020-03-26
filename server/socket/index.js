@@ -38,30 +38,25 @@ const GAMENSP = gameNsp => {
     socket.on('game started', data => {
       socket.to(`room${data.roomId}`).emit('game started', data)
     })
-    socket.on('move made', data => {
+    socket.on('move made', () => {
       socket.to(`room${id}`).emit('move made')
     })
     socket.on('play card', data => {
-      console.log('emitting from gameNSP')
       socket.to(`room${id}`).emit('play card', data)
     })
 
     socket.on('attack', data => {
-      console.log('emitting from gameNSP')
       socket.to(`room${id}`).emit('attack', data)
     })
 
     socket.on('draw card', () => {
-      console.log('emitting from gameNSP')
       socket.to(`room${id}`).emit('draw card')
     })
 
     socket.on('send msg', data => {
-      console.log('emitting from gameNSP')
       gameNsp.in(`room${id}`).emit('send msg', data)
     })
     socket.on('end turn', () => {
-      console.log('emitting from gameNSP')
       gameNsp.in(`room${id}`).emit('end turn')
     })
   })

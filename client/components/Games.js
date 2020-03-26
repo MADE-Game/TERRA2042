@@ -6,7 +6,7 @@ export class Games extends React.Component {
   constructor() {
     super()
     this.state = {
-      roomId: -1
+      roomId: ''
     }
     this.handleChange = this.handleChange.bind(this)
   }

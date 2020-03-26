@@ -166,3 +166,40 @@ export const hurtByTheDraw = hero => {
     return dispatch => dispatch(hurtByDrawnCard(result))
   }
 }
+
+export const startGame = (p1Id, p2Id) => {
+  return async () => {
+    const gameObj = {
+      game: {
+        player1: {
+          hand: [],
+          deck: [],
+          inPlay: [],
+          settlers: 10
+        },
+
+        player2: {
+          hand: [],
+          deck: [],
+          inPlay: [],
+          settlers: 10
+        }
+      },
+
+      p1: p1Id,
+      p2: p2Id,
+      isFinished: false,
+      isP1Turn: true
+    }
+
+    const {data: game} = await Axios.post('/api/games/newGame', gameObj)
+
+    return game._id
+  }
+}
+
+export const updateUserGames = (userId, userData) => {
+  return async () => {
+    await Axios.put(`/api/users/${userId}`, userData)
+  }
+}
