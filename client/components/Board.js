@@ -28,7 +28,7 @@ class Board extends React.Component {
       this.props.loadGame(this.props.match.params.id)
     })
     socket.on('end turn', data => {
-      console.log('turn ended.')
+      console.log('turn ended..')
       this.props.loadGame(this.props.match.params.id)
     })
 
