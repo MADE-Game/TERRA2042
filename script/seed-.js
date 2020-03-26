@@ -96,22 +96,42 @@ const gameDocs = [
     p2: '111111111111111111111112'
   }
 ]
+console.log(cardDocs.slice(0, 20))
+const collection1 = {
+  name: 'defaultDeck',
+  userId: '111111111111111111111112',
+  cards: cardDocs.slice(0, 20),
+  isDeck: true
+}
+
+const collection2 = {
+  name: 'defaultDeck',
+  userId: '111111111111111111111111',
+  cards: cardDocs.slice(0, 20),
+  isDeck: true
+}
+
+const collection3 = {
+  name: 'second deck',
+  userId: '111111111111111111111111',
+  cards: cardDocs.slice(20, 40),
+  isDeck: true
+}
+
 const userDocs = [
   {
     _id: ObjectId('111111111111111111111111'),
     email: 'cmax1018@gmail.com',
     password: 'abc',
-    games: [ObjectId('111111111111111111111110')],
-    collections: ['5e7c67ff234c33534f1e7ac4', '5e7c67ff234c33534f1e7ac5'],
-    userName: 'max'
+    collections: ['5e7c63ec10e17751dc60f765', '5e7c65a570151752742c5bee'],
+    games: [ObjectId('111111111111111111111110')]
   },
   {
     _id: ObjectId('111111111111111111111112'),
     email: 'opp@gmail.com',
     password: 'abc',
-    games: [ObjectId('111111111111111111111110')],
-    collections: ['5e7c67ff234c33534f1e7ac3'],
-    userName: 'opp'
+    collections: ['5e7c63ec10e17751dc60f764'],
+    games: [ObjectId('111111111111111111111110')]
   }
 ]
 
@@ -168,27 +188,6 @@ for (let j = 0; j < monsterNames.length; j++) {
     attack: Math.floor(Math.random() * (95 - 55) + 55),
     health: Math.floor(Math.random() * (95 - 55) + 55)
   })
-}
-
-const collection1 = {
-  name: 'defaultDeck',
-  cards: cardDocs.slice(0, 20),
-  userId: '111111111111111111111112',
-  isDeck: true
-}
-
-const collection2 = {
-  name: 'defaultDeck',
-  cards: cardDocs.slice(0, 20),
-  userId: '111111111111111111111111',
-  isDeck: true
-}
-
-const collection3 = {
-  name: 'second deck',
-  userId: '111111111111111111111111',
-  cards: cardDocs.slice(20, 40),
-  isDeck: true
 }
 
 const collectionDocs = []

@@ -1,5 +1,7 @@
 const router = require('express').Router()
 const User = require('../db/models/user')
+const Collection = require('../db/models/collection')
+const Card = require('../db/models/card')
 module.exports = router
 
 router.post('/login', async (req, res, next) => {
@@ -21,8 +23,33 @@ router.post('/login', async (req, res, next) => {
 
 router.post('/signup', async (req, res, next) => {
   try {
-    const user = await User.create(req.body)
-    req.login(user, err => (err ? next(err) : res.json(user)))
+    const user = new User({
+      email: req.body.email,
+      userName: req.body.userName,
+      collections: [],
+      googleId: req.body.googleId
+    })
+    let savedUser = await user.save()
+
+    const allCards = await Card.find().limit(20)
+
+    const collection = new Collection({
+      userId: savedUser._id,
+      name: 'Default Deck',
+      cards: [
+        ...allCards.map(card => {
+          return card._id
+        })
+      ],
+      isDeck: true
+    })
+
+    const savedCollection = await collection.save()
+
+    savedUser.collections = [savedCollection._id]
+    await savedUser.save()
+
+    req.login(user, err => (err ? next(err) : res.json(savedUser)))
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
       res.status(401).send('User already exists')
