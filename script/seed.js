@@ -222,7 +222,7 @@ const data = [
 if (module === require.main) {
   try {
     seeder.connect(
-      'mongodb://localhost/made',
+      process.env.MONGODB_URI || 'mongodb://localhost/made',
       {useUnifiedTopology: true},
       () => {
         seeder.loadModels([
