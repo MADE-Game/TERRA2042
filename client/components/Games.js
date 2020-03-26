@@ -2,16 +2,37 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 
-export const Games = () => {
-  return (
-    <div>
-      <h1>Games</h1>
-      <Link to="/games/rooms/1">
-        <button type="button">Join Game room #1</button>
-      </Link>
-      <Link to="/games/rooms/2">
-        <button type="button">Join Game room #2</button>
-      </Link>
-    </div>
-  )
+export class Games extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      roomId: -1
+    }
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleChange(event) {
+    this.setState({
+      roomId: event.target.value
+    })
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Games</h1>
+        <Link to={`/games/rooms/${Math.floor(Math.random() * 1000000)}`}>
+          <button type="button">Create Game Room</button>
+        </Link>
+        <input
+          name="room"
+          value={this.state.roomId}
+          onChange={this.handleChange}
+        ></input>
+        <Link to={`/games/rooms/${this.state.roomId}`}>
+          <button type="button">Join Game Room</button>
+        </Link>
+      </div>
+    )
+  }
 }
