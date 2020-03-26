@@ -12,10 +12,10 @@ export default function(state = initialState, action) {
     case LOAD_GAME:
       return {
         ...state,
-        inPlay: action.game.opponent.inPlay,
-        hand: action.game.opponent.hand,
-        deck: action.game.opponent.deck,
-        settlers: action.game.opponent.settlers
+        inPlay: action.game.game.opponent.inPlay,
+        hand: action.game.game.opponent.hand,
+        deck: action.game.game.opponent.deck,
+        settlers: action.game.game.opponent.settlers
       }
     case PLAYER_ATTACK_CARD:
       return {

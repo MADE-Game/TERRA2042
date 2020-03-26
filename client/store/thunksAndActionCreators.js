@@ -128,13 +128,22 @@ export const loadGame = id => {
   return async dispatch => {
     const {data: game} = await Axios.get(`/api/games/load/${id}`)
     //sends just the game board at the moment. No other data.
-    dispatch(loadedGame(game.game))
+    dispatch(loadedGame(game))
   }
 }
 export const saveGame = (id, gameState) => {
   return async dispatch => {
-    await Axios.put('/api/games/save/' + id, gameState)
-    dispatch(savedGame())
+    try {
+      await Axios.put('/api/games/save/' + id, gameState)
+      dispatch(savedGame())
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data)
+      } else {
+        // Something happened in setting up the request and triggered an Error
+        console.log('Error', error)
+      }
+    }
   }
 }
 export const hurtByTheDraw = hero => {
