@@ -73,7 +73,6 @@ const startedTurn = () => ({
 
 export const endTurn = () => async dispatch => {
   await dispatch(endedTurn())
-  socket.emit('end turn')
 }
 export const startTurn = () => dispatch => {
   dispatch(startedTurn())
