@@ -23,7 +23,7 @@ export default function(state = initialState, action) {
         inPlay: state.inPlay
           .filter(card => card.health > 0)
           .map(card => {
-            if (card.id === action.defender.id) {
+            if (card.id === action.defender._id) {
               return action.defender
             } else {
               return card

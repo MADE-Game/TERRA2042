@@ -11,6 +11,7 @@ import NotFound from './components/not-found'
 import {me} from './store'
 import CollectionList from './components/CollectionList'
 import Chat from './components/Chat'
+import Room from './components/Room'
 
 /**
  * COMPONENT
@@ -21,7 +22,6 @@ class Routes extends Component {
   }
 
   render() {
-    console.log(this.props)
     const {isLoggedIn} = this.props
     return (
       <Switch>
@@ -33,8 +33,13 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route exact path="/games" component={Games} />
-            <Route path="/games/room/:id" component={Board} />
-            <Route path="/games/room/:id" component={Chat} />
+            <Route
+              exact
+              path="/games/rooms/:roomId"
+              render={({match}) => <Room match={match} />}
+            />
+            <Route path="/games/rooms/:roomId/game/:id" component={Board} />
+            <Route path="/games/rooms/:roomId/game/:id" component={Chat} />
             <Route path="/decks" component={CollectionList} />
             <Route path="/home" component={UserHome} />
             <Route path="/games" component={Board} />

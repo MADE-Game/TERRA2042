@@ -9,12 +9,13 @@ import {
   LOAD_GAME,
   SAVE_GAME,
   END_TURN,
-  HURT_BY_DRAW
+  HURT_BY_DRAW,
+  START_TURN
 } from './actionTypes'
 
 import engine from '../engine/index'
 import Axios from 'axios'
-import {socket} from '../components/Games'
+import {socket} from '../components/Room'
 
 const gotAllCards = cards => ({
   type: GET_ALL_CARDS,
@@ -62,20 +63,32 @@ const hurtByDrawnCard = hero => ({
   hero
 })
 
-export const endTurn = () => ({
+const endedTurn = () => ({
   type: END_TURN
 })
+const startedTurn = () => ({
+  type: START_TURN
+})
+
+export const endTurn = () => async dispatch => {
+  await dispatch(endedTurn())
+  socket.emit('end turn')
+}
+export const startTurn = () => dispatch => {
+  dispatch(startedTurn())
+}
 
 export const playerPlayCard = (hero, card) => {
   const result = engine.payCost(hero, card)
   if (result.settlers <= 0) {
-    return dispatch => {
-      dispatch(playerHeroDied())
+    return async dispatch => {
+      await dispatch(playerHeroDied())
     }
   }
-  return dispatch => {
+  return async dispatch => {
+    console.log('emitted')
+    await dispatch(playerPlayedCard(hero, card))
     socket.emit('play card', card)
-    dispatch(playerPlayedCard(hero, card))
   }
 }
 //Retrieves all cards from the database
@@ -97,21 +110,21 @@ export const getAllCards = () => {
 //card[attacker].
 export const playerAttackCard = (attacker, defender) => {
   const result = engine.attack(attacker, defender)
-  return dispatch => {
+  return async dispatch => {
+    await dispatch(playerAttackedCard(...result))
     socket.emit('attack', {
       attacker: result[0],
       defender: result[1]
     })
-    dispatch(playerAttackedCard(...result))
   }
 }
 
 //a player draws a card from their deck and adds it to their hand
 export const playerDrawCard = deck => {
   const {newDeck, card} = engine.drawCard(deck)
-  return dispatch => {
+  return async dispatch => {
+    await dispatch(playerDrewCard(newDeck, card))
     socket.emit('draw card')
-    dispatch(playerDrewCard(newDeck, card))
   }
 }
 export const playerAttackHero = (attacker, hero) => {

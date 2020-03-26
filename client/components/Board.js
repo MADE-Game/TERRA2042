@@ -7,9 +7,10 @@ import {
   getAllCards,
   loadGame,
   endTurn,
-  saveGame
+  saveGame,
+  startTurn
 } from '../store/thunksAndActionCreators'
-import {socket} from './Games'
+import {socket} from './Room'
 
 const enemySide = {
   heroUrl: '/images/monsters/11.png'
@@ -17,27 +18,28 @@ const enemySide = {
 const playerSide = {
   heroUrl: '/images/monsters/14.png'
 }
-const globalVar = {}
 class Board extends React.Component {
   componentDidMount() {
+    socket.emit('join', {roomId: this.props.match.params.roomId})
     socket.on('play card', data => {
       console.log(
         `${data.name} was played!\n${data.attack} attack points\n${data.health} defense points`
       )
       this.props.loadGame(this.props.match.params.id)
-      // this.props.saveGame(this.props.match.params.id, this.props.gameState)
+    })
+    socket.on('end turn', () => {
+      console.log(`ended their turn`)
+      this.props.loadGame(this.props.match.params.id)
     })
 
     socket.on('attack', data => {
       console.log(`${data.attacker.name} attacked ${data.defender.name}!`)
       this.props.loadGame(this.props.match.params.id)
-      // this.props.saveGame(this.props.match.params.id, this.props.gameState)
     })
 
     socket.on('draw card', () => {
       console.log('A card was drawn!')
       this.props.loadGame(this.props.match.params.id)
-      // this.props.saveGame(this.props.match.params.id, this.props.gameState)
     })
 
     this.props.loadGame(this.props.match.params.id)
@@ -46,17 +48,16 @@ class Board extends React.Component {
     if (this.props.isMyTurn) {
       this.props.saveGame(this.props.match.params.id, this.props.gameState)
     }
-    globalVar.load = () => {
-      this.props.loadGame(this.props.match.params.id)
-    }
   }
-  componentDidUpdate() {
+  async componentDidUpdate() {
     if (this.props.isMyTurn)
-      this.props.saveGame(this.props.match.params.id, this.props.gameState)
+      await this.props.saveGame(
+        this.props.match.params.id,
+        this.props.gameState
+      )
   }
 
   render() {
-    console.log('its my turn! ', this.props.isMyTurn)
     return (
       <DndProvider backend={Backend}>
         {!this.props.isFinished ? (
@@ -86,7 +87,6 @@ class Board extends React.Component {
     )
   }
 }
-// need to move into class
 
 const mapStateToProps = state => {
   return {
@@ -103,7 +103,8 @@ const mapDispatchToProps = dispatch => {
     getAllCards: () => dispatch(getAllCards()),
     loadGame: id => dispatch(loadGame(id)),
     endTurn: () => dispatch(endTurn()),
-    saveGame: (id, gameState) => dispatch(saveGame(id, gameState))
+    saveGame: (id, gameState) => dispatch(saveGame(id, gameState)),
+    startTurn: () => dispatch(startTurn())
   }
 }
 

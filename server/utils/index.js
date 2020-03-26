@@ -75,7 +75,6 @@ const validateBoard = function(newBoard, oldGame, actorId) {
   if (newPlayer1.deck !== oldPlayer1.deck) {
     throw new Error('Invalid move! You cannot do that')
   }
-  console.log('new board', newBoard)
 }
 
 module.exports = {
