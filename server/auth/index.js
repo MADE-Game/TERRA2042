@@ -31,7 +31,7 @@ router.post('/signup', async (req, res, next) => {
     })
     let savedUser = await user.save()
 
-    const allCards = await Card.find()
+    const allCards = await Card.find().limit(20)
 
     const collection = new Collection({
       userId: savedUser._id,
