@@ -126,6 +126,7 @@ router.post('/newGame', async (req, res, next) => {
       const deck2 = await Card.find({_id: {$in: collection2.cards}})
       gameToMakeString.player1.deck = deck1
       gameToMakeString.player2.deck = deck2
+
       const newGame = await Game.create({
         game: JSON.stringify(gameToMakeString),
         p1: req.body.p1,

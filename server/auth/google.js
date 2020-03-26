@@ -1,7 +1,7 @@
 const passport = require('passport')
 const router = require('express').Router()
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
-const {User} = require('../db/models')
+const {User, Collection, Card} = require('../db/models')
 module.exports = router
 
 /**
@@ -47,6 +47,26 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
             userName,
             collections
           })
+          const allCards = await Card.find().limit(20)
+
+          const collection = new Collection({
+            userId: newUser._id,
+            name: 'Default Deck',
+            cards: [
+              ...allCards.map(card => {
+                return card._id
+              })
+            ],
+            isDeck: true
+          })
+
+          const savedCollection = await collection.save()
+
+          newUser.collections = [savedCollection._id]
+          //setting the selected deck to default deck
+          console.log('signing up! ', savedCollection._id)
+          newUser.selectedDeck = savedCollection._id
+          await newUser.save()
 
           const savedUser = await newUser.save()
           done(null, savedUser)
