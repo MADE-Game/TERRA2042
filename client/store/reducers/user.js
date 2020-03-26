@@ -44,16 +44,6 @@ export const me = () => async dispatch => {
 }
 
 export const auth = (email, password, method, userName) => async dispatch => {
-  console.log(
-    'logging email',
-    email,
-    'logging password',
-    password,
-    'logging username',
-    userName,
-    'logging method',
-    method
-  )
   let res
   try {
     const collections = []
