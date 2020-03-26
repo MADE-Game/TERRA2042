@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Game} = require('../db/models')
+const {Game, Collection, Card, User} = require('../db/models')
 module.exports = router
 const {
   relativizeBoard,
@@ -113,8 +113,21 @@ router.post('/newGame', async (req, res, next) => {
     if (game) {
       return res.json(game)
     } else {
+      //load decks here.
+      const gameToMakeString = req.body.game
+
+      //p1 deck
+      const player1 = await User.findById(req.body.p1)
+      const player2 = await User.findById(req.body.p2)
+      //find both players decks.
+      const collection1 = await Collection.findById(player1.selectedDeck)
+      const collection2 = await Collection.findById(player2.selectedDeck)
+      const deck1 = await Card.find({_id: {$in: collection1.cards}})
+      const deck2 = await Card.find({_id: {$in: collection2.cards}})
+      gameToMakeString.player1.deck = deck1
+      gameToMakeString.player2.deck = deck2
       const newGame = await Game.create({
-        game: JSON.stringify(req.body.game),
+        game: JSON.stringify(gameToMakeString),
         p1: req.body.p1,
         p2: req.body.p2,
         isFinished: false,

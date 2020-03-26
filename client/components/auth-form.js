@@ -12,64 +12,46 @@ const AuthForm = props => {
 
   return (
     <div className="formContainer">
-      <div className="imgContainer">
-        <img
-          className="logoImg"
-          src="https://i.pinimg.com/originals/08/de/6e/08de6e25d051968bbd82c9ee8a7e0ffc.jpg"
-        />
-        <div className="centered madeStyle">MADE</div>
+      <form onSubmit={handleSubmit} name={name} className="formColumn">
+        {displayName === 'Sign Up' && (
+          <div className="heroInput">
+            <label htmlFor="email" placeholder="Email" />
+            <input name="email" type="text" className="inputStyle" />
+          </div>
+        )}
+        <div className="heroInput">
+          <label htmlFor="username" placeholder="Username" />
+          <input name="username" type="text" className="inputStyle" />
+        </div>
+        <div className="heroInput">
+          <label htmlFor="password" placeholder="Password" />
+          <input name="password" type="password" className="inputStyle" />
+        </div>
 
-        <form onSubmit={handleSubmit} name={name} className="formColumn">
-          {displayName === 'Sign Up' && (
-            <div>
-              <label htmlFor="email">
-                <small className="inputTextStyle">Email</small>
-              </label>
-              <input name="email" type="text" className="inputStyle1" />
-            </div>
+        <div className="loginButtons">
+          <button type="submit" className="buttonStyle1">
+            {displayName}
+          </button>
+          {displayName === 'Login' ? (
+            <Link to="/signup">
+              <button type="submit" className="buttonStyle1">
+                Sign Up
+              </button>
+            </Link>
+          ) : (
+            <Link to="/login">
+              <button type="submit" className="buttonStyle1">
+                Login
+              </button>
+            </Link>
           )}
-          <div>
-            <label htmlFor="username">
-              <small className="inputTextStyle">Username</small>
-            </label>
-            <input name="username" type="text" className="inputStyle1" />
-          </div>
-          <div>
-            <label htmlFor="password">
-              <small className="inputTextStyle">Password</small>
-            </label>
-            <input name="password" type="password" className="inputStyle1" />
-          </div>
+        </div>
 
-          <div className="loginButtons">
-            <button type="submit" className="buttonStyle1">
-              {displayName}
-            </button>
-            {displayName === 'Login' ? (
-              <Link to="/signup">
-                <div>
-                  <button type="submit" className="buttonStyle1">
-                    Sign Up
-                  </button>
-                </div>
-              </Link>
-            ) : (
-              <Link to="/login">
-                <div>
-                  <button type="submit" className="buttonStyle1">
-                    Login
-                  </button>
-                </div>
-              </Link>
-            )}
-          </div>
-
-          {error && error.response && <div> {error.response.data} </div>}
-          <a href="/auth/google" className="inputTextStyle">
-            {displayName} with Google
-          </a>
-        </form>
-      </div>
+        {error && error.response && <div> {error.response.data} </div>}
+        <a href="/auth/google" id="googleLogin">
+          {displayName} with Google
+        </a>
+      </form>
     </div>
   )
 }

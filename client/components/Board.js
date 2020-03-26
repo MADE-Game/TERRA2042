@@ -27,8 +27,8 @@ class Board extends React.Component {
       )
       this.props.loadGame(this.props.match.params.id)
     })
-    socket.on('end turn', () => {
-      console.log(`ended their turn`)
+    socket.on('end turn', data => {
+      console.log('turn ended.')
       this.props.loadGame(this.props.match.params.id)
     })
 
@@ -43,14 +43,10 @@ class Board extends React.Component {
     })
 
     this.props.loadGame(this.props.match.params.id)
-    //this line is for testing, and initializes the players deck with all the cards in the database.
-    if (this.props.gameState.player.deck.length === 0) this.props.getAllCards()
-    if (this.props.isMyTurn) {
-      this.props.saveGame(this.props.match.params.id, this.props.gameState)
-    }
   }
+
   async componentDidUpdate() {
-    if (this.props.isMyTurn)
+    if (this.props.canEnd)
       await this.props.saveGame(
         this.props.match.params.id,
         this.props.gameState
@@ -65,11 +61,16 @@ class Board extends React.Component {
             ENEMY SIDE:
             <Side top={true} side={enemySide} />
             PLAYER SIDE:
-            {this.props.canEnd ? (
+            {this.props.isMyTurn ? (
               <div id="buttonContainer">
                 <button
                   type="submit"
-                  onClick={this.props.endTurn}
+                  onClick={() =>
+                    this.props.endTurn(
+                      this.props.match.params.id,
+                      this.props.gameState
+                    )
+                  }
                   className="turnButton"
                 >
                   End Turn
@@ -102,7 +103,13 @@ const mapDispatchToProps = dispatch => {
   return {
     getAllCards: () => dispatch(getAllCards()),
     loadGame: id => dispatch(loadGame(id)),
-    endTurn: () => dispatch(endTurn()),
+    endTurn: async (id, gameState) => {
+      await dispatch(
+        saveGame(id, {...gameState, data: {...gameState.data, isMyTurn: false}})
+      )
+      dispatch(endTurn())
+      socket.emit('end turn')
+    },
     saveGame: (id, gameState) => dispatch(saveGame(id, gameState)),
     startTurn: () => dispatch(startTurn())
   }

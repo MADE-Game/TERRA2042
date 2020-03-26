@@ -11,7 +11,8 @@ const UserSchema = new Schema({
   googleId: String,
   collections: Array,
   salt: String,
-  games: Array
+  games: Array,
+  selectedDeck: String
 })
 UserSchema.static('encryptPassword', function(plainText, salt) {
   const hash = crypto.createHash('sha1')

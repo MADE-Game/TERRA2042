@@ -1,6 +1,7 @@
 body {
   font-family: sans-serif;
   background-color: lightgray;
+  margin: 0;
 }
 
 a {
@@ -34,6 +35,7 @@ form div {
   flex-direction: row;
   border: 2px solid rgb(70, 70, 70);
 }
+
 .board,
 .side {
   flex-direction: column;
@@ -55,6 +57,7 @@ form div {
 .card {
   border-radius: 25px;
 }
+
 .collectionCard {
   margin-left: 0.5vh;
   margin-right: 0.5vh;
@@ -75,6 +78,7 @@ form div {
   display: flex;
   justify-content: center;
 }
+
 .turnButton {
   width: 10%;
 }
@@ -84,77 +88,41 @@ form div {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-image: url('./images/made_logo.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-width: 100vw;
+  min-height: 100vh;
 }
+
 .formColumn {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  position: absolute;
-  /* top: 50%; */
-  left: 50%;
-  transform: translate(-50%, -110%);
-}
-
-.loginButtons {
-  display: flex;
-  flex-direction: column;
-}
-
-.logoImg {
-  height: 100%;
-  width: 100%;
-}
-
-.buttonStyle1 {
-  border-radius: 15px;
-}
-
-.inputStyle1 {
-  border-radius: 15px;
-}
-.imgContainer {
-  position: relative;
   text-align: center;
-}
-.centered {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-@font-face {
-  font-family: 'FoxStyle';
-  src: url('fonts/Dirty_Fox.ttf');
-}
-.madeStyle {
-  font-family: 'FoxStyle';
-  font-size: 19vw;
-  color: white;
-  -webkit-text-stroke: 1px white;
-}
-.inputTextStyle {
-  font-weight: bold;
-  color: white;
-  font-size: 1.5vw;
-  -webkit-text-stroke: 1px black;
 }
 
 .navCenter {
   text-align: center;
 }
 
-.userHomeStyle {
+#userHomeStyle {
   text-align: center;
-  /* background: url('https://i.pinimg.com/originals/e5/09/17/e5091761fa86b225581597e4e761d81e.jpg') */
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
 }
 
 .column {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  background-image: url('./images/made_logo.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-width: 100vw;
+  min-height: 100vh;
 }
 .userHomeBackground {
   width: 100%;
@@ -167,22 +135,87 @@ form div {
   text-align: center;
 }
 
-.buttonStyle3 {
-  border-radius: 18px;
-}
-.bigger-button {
-  height: 1.5vw;
-  width: 8vw;
-  font-size: 1vw;
-}
-.welcomeStyle {
-  font-size: 5vw;
-  -webkit-text-stroke: 1px white;
+.heroInput {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 3%;
 }
 
-/* .vertSpace {
-  max-height: 5px
-} */
+.inputStyle {
+  width: 100%;
+  margin: 0;
+  padding-left: 5vh;
+  padding-right: 5vh;
+  padding-top: 0.5vh;
+  font-size: 13px;
+  padding-bottom: 0.5vh;
+  border-radius: 0.5vh;
+}
+
+#googleLogin {
+  font-weight: bold;
+  color: white;
+  margin: 0;
+  font-size: 13px;
+}
+
+.loginButtons {
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.buttonStyle1 {
+  width: 100%;
+  font-size: 13px;
+  margin-top: 0;
+  text-align: center;
+  margin-bottom: 0.5vh;
+  padding-left: 5vh;
+  padding-right: 5vh;
+  padding-top: 0.5vh;
+  padding-bottom: 0.5vh;
+  border-radius: 0.5vh;
+  border: 0px;
+}
+
+.buttonStyle2:hover {
+  background-color: black;
+  color: #fff;
+  border: 0px;
+}
+
+.buttonStyle2 {
+  width: 20%;
+  font-size: 13px;
+  margin-top: 0;
+  text-align: center;
+  margin-bottom: 0.5vh;
+  padding-left: 5vh;
+  padding-right: 5vh;
+  padding-top: 0.5vh;
+  padding-bottom: 0.5vh;
+  border-radius: 0.5vh;
+  border: 0px;
+}
+
+.buttonStyle1:hover {
+  background-color: black;
+  color: #fff;
+  border: 0px;
+}
+
+#welcomeStyle {
+  font-size: 2vh;
+  font-weight: bold;
+  color: #fff;
+  margin: 0;
+  padding-bottom: 2vh;
+}
+
 .hero img {
   width: 11vh;
 }

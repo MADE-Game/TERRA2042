@@ -7,9 +7,6 @@ module.exports = router
 router.post('/login', async (req, res, next) => {
   try {
     const user = await User.findOne({userName: req.body.userName})
-    const {userName, email} = user
-    const password = req.body.password
-
     if (!user) {
       res.status(401).send('Wrong username and/or password')
     } else if (!user.correctPassword(req.body.password)) {
@@ -49,6 +46,8 @@ router.post('/signup', async (req, res, next) => {
     const savedCollection = await collection.save()
 
     savedUser.collections = [savedCollection._id]
+    //setting the selected deck to default deck
+    savedUser.selectedDeck = savedCollection._id
     await savedUser.save()
 
     req.login(user, err => (err ? next(err) : res.json(savedUser)))
