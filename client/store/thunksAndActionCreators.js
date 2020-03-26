@@ -73,7 +73,6 @@ const startedTurn = () => ({
 
 export const endTurn = () => async dispatch => {
   await dispatch(endedTurn())
-  socket.emit('end turn')
 }
 export const startTurn = () => dispatch => {
   dispatch(startedTurn())
@@ -87,7 +86,6 @@ export const playerPlayCard = (hero, card) => {
     }
   }
   return async dispatch => {
-    console.log('emitted')
     await dispatch(playerPlayedCard(hero, card))
     socket.emit('play card', card)
   }
@@ -141,7 +139,6 @@ export const playerAttackHero = (attacker, hero) => {
 export const loadGame = id => {
   return async dispatch => {
     const {data: game} = await Axios.get(`/api/games/load/${id}`)
-    //sends just the game board at the moment. No other data.
     dispatch(loadedGame(game))
   }
 }
@@ -154,7 +151,6 @@ export const saveGame = (id, gameState) => {
       if (error.response) {
         console.log(error.response.data)
       } else {
-        // Something happened in setting up the request and triggered an Error
         console.log('Error', error)
       }
     }

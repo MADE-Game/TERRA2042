@@ -1,11 +1,22 @@
 const router = require('express').Router()
-const {Collection} = require('../db/models')
+const {Collection, Card} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
     const collections = await Collection.find()
     res.json(collections)
+  } catch (err) {
+    next(err)
+  }
+})
+
+//returns all cards associated with collection.
+router.get('/:collectionId/cards', async (req, res, next) => {
+  try {
+    const collection = await Collection.findById(req.params.collectionId)
+    const cards = await Card.find({_id: {$in: collection.cards}})
+    res.json(cards)
   } catch (err) {
     next(err)
   }
