@@ -9,6 +9,7 @@ const IO = io => {
 }
 
 const GAMENSP = gameNsp => {
+  let id
   gameNsp.on('connection', socket => {
     console.log(`A socket connection to games has been made: ${socket.id}`)
 
@@ -17,6 +18,7 @@ const GAMENSP = gameNsp => {
     })
     socket.on('join', data => {
       socket.join(`room${data.roomId}`)
+      id = data.roomId
       if (gameNsp.adapter.rooms[`room${data.roomId}`].length === 1) {
         gameNsp.adapter.rooms[`room${data.roomId}`].host = socket.id
       }
@@ -37,30 +39,30 @@ const GAMENSP = gameNsp => {
       socket.to(`room${data.roomId}`).emit('game started', data)
     })
     socket.on('move made', data => {
-      socket.to('room1').emit('move made')
+      socket.to(`room${id}`).emit('move made')
     })
     socket.on('play card', data => {
       console.log('emitting from gameNSP')
-      socket.to('room1').emit('play card', data)
+      socket.to(`room${id}`).emit('play card', data)
     })
 
     socket.on('attack', data => {
       console.log('emitting from gameNSP')
-      socket.to('room1').emit('attack', data)
+      socket.to(`room${id}`).emit('attack', data)
     })
 
     socket.on('draw card', () => {
       console.log('emitting from gameNSP')
-      socket.to('room1').emit('draw card')
+      socket.to(`room${id}`).emit('draw card')
     })
 
     socket.on('send msg', data => {
       console.log('emitting from gameNSP')
-      gameNsp.in('room1').emit('send msg', data)
+      gameNsp.in(`room${id}`).emit('send msg', data)
     })
     socket.on('end turn', () => {
       console.log('emitting from gameNSP')
-      gameNsp.in('room1').emit('end turn')
+      gameNsp.in(`room${id}`).emit('end turn')
     })
   })
 }
