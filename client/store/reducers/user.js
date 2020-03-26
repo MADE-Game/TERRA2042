@@ -37,7 +37,6 @@ const gotCollection = cards => ({
 export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
-    console.log(res.data._id)
     dispatch(getUser(res.data || initialState.defaultUser))
   } catch (err) {
     console.error(err)
@@ -45,16 +44,6 @@ export const me = () => async dispatch => {
 }
 
 export const auth = (email, password, method, userName) => async dispatch => {
-  console.log(
-    'logging email',
-    email,
-    'logging password',
-    password,
-    'logging username',
-    userName,
-    'logging method',
-    method
-  )
   let res
   try {
     const collections = []
