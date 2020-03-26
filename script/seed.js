@@ -102,14 +102,16 @@ const userDocs = [
     // _id: ObjectId('111111111111111111111111'),
     email: 'cmax1018@gmail.com',
     password: 'abc',
-    games: [],
+    games: [ObjectId('111111111111111111111110')],
+    collections: ['5e7c67ff234c33534f1e7ac4', '5e7c67ff234c33534f1e7ac5'],
     userName: 'max'
   },
   {
     // _id: ObjectId('111111111111111111111112'),
     email: 'opp@gmail.com',
     password: 'abc',
-    games: [],
+    games: [ObjectId('111111111111111111111110')],
+    collections: ['5e7c67ff234c33534f1e7ac3'],
     userName: 'opp'
   }
 ]
@@ -119,22 +121,43 @@ const monsterNames = [
   'Basilisks',
   'Chimera',
   'Medusa',
+  'Centaurs',
+  'Basilisks',
+  'Chimera',
+  'Medusa',
   'Cyclopes',
-  'Minotaur',
-  'Kraken',
-  'Cerberus',
-  'Sphinx',
-  'Lernaean',
-  'Hydra',
-  'Kappas',
-  'Lamia',
+  'Harpies',
+  'Typhon',
+  'Echidna',
+  'Furies',
+  'Scylla',
+  'Banshees',
   'Charybdis',
   'Harpies',
   'Typhon',
   'Echidna',
   'Furies',
   'Scylla',
-  'Banshees'
+  'Centaurs',
+  'Basilisks',
+  'Chimera',
+  'Medusa',
+  'Cyclopes',
+  'Basilisks',
+  'Chimera',
+  'Harpies',
+  'Typhon',
+  'Chimera',
+  'Medusa',
+  'Medusa',
+  'Cyclopes',
+  'Harpies',
+  'Typhon',
+  'Scylla',
+  'Centaurs',
+  'Basilisks',
+  'Chimera',
+  'Medusa'
 ]
 
 for (let j = 0; j < monsterNames.length; j++) {
@@ -151,12 +174,29 @@ for (let j = 0; j < monsterNames.length; j++) {
 const collection1 = {
   name: 'defaultDeck',
   cards: cardDocs.slice(0, 20),
+  userId: '111111111111111111111112',
+  isDeck: true
+}
+
+const collection2 = {
+  name: 'defaultDeck',
+  cards: cardDocs.slice(0, 20),
+  userId: '111111111111111111111111',
+  isDeck: true
+}
+
+const collection3 = {
+  name: 'second deck',
+  userId: '111111111111111111111111',
+  cards: cardDocs.slice(20, 40),
   isDeck: true
 }
 
 const collectionDocs = []
 
 collectionDocs.push(collection1)
+collectionDocs.push(collection2)
+collectionDocs.push(collection3)
 
 const data = [
   {

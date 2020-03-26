@@ -2,12 +2,9 @@ const router = require('express').Router()
 const {Collection} = require('../db/models')
 module.exports = router
 
-//all of a user's collections
-router.get('/:userId', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
-    const collections = await Collection.findOne({
-      userId: req.params.userId
-    })
+    const collections = await Collection.find()
     res.json(collections)
   } catch (err) {
     next(err)
@@ -24,19 +21,13 @@ router.get('/:collectionId', async (req, res, next) => {
   }
 })
 
-//one collection for a user
-// router.get('/userCollection', async (req, res, next) => {
-//   try {
-//     const collection = await Collection.findOne({userId: req.user.id})
-//     res.json(collection)
-//   } catch (err) {
-//     next(err)
-//   }
-// })
-router.get('/userCollection', async (req, res, next) => {
+//all of a user's collections
+router.get('/:userId', async (req, res, next) => {
   try {
-    const collection = await Collection.findOne({userId: req.user.id})
-    res.json(collection)
+    const collections = await Collection.findOne({
+      userId: req.params.userId
+    })
+    res.json(collections)
   } catch (err) {
     next(err)
   }
@@ -52,6 +43,7 @@ router.post('/', async (req, res, next) => {
       isDeck: req.body.isDeck
     })
     const savedCollection = await collection.save()
+
     res.json(savedCollection)
   } catch (err) {
     next(err)
