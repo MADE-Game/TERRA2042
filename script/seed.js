@@ -99,7 +99,7 @@ const cardDocs = []
 
 const userDocs = [
   {
-    // _id: ObjectId('111111111111111111111111'),
+    _id: ObjectId('111111111111111111111111'),
     email: 'cmax1018@gmail.com',
     password: 'abc',
     games: [ObjectId('111111111111111111111110')],
@@ -107,7 +107,7 @@ const userDocs = [
     userName: 'max'
   },
   {
-    // _id: ObjectId('111111111111111111111112'),
+    _id: ObjectId('111111111111111111111112'),
     email: 'opp@gmail.com',
     password: 'abc',
     games: [ObjectId('111111111111111111111110')],
@@ -222,7 +222,7 @@ const data = [
 if (module === require.main) {
   try {
     seeder.connect(
-      'mongodb://localhost/made',
+      process.env.MONGODB_URI || 'mongodb://localhost/made',
       {useUnifiedTopology: true},
       () => {
         seeder.loadModels([

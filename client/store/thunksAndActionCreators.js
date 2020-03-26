@@ -48,6 +48,7 @@ const playerAttackedHero = hero => ({
 const playerHeroDied = () => ({
   type: PLAYER_HERO_DEAD
 })
+
 const opponentHeroDied = () => ({
   type: OPP_HERO_DEAD
 })
