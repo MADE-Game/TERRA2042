@@ -87,7 +87,6 @@ export const playerPlayCard = (hero, card) => {
     }
   }
   return async dispatch => {
-    console.log('emitted')
     await dispatch(playerPlayedCard(hero, card))
     socket.emit('play card', card)
   }

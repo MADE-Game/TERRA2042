@@ -42,7 +42,6 @@ class Routes extends Component {
             <Route path="/games/rooms/:roomId/game/:id" component={Chat} />
             <Route path="/decks" component={CollectionList} />
             <Route path="/home" component={UserHome} />
-            <Route path="/games" component={Board} />
             <Route exact path="/" component={UserHome} />
             <Route path="/shop" component={Shop} />
             <Route path="/collection" component={Collection} />
