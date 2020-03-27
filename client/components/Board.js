@@ -82,7 +82,12 @@ class Board extends React.Component {
             <Side side={playerSide} />
           </div>
         ) : (
-          <h1>Game Over!</h1>
+          <div>
+            <h1>Game Over!</h1>{' '}
+            <button type="submit" className="buttonStyle2">
+              Back to Lobby?
+            </button>
+          </div>
         )}
       </DndProvider>
     )
