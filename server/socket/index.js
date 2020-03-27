@@ -19,22 +19,18 @@ const GAMENSP = gameNsp => {
 
     socket.on('join', data => {
       socket.join(`room${data.roomId}`)
-      if (gameNsp.adapter.rooms[`room${data.roomId}`].length > 2) {
-        gameNsp.to(socket.id).emit('full', {roomId: data.roomId})
-      } else {
-        id = data.roomId
-        if (gameNsp.adapter.rooms[`room${data.roomId}`].length === 1) {
-          gameNsp.adapter.rooms[`room${data.roomId}`].host = socket.id
-        }
-
-        gameNsp.to(socket.id).emit('join', {
-          numPpl: gameNsp.adapter.rooms[`room${data.roomId}`].length
-        })
+      // if (gameNsp.adapter.rooms[`room${data.roomId}`].length > 2) {
+      //   gameNsp.to(socket.id).emit('full', {roomId: data.roomId})
+      // } else {
+      id = data.roomId
+      if (gameNsp.adapter.rooms[`room${data.roomId}`].length === 1) {
+        gameNsp.adapter.rooms[`room${data.roomId}`].host = socket.id
       }
-      console.log(
-        'length here:',
-        gameNsp.adapter.rooms[`room${data.roomId}`].length
-      )
+
+      gameNsp.to(socket.id).emit('join', {
+        numPpl: gameNsp.adapter.rooms[`room${data.roomId}`].length
+      })
+      // }
     })
 
     socket.on('id exchange', data => {

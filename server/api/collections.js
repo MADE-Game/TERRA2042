@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Collection, Card} = require('../db/models')
+const {Collection, Card, User} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -14,8 +14,15 @@ router.get('/', async (req, res, next) => {
 //returns all cards associated with collection.
 router.get('/:collectionId/cards', async (req, res, next) => {
   try {
-    const collection = await Collection.findById(req.params.collectionId)
-    const cards = await Card.find({_id: {$in: collection.cards}})
+    let collection
+    let cards
+
+    if (req.params.collectionId === 'undefined') {
+      collection = await Collection.findOne({userId: req.user._id})
+    } else {
+      collection = await Collection.findById(req.params.collectionId)
+    }
+    cards = await Card.find({_id: {$in: collection.cards}})
     res.json(cards)
   } catch (err) {
     next(err)
@@ -47,15 +54,18 @@ router.get('/:userId', async (req, res, next) => {
 //create new collection
 router.post('/', async (req, res, next) => {
   try {
-    const collection = new Collection({
-      userId: req.body.userId,
+    const collection = await Collection.create({
+      userId: req.user._id,
       name: req.body.name,
-      cards: req.body.cards,
-      isDeck: req.body.isDeck
+      cards: [],
+      isDeck: true
     })
-    const savedCollection = await collection.save()
 
-    res.json(savedCollection)
+    await User.findByIdAndUpdate(req.user._id, {
+      collections: [...req.user.collections, collection._id]
+    })
+
+    res.json(collection)
   } catch (err) {
     next(err)
   }

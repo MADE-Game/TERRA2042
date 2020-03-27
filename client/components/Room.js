@@ -19,11 +19,11 @@ class Room extends Component {
       }
     })
 
-    socket.on('full', data => {
-      socket.leave(`room${data.roomId}`)
-      // eslint-disable-next-line no-alert
-      alert('Room is full!')
-    })
+    // socket.on('full', data => {
+    //   socket.leave(`room${data.roomId}`)
+    //   // eslint-disable-next-line no-alert
+    //   alert('Room is full!')
+    // })
 
     socket.on('id exchange', async data => {
       if (socket.id === data.host) {
