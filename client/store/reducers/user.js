@@ -8,6 +8,7 @@ const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 const ALL_COLLECTIONS_FOR_USER = 'ALL_COLLECTIONS_FOR_USER'
 const ALL_CARDS_IN_COLLECTION = 'ALL_CARDS_IN_COLLECTION'
+const CREATE_DECK = 'CREATE_DECK'
 
 /**
  * INITIAL STATE
@@ -27,10 +28,16 @@ const gotAllCollections = collections => ({
   type: ALL_COLLECTIONS_FOR_USER,
   collections
 })
-const gotCollection = cards => ({
+const gotCollection = collection => ({
   type: ALL_CARDS_IN_COLLECTION,
-  cards
+  collection
 })
+
+const createdDeck = deck => ({
+  type: CREATE_DECK,
+  deck
+})
+
 /**
  * THUNK CREATORS
  */
@@ -64,21 +71,22 @@ export const auth = (email, password, method, userName) => async dispatch => {
   }
 }
 
-export const getAllUserCollections = id => {
+export const getAllUserCollections = userId => {
   return async dispatch => {
-    const {data: collections} = await axios.get(`/api/collections/${id}`)
+    const {data: collections} = await axios.get(
+      `/api/users/${userId}/collections`
+    )
 
-    let theCollections = collections.map(function(collection) {
-      return {...collection.cards}
-    })
-    dispatch(gotAllCollections(theCollections))
+    dispatch(gotAllCollections(collections))
   }
 }
 
-export const getCollectionCards = () => {
+export const getCollectionCards = collectionId => {
   return async dispatch => {
-    const {data: collections} = await axios.get('/api/collections/')
-    const collection = collections[0]
+    const {data: collections} = await axios.get(
+      `/api/collections/${collectionId}/cards`
+    )
+    const collection = collections
     dispatch(gotCollection(collection))
   }
 }
@@ -90,6 +98,15 @@ export const logout = () => async dispatch => {
     history.push('/login')
   } catch (err) {
     console.error(err)
+  }
+}
+
+export const createDeck = name => async dispatch => {
+  try {
+    const {data: deck} = await axios.post('/api/collections', {name})
+    dispatch(createdDeck(deck))
+  } catch (error) {
+    console.error(error)
   }
 }
 
@@ -105,7 +122,9 @@ export default function(state = initialState, action) {
     case ALL_COLLECTIONS_FOR_USER:
       return {...state, collections: action.collections}
     case ALL_CARDS_IN_COLLECTION:
-      return {...state, selectedCollection: action.cards}
+      return {...state, selectedCollection: action.collection}
+    case CREATE_DECK:
+      return {...state, collections: [...state.collections, action.deck]}
     default:
       return state
   }

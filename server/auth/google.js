@@ -60,9 +60,21 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
             isDeck: true
           })
 
-          const savedCollection = await collection.save()
+          const myCards = new Collection({
+            userId: newUser._id,
+            name: 'My Cards',
+            cards: [
+              ...allCards.map(card => {
+                return card._id
+              })
+            ],
+            isDeck: false
+          })
 
-          newUser.collections = [savedCollection._id]
+          const savedCollection = await collection.save()
+          const savedMyCards = await myCards.save()
+
+          newUser.collections = [savedMyCards._id, savedCollection._id]
           //setting the selected deck to default deck
           newUser.selectedDeck = savedCollection._id
           await newUser.save()

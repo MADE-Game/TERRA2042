@@ -1,8 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Navbar, Login, Signup} from './components'
+import {Login, Signup} from './components'
 import Routes from './routes'
-import Chat from './components/Chat'
 import {me} from './store'
 import {Route, Switch} from 'react-router-dom'
 
@@ -12,12 +11,10 @@ class App extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div id="routes-wrapper">
         {this.props.isLoggedIn ? (
-          <div>
-            <Navbar />
+          <div id="routes">
             <Routes />
-            {/* <Chat /> */}
           </div>
         ) : (
           <Switch>

@@ -16,8 +16,12 @@ const GAMENSP = gameNsp => {
     socket.on('disconnect', () => {
       console.log(`Connection ${socket.id} has left the lobby`)
     })
+
     socket.on('join', data => {
       socket.join(`room${data.roomId}`)
+      // if (gameNsp.adapter.rooms[`room${data.roomId}`].length > 2) {
+      //   gameNsp.to(socket.id).emit('full', {roomId: data.roomId})
+      // } else {
       id = data.roomId
       if (gameNsp.adapter.rooms[`room${data.roomId}`].length === 1) {
         gameNsp.adapter.rooms[`room${data.roomId}`].host = socket.id
@@ -26,6 +30,7 @@ const GAMENSP = gameNsp => {
       gameNsp.to(socket.id).emit('join', {
         numPpl: gameNsp.adapter.rooms[`room${data.roomId}`].length
       })
+      // }
     })
 
     socket.on('id exchange', data => {
@@ -57,9 +62,9 @@ const GAMENSP = gameNsp => {
       gameNsp.in(`room${id}`).emit('send msg', data)
     })
     socket.on('end turn', () => {
-      gameNsp.in(`room${id}`).emit('end turn')
+      socket.to(`room${id}`).emit('end turn')
     })
-    socket.on('game over', data => {
+    socket.on('game over', () => {
       gameNsp.in(`room${id}`).emit('game over')
     })
   })
