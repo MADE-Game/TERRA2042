@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome} from './components'
-import {Games} from './components/Games'
+import {GamesLobby} from './components/GamesLobby'
 import Collection from './components/Collection'
 import {Shop} from './components/Shop'
 import Board from './components/Board'
@@ -32,7 +32,7 @@ class Routes extends Component {
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route exact path="/games" component={Games} />
+            <Route exact path="/lobby" component={GamesLobby} />
             <Route
               exact
               path="/games/rooms/:roomId"

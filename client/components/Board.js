@@ -3,6 +3,7 @@ import Side from './Side'
 import {DndProvider} from 'react-dnd'
 import Backend from 'react-dnd-html5-backend'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import {
   getAllCards,
   loadGame,
@@ -13,6 +14,9 @@ import {
 import {socket} from './Room'
 import {withRouter} from 'react-router'
 import PropTypes from 'prop-types'
+
+//used for slightly delaying socket speed prior to save.
+const STUTTER = 25
 
 const enemySide = {
   heroUrl: '/images/monsters/11.png'
@@ -28,19 +32,46 @@ class Board extends Component {
   componentDidMount() {
     socket.emit('join', {roomId: this.props.match.params.roomId})
     socket.on('play card', () => {
-      this.props.loadGame(this.props.match.params.id)
+      setTimeout(
+        function() {
+          this.props.loadGame(this.props.match.params.id)
+        }.bind(this),
+        STUTTER
+      )
     })
     socket.on('end turn', () => {
-      console.log('turn ended..')
-      this.props.loadGame(this.props.match.params.id)
+      setTimeout(
+        function() {
+          this.props.loadGame(this.props.match.params.id)
+        }.bind(this),
+        STUTTER
+      )
+    })
+    socket.on('game over', () => {
+      setTimeout(
+        function() {
+          this.props.loadGame(this.props.match.params.id)
+        }.bind(this),
+        STUTTER
+      )
     })
 
     socket.on('attack', () => {
-      this.props.loadGame(this.props.match.params.id)
+      setTimeout(
+        function() {
+          this.props.loadGame(this.props.match.params.id)
+        }.bind(this),
+        STUTTER
+      )
     })
 
     socket.on('draw card', () => {
-      this.props.loadGame(this.props.match.params.id)
+      setTimeout(
+        function() {
+          this.props.loadGame(this.props.match.params.id)
+        }.bind(this),
+        STUTTER
+      )
     })
 
     this.props.loadGame(this.props.match.params.id)
@@ -57,12 +88,12 @@ class Board extends Component {
   render() {
     return (
       <DndProvider backend={Backend}>
-        {!this.props.isFinished ? (
-          <div className="board">
-            ENEMY SIDE:
-            <Side top={true} side={enemySide} />
-            PLAYER SIDE:
-            {this.props.isMyTurn ? (
+        <div className="board">
+          ENEMY SIDE:
+          <Side top={true} side={enemySide} />
+          PLAYER SIDE:
+          {!this.props.isFinished ? (
+            this.props.isMyTurn ? (
               <div id="buttonContainer">
                 <button
                   type="submit"
@@ -79,12 +110,19 @@ class Board extends Component {
               </div>
             ) : (
               'not my turn'
-            )}
-            <Side side={playerSide} />
-          </div>
-        ) : (
-          <h1>Game Over!</h1>
-        )}
+            )
+          ) : (
+            <div>
+              <h1>Game Over!</h1>
+              <Link to="/lobby">
+                <button type="submit" className="buttonStyle2">
+                  Back to Lobby?
+                </button>
+              </Link>
+            </div>
+          )}
+          <Side side={playerSide} />
+        </div>
       </DndProvider>
     )
   }

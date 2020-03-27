@@ -22,7 +22,7 @@ export class UserHome extends Component {
         <div className="column">
           <p id="welcomeStyle">Welcome, {userName}</p>
           <div>
-            <Link to="/games">
+            <Link to="/lobby">
               <button type="submit" className="buttonStyle2">
                 Play
               </button>
