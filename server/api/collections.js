@@ -90,8 +90,7 @@ router.put('/:collectionId', async (req, res, next) => {
       req.params.collectionId,
       {
         cards: req.body.cards,
-        name: req.body.name,
-        isDeck: req.body.isDeck
+        name: req.body.name
       }
     )
     res.json(collection)

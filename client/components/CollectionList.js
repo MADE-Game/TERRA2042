@@ -27,6 +27,7 @@ class CollectionList extends Component {
 
   handleClick(collectionId) {
     this.props.loadCards(collectionId)
+    // this.props.loadInitialData(this.props.user._id)
   }
 
   handleSubmit(event) {
@@ -44,51 +45,51 @@ class CollectionList extends Component {
   }
 
   render() {
-    if (this.props.selectedCollection) {
-      return (
-        <div>
-          <div id="collections">
-            {this.props.userCollections.map(collection => {
-              return (
-                <Collection
-                  handleClick={() => {
-                    this.handleClick(collection._id)
-                  }}
-                  key={collection._id}
-                  collection={collection}
-                />
-              )
-            })}
-          </div>
-          <form onSubmit={this.handleSubmit}>
-            <label htmlFor="deck">Deck Name</label>
-            <input
-              name="deck"
-              value={this.state.name}
-              onChange={this.handleChange}
-            ></input>
-            <button type="submit">Create Deck</button>
-          </form>
+    // if (this.props.selectedCollection) {
+    return (
+      <div>
+        <div id="collections">
+          {this.props.userCollections.map(collection => {
+            return (
+              <Collection
+                handleClick={() => {
+                  this.handleClick(collection._id)
+                }}
+                key={collection._id}
+                collection={collection}
+              />
+            )
+          })}
+        </div>
+        <form onSubmit={this.handleSubmit}>
+          <label htmlFor="deck">Deck Name</label>
+          <input
+            name="deck"
+            value={this.state.name}
+            onChange={this.handleChange}
+          ></input>
+          <button type="submit">Create Deck</button>
+        </form>
 
-          <div id="selectedCollection">
-            {this.props.selectedCollection.map(card => {
-              return <DisplayCard key={card._id} card={card} />
-            })}
-          </div>
+        <div id="selectedCollection">
+          {this.props.selectedCollection.map(card => {
+            return <DisplayCard key={card._id} card={card} />
+          })}
         </div>
-      )
-    } else {
-      return (
-        <div>
-          <div id="collections">
-            {this.props.userCollections.map(collection => {
-              return <Collection key={collection._id} collection={collection} />
-            })}
-          </div>
-          <div id="selectedCollection">No selection</div>
-        </div>
-      )
-    }
+      </div>
+    )
+    // } else {
+    //   return (
+    //     <div>
+    //       <div id="collections">
+    //         {this.props.userCollections.map(collection => {
+    //           return <Collection key={collection._id} collection={collection} />
+    //         })}
+    //       </div>
+    //       <div id="selectedCollection">No selection</div>
+    //     </div>
+    //   )
+    // }
   }
 }
 

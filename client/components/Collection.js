@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default function Collection(props) {
-  // console.log(props)
+  console.log('collection here:', props.collection)
   return props.collection._id ? (
     <div onClick={props.handleClick}>
       <div className="collection">{`${props.collection.name}`}</div>

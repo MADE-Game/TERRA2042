@@ -272,4 +272,5 @@ form div {
   width: 35%;
   max-width: 35%;
   min-width: 325px;
+  overflow-y: auto;
 }
