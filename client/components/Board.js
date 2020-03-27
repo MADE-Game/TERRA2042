@@ -3,6 +3,7 @@ import Side from './Side'
 import {DndProvider} from 'react-dnd'
 import Backend from 'react-dnd-html5-backend'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import {
   getAllCards,
   loadGame,
@@ -112,7 +113,14 @@ class Board extends React.Component {
               'not my turn'
             )
           ) : (
-            'Game over!'
+            <div>
+              <h1>Game Over!</h1>
+              <Link to="/lobby">
+                <button type="submit" className="buttonStyle2">
+                  Back to Lobby?
+                </button>
+              </Link>
+            </div>
           )}
           <Side side={playerSide} />
         </div>
