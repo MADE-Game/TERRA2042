@@ -31,6 +31,10 @@ class Board extends React.Component {
       console.log('turn ended..')
       this.props.loadGame(this.props.match.params.id)
     })
+    socket.on('game over', data => {
+      console.log('game over!')
+      this.props.loadGame(this.props.match.params.id)
+    })
 
     socket.on('attack', data => {
       console.log(`${data.attacker.name} attacked ${data.defender.name}!`)
@@ -56,12 +60,12 @@ class Board extends React.Component {
   render() {
     return (
       <DndProvider backend={Backend}>
-        {!this.props.isFinished ? (
-          <div className="board">
-            ENEMY SIDE:
-            <Side top={true} side={enemySide} />
-            PLAYER SIDE:
-            {this.props.isMyTurn ? (
+        <div className="board">
+          ENEMY SIDE:
+          <Side top={true} side={enemySide} />
+          PLAYER SIDE:
+          {!this.props.isFinished ? (
+            this.props.isMyTurn ? (
               <div id="buttonContainer">
                 <button
                   type="submit"
@@ -78,12 +82,12 @@ class Board extends React.Component {
               </div>
             ) : (
               'not my turn'
-            )}
-            <Side side={playerSide} />
-          </div>
-        ) : (
-          <h1>Game Over!</h1>
-        )}
+            )
+          ) : (
+            'Game over!'
+          )}
+          <Side side={playerSide} />
+        </div>
       </DndProvider>
     )
   }

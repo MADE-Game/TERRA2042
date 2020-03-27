@@ -64,7 +64,6 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
 
           newUser.collections = [savedCollection._id]
           //setting the selected deck to default deck
-          console.log('signing up! ', savedCollection._id)
           newUser.selectedDeck = savedCollection._id
           await newUser.save()
 

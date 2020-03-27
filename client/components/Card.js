@@ -22,13 +22,14 @@ const Card = props => {
     accept: props.player === 'hero' ? ItemTypes.ENEMY_CARD : ItemTypes.CARD,
 
     drop: () => {
-      if (!item.card.attackOccurred) {
-        if (props.player === 'enemy' && !props.inHand && !item.inHand) {
-          props.attackCard(item.card, props.card)
-        }
-      } else {
+      if (!props.isMyTurn) {
+        //CHAT LOG OPPORTUNITY
+        return console.log('it is not my turn!')
+      } else if (item.card.attackOccurred) {
         // eslint-disable-next-line no-alert
         alert('Fighters can only attack once per turn!')
+      } else if (props.player === 'enemy' && !props.inHand && !item.inHand) {
+        props.attackCard(item.card, props.card)
       }
     },
     collect: monitor => ({
@@ -89,5 +90,8 @@ const mapDispatch = dispatch => ({
   attackCard: (attacker, defender) =>
     dispatch(playerAttackCard(attacker, defender))
 })
+const mapState = state => ({
+  isMyTurn: state.game.data.isMyTurn
+})
 
-export default connect(null, mapDispatch)(Card)
+export default connect(mapState, mapDispatch)(Card)

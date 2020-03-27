@@ -83,11 +83,17 @@ export const playerPlayCard = (hero, card) => {
   if (result.settlers <= 0) {
     return async dispatch => {
       await dispatch(playerHeroDied())
+      socket.emit('game over')
     }
   }
   return async dispatch => {
     await dispatch(playerPlayedCard(hero, card))
     socket.emit('play card', card)
+    var today = new Date()
+    var time = today
+    console.log(time.getUTCMinutes())
+    console.log(time.getUTCSeconds())
+    console.log(time.getUTCMilliseconds())
   }
 }
 //Retrieves all cards from the database
@@ -129,7 +135,10 @@ export const playerDrawCard = deck => {
 export const playerAttackHero = (attacker, hero) => {
   const result = engine.heroAttack(attacker, hero)
   if (result.settlers <= 0) {
-    return dispatch => dispatch(opponentHeroDied())
+    return async dispatch => {
+      await dispatch(opponentHeroDied())
+      socket.emit('game over')
+    }
   } else {
     return dispatch => {
       dispatch(playerAttackedHero(result))
@@ -161,6 +170,7 @@ export const hurtByTheDraw = hero => {
   if (result.settlers <= 0) {
     return dispatch => {
       dispatch(playerHeroDied())
+      socket.emit('game over')
     }
   } else {
     return dispatch => dispatch(hurtByDrawnCard(result))
