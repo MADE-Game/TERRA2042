@@ -56,7 +56,7 @@ router.post('/signup', async (req, res, next) => {
     const savedMyCards = await myCards.save()
     const savedCollection = await collection.save()
 
-    savedUser.collections = [savedMyCards._id, savedCollection._id]
+    savedUser.collections = [savedMyCards, savedCollection]
     //setting the selected deck to default deck
     savedUser.selectedDeck = savedCollection._id
     await savedUser.save()
@@ -77,8 +77,12 @@ router.post('/logout', (req, res) => {
   res.redirect('/')
 })
 
-router.get('/me', (req, res) => {
-  res.json(req.user)
+router.get('/me', async (req, res) => {
+  const collections = await Collection.find({
+    userId: req.user._id
+  })
+  const userToSend = {...req.user._doc, collections}
+  res.json(userToSend)
 })
 
 router.use('/google', require('./google'))

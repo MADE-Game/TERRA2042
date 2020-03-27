@@ -73,7 +73,7 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
           const savedMyCards = await myCards.save()
           const savedCollection = await collection.save()
 
-          newUser.collections = [savedMyCards._id, savedCollection._id]
+          newUser.collections = [savedMyCards, savedCollection]
           //setting the selected deck to default deck
           newUser.selectedDeck = savedCollection._id
           await newUser.save()

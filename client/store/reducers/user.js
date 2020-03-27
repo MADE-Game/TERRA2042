@@ -10,6 +10,7 @@ const ALL_COLLECTIONS_FOR_USER = 'ALL_COLLECTIONS_FOR_USER'
 const GET_COLLECTION = 'GET_COLLECTION'
 const CREATE_DECK = 'CREATE_DECK'
 const EDIT_COLLECTION = 'EDIT_COLLECTION'
+const SELECT_DECK = 'SELECT_DECK'
 
 /**
  * INITIAL STATE
@@ -21,7 +22,8 @@ const initialState = {
     name: '',
     _id: ''
   },
-  defaultUser: {}
+  defaultUser: {},
+  selectedDeck: {}
 }
 /**
  * ACTION CREATORS
@@ -45,6 +47,10 @@ const createdDeck = deck => ({
 const editedCollection = collection => ({
   type: EDIT_COLLECTION,
   collection
+})
+const selectedDeck = deck => ({
+  type: SELECT_DECK,
+  deck
 })
 
 /**
@@ -87,6 +93,14 @@ export const getAllUserCollections = userId => {
     )
 
     dispatch(gotAllCollections(collections))
+  }
+}
+export const selectDeck = name => {
+  return async dispatch => {
+    const {data: deck} = await axios.put('/api/users/collections/selected', {
+      name
+    })
+    dispatch(selectedDeck(deck))
   }
 }
 
@@ -152,6 +166,7 @@ export const removeFromCollection = (collection, cardId) => {
 export const createDeck = name => async dispatch => {
   try {
     const {data: deck} = await axios.post('/api/collections', {name})
+    console.log('created dekc!', deck)
     dispatch(createdDeck(deck))
   } catch (error) {
     console.error(error)
@@ -161,6 +176,7 @@ export const createDeck = name => async dispatch => {
 /**
  * REDUCER
  */
+// eslint-disable-next-line complexity
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_USER:
@@ -182,6 +198,8 @@ export default function(state = initialState, action) {
       return {...state, collections: action.collections}
     case GET_COLLECTION:
       return {...state, selectedCollection: action.collection}
+    case SELECT_DECK:
+      return {...state, selectedDeck: action.deck}
     case CREATE_DECK:
       return {...state, collections: [...state.collections, action.deck]}
     default:

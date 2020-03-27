@@ -22,6 +22,22 @@ router.get('/:userId', async (req, res, next) => {
   }
 })
 
+router.put('/collections/selected', async (req, res, next) => {
+  try {
+    console.log('req.body', req.body)
+    const deck = await Collection.findOne({
+      userId: req.user._id,
+      name: req.body.name
+    })
+    await User.findByIdAndUpdate(req.user._id, {
+      selectedDeck: deck._id
+    })
+    res.json(deck)
+  } catch (e) {
+    console.error(e)
+  }
+})
+
 router.get('/:userId/collections', async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId)
