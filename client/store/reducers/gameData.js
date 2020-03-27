@@ -18,6 +18,7 @@ export default function(state = initialState, action) {
     case LOAD_GAME:
       return {
         ...state,
+        isFinished: action.game.isFinished,
         isMyTurn: action.game.game.data.isMyTurn,
         localTurn: action.game.game.data.isMyTurn
       }
