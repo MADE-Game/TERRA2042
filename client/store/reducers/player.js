@@ -5,15 +5,18 @@ import {
   GET_ALL_CARDS,
   LOAD_GAME,
   END_TURN,
-  HURT_BY_DRAW
+  HURT_BY_DRAW,
+  PLAYER_ATTACK_HERO
 } from '../actionTypes'
 
 const initialState = {
   deck: [],
   inPlay: [],
   hand: [],
-  settlers: 10,
-  planeFull: false
+  settlers: 20,
+  planeFull: false,
+  drawsThisTurn: 0,
+  drawLimit: 1
 }
 
 // eslint-disable-next-line complexity
@@ -48,10 +51,17 @@ export default function(state = initialState, action) {
         }
       }
     case PLAYER_DRAW_CARD:
-      return {
-        ...state,
-        deck: action.deck,
-        hand: [...state.hand, action.card]
+      if (state.drawsThisTurn < state.drawLimit) {
+        return {
+          ...state,
+          deck: action.deck,
+          hand: [...state.hand, action.card],
+          drawsThisTurn: state.drawsThisTurn + 1
+        }
+      } else {
+        // eslint-disable-next-line no-alert
+        alert("You can't draw any more cards this turn")
+        return state
       }
     case PLAYER_ATTACK_CARD:
       return {
@@ -64,7 +74,8 @@ export default function(state = initialState, action) {
             } else {
               return card
             }
-          })
+          }),
+        planeFull: false
       }
     case GET_ALL_CARDS:
       return {...state, deck: action.cards}
@@ -74,12 +85,25 @@ export default function(state = initialState, action) {
         inPlay: state.inPlay.map(function(card) {
           card.attackOccurred = false
           return card
-        })
+        }),
+        drawsThisTurn: 0,
+        planeFull: false
       }
     case HURT_BY_DRAW:
       return {
         ...state,
         settlers: action.hero.settlers
+      }
+    case PLAYER_ATTACK_HERO:
+      return {
+        ...state,
+        inPlay: state.inPlay.map(card => {
+          if (card._id === action.attacker._id) {
+            return action.attacker
+          } else {
+            return card
+          }
+        })
       }
     default:
       return state

@@ -9,7 +9,14 @@ const Player = props => {
     accept: ItemTypes.CARD,
 
     drop: () => {
-      if (!item.inHand && item.player === 'hero' && props.side !== 'bottom') {
+      if (item.card.attackOccurred) {
+        // eslint-disable-next-line no-alert
+        alert("This fighter can't attack until next turn")
+      } else if (
+        !item.inHand &&
+        item.player === 'hero' &&
+        props.side !== 'bottom'
+      ) {
         props.attackHero(item.card, props.player)
       }
     },

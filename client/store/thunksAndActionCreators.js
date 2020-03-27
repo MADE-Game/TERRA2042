@@ -40,8 +40,9 @@ const playerAttackedCard = (attacker, defender) => ({
   attacker,
   defender
 })
-const playerAttackedHero = hero => ({
+const playerAttackedHero = (attacker, hero) => ({
   type: PLAYER_ATTACK_HERO,
+  attacker,
   hero
 })
 
@@ -134,14 +135,14 @@ export const playerDrawCard = deck => {
 }
 export const playerAttackHero = (attacker, hero) => {
   const result = engine.heroAttack(attacker, hero)
-  if (result.settlers <= 0) {
+  if (result[1].settlers <= 0) {
     return async dispatch => {
       await dispatch(opponentHeroDied())
       socket.emit('game over')
     }
   } else {
     return dispatch => {
-      dispatch(playerAttackedHero(result))
+      dispatch(playerAttackedHero(...result))
     }
   }
 }
@@ -185,14 +186,14 @@ export const startGame = (p1Id, p2Id) => {
           hand: [],
           deck: [],
           inPlay: [],
-          settlers: 10
+          settlers: 20
         },
 
         player2: {
           hand: [],
           deck: [],
           inPlay: [],
-          settlers: 10
+          settlers: 20
         }
       },
 

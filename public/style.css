@@ -74,8 +74,8 @@ form div {
 
 .plane,
 .hand {
-  min-height: 16%;
-  max-height: 16%;
+  min-height: 10vh;
+  /* max-height: 30%; */
 }
 
 #buttonContainer {

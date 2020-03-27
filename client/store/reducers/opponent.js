@@ -1,10 +1,15 @@
-import {PLAYER_ATTACK_CARD, PLAYER_ATTACK_HERO, LOAD_GAME} from '../actionTypes'
+import {
+  PLAYER_ATTACK_CARD,
+  PLAYER_ATTACK_HERO,
+  LOAD_GAME,
+  END_TURN
+} from '../actionTypes'
 
 const initialState = {
   deck: 0,
   inPlay: [],
   hand: 0,
-  settlers: 10
+  settlers: 20
 }
 
 export default function(state = initialState, action) {
@@ -32,6 +37,15 @@ export default function(state = initialState, action) {
       }
     case PLAYER_ATTACK_HERO:
       return {...state, settlers: action.hero.settlers}
+    case END_TURN:
+      return {
+        ...state,
+        inPlay: state.inPlay.map(function(card) {
+          card.attackOccurred = false
+          return card
+        }),
+        drawOccurred: 0
+      }
     default:
       return state
   }

@@ -27,9 +27,10 @@ const Card = props => {
         return console.log('it is not my turn!')
       } else if (item.card.attackOccurred) {
         // eslint-disable-next-line no-alert
-        alert('Fighters can only attack once per turn!')
+        alert("This fighter can't attack until next turn")
       } else if (props.player === 'enemy' && !props.inHand && !item.inHand) {
         props.attackCard(item.card, props.card)
+        console.log('logging attacker', item.card)
       }
     },
     collect: monitor => ({
