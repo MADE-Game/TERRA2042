@@ -27,6 +27,7 @@ const Side = props => {
             inPlay={props.opponentInPlay}
             playCard={card => props.playCard(props.opponent, card)}
             player="enemy"
+            className="planeStyle"
           />
         </div>
       ) : (

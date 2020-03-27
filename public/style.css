@@ -70,8 +70,8 @@ form div {
 
 .plane,
 .hand {
-  min-height: 16%;
-  max-height: 16%;
+  min-height: 25%;
+  /* max-height: 30%; */
 }
 
 #buttonContainer {
@@ -254,4 +254,9 @@ form div {
 #homepage a:hover {
   background-color: rgba(0, 0, 0, 0.25);
   color: hsl(14, 82%, 24%);
+}
+
+.planeStyle {
+  height: 400px;
+  color: red;
 }

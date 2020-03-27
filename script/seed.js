@@ -166,8 +166,8 @@ for (let j = 0; j < monsterNames.length; j++) {
     imageUrl: `/images/monsters/${j + 1}.png`,
     cost: 1,
     type: 'fighter',
-    attack: Math.floor(Math.random() * (95 - 55) + 55),
-    health: Math.floor(Math.random() * (95 - 55) + 55)
+    attack: Math.floor(Math.random() * (10 - 1) + 10),
+    health: Math.floor(Math.random() * (10 - 1) + 10)
   })
 }
 

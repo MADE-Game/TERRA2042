@@ -12,7 +12,7 @@ const initialState = {
   deck: [],
   inPlay: [],
   hand: [],
-  settlers: 10,
+  settlers: 20,
   planeFull: false
 }
 
