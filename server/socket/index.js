@@ -57,7 +57,7 @@ const GAMENSP = gameNsp => {
       gameNsp.in(`room${id}`).emit('send msg', data)
     })
     socket.on('end turn', () => {
-      gameNsp.in(`room${id}`).emit('end turn')
+      socket.to(`room${id}`).emit('end turn')
     })
   })
 }

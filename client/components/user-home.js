@@ -1,7 +1,6 @@
-import React from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import Board from './Board'
 import {me} from '../store/reducers/user'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
@@ -10,7 +9,7 @@ import {logout} from '../store'
  * COMPONENT
  */
 
-export class UserHome extends React.Component {
+export class UserHome extends Component {
   componentDidMount() {
     // this.props.me()
   }

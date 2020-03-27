@@ -39,9 +39,12 @@ class Routes extends Component {
               render={({match}) => <Room match={match} />}
             />
             <Route path="/games/rooms/:roomId/game/:id">
-              <Board />
-              <Chat />
+              <div id="board-chat">
+                <Board />
+                <Chat />
+              </div>
             </Route>
+            {/* <Route path="/games/rooms/:roomId/game/:id" component={Board} /> */}
             <Route path="/decks" component={CollectionList} />
             <Route path="/home" component={UserHome} />
             <Route exact path="/" component={UserHome} />

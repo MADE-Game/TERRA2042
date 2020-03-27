@@ -1,8 +1,8 @@
 /* eslint-disable no-alert */
-import React from 'react'
+import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 
-export class Games extends React.Component {
+export class Games extends Component {
   constructor() {
     super()
     this.state = {
