@@ -32,7 +32,7 @@ class Routes extends Component {
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route exact path="/games" component={GamesLobby} />
+            <Route exact path="/lobby" component={GamesLobby} />
             <Route
               exact
               path="/games/rooms/:roomId"

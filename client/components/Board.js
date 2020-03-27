@@ -115,7 +115,7 @@ class Board extends React.Component {
           ) : (
             <div>
               <h1>Game Over!</h1>
-              <Link to="/games">
+              <Link to="/lobby">
                 <button type="submit" className="buttonStyle2">
                   Back to Lobby?
                 </button>
