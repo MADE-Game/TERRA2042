@@ -11,8 +11,10 @@ import {
   startTurn
 } from '../store/thunksAndActionCreators'
 import {socket} from './Room'
+
+//used for slightly delaying socket speed prior to save.
 const STUTTER = 25
-console.log('stutter is', STUTTER)
+
 const enemySide = {
   heroUrl: '/images/monsters/11.png'
 }
