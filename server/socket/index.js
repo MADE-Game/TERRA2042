@@ -59,6 +59,9 @@ const GAMENSP = gameNsp => {
     socket.on('end turn', () => {
       gameNsp.in(`room${id}`).emit('end turn')
     })
+    socket.on('game over', data => {
+      gameNsp.in(`room${id}`).emit('game over')
+    })
   })
 }
 

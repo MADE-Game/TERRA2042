@@ -20,7 +20,7 @@ export class Games extends React.Component {
   render() {
     return (
       <div>
-        <h1>Games</h1>
+        <h1>Welcome to the lobby!</h1>
         <Link to={`/games/rooms/${Math.floor(Math.random() * 1000000)}`}>
           <button type="button">Create Game Room</button>
         </Link>
@@ -32,6 +32,9 @@ export class Games extends React.Component {
         <Link to={`/games/rooms/${this.state.roomId}`}>
           <button type="button">Join Game Room</button>
         </Link>
+        <p>
+          I think this is a good place to be able to pick your deck and class!
+        </p>
       </div>
     )
   }
