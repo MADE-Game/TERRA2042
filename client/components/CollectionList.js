@@ -1,12 +1,15 @@
 import {
   getAllUserCollections,
-  getCollectionCards,
-  createDeck
+  getCollection,
+  createDeck,
+  removeFromCollection
 } from '../store/reducers/user.js'
 import Collection from './Collection'
 import DisplayCard from './DisplayCard'
 import {connect} from 'react-redux'
 import React, {Component} from 'react'
+import Backend from 'react-dnd-html5-backend'
+import {DndProvider} from 'react-dnd'
 
 class CollectionList extends Component {
   constructor() {
@@ -18,6 +21,7 @@ class CollectionList extends Component {
     this.handleClick = this.handleClick.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.handleRemove = this.handleRemove.bind(this)
   }
 
   componentDidMount() {
@@ -43,53 +47,56 @@ class CollectionList extends Component {
       name: event.target.value
     })
   }
+  handleRemove(coll, cardId) {
+    this.props.removeFromCollection(coll, cardId)
+  }
 
   render() {
-    // if (this.props.selectedCollection) {
     return (
-      <div>
-        <div id="collections">
-          {this.props.userCollections.map(collection => {
-            return (
-              <Collection
-                handleClick={() => {
-                  this.handleClick(collection._id)
-                }}
-                key={collection._id}
-                collection={collection}
-              />
-            )
-          })}
-        </div>
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="deck">Deck Name</label>
-          <input
-            name="deck"
-            value={this.state.name}
-            onChange={this.handleChange}
-          ></input>
-          <button type="submit">Create Deck</button>
-        </form>
+      <DndProvider backend={Backend}>
+        <div>
+          <div id="collections">
+            {this.props.userCollections.map(collection => {
+              return (
+                <Collection
+                  handleClick={() => {
+                    this.handleClick(collection._id)
+                  }}
+                  key={collection._id}
+                  collection={collection}
+                />
+              )
+            })}
+          </div>
+          <form onSubmit={this.handleSubmit}>
+            <label htmlFor="deck">Deck Name</label>
+            <input
+              name="deck"
+              value={this.state.name}
+              onChange={this.handleChange}
+            ></input>
+            <button type="submit">Create Deck</button>
+          </form>
 
-        <div id="selectedCollection">
-          {this.props.selectedCollection.map(card => {
-            return <DisplayCard key={card._id} card={card} />
-          })}
+          <div id="selectedCollection">
+            <hr />
+            <h1>{this.props.selectedCollection.name}</h1>
+            {this.props.selectedCollection.cards.map(card => {
+              return (
+                <DisplayCard
+                  key={card._id}
+                  card={card}
+                  isDeck={this.props.selectedCollection.isDeck}
+                  handleRemove={e =>
+                    this.handleRemove(this.props.selectedCollection, card._id)
+                  }
+                />
+              )
+            })}
+          </div>
         </div>
-      </div>
+      </DndProvider>
     )
-    // } else {
-    //   return (
-    //     <div>
-    //       <div id="collections">
-    //         {this.props.userCollections.map(collection => {
-    //           return <Collection key={collection._id} collection={collection} />
-    //         })}
-    //       </div>
-    //       <div id="selectedCollection">No selection</div>
-    //     </div>
-    //   )
-    // }
   }
 }
 
@@ -104,7 +111,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     loadCards: collectionId => {
-      dispatch(getCollectionCards(collectionId))
+      dispatch(getCollection(collectionId))
     },
     loadInitialData: userId => {
       //at some point this will have to refer to an actual user
@@ -112,7 +119,9 @@ const mapDispatch = dispatch => {
     },
     createDeck: deckName => {
       dispatch(createDeck(deckName))
-    }
+    },
+    removeFromCollection: (collection, cardId) =>
+      dispatch(removeFromCollection(collection, cardId))
   }
 }
 

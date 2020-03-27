@@ -143,10 +143,10 @@ const mapDispatchToProps = dispatch => {
     getAllCards: () => dispatch(getAllCards()),
     loadGame: id => dispatch(loadGame(id)),
     endTurn: async (id, gameState) => {
+      dispatch(endTurn())
       await dispatch(
         saveGame(id, {...gameState, data: {...gameState.data, isMyTurn: false}})
       )
-      dispatch(endTurn())
       socket.emit('end turn')
     },
     saveGame: (id, gameState) => dispatch(saveGame(id, gameState)),

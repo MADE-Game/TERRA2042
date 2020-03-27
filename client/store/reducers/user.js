@@ -7,16 +7,23 @@ import history from '../../history'
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 const ALL_COLLECTIONS_FOR_USER = 'ALL_COLLECTIONS_FOR_USER'
-const ALL_CARDS_IN_COLLECTION = 'ALL_CARDS_IN_COLLECTION'
+const GET_COLLECTION = 'GET_COLLECTION'
 const CREATE_DECK = 'CREATE_DECK'
+const EDIT_COLLECTION = 'EDIT_COLLECTION'
+const SELECT_DECK = 'SELECT_DECK'
 
 /**
  * INITIAL STATE
  */
 const initialState = {
   collections: [],
-  selectedCollection: [],
-  defaultUser: {}
+  selectedCollection: {
+    cards: [],
+    name: '',
+    _id: ''
+  },
+  defaultUser: {},
+  selectedDeck: {}
 }
 /**
  * ACTION CREATORS
@@ -29,12 +36,20 @@ const gotAllCollections = collections => ({
   collections
 })
 const gotCollection = collection => ({
-  type: ALL_CARDS_IN_COLLECTION,
+  type: GET_COLLECTION,
   collection
 })
 
 const createdDeck = deck => ({
   type: CREATE_DECK,
+  deck
+})
+const editedCollection = collection => ({
+  type: EDIT_COLLECTION,
+  collection
+})
+const selectedDeck = deck => ({
+  type: SELECT_DECK,
   deck
 })
 
@@ -80,13 +95,20 @@ export const getAllUserCollections = userId => {
     dispatch(gotAllCollections(collections))
   }
 }
-
-export const getCollectionCards = collectionId => {
+export const selectDeck = name => {
   return async dispatch => {
-    const {data: collections} = await axios.get(
-      `/api/collections/${collectionId}/cards`
+    const {data: deck} = await axios.put('/api/users/collections/selected', {
+      name
+    })
+    dispatch(selectedDeck(deck))
+  }
+}
+
+export const getCollection = collectionId => {
+  return async dispatch => {
+    const {data: collection} = await axios.get(
+      `/api/collections/${collectionId}`
     )
-    const collection = collections
     dispatch(gotCollection(collection))
   }
 }
@@ -101,9 +123,50 @@ export const logout = () => async dispatch => {
   }
 }
 
+export const addToCollection = (collection, cardId) => {
+  return async dispatch => {
+    try {
+      const fullCollection = {
+        ...collection,
+        cards: [...collection.cards, cardId]
+      }
+
+      const {data: newCollection} = await axios.put(
+        '/api/collections/' + collection._id,
+        fullCollection
+      )
+
+      dispatch(editedCollection(newCollection))
+    } catch (e) {
+      console.error(e)
+    }
+  }
+}
+export const removeFromCollection = (collection, cardId) => {
+  return async dispatch => {
+    try {
+      console.log('collection', collection)
+      const fullCollection = {
+        ...collection,
+        cards: collection.cards.filter(card => card._id !== cardId)
+      }
+
+      const {data: newCollection} = await axios.put(
+        '/api/collections/' + collection._id,
+        fullCollection
+      )
+
+      dispatch(editedCollection(newCollection))
+    } catch (e) {
+      console.error(e)
+    }
+  }
+}
+
 export const createDeck = name => async dispatch => {
   try {
     const {data: deck} = await axios.post('/api/collections', {name})
+    console.log('created dekc!', deck)
     dispatch(createdDeck(deck))
   } catch (error) {
     console.error(error)
@@ -113,16 +176,30 @@ export const createDeck = name => async dispatch => {
 /**
  * REDUCER
  */
+// eslint-disable-next-line complexity
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_USER:
       return {...state, ...action.user}
     case REMOVE_USER:
       return initialState
+    case EDIT_COLLECTION:
+      return {
+        ...state,
+        collections: state.collections.map(coll =>
+          coll._id === action.collection._id ? action.collection : coll
+        ),
+        selectedCollection:
+          state.selectedCollection._id === action.collection._id
+            ? action.collection
+            : state.selectedCollection
+      }
     case ALL_COLLECTIONS_FOR_USER:
       return {...state, collections: action.collections}
-    case ALL_CARDS_IN_COLLECTION:
+    case GET_COLLECTION:
       return {...state, selectedCollection: action.collection}
+    case SELECT_DECK:
+      return {...state, selectedDeck: action.deck}
     case CREATE_DECK:
       return {...state, collections: [...state.collections, action.deck]}
     default:
