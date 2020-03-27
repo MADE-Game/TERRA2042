@@ -10,8 +10,10 @@ const engine = {
 
   heroAttack: (attacker, hero) => {
     const newHero = hero
+    const newAttacker = attacker
     newHero.settlers -= attacker.attack
-    return newHero
+    newAttacker.attackOccurred = true
+    return [newAttacker, newHero]
   },
 
   payCost: (hero, card) => {

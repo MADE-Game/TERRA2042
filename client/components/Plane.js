@@ -10,11 +10,14 @@ const Plane = props => {
       if (!props.isMyTurn) {
         return console.log('it is not my turn!')
       }
-      if (props.planeFull) {
-        // eslint-disable-next-line no-alert
-        alert('Your Battlefield is Full!')
-      } else if (props.player === 'hero' && item.inHand === true) {
+
+      if (props.player === 'hero' && item.inHand === true) {
+        item.card.attackOccurred = true
         props.playCard(item.card)
+        if (props.inPlay.length === 5) {
+          // eslint-disable-next-line no-alert
+          alert('Your Battlefield is full')
+        }
       }
     },
     collect: monitor => ({
@@ -23,6 +26,7 @@ const Plane = props => {
       item: monitor.getItem()
     })
   })
+
   return (
     <div className="plane" ref={drop}>
       PLANE:
