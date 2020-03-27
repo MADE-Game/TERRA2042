@@ -23,7 +23,7 @@ export class UserHome extends React.Component {
         <div className="column">
           <p id="welcomeStyle">Welcome, {userName}</p>
           <div>
-            <Link to="/games">
+            <Link to="/lobby">
               <button type="submit" className="buttonStyle2">
                 Play
               </button>

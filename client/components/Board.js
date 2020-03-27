@@ -3,6 +3,7 @@ import Side from './Side'
 import {DndProvider} from 'react-dnd'
 import Backend from 'react-dnd-html5-backend'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import {
   getAllCards,
   loadGame,
@@ -11,6 +12,9 @@ import {
   startTurn
 } from '../store/thunksAndActionCreators'
 import {socket} from './Room'
+
+//used for slightly delaying socket speed prior to save.
+const STUTTER = 25
 
 const enemySide = {
   heroUrl: '/images/monsters/11.png'
@@ -25,21 +29,50 @@ class Board extends React.Component {
       console.log(
         `${data.name} was played!\n${data.attack} attack points\n${data.health} defense points`
       )
-      this.props.loadGame(this.props.match.params.id)
+      setTimeout(
+        function() {
+          this.props.loadGame(this.props.match.params.id)
+        }.bind(this),
+        STUTTER
+      )
     })
     socket.on('end turn', data => {
       console.log('turn ended..')
-      this.props.loadGame(this.props.match.params.id)
+      setTimeout(
+        function() {
+          this.props.loadGame(this.props.match.params.id)
+        }.bind(this),
+        STUTTER
+      )
+    })
+    socket.on('game over', data => {
+      console.log('game over!')
+      setTimeout(
+        function() {
+          this.props.loadGame(this.props.match.params.id)
+        }.bind(this),
+        STUTTER
+      )
     })
 
     socket.on('attack', data => {
       console.log(`${data.attacker.name} attacked ${data.defender.name}!`)
-      this.props.loadGame(this.props.match.params.id)
+      setTimeout(
+        function() {
+          this.props.loadGame(this.props.match.params.id)
+        }.bind(this),
+        STUTTER
+      )
     })
 
     socket.on('draw card', () => {
       console.log('A card was drawn!')
-      this.props.loadGame(this.props.match.params.id)
+      setTimeout(
+        function() {
+          this.props.loadGame(this.props.match.params.id)
+        }.bind(this),
+        STUTTER
+      )
     })
 
     this.props.loadGame(this.props.match.params.id)
@@ -56,12 +89,12 @@ class Board extends React.Component {
   render() {
     return (
       <DndProvider backend={Backend}>
-        {!this.props.isFinished ? (
-          <div className="board">
-            ENEMY SIDE:
-            <Side top={true} side={enemySide} />
-            PLAYER SIDE:
-            {this.props.isMyTurn ? (
+        <div className="board">
+          ENEMY SIDE:
+          <Side top={true} side={enemySide} />
+          PLAYER SIDE:
+          {!this.props.isFinished ? (
+            this.props.isMyTurn ? (
               <div id="buttonContainer">
                 <button
                   type="submit"
@@ -78,12 +111,19 @@ class Board extends React.Component {
               </div>
             ) : (
               'not my turn'
-            )}
-            <Side side={playerSide} />
-          </div>
-        ) : (
-          <h1>Game Over!</h1>
-        )}
+            )
+          ) : (
+            <div>
+              <h1>Game Over!</h1>
+              <Link to="/lobby">
+                <button type="submit" className="buttonStyle2">
+                  Back to Lobby?
+                </button>
+              </Link>
+            </div>
+          )}
+          <Side side={playerSide} />
+        </div>
       </DndProvider>
     )
   }

@@ -97,7 +97,7 @@ const mapStateToProps = function(state) {
     opponent: state.game.opponent,
     player: state.game.player,
     planeFull: state.game.player.planeFull,
-    canDraw: state.game.data.isMyTurn
+    canDraw: state.game.data.localTurn
   }
 }
 

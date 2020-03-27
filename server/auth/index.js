@@ -47,7 +47,6 @@ router.post('/signup', async (req, res, next) => {
 
     savedUser.collections = [savedCollection._id]
     //setting the selected deck to default deck
-    console.log('signing up! ', savedCollection._id)
     savedUser.selectedDeck = savedCollection._id
     await savedUser.save()
 
