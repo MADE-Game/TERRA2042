@@ -49,6 +49,16 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
           })
           const allCards = await Card.find().limit(20)
 
+          const myCards = new Collection({
+            userId: newUser._id,
+            name: 'My Cards',
+            cards: [
+              ...allCards.map(card => {
+                return card._id
+              })
+            ],
+            isDeck: false
+          })
           const collection = new Collection({
             userId: newUser._id,
             name: 'Default Deck',
@@ -60,21 +70,10 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
             isDeck: true
           })
 
-          const myCards = new Collection({
-            userId: newUser._id,
-            name: 'My Cards',
-            cards: [
-              ...allCards.map(card => {
-                return card._id
-              })
-            ],
-            isDeck: false
-          })
-
-          const savedCollection = await collection.save()
           const savedMyCards = await myCards.save()
+          const savedCollection = await collection.save()
 
-          newUser.collections = [savedMyCards._id, savedCollection._id]
+          newUser.collections = [savedMyCards, savedCollection]
           //setting the selected deck to default deck
           newUser.selectedDeck = savedCollection._id
           await newUser.save()
