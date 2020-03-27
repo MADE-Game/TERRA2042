@@ -45,6 +45,7 @@ class Routes extends Component {
             <Route exact path="/" component={UserHome} />
             <Route path="/shop" component={Shop} />
             <Route path="/collection" component={Collection} />
+            <Route path="/devBoard" component={Board} />
             <Route component={NotFound} />
           </Switch>
         )}

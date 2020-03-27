@@ -45,7 +45,7 @@ const Side = props => {
               side="bottom"
             />
             <div className="hand">
-              HAND:a
+              HAND:
               {props.hand.map(card => {
                 return (
                   <Card

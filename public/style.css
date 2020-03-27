@@ -70,7 +70,7 @@ form div {
 
 .plane,
 .hand {
-  min-height: 25%;
+  min-height: 7vw;
   /* max-height: 30%; */
 }
 

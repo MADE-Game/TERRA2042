@@ -4,7 +4,7 @@ const initialState = {
   deck: 0,
   inPlay: [],
   hand: 0,
-  settlers: 10
+  settlers: 20
 }
 
 export default function(state = initialState, action) {
