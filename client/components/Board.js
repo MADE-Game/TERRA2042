@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import Side from './Side'
 import {DndProvider} from 'react-dnd'
 import Backend from 'react-dnd-html5-backend'
@@ -12,6 +12,8 @@ import {
   startTurn
 } from '../store/thunksAndActionCreators'
 import {socket} from './Room'
+import {withRouter} from 'react-router'
+import PropTypes from 'prop-types'
 
 //used for slightly delaying socket speed prior to save.
 const STUTTER = 25
@@ -22,13 +24,14 @@ const enemySide = {
 const playerSide = {
   heroUrl: '/images/monsters/14.png'
 }
-class Board extends React.Component {
+class Board extends Component {
+  static propTypes = {
+    match: PropTypes.object.isRequired
+  }
+
   componentDidMount() {
     socket.emit('join', {roomId: this.props.match.params.roomId})
-    socket.on('play card', data => {
-      console.log(
-        `${data.name} was played!\n${data.attack} attack points\n${data.health} defense points`
-      )
+    socket.on('play card', () => {
       setTimeout(
         function() {
           this.props.loadGame(this.props.match.params.id)
@@ -36,8 +39,7 @@ class Board extends React.Component {
         STUTTER
       )
     })
-    socket.on('end turn', data => {
-      console.log('turn ended..')
+    socket.on('end turn', () => {
       setTimeout(
         function() {
           this.props.loadGame(this.props.match.params.id)
@@ -45,8 +47,7 @@ class Board extends React.Component {
         STUTTER
       )
     })
-    socket.on('game over', data => {
-      console.log('game over!')
+    socket.on('game over', () => {
       setTimeout(
         function() {
           this.props.loadGame(this.props.match.params.id)
@@ -55,8 +56,7 @@ class Board extends React.Component {
       )
     })
 
-    socket.on('attack', data => {
-      console.log(`${data.attacker.name} attacked ${data.defender.name}!`)
+    socket.on('attack', () => {
       setTimeout(
         function() {
           this.props.loadGame(this.props.match.params.id)
@@ -66,7 +66,6 @@ class Board extends React.Component {
     })
 
     socket.on('draw card', () => {
-      console.log('A card was drawn!')
       setTimeout(
         function() {
           this.props.loadGame(this.props.match.params.id)
@@ -155,4 +154,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Board)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Board))

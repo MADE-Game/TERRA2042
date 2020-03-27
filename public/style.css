@@ -36,6 +36,10 @@ form div {
   border: 2px solid rgb(70, 70, 70);
 }
 
+.hand {
+  flex-wrap: wrap;
+}
+
 .board,
 .side {
   flex-direction: column;
@@ -256,7 +260,16 @@ form div {
   color: hsl(14, 82%, 24%);
 }
 
-.planeStyle {
-  height: 400px;
-  color: red;
+#board-chat {
+  display: flex;
+  margin: 0 1% 0 1%;
+}
+
+#chat {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 35%;
+  max-width: 35%;
+  min-width: 325px;
 }

@@ -1,8 +1,8 @@
 /* eslint-disable no-alert */
-import React from 'react'
+import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 
-export class GamesLobby extends React.Component {
+export class GamesLobby extends Component {
   constructor() {
     super()
     this.state = {

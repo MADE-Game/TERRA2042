@@ -1,15 +1,79 @@
-import React from 'react'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import {socket} from './Room'
 
-export default class Chat extends React.Component {
-  constructor() {
-    super()
+class Chat extends Component {
+  constructor(props) {
+    super(props)
     this.state = {
-      userName: '',
+      userName: this.props.userName,
       message: ''
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.log = this.log.bind(this)
+  }
+
+  componentDidMount() {
+    if (localStorage.log) {
+      document.getElementById('msg').innerHTML = localStorage.log
+    }
+
+    socket.on('send msg', data => {
+      this.log('send msg', data)
+    })
+
+    socket.on('play card', data => {
+      this.log('play card', data)
+    })
+
+    socket.on('attack', data => {
+      this.log('attack', data)
+    })
+
+    socket.on('draw card', () => {
+      this.log('draw card')
+    })
+
+    socket.on('end turn', () => {
+      this.log('end turn')
+    })
+  }
+
+  componentWillUnmount() {
+    localStorage.clear()
+  }
+
+  log(action, data = null) {
+    const display = document.getElementById('msg')
+    const message =
+      action === 'send msg'
+        ? document.createElement('p')
+        : document.createElement('span')
+
+    switch (action) {
+      case 'send msg':
+        message.innerText = `${data.user}: ${data.message}`
+        break
+      case 'play card':
+        message.innerText = `${data.name} was played!\n${data.attack} attack points\n${data.health} defense points`
+        break
+      case 'attack':
+        message.innerText = `${data.attacker.name} attacked ${data.defender.name}!`
+        break
+      case 'draw card':
+        message.innerText = 'Opponent drew a card'
+        break
+      case 'end turn':
+        message.innerText = 'Opponent ended their turn'
+        break
+      default:
+    }
+
+    if (message.tagName === 'SPAN') message.style.display = 'block'
+
+    display.appendChild(message)
+    localStorage.log = display.innerHTML
   }
 
   handleSubmit(event) {
@@ -18,6 +82,7 @@ export default class Chat extends React.Component {
       message: this.state.message,
       user: this.state.userName
     })
+
     this.setState({
       message: ''
     })
@@ -33,31 +98,30 @@ export default class Chat extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <div id="msg"></div>
           <br />
-          <input
-            name="userName"
-            value={this.state.userName}
-            onChange={this.handleChange}
-            type="text"
-            placeholder="user name"
-          ></input>
-          <br />
           <textarea
+            required
+            style={{marginLeft: '1.5%', resize: 'none'}}
+            cols="50"
+            rows="5"
             name="message"
             value={this.state.message}
-            onChange={this.handleChange}
             placeholder="message"
+            onChange={this.handleChange}
+            onKeyDown={event => {
+              if (event.key === 'Enter' && /\S/.test(event.target.value))
+                this.handleSubmit(event)
+            }}
           ></textarea>
-          <br />
-          <button type="submit">Send</button>
         </form>
       </div>
     )
   }
 }
 
-socket.on('send msg', data => {
-  const display = document.getElementById('msg')
-  const message = document.createElement('p')
-  message.innerText = `${data.user}: ${data.message}`
-  display.appendChild(message)
-})
+const mapStateToProps = state => {
+  return {
+    userName: state.user.userName
+  }
+}
+
+export default connect(mapStateToProps)(Chat)

@@ -1,6 +1,5 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
-const {Collection} = require('../db/models')
+const {User, Collection} = require('../db/models')
 
 module.exports = router
 
@@ -18,6 +17,16 @@ router.get('/:userId', async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId)
     res.json(user)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/:userId/collections', async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId)
+    const collections = await Collection.find({_id: {$in: user.collections}})
+    res.json(collections)
   } catch (err) {
     next(err)
   }
