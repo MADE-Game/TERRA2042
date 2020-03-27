@@ -273,3 +273,7 @@ form div {
   max-width: 35%;
   min-width: 325px;
 }
+.allCards {
+  background-color: black;
+  color: white;
+}

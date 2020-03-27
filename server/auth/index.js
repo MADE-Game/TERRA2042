@@ -31,6 +31,16 @@ router.post('/signup', async (req, res, next) => {
     let savedUser = await user.save()
 
     const allCards = await Card.find().limit(20)
+    const myCards = new Collection({
+      userId: savedUser._id,
+      name: 'My Cards',
+      cards: [
+        ...allCards.map(card => {
+          return card._id
+        })
+      ],
+      isDeck: false
+    })
 
     const collection = new Collection({
       userId: savedUser._id,
@@ -43,19 +53,8 @@ router.post('/signup', async (req, res, next) => {
       isDeck: true
     })
 
-    const myCards = new Collection({
-      userId: savedUser._id,
-      name: 'My Cards',
-      cards: [
-        ...allCards.map(card => {
-          return card._id
-        })
-      ],
-      isDeck: false
-    })
-
-    const savedCollection = await collection.save()
     const savedMyCards = await myCards.save()
+    const savedCollection = await collection.save()
 
     savedUser.collections = [savedMyCards._id, savedCollection._id]
     //setting the selected deck to default deck
