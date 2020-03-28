@@ -27,6 +27,11 @@ class GamesLobby extends Component {
     console.log('props in render', this.props)
     return (
       <div>
+        <Link to="/home">
+          <button type="button" className="buttonStyle1">
+            Home
+          </button>
+        </Link>
         <h1>Welcome to the lobby!</h1>
         <Link to={`/games/rooms/${Math.floor(Math.random() * 1000000)}`}>
           <button type="button">Create Game Room</button>

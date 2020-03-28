@@ -10,6 +10,7 @@ import {connect} from 'react-redux'
 import React, {Component} from 'react'
 import Backend from 'react-dnd-html5-backend'
 import {DndProvider} from 'react-dnd'
+import {Link} from 'react-router-dom'
 
 class CollectionList extends Component {
   constructor() {
@@ -55,6 +56,11 @@ class CollectionList extends Component {
     return (
       <DndProvider backend={Backend}>
         <div>
+          <Link to="/home">
+            <button type="button" className="buttonStyle1">
+              Home
+            </button>
+          </Link>
           <div id="collections">
             {this.props.userCollections.map(collection => {
               return (
