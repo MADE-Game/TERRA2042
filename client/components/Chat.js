@@ -9,6 +9,7 @@ class Chat extends Component {
       userName: this.props.userName,
       message: ''
     }
+
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.log = this.log.bind(this)
