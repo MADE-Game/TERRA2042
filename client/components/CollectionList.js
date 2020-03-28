@@ -37,7 +37,11 @@ class CollectionList extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    this.props.createDeck(this.state.name)
+
+    if (/\S/.test(this.state.name)) this.props.createDeck(this.state.name)
+    // eslint-disable-next-line no-alert
+    else alert('Deck name cannot be empty!')
+
     this.setState({
       name: ''
     })
@@ -77,6 +81,7 @@ class CollectionList extends Component {
           <form onSubmit={this.handleSubmit}>
             <label htmlFor="deck">Deck Name</label>
             <input
+              required
               name="deck"
               value={this.state.name}
               onChange={this.handleChange}

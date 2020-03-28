@@ -14,6 +14,7 @@ function Collection(props) {
         //thunk to add to collection.
         props.addToCollection(props.collection, item.id)
       } else {
+        // eslint-disable-next-line no-alert
         alert('card is already in the deck!')
       }
     },
