@@ -15,7 +15,7 @@ export class UserHome extends Component {
     if (!document.getElementById('theme')) {
       try {
         const theme = document.createElement('audio')
-        theme.setAttribute('id', 'theme')
+        theme.id = 'theme'
         theme.src = '/theme.mp3'
         document.getElementById('app').appendChild(theme)
         theme.play()
