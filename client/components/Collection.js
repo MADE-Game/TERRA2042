@@ -5,7 +5,6 @@ import {addToCollection} from '../store/reducers/user'
 import {connect} from 'react-redux'
 
 function Collection(props) {
-  console.log('collection', props)
   const [{isOver, canDrop, item}, drop] = useDrop({
     accept: ItemTypes.DECK_CARD,
     drop: () => {
