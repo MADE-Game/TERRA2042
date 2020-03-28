@@ -83,7 +83,7 @@ router.get('/me', async (req, res) => {
       userId: req.user._id
     })
     const userToSend = {...req.user._doc, collections}
-    res.json(userToSend)
+    return res.json(userToSend)
   }
   res.json({})
 })
