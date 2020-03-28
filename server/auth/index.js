@@ -78,11 +78,14 @@ router.post('/logout', (req, res) => {
 })
 
 router.get('/me', async (req, res) => {
-  const collections = await Collection.find({
-    userId: req.user._id
-  })
-  const userToSend = {...req.user._doc, collections}
-  res.json(userToSend)
+  if (req.user) {
+    const collections = await Collection.find({
+      userId: req.user._id
+    })
+    const userToSend = {...req.user._doc, collections}
+    res.json(userToSend)
+  }
+  res.json({})
 })
 
 router.use('/google', require('./google'))

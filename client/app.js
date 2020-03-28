@@ -10,21 +10,7 @@ class App extends React.Component {
     this.props.loadInitialData()
   }
   render() {
-    return (
-      <div id="routes-wrapper">
-        {this.props.isLoggedIn ? (
-          <div id="routes">
-            <Routes />
-          </div>
-        ) : (
-          <Switch>
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
-            <Route exact path="/" component={Login} />
-          </Switch>
-        )}
-      </div>
-    )
+    return <Routes />
   }
 }
 const mapState = state => {
