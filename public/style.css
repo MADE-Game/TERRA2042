@@ -274,7 +274,13 @@ form div {
   min-width: 325px;
   overflow-y: auto;
 }
+
 .allCards {
   background-color: black;
+  color: white;
+}
+
+.default {
+  background-color: rgb(83, 83, 83);
   color: white;
 }

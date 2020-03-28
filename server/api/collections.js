@@ -55,15 +55,22 @@ router.get('/users/:userId', async (req, res, next) => {
 //create new collection
 router.post('/', async (req, res, next) => {
   try {
-    const collection = await Collection.create({
-      userId: req.user._id,
-      name: req.body.name,
-      cards: [],
-      isDeck: true
-    })
-
+    let collection = await Collection.findOne({name: req.body.name})
+    if (collection) return res.status(206).json(collection.name)
+    else {
+      collection = await Collection.create({
+        userId: req.user._id,
+        name: req.body.name,
+        cards: [],
+        isDeck: true
+      })
+    }
+    // before, we were only appending the collection id to the collections array
+    // (collections: [...req.user.collections, collection._id])
+    // but we decided we want the whole object
+    // look here if something breaks in the front end
     await User.findByIdAndUpdate(req.user._id, {
-      collections: [...req.user.collections, collection._id]
+      collections: [...req.user.collections, collection]
     })
 
     res.json(collection)
@@ -75,10 +82,15 @@ router.post('/', async (req, res, next) => {
 //delete collection
 router.delete('/:collectionId', async (req, res, next) => {
   try {
-    const collection = await Collection.findByIdAndRemove(
-      req.params.collectionId
-    )
-    res.json(collection)
+    await Collection.findByIdAndRemove(req.params.collectionId)
+
+    await User.findByIdAndUpdate(req.user._id, {
+      collections: req.user.collections.filter(
+        coll => coll._id !== req.params.collectionId
+      )
+    })
+
+    res.sendStatus(204)
   } catch (err) {
     next(err)
   }

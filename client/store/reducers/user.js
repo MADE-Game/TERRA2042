@@ -145,7 +145,6 @@ export const addToCollection = (collection, cardId) => {
 export const removeFromCollection = (collection, cardId) => {
   return async dispatch => {
     try {
-      console.log('collection', collection)
       const fullCollection = {
         ...collection,
         cards: collection.cards.filter(card => card._id !== cardId)
@@ -165,9 +164,11 @@ export const removeFromCollection = (collection, cardId) => {
 
 export const createDeck = name => async dispatch => {
   try {
-    const {data: deck} = await axios.post('/api/collections', {name})
-    console.log('created dekc!', deck)
-    dispatch(createdDeck(deck))
+    const deck = await axios.post('/api/collections', {name})
+    deck.status === 206
+      ? // eslint-disable-next-line no-alert
+        alert(`${deck.data} already exists!`)
+      : dispatch(createdDeck(deck.data))
   } catch (error) {
     console.error(error)
   }

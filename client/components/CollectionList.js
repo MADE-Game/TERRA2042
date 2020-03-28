@@ -85,6 +85,14 @@ class CollectionList extends Component {
               name="deck"
               value={this.state.name}
               onChange={this.handleChange}
+              onKeyDown={event => {
+                if (event.key === ' ') {
+                  // eslint-disable-next-line no-alert
+                  alert('No spaces!')
+                  event.preventDefault()
+                  return false
+                }
+              }}
             ></input>
             <button type="submit">Create Deck</button>
           </form>
@@ -98,7 +106,7 @@ class CollectionList extends Component {
                   key={card._id}
                   card={card}
                   isDeck={this.props.selectedCollection.isDeck}
-                  handleRemove={e =>
+                  handleRemove={() =>
                     this.handleRemove(this.props.selectedCollection, card._id)
                   }
                 />

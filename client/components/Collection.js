@@ -3,9 +3,9 @@ import {ItemTypes} from '../dnd/types'
 import {useDrop} from 'react-dnd'
 import {addToCollection} from '../store/reducers/user'
 import {connect} from 'react-redux'
+import axios from 'axios'
 
 function Collection(props) {
-  console.log('collection', props)
   const [{isOver, canDrop, item}, drop] = useDrop({
     accept: ItemTypes.DECK_CARD,
     drop: () => {
@@ -26,16 +26,34 @@ function Collection(props) {
   })
 
   return props.collection._id ? (
-    <div onClick={props.handleClick} ref={drop}>
-      <div
-        className={
-          props.collection.isDeck ? 'collection' : 'collection allCards'
-        }
-      >{`${props.collection.name}`}</div>
-      <span>
-        {props.collection.cards.length}
-        {props.collection.isDeck ? '/20' : ''}
-      </span>
+    <div id="single-collection">
+      <div onClick={props.handleClick} ref={drop}>
+        <div
+          className={
+            props.collection.isDeck
+              ? props.collection.name === 'Default Deck'
+                ? 'collection default'
+                : 'collection'
+              : 'collection allCards'
+          }
+        >{`${props.collection.name}`}</div>
+        <span>
+          {props.collection.cards.length}
+          {props.collection.isDeck ? '/20' : ''}
+        </span>
+      </div>
+      {!['Default Deck', 'My Cards'].includes(props.collection.name) ? (
+        <button
+          onClick={async () => {
+            await axios.delete(`/api/collections/${props.collection._id}`)
+          }}
+          type="button"
+        >
+          X
+        </button>
+      ) : (
+        ''
+      )}
     </div>
   ) : (
     <h1>pick a deck</h1>
