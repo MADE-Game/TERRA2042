@@ -41,7 +41,7 @@ class Chat extends Component {
   }
 
   componentWillUnmount() {
-    localStorage.clear()
+    delete localStorage.log
   }
 
   log(action, data = null) {

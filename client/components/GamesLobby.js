@@ -20,11 +20,11 @@ class GamesLobby extends Component {
       roomId: event.target.value
     })
   }
-  handleSubmit(e) {
+  handleSubmit() {
     this.props.history.push(`/games/rooms/${this.state.roomId}`)
   }
   render() {
-    console.log('props in render', this.props)
+    localStorage.clear()
     return (
       <div>
         <Link to="/home">
