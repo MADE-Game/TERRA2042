@@ -33,14 +33,15 @@ router.get('/:collectionId/cards', async (req, res, next) => {
 router.get('/:collectionId', async (req, res, next) => {
   try {
     const collection = await Collection.findById(req.params.collectionId)
-    res.json(collection)
+    const cards = await Card.find({_id: {$in: collection.cards}})
+    res.json({...collection._doc, cards})
   } catch (err) {
     next(err)
   }
 })
 
 //all of a user's collections
-router.get('/:userId', async (req, res, next) => {
+router.get('/users/:userId', async (req, res, next) => {
   try {
     const collections = await Collection.findOne({
       userId: req.params.userId
@@ -86,15 +87,22 @@ router.delete('/:collectionId', async (req, res, next) => {
 //update collection info
 router.put('/:collectionId', async (req, res, next) => {
   try {
+    if (!req.body.isDeck) {
+      return res.status(401).send('you cannot edit this!')
+    }
+
     const collection = await Collection.findByIdAndUpdate(
       req.params.collectionId,
       {
-        cards: req.body.cards,
-        name: req.body.name,
-        isDeck: req.body.isDeck
-      }
+        cards: req.body.cards.map(card =>
+          typeof card === 'string' ? card : card._id
+        ),
+        name: req.body.name
+      },
+      {new: true}
     )
-    res.json(collection)
+    const cards = await Card.find({_id: {$in: collection.cards}})
+    res.json({...collection._doc, cards})
   } catch (err) {
     next(err)
   }
