@@ -180,31 +180,10 @@ export const hurtByTheDraw = hero => {
 
 export const startGame = (p1Id, p2Id) => {
   return async () => {
-    const gameObj = {
-      game: {
-        player1: {
-          hand: [],
-          deck: [],
-          inPlay: [],
-          settlers: 20
-        },
-
-        player2: {
-          hand: [],
-          deck: [],
-          inPlay: [],
-          settlers: 20
-        }
-      },
-
+    const {data: game} = await Axios.post('/api/games/newGame', {
       p1: p1Id,
-      p2: p2Id,
-      isFinished: false,
-      isP1Turn: true
-    }
-
-    const {data: game} = await Axios.post('/api/games/newGame', gameObj)
-
+      p2: p2Id
+    })
     return game._id
   }
 }

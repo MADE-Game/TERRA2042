@@ -118,7 +118,21 @@ router.post('/newGame', async (req, res, next) => {
     if (game) {
       return res.json(game)
     } else {
-      const gameToMakeString = req.body.game
+      const gameToMakeString = {
+        player1: {
+          hand: [],
+          deck: [],
+          inPlay: [],
+          settlers: 20
+        },
+
+        player2: {
+          hand: [],
+          deck: [],
+          inPlay: [],
+          settlers: 20
+        }
+      }
 
       //p1 deck
       const user1 = await User.findById(req.body.p1)
