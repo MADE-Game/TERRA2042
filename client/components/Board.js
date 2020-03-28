@@ -9,7 +9,8 @@ import {
   loadGame,
   endTurn,
   saveGame,
-  startTurn
+  startTurn,
+  incrementTheSettlers
 } from '../store/thunksAndActionCreators'
 import {socket} from './Room'
 import {withRouter} from 'react-router'
@@ -100,7 +101,8 @@ class Board extends Component {
                   onClick={() =>
                     this.props.endTurn(
                       this.props.match.params.id,
-                      this.props.gameState
+                      this.props.gameState,
+                      this.props.player
                     )
                   }
                   className="turnButton"
@@ -135,15 +137,17 @@ const mapStateToProps = state => {
     inPlay: state.game.player.inPlay,
     gameState: state.game,
     isMyTurn: state.game.data.localTurn,
-    canEnd: state.game.data.isMyTurn
+    canEnd: state.game.data.isMyTurn,
+    player: state.game.player
   }
 }
 const mapDispatchToProps = dispatch => {
   return {
     getAllCards: () => dispatch(getAllCards()),
     loadGame: id => dispatch(loadGame(id)),
-    endTurn: async (id, gameState) => {
-      dispatch(endTurn())
+    endTurn: async (id, gameState, hero) => {
+      await dispatch(endTurn())
+      await dispatch(incrementTheSettlers(hero))
       await dispatch(
         saveGame(id, {...gameState, data: {...gameState.data, isMyTurn: false}})
       )

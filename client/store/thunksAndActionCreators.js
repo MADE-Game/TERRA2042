@@ -10,7 +10,8 @@ import {
   SAVE_GAME,
   END_TURN,
   HURT_BY_DRAW,
-  START_TURN
+  START_TURN,
+  INCREMENT_SETTLERS
 } from './actionTypes'
 
 import engine from '../engine/index'
@@ -20,6 +21,10 @@ import {socket} from '../components/Room'
 const gotAllCards = cards => ({
   type: GET_ALL_CARDS,
   cards
+})
+const incrementedSettlers = hero => ({
+  type: INCREMENT_SETTLERS,
+  hero
 })
 const loadedGame = game => ({
   type: LOAD_GAME,
@@ -77,6 +82,11 @@ export const endTurn = () => async dispatch => {
 }
 export const startTurn = () => dispatch => {
   dispatch(startedTurn())
+}
+
+export const incrementTheSettlers = hero => async dispatch => {
+  const result = engine.incrementSettlers(hero)
+  await dispatch(incrementedSettlers(result))
 }
 
 export const playerPlayCard = (hero, card) => {
