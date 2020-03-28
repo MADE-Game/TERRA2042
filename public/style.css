@@ -190,6 +190,7 @@ form div {
   background-color: black;
   color: #fff;
   border: 0px;
+  cursor: pointer;
 }
 
 .buttonStyle2 {
@@ -210,6 +211,7 @@ form div {
   background-color: black;
   color: #fff;
   border: 0px;
+  cursor: pointer;
 }
 
 #welcomeStyle {
@@ -283,4 +285,16 @@ form div {
 .default {
   background-color: rgb(83, 83, 83);
   color: white;
+}
+
+#shop-cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 100px;
+  grid-auto-rows: minmax(5%, auto);
+  margin: 5% 3% auto 3%;
+}
+
+#card:hover {
+  transform: scale(1.25);
 }
