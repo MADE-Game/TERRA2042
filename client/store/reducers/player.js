@@ -6,7 +6,8 @@ import {
   LOAD_GAME,
   END_TURN,
   HURT_BY_DRAW,
-  PLAYER_ATTACK_HERO
+  PLAYER_ATTACK_HERO,
+  INCREMENT_SETTLERS
 } from '../actionTypes'
 
 const initialState = {
@@ -47,7 +48,8 @@ export default function(state = initialState, action) {
       } else {
         return {
           ...state,
-          planeFull: true
+          planeFull: true,
+          settlers: state.settlers + action.card.cost
         }
       }
     case PLAYER_DRAW_CARD:
@@ -86,6 +88,7 @@ export default function(state = initialState, action) {
           card.attackOccurred = false
           return card
         }),
+
         drawsThisTurn: 0,
         planeFull: false
       }
@@ -104,6 +107,11 @@ export default function(state = initialState, action) {
             return card
           }
         })
+      }
+    case INCREMENT_SETTLERS:
+      return {
+        ...state,
+        settlers: action.hero.settlers
       }
     default:
       return state

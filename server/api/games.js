@@ -52,7 +52,7 @@ router.get('/load/:gameId', async (req, res, next) => {
 router.put('/save/:gameId', async (req, res, next) => {
   try {
     const {data} = req.body
-
+    console.log('logging data in save put route: ', data)
     const gameToSave = await Game.findById(req.params.gameId)
     //establish what player makes this request.
     const isPlayer1 = gameToSave.p1 === req.user._id.toString()
