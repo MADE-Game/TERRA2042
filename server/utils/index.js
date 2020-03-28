@@ -18,6 +18,20 @@ const relativizeBoard = (game, userId) => {
   }
   return gameToReturn
 }
+//Shout out Fisher-Yates!
+const shuffleDeck = deck => {
+  let i = deck.length,
+    k,
+    temp
+  const shuffledDeck = [...deck]
+  while (--i > 0) {
+    k = Math.floor(Math.random() * (i + 1))
+    temp = shuffledDeck[k]
+    shuffledDeck[k] = shuffledDeck[i]
+    shuffledDeck[i] = temp
+  }
+  return shuffledDeck
+}
 const objectifyBoard = (gameFromSave, gameInDB, userId) => {
   const isP1Player = userId.toString() === gameInDB.p1
   //if user is p1, set p2 to opponent
@@ -81,5 +95,6 @@ module.exports = {
   relativizeBoard,
   objectifyBoard,
   isMyTurn,
-  validateBoard
+  validateBoard,
+  shuffleDeck
 }
