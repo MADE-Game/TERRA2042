@@ -11,6 +11,7 @@ const GET_COLLECTION = 'GET_COLLECTION'
 const CREATE_DECK = 'CREATE_DECK'
 const EDIT_COLLECTION = 'EDIT_COLLECTION'
 const SELECT_DECK = 'SELECT_DECK'
+const REMOVE_COLLECTION = 'REMOVE_COLLECTION'
 
 /**
  * INITIAL STATE
@@ -35,6 +36,7 @@ const gotAllCollections = collections => ({
   type: ALL_COLLECTIONS_FOR_USER,
   collections
 })
+
 const gotCollection = collection => ({
   type: GET_COLLECTION,
   collection
@@ -44,13 +46,20 @@ const createdDeck = deck => ({
   type: CREATE_DECK,
   deck
 })
+
 const editedCollection = collection => ({
   type: EDIT_COLLECTION,
   collection
 })
+
 const selectedDeck = deck => ({
   type: SELECT_DECK,
   deck
+})
+
+const removedCollection = collectionId => ({
+  type: REMOVE_COLLECTION,
+  collectionId
 })
 
 /**
@@ -174,6 +183,15 @@ export const createDeck = name => async dispatch => {
   }
 }
 
+export const removeCollection = collectionId => async dispatch => {
+  try {
+    await axios.delete(`/api/collections/${collectionId}`)
+    dispatch(removedCollection(collectionId))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 /**
  * REDUCER
  */
@@ -199,6 +217,13 @@ export default function(state = initialState, action) {
       return {...state, collections: action.collections}
     case GET_COLLECTION:
       return {...state, selectedCollection: action.collection}
+    case REMOVE_COLLECTION:
+      return {
+        ...state,
+        collections: state.collections.filter(
+          coll => coll._id !== action.collectionId
+        )
+      }
     case SELECT_DECK:
       return {...state, selectedDeck: action.deck}
     case CREATE_DECK:

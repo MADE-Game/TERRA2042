@@ -1,9 +1,8 @@
 import React from 'react'
 import {ItemTypes} from '../dnd/types'
 import {useDrop} from 'react-dnd'
-import {addToCollection} from '../store/reducers/user'
+import {addToCollection, removeCollection} from '../store/reducers/user'
 import {connect} from 'react-redux'
-import axios from 'axios'
 
 function Collection(props) {
   const [{isOver, canDrop, item}, drop] = useDrop({
@@ -44,9 +43,7 @@ function Collection(props) {
       </div>
       {!['Default Deck', 'My Cards'].includes(props.collection.name) ? (
         <button
-          onClick={async () => {
-            await axios.delete(`/api/collections/${props.collection._id}`)
-          }}
+          onClick={() => props.removeCollection(props.collection._id)}
           type="button"
         >
           X
@@ -62,7 +59,8 @@ function Collection(props) {
 
 const mapDispatchToProps = dispatch => ({
   addToCollection: (collection, cardId) =>
-    dispatch(addToCollection(collection, cardId))
+    dispatch(addToCollection(collection, cardId)),
+  removeCollection: collId => dispatch(removeCollection(collId))
 })
 const mapStateToProps = (state, ownProps) => ({
   collection: state.user.collections.filter(
