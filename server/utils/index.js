@@ -32,6 +32,7 @@ const shuffleDeck = deck => {
   }
   return shuffledDeck
 }
+
 const objectifyBoard = (gameFromSave, gameInDB, userId) => {
   const isP1Player = userId.toString() === gameInDB.p1
   //if user is p1, set p2 to opponent
