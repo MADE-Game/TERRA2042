@@ -12,6 +12,9 @@ import {logout} from '../store'
 export class UserHome extends Component {
   componentDidMount() {
     // this.props.me()
+    const audio = document.createElement('audio')
+    audio.src = '/theme.mp3'
+    audio.play()
   }
 
   render() {
