@@ -145,7 +145,8 @@ router.put('/user/userCards', async (req, res, next) => {
       {
         collections: req.user.collections.map(coll =>
           coll._id.toString() === collection._id.toString() ? collection : coll
-        )
+        ),
+        gold: req.user.gold - req.body.cardCost
       },
       {new: true}
     )

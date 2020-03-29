@@ -65,9 +65,10 @@ const removedCollection = collectionId => ({
   collectionId
 })
 
-const addedToUserCards = myCards => ({
+const addedToUserCards = (userCards, cardCost) => ({
   type: ADD_TO_USER_CARDS,
-  myCards
+  userCards,
+  cardCost
 })
 
 const gotCardsInShop = cards => ({
@@ -207,15 +208,16 @@ export const removeCollection = collectionId => async dispatch => {
   }
 }
 
-export const addToUserCards = cards => async dispatch => {
+export const addToUserCards = (cards, cardCost) => async dispatch => {
   try {
     const {data: userCards} = await axios.put(
       '/api/collections/user/userCards',
       {
-        cards
+        cards,
+        cardCost
       }
     )
-    dispatch(addedToUserCards(userCards))
+    dispatch(addedToUserCards(userCards, cardCost))
   } catch (error) {
     console.error(error)
   }
@@ -259,8 +261,9 @@ export default function(state = initialState, action) {
       return {
         ...state,
         collections: state.collections.map(coll =>
-          coll.isDeck ? coll : action.myCards
-        )
+          coll.isDeck ? coll : action.userCards
+        ),
+        gold: state.gold - action.cardCost
       }
     case SELECT_DECK:
       return {...state, selectedDeck: action.deck._id}

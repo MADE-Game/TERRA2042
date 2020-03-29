@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import React, {Component} from 'react'
 import {ShopCard} from './ShopCard'
 import {Link} from 'react-router-dom'
@@ -14,11 +15,12 @@ class Shop extends Component {
     this.props.getCardsInShop()
   }
 
-  handleClick(event, cardId) {
-    // eslint-disable-next-line no-alert
-    if (window.confirm('confirm purchase')) {
-      this.props.addToUserCards([...this.props.userCards, cardId])
+  handleClick(event, cardId, cardCost) {
+    if (this.props.gold < cardCost) alert('Not enough gold!')
+    else if (window.confirm('confirm purchase')) {
+      this.props.addToUserCards([...this.props.userCards, cardId], cardCost)
       event.target.setAttribute('disabled', true)
+      alert('Purchase successful!')
     }
   }
 
@@ -37,7 +39,9 @@ class Shop extends Component {
               <ShopCard
                 key={card._id}
                 card={card}
-                handleClick={cardId => this.handleClick(event, cardId)}
+                handleClick={(cardId, cardCost) =>
+                  this.handleClick(event, cardId, cardCost)
+                }
               />
             )
           })}
@@ -59,7 +63,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addToUserCards: cards => dispatch(addToUserCards(cards)),
+    addToUserCards: (cards, cardCost) =>
+      dispatch(addToUserCards(cards, cardCost)),
     getCardsInShop: () => dispatch(getCardsInShop())
   }
 }

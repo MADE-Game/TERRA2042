@@ -43,7 +43,7 @@ export const ShopCard = ({card, handleClick}) => {
       <button
         type="button"
         className="buttonStyle1"
-        onClick={() => handleClick(card._id)}
+        onClick={() => handleClick(card._id, card.cost)}
       >
         Buy
       </button>
