@@ -84,8 +84,7 @@ router.get('/me', async (req, res) => {
     })
     const userToSend = {...req.user._doc, collections}
     res.json(userToSend)
-  }
-  res.json({})
+  } else res.json({})
 })
 
 router.use('/google', require('./google'))

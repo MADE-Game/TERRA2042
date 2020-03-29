@@ -126,13 +126,14 @@ export const selectDeck = name => {
   }
 }
 
-export const getCollection = collectionId => {
-  return async dispatch => {
-    const {data: collection} = await axios.get(
-      `/api/collections/${collectionId}`
-    )
-    dispatch(gotCollection(collection))
-  }
+export const getCollection = collectionId => async dispatch => {
+  const {data: collection} = await axios.get(`/api/collections/${collectionId}`)
+  dispatch(gotCollection(collection))
+}
+
+export const getCardsInShop = () => async dispatch => {
+  const {data: cards} = await axios.get('/api/cards/?inShop=true')
+  dispatch(gotCardsInShop(cards))
 }
 
 export const logout = () => async dispatch => {
@@ -208,8 +209,13 @@ export const removeCollection = collectionId => async dispatch => {
 
 export const addToUserCards = cards => async dispatch => {
   try {
-    const {data: myCards} = await axios.put('/api/collection/myCards', {cards})
-    dispatch(addedToUserCards(myCards))
+    const {data: userCards} = await axios.put(
+      '/api/collections/user/userCards',
+      {
+        cards
+      }
+    )
+    dispatch(addedToUserCards(userCards))
   } catch (error) {
     console.error(error)
   }

@@ -99,9 +99,9 @@ router.delete('/:collectionId', async (req, res, next) => {
 //update collection info
 router.put('/:collectionId', async (req, res, next) => {
   try {
-    if (!req.body.isDeck) {
-      return res.status(401).send('you cannot edit this!')
-    }
+    // if (!req.body.isDeck) {
+    //   return res.status(401).send('you cannot edit this!')
+    // }
 
     const collection = await Collection.findByIdAndUpdate(
       req.params.collectionId,
@@ -121,12 +121,22 @@ router.put('/:collectionId', async (req, res, next) => {
 })
 
 // add a card to users "My Cards" collection
-router.put('/myCards', async (req, res, next) => {
+router.put('/user/userCards', async (req, res, next) => {
   try {
     const collection = await Collection.findOneAndUpdate(
       {isDeck: false, userId: req.user._id},
       {
         cards: req.body.cards
+      },
+      {new: true}
+    )
+    console.log('hr:', collection._id)
+    await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        collections: req.user.collections.map(coll =>
+          coll._id === collection._id ? collection : coll
+        )
       },
       {new: true}
     )
