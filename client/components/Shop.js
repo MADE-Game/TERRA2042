@@ -1,39 +1,45 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {addToUserCards} from '../store/reducers/user'
 
-const dummyArr = [
-  'https://pluspng.com/img-png/logo-javascript-png-java-script-js-logo-format-ai-javascript-logo-vector-png-213.png',
-  'https://cdn4.iconfinder.com/data/icons/logos-3/600/React.js_logo-512.png',
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/1280px-Node.js_logo.svg.png',
-  'https://webassets.mongodb.com/_com_assets/cms/MongoDB_Logo_FullColorBlack_RGB-4td3yuxzjs.png',
-  'https://www.stickpng.com/assets/images/5848309bcef1014c0b5e4a9a.png',
-  'https://www.stickpng.com/assets/images/584815fdcef1014c0b5e497a.png',
-  'https://angular.io/assets/images/logos/angular/angular.png',
-  'https://www.stickpng.com/assets/images/5848152fcef1014c0b5e4967.png',
-  'https://cdn.freebiesupply.com/logos/large/2x/socket-io-logo-png-transparent.png',
-  'https://www.stickpng.com/assets/images/58480979cef1014c0b5e4901.png'
-]
+class Shop extends Component {
+  constructor() {
+    super()
+    this.handleClick = this.handleClick.bind(this)
+  }
 
-export const Shop = () => {
-  return (
-    <div id="shop">
-      <Link to="/home">
-        <button type="button" className="buttonStyle1">
-          Home
-        </button>
-      </Link>
-      <div id="shop-cards">
-        {Array(20)
-          .fill(1)
-          .map((item, idx) => {
-            return <Card key={item} num={idx + 1} />
-          })}
+  handleClick(cardId) {
+    this.props.addToMyCards([...this.props.myCards, cardId])
+  }
+
+  render() {
+    return (
+      <div id="shop">
+        <Link to="/home">
+          <button type="button" className="buttonStyle1">
+            Home
+          </button>
+        </Link>
+        <div id="shop-cards">
+          {Array(20)
+            .fill(1)
+            .map((item, idx) => {
+              return (
+                <ShopCard
+                  key={item}
+                  num={idx + 1}
+                  handleClick={this.props.handleClick}
+                />
+              )
+            })}
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
-const Card = ({num}) => {
+const ShopCard = ({num, handleClick}) => {
   return (
     <div
       id="card"
@@ -74,9 +80,25 @@ const Card = ({num}) => {
         <span>~ health ~</span>
         <br />
       </div>
-      <button type="button" className="buttonStyle1">
+      <button type="button" className="buttonStyle1" onClick={handleClick}>
         Buy
       </button>
     </div>
   )
 }
+
+const mapStateToProps = state => {
+  return {
+    userCards: state.user.collections
+      .filter(coll => coll.isDeck === false)
+      .map(coll => coll.cards)
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addToUserCards: cards => dispatch(addToUserCards(cards))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Shop)

@@ -38,6 +38,7 @@ router.put('/collections/selected', async (req, res, next) => {
   }
 })
 
+// get all collections associated with particular user
 router.get('/:userId/collections', async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId)

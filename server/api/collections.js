@@ -119,3 +119,20 @@ router.put('/:collectionId', async (req, res, next) => {
     next(err)
   }
 })
+
+// add a card to users "My Cards" collection
+router.put('/myCards', async (req, res, next) => {
+  try {
+    const collection = await Collection.findOneAndUpdate(
+      {isDeck: false, userId: req.user._id},
+      {
+        cards: req.body.cards
+      },
+      {new: true}
+    )
+
+    res.json(collection)
+  } catch (error) {
+    next(error)
+  }
+})

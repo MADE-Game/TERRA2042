@@ -12,6 +12,8 @@ const CREATE_DECK = 'CREATE_DECK'
 const EDIT_COLLECTION = 'EDIT_COLLECTION'
 const SELECT_DECK = 'SELECT_DECK'
 const REMOVE_COLLECTION = 'REMOVE_COLLECTION'
+const ADD_TO_USER_CARDS = 'ADD_TO_USER_CARDS'
+const GET_CARDS_IN_SHOP = 'GET_CARDS_IN_SHOP'
 
 /**
  * INITIAL STATE
@@ -24,7 +26,8 @@ const initialState = {
     _id: ''
   },
   defaultUser: {},
-  selectedDeck: {}
+  selectedDeck: {},
+  inShop: []
 }
 /**
  * ACTION CREATORS
@@ -60,6 +63,16 @@ const selectedDeck = deck => ({
 const removedCollection = collectionId => ({
   type: REMOVE_COLLECTION,
   collectionId
+})
+
+const addedToUserCards = myCards => ({
+  type: ADD_TO_USER_CARDS,
+  myCards
+})
+
+const gotCardsInShop = cards => ({
+  type: GET_CARDS_IN_SHOP,
+  cards
 })
 
 /**
@@ -151,6 +164,7 @@ export const addToCollection = (collection, cardId) => {
     }
   }
 }
+
 export const removeFromCollection = (collection, cardId) => {
   return async dispatch => {
     try {
@@ -192,6 +206,15 @@ export const removeCollection = collectionId => async dispatch => {
   }
 }
 
+export const addToUserCards = cards => async dispatch => {
+  try {
+    const {data: myCards} = await axios.put('/api/collection/myCards', {cards})
+    dispatch(addedToUserCards(myCards))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 /**
  * REDUCER
  */
@@ -217,11 +240,20 @@ export default function(state = initialState, action) {
       return {...state, collections: action.collections}
     case GET_COLLECTION:
       return {...state, selectedCollection: action.collection}
+    case GET_CARDS_IN_SHOP:
+      return {...state, inShop: action.cards}
     case REMOVE_COLLECTION:
       return {
         ...state,
         collections: state.collections.filter(
           coll => coll._id !== action.collectionId
+        )
+      }
+    case ADD_TO_USER_CARDS:
+      return {
+        ...state,
+        collections: state.collections.map(coll =>
+          coll.isDeck ? coll : action.myCards
         )
       }
     case SELECT_DECK:
