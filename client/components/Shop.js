@@ -14,8 +14,12 @@ class Shop extends Component {
     this.props.getCardsInShop()
   }
 
-  handleClick(cardId) {
-    this.props.addToUserCards([...this.props.userCards, cardId])
+  handleClick(event, cardId) {
+    // eslint-disable-next-line no-alert
+    if (window.confirm('confirm purchase')) {
+      this.props.addToUserCards([...this.props.userCards, cardId])
+      event.target.setAttribute('disabled', true)
+    }
   }
 
   render() {
@@ -26,13 +30,14 @@ class Shop extends Component {
             Home
           </button>
         </Link>
+        <span>Gold {this.props.gold}</span>
         <div id="shop-cards">
           {this.props.inShop.map(card => {
             return (
               <ShopCard
                 key={card._id}
                 card={card}
-                handleClick={this.handleClick}
+                handleClick={cardId => this.handleClick(event, cardId)}
               />
             )
           })}
@@ -44,6 +49,7 @@ class Shop extends Component {
 
 const mapStateToProps = state => {
   return {
+    gold: state.user.gold,
     userCards: state.user.collections
       .filter(coll => !coll.isDeck)
       .reduce((acc, current) => current.cards, []),

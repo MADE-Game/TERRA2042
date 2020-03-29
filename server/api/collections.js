@@ -130,7 +130,7 @@ router.put('/user/userCards', async (req, res, next) => {
       },
       {new: true}
     )
-    console.log('hr:', collection._id)
+
     await User.findByIdAndUpdate(
       req.user._id,
       {
