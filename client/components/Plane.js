@@ -29,7 +29,6 @@ const Plane = props => {
 
   return (
     <div className="plane" ref={drop}>
-      PLANE:
       {props.inPlay.map(card => {
         return (
           <Card

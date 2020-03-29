@@ -45,7 +45,6 @@ const Side = props => {
               side="bottom"
             />
             <div className="hand">
-              HAND:
               {props.hand.map(card => {
                 return (
                   <Card

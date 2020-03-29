@@ -9,7 +9,7 @@ import {logout} from '../store'
  * COMPONENT
  */
 
-export class UserHome extends Component {
+export class UserHome extends React.Component {
   componentDidMount() {
     // this.props.me()
   }
@@ -54,23 +54,6 @@ export class UserHome extends Component {
       </div>
     )
   }
-  // return (
-  //   <div
-  //     id="homepage"
-  //     style={{
-  //       display: 'flex',
-  //       flexDirection: 'column',
-  //       justifyContent: 'center',
-  //       alignItems: 'center',
-  //       minHeight: '100vh'
-  //     }}
-  //   >
-  //     <Link to="/games">Play</Link>
-  //     <Link to="/">Shop</Link>
-  //     <Link to="/decks">Collection</Link>
-  //     <Link to="/">Logout</Link>
-  //   </div>
-  // )
 }
 
 /**
