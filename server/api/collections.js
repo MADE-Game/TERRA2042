@@ -55,16 +55,27 @@ router.get('/users/:userId', async (req, res, next) => {
 //create new collection
 router.post('/', async (req, res, next) => {
   try {
-    const collection = await Collection.create({
-      userId: req.user._id,
-      name: req.body.name,
-      cards: [],
-      isDeck: true
-    })
-
-    await User.findByIdAndUpdate(req.user._id, {
-      collections: [...req.user.collections, collection._id]
-    })
+    let collection = await Collection.findOne({name: req.body.name})
+    if (collection) return res.status(206).json(collection.name)
+    else {
+      collection = await Collection.create({
+        userId: req.user._id,
+        name: req.body.name,
+        cards: [],
+        isDeck: true
+      })
+    }
+    // before, we were only appending the collection id to the collections array
+    // (collections: [...req.user.collections, collection._id])
+    // but we decided we want the whole object
+    // look here if something breaks in the front end
+    await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        collections: [...req.user.collections, collection]
+      },
+      {new: true}
+    )
 
     res.json(collection)
   } catch (err) {
@@ -75,10 +86,19 @@ router.post('/', async (req, res, next) => {
 //delete collection
 router.delete('/:collectionId', async (req, res, next) => {
   try {
-    const collection = await Collection.findByIdAndRemove(
-      req.params.collectionId
+    await Collection.findByIdAndRemove(req.params.collectionId)
+
+    await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        collections: req.user.collections.filter(
+          coll => coll._id.toString() !== req.params.collectionId
+        )
+      },
+      {new: true}
     )
-    res.json(collection)
+
+    res.sendStatus(204)
   } catch (err) {
     next(err)
   }
@@ -87,9 +107,10 @@ router.delete('/:collectionId', async (req, res, next) => {
 //update collection info
 router.put('/:collectionId', async (req, res, next) => {
   try {
-    if (!req.body.isDeck) {
-      return res.status(401).send('you cannot edit this!')
-    }
+    // had to comment this out to the route below work
+    // if (!req.body.isDeck) {
+    //   return res.status(401).send('you cannot edit this!')
+    // }
 
     const collection = await Collection.findByIdAndUpdate(
       req.params.collectionId,
@@ -105,5 +126,33 @@ router.put('/:collectionId', async (req, res, next) => {
     res.json({...collection._doc, cards})
   } catch (err) {
     next(err)
+  }
+})
+
+// add a card to users "My Cards" collection
+router.put('/user/userCards', async (req, res, next) => {
+  try {
+    const collection = await Collection.findOneAndUpdate(
+      {isDeck: false, userId: req.user._id},
+      {
+        cards: req.body.cards
+      },
+      {new: true}
+    )
+
+    await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        collections: req.user.collections.map(coll =>
+          coll._id.toString() === collection._id.toString() ? collection : coll
+        ),
+        gold: req.user.gold - req.body.cardCost
+      },
+      {new: true}
+    )
+
+    res.json(collection)
+  } catch (error) {
+    next(error)
   }
 })

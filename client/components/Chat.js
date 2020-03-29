@@ -9,6 +9,7 @@ class Chat extends Component {
       userName: this.props.userName,
       message: ''
     }
+
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.log = this.log.bind(this)
@@ -41,7 +42,7 @@ class Chat extends Component {
   }
 
   componentWillUnmount() {
-    localStorage.clear()
+    delete localStorage.log
   }
 
   log(action, data = null) {
@@ -100,8 +101,9 @@ class Chat extends Component {
           <br />
           <textarea
             required
-            style={{marginLeft: '1.5%', resize: 'none'}}
-            cols="50"
+            style={{marginLeft: '11.5%', resize: 'none'}}
+            wrap="hard"
+            cols="40"
             rows="5"
             name="message"
             value={this.state.message}

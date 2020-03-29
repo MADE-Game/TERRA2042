@@ -10,6 +10,7 @@ import {connect} from 'react-redux'
 import React, {Component} from 'react'
 import Backend from 'react-dnd-html5-backend'
 import {DndProvider} from 'react-dnd'
+import {Link} from 'react-router-dom'
 
 class CollectionList extends Component {
   constructor() {
@@ -31,11 +32,16 @@ class CollectionList extends Component {
 
   handleClick(collectionId) {
     this.props.loadCards(collectionId)
+    // this.props.loadInitialData(this.props.user._id)
   }
 
   handleSubmit(event) {
     event.preventDefault()
-    this.props.createDeck(this.state.name)
+
+    if (/\S/.test(this.state.name)) this.props.createDeck(this.state.name)
+    // eslint-disable-next-line no-alert
+    else alert('Deck name cannot be empty!')
+
     this.setState({
       name: ''
     })
@@ -54,6 +60,11 @@ class CollectionList extends Component {
     return (
       <DndProvider backend={Backend}>
         <div>
+          <Link to="/home">
+            <button type="button" className="buttonStyle1">
+              Home
+            </button>
+          </Link>
           <div id="collections">
             {this.props.userCollections.map(collection => {
               return (
@@ -70,9 +81,18 @@ class CollectionList extends Component {
           <form onSubmit={this.handleSubmit}>
             <label htmlFor="deck">Deck Name</label>
             <input
+              required
               name="deck"
               value={this.state.name}
               onChange={this.handleChange}
+              onKeyDown={event => {
+                if (event.key === ' ') {
+                  // eslint-disable-next-line no-alert
+                  alert('No spaces!')
+                  event.preventDefault()
+                  return false
+                }
+              }}
             ></input>
             <button type="submit">Create Deck</button>
           </form>
@@ -86,7 +106,7 @@ class CollectionList extends Component {
                   key={card._id}
                   card={card}
                   isDeck={this.props.selectedCollection.isDeck}
-                  handleRemove={e =>
+                  handleRemove={() =>
                     this.handleRemove(this.props.selectedCollection, card._id)
                   }
                 />
