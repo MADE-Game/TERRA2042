@@ -123,14 +123,16 @@ router.post('/newGame', async (req, res, next) => {
           hand: [],
           deck: [],
           inPlay: [],
-          settlers: 20
+          settlers: 20,
+          class: ''
         },
 
         player2: {
           hand: [],
           deck: [],
           inPlay: [],
-          settlers: 20
+          settlers: 20,
+          class: ''
         }
       }
 

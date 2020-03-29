@@ -11,7 +11,8 @@ import {
   END_TURN,
   HURT_BY_DRAW,
   START_TURN,
-  INCREMENT_SETTLERS
+  INCREMENT_SETTLERS,
+  SET_CLASS
 } from './actionTypes'
 
 import engine from '../engine/index'
@@ -21,6 +22,10 @@ import {socket} from '../components/Room'
 const gotAllCards = cards => ({
   type: GET_ALL_CARDS,
   cards
+})
+const setClassAction = hero => ({
+  type: SET_CLASS,
+  hero
 })
 const incrementedSettlers = hero => ({
   type: INCREMENT_SETTLERS,
@@ -87,6 +92,10 @@ export const startTurn = () => dispatch => {
 export const incrementTheSettlers = hero => async dispatch => {
   const result = engine.incrementSettlers(hero)
   await dispatch(incrementedSettlers(result))
+}
+export const setTheClass = (hero, Class) => async dispatch => {
+  const newHero = engine.setClass(hero, Class)
+  await dispatch(setClassAction(newHero))
 }
 
 export const playerPlayCard = (hero, card) => {

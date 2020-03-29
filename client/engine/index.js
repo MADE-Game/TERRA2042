@@ -39,6 +39,11 @@ const engine = {
     const newHero = hero
     newHero.settlers -= 2
     return newHero
+  },
+  setClass: (hero, Class) => {
+    const newHero = hero
+    newHero.class = Class
+    return newHero
   }
 }
 

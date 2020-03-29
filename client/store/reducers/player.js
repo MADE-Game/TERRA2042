@@ -7,7 +7,8 @@ import {
   END_TURN,
   HURT_BY_DRAW,
   PLAYER_ATTACK_HERO,
-  INCREMENT_SETTLERS
+  INCREMENT_SETTLERS,
+  SET_CLASS
 } from '../actionTypes'
 
 const initialState = {
@@ -17,7 +18,8 @@ const initialState = {
   settlers: 20,
   planeFull: false,
   drawsThisTurn: 0,
-  drawLimit: 1
+  drawLimit: 1,
+  class: ''
 }
 
 // eslint-disable-next-line complexity
@@ -112,6 +114,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         settlers: action.hero.settlers
+      }
+    case SET_CLASS:
+      return {
+        ...state,
+        class: action.hero.class
       }
     default:
       return state

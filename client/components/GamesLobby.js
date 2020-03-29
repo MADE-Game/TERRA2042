@@ -3,7 +3,16 @@ import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {selectDeck} from '../store/reducers/user'
+import {setTheClass} from '../store/thunksAndActionCreators'
 
+const classesArray = [
+  'Forager',
+  'Medic',
+  'Metalhead',
+  'Cultist',
+  'Bandit',
+  'Hoarder'
+]
 class GamesLobby extends Component {
   constructor() {
     super()
@@ -63,6 +72,26 @@ class GamesLobby extends Component {
             </option>
           ))}
         </select>
+
+        <label htmlFor="class">Pick Your Class</label>
+        <select
+          name="class"
+          onChange={e => {
+            this.setState({
+              name: e.target.value
+            })
+            this.props.setTheClass(this.props.hero, e.target.value)
+          }}
+          value={this.state.class}
+        >
+          {classesArray.map(Class => {
+            return (
+              <option value={Class} key={Class}>
+                {Class}
+              </option>
+            )
+          })}
+        </select>
       </div>
     )
   }
@@ -71,10 +100,12 @@ const mapState = state => {
   return {
     decks: state.user.collections
       .filter(coll => coll.cards.length === 20 && coll.isDeck)
-      .map(coll => coll.name)
+      .map(coll => coll.name),
+    hero: state.game.player
   }
 }
 const mapDispatch = dispatch => ({
-  selectDeck: deckName => dispatch(selectDeck(deckName))
+  selectDeck: deckName => dispatch(selectDeck(deckName)),
+  setTheClass: (hero, Class) => dispatch(setTheClass(hero, Class))
 })
 export default connect(mapState, mapDispatch)(GamesLobby)
