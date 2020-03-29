@@ -73,7 +73,6 @@ class GamesLobby extends Component {
   }
 }
 const mapState = state => {
-  console.log('statefilter', state.user.collections)
   return {
     decks: state.user.collections
       .filter(coll => coll.cards.length === 20 && coll.isDeck)

@@ -9,7 +9,8 @@ import {
   loadGame,
   endTurn,
   saveGame,
-  startTurn
+  startTurn,
+  incrementTheSettlers
 } from '../store/thunksAndActionCreators'
 import {socket} from './Room'
 import {withRouter} from 'react-router'
@@ -88,40 +89,42 @@ class Board extends Component {
   render() {
     return (
       <DndProvider backend={Backend}>
+        {/* <h1>TEST</h1> */}
         <div className="board">
-          ENEMY SIDE:
-          <Side top={true} side={enemySide} />
-          PLAYER SIDE:
-          {!this.props.isFinished ? (
-            this.props.isMyTurn ? (
-              <div id="buttonContainer">
-                <button
-                  type="submit"
-                  onClick={() =>
-                    this.props.endTurn(
-                      this.props.match.params.id,
-                      this.props.gameState
-                    )
-                  }
-                  className="turnButton"
-                >
-                  End Turn
-                </button>
-              </div>
+          <div className="container">
+            <Side top={true} side={enemySide} />
+            <Side side={playerSide} />
+            {!this.props.isFinished ? (
+              this.props.isMyTurn ? (
+                <div id="buttonContainer">
+                  <button
+                    type="submit"
+                    onClick={() =>
+                      this.props.endTurn(
+                        this.props.match.params.id,
+                        this.props.gameState,
+                        this.props.player
+                      )
+                    }
+                    className="turnButton"
+                  >
+                    End Turn
+                  </button>
+                </div>
+              ) : (
+                'not my turn'
+              )
             ) : (
-              'not my turn'
-            )
-          ) : (
-            <div>
-              <h1>Game Over!</h1>
-              <Link to="/lobby">
-                <button type="submit" className="buttonStyle2">
-                  Back to Lobby?
-                </button>
-              </Link>
-            </div>
-          )}
-          <Side side={playerSide} />
+              <div>
+                <h1>Game Over!</h1>
+                <Link to="/lobby">
+                  <button type="submit" className="buttonStyle2">
+                    Back to Lobby?
+                  </button>
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </DndProvider>
     )
@@ -135,15 +138,17 @@ const mapStateToProps = state => {
     inPlay: state.game.player.inPlay,
     gameState: state.game,
     isMyTurn: state.game.data.localTurn,
-    canEnd: state.game.data.isMyTurn
+    canEnd: state.game.data.isMyTurn,
+    player: state.game.player
   }
 }
 const mapDispatchToProps = dispatch => {
   return {
     getAllCards: () => dispatch(getAllCards()),
     loadGame: id => dispatch(loadGame(id)),
-    endTurn: async (id, gameState) => {
-      dispatch(endTurn())
+    endTurn: async (id, gameState, hero) => {
+      await dispatch(endTurn())
+      await dispatch(incrementTheSettlers(hero))
       await dispatch(
         saveGame(id, {...gameState, data: {...gameState.data, isMyTurn: false}})
       )

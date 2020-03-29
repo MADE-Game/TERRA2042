@@ -23,7 +23,7 @@ export default function(state = initialState, action) {
         localTurn: action.game.game.data.isMyTurn
       }
     case END_TURN:
-      return {...state, isMyTurn: false}
+      return {...state, isMyTurn: false, localTurn: false}
     case START_TURN:
       return {...state, isMyTurn: true}
     case PLAYER_HERO_DEAD:

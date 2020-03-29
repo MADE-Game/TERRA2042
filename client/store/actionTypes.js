@@ -7,9 +7,9 @@ export const PLAYER_HERO_DEAD = 'PLAYER_HERO_DEAD'
 export const END_TURN = 'END_TURN'
 export const START_TURN = 'START_TURN'
 export const HURT_BY_DRAW = 'HURT_BY_DRAW'
+export const INCREMENT_SETTLERS = 'INCREMENT_SETTLERS'
 //opponent actions
 export const OPP_HERO_DEAD = 'OPP_HERO_DEAD'
-
 //
 export const GET_ALL_CARDS = 'GET_ALL_CARDS'
 export const LOAD_GAME = 'LOAD_GAME'

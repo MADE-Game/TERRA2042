@@ -15,6 +15,11 @@ const engine = {
     newAttacker.attackOccurred = true
     return [newAttacker, newHero]
   },
+  incrementSettlers: hero => {
+    const newHero = hero
+    newHero.settlers += 1
+    return hero
+  },
 
   payCost: (hero, card) => {
     const newHero = hero
@@ -29,6 +34,7 @@ const engine = {
       card
     }
   },
+
   hurtByDraw: hero => {
     const newHero = hero
     newHero.settlers -= 2

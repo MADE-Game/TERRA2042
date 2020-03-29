@@ -263,7 +263,7 @@ export default function(state = initialState, action) {
         )
       }
     case SELECT_DECK:
-      return {...state, selectedDeck: action.deck}
+      return {...state, selectedDeck: action.deck._id}
     case CREATE_DECK:
       return {...state, collections: [...state.collections, action.deck]}
     default:

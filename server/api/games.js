@@ -4,7 +4,8 @@ module.exports = router
 const {
   relativizeBoard,
   objectifyBoard,
-  validateBoard
+  validateBoard,
+  shuffleDeck
 } = require('../utils/index.js')
 //all games
 router.get('/', async (req, res, next) => {
@@ -52,7 +53,7 @@ router.get('/load/:gameId', async (req, res, next) => {
 router.put('/save/:gameId', async (req, res, next) => {
   try {
     const {data} = req.body
-
+    console.log('logging data in save put route: ', data)
     const gameToSave = await Game.findById(req.params.gameId)
     //establish what player makes this request.
     const isPlayer1 = gameToSave.p1 === req.user._id.toString()
@@ -117,24 +118,55 @@ router.post('/newGame', async (req, res, next) => {
     if (game) {
       return res.json(game)
     } else {
-      //load decks here.
-      const gameToMakeString = req.body.game
+      const gameToMakeString = {
+        player1: {
+          hand: [],
+          deck: [],
+          inPlay: [],
+          settlers: 20
+        },
+
+        player2: {
+          hand: [],
+          deck: [],
+          inPlay: [],
+          settlers: 20
+        }
+      }
 
       //p1 deck
-      const player1 = await User.findById(req.body.p1)
-      const player2 = await User.findById(req.body.p2)
+      const user1 = await User.findById(req.body.p1)
+      const user2 = await User.findById(req.body.p2)
+      let player1, player2
+
+      //randomize players one and two.
+      if (Math.floor(Math.random() * 10) >= 5) {
+        player1 = user1
+        player2 = user2
+      } else {
+        player1 = user2
+        player2 = user1
+      }
       //find both players decks.
       const collection1 = await Collection.findById(player1.selectedDeck)
       const collection2 = await Collection.findById(player2.selectedDeck)
-      const deck1 = await Card.find({_id: {$in: collection1.cards}})
-      const deck2 = await Card.find({_id: {$in: collection2.cards}})
+
+      let deck1 = await Card.find({_id: {$in: collection1.cards}})
+      let deck2 = await Card.find({_id: {$in: collection2.cards}})
+      deck1 = shuffleDeck(deck1)
+      deck2 = shuffleDeck(deck2)
+
+      const p1Hand = deck1.splice(0, 3)
+      const p2Hand = deck2.splice(0, 4)
+      gameToMakeString.player1.hand = p1Hand
+      gameToMakeString.player2.hand = p2Hand
       gameToMakeString.player1.deck = deck1
       gameToMakeString.player2.deck = deck2
 
       const newGame = await Game.create({
         game: JSON.stringify(gameToMakeString),
-        p1: req.body.p1,
-        p2: req.body.p2,
+        p1: player1._id,
+        p2: player2._id,
         isFinished: false,
         isP1Turn: true
       })

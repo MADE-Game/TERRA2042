@@ -10,7 +10,8 @@ import {
   SAVE_GAME,
   END_TURN,
   HURT_BY_DRAW,
-  START_TURN
+  START_TURN,
+  INCREMENT_SETTLERS
 } from './actionTypes'
 
 import engine from '../engine/index'
@@ -20,6 +21,10 @@ import {socket} from '../components/Room'
 const gotAllCards = cards => ({
   type: GET_ALL_CARDS,
   cards
+})
+const incrementedSettlers = hero => ({
+  type: INCREMENT_SETTLERS,
+  hero
 })
 const loadedGame = game => ({
   type: LOAD_GAME,
@@ -77,6 +82,11 @@ export const endTurn = () => async dispatch => {
 }
 export const startTurn = () => dispatch => {
   dispatch(startedTurn())
+}
+
+export const incrementTheSettlers = hero => async dispatch => {
+  const result = engine.incrementSettlers(hero)
+  await dispatch(incrementedSettlers(result))
 }
 
 export const playerPlayCard = (hero, card) => {
@@ -180,31 +190,10 @@ export const hurtByTheDraw = hero => {
 
 export const startGame = (p1Id, p2Id) => {
   return async () => {
-    const gameObj = {
-      game: {
-        player1: {
-          hand: [],
-          deck: [],
-          inPlay: [],
-          settlers: 20
-        },
-
-        player2: {
-          hand: [],
-          deck: [],
-          inPlay: [],
-          settlers: 20
-        }
-      },
-
+    const {data: game} = await Axios.post('/api/games/newGame', {
       p1: p1Id,
-      p2: p2Id,
-      isFinished: false,
-      isP1Turn: true
-    }
-
-    const {data: game} = await Axios.post('/api/games/newGame', gameObj)
-
+      p2: p2Id
+    })
     return game._id
   }
 }
