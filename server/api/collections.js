@@ -69,9 +69,13 @@ router.post('/', async (req, res, next) => {
     // (collections: [...req.user.collections, collection._id])
     // but we decided we want the whole object
     // look here if something breaks in the front end
-    await User.findByIdAndUpdate(req.user._id, {
-      collections: [...req.user.collections, collection]
-    })
+    await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        collections: [...req.user.collections, collection]
+      },
+      {new: true}
+    )
 
     res.json(collection)
   } catch (err) {
@@ -84,11 +88,15 @@ router.delete('/:collectionId', async (req, res, next) => {
   try {
     await Collection.findByIdAndRemove(req.params.collectionId)
 
-    await User.findByIdAndUpdate(req.user._id, {
-      collections: req.user.collections.filter(
-        coll => coll._id !== req.params.collectionId
-      )
-    })
+    await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        collections: req.user.collections.filter(
+          coll => coll._id.toString() !== req.params.collectionId
+        )
+      },
+      {new: true}
+    )
 
     res.sendStatus(204)
   } catch (err) {
@@ -135,7 +143,7 @@ router.put('/user/userCards', async (req, res, next) => {
       req.user._id,
       {
         collections: req.user.collections.map(coll =>
-          coll._id === collection._id ? collection : coll
+          coll._id.toString() === collection._id.toString() ? collection : coll
         )
       },
       {new: true}
