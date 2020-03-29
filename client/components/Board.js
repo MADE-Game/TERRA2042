@@ -89,41 +89,42 @@ class Board extends Component {
   render() {
     return (
       <DndProvider backend={Backend}>
+        {/* <h1>TEST</h1> */}
         <div className="board">
-          ENEMY SIDE:
-          <Side top={true} side={enemySide} />
-          PLAYER SIDE:
-          {!this.props.isFinished ? (
-            this.props.isMyTurn ? (
-              <div id="buttonContainer">
-                <button
-                  type="submit"
-                  onClick={() =>
-                    this.props.endTurn(
-                      this.props.match.params.id,
-                      this.props.gameState,
-                      this.props.player
-                    )
-                  }
-                  className="turnButton"
-                >
-                  End Turn
-                </button>
-              </div>
+          <div className="container">
+            <Side top={true} side={enemySide} />
+            <Side side={playerSide} />
+            {!this.props.isFinished ? (
+              this.props.isMyTurn ? (
+                <div id="buttonContainer">
+                  <button
+                    type="submit"
+                    onClick={() =>
+                      this.props.endTurn(
+                        this.props.match.params.id,
+                        this.props.gameState,
+                        this.props.player
+                      )
+                    }
+                    className="turnButton"
+                  >
+                    End Turn
+                  </button>
+                </div>
+              ) : (
+                'not my turn'
+              )
             ) : (
-              'not my turn'
-            )
-          ) : (
-            <div>
-              <h1>Game Over!</h1>
-              <Link to="/lobby">
-                <button type="submit" className="buttonStyle2">
-                  Back to Lobby?
-                </button>
-              </Link>
-            </div>
-          )}
-          <Side side={playerSide} />
+              <div>
+                <h1>Game Over!</h1>
+                <Link to="/lobby">
+                  <button type="submit" className="buttonStyle2">
+                    Back to Lobby?
+                  </button>
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </DndProvider>
     )

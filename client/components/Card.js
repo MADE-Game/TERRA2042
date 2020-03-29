@@ -47,25 +47,35 @@ const Card = props => {
         className="card"
         ref={drop}
         style={{
-          fontSize: 12,
+          marginRight: '1vh',
           fontWeight: 'bold',
           cursor: 'move'
         }}
       >
+        <img
+          src="/images/card_bg.png"
+          style={{visibility: 'hidden', maxWidth: '75px', marginTop: '-159%'}}
+        />
         <div>
           <p
             style={{
-              textAlign: 'right',
-              paddingRight: '1em'
+              margin: 0,
+              textAlign: 'center',
+              fontSize: 10,
+              color: '#fff'
             }}
           >
-            Cost: {cost}
+            {cost}
           </p>
         </div>
         <img src={imageUrl} style={{width: '11vh'}} />
         <h2
           style={{
-            textAlign: 'center'
+            textAlign: 'center',
+            margin: 0,
+            fontSize: 8,
+            color: '#fff',
+            marginTop: '-.75vh'
           }}
         >
           {name}
