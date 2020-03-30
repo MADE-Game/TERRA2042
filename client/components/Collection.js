@@ -1,8 +1,10 @@
 import React from 'react'
 import {ItemTypes} from '../dnd/types'
 import {useDrop} from 'react-dnd'
-import {addToCollection} from '../store/reducers/user'
+import {addToCollection, removeCollection} from '../store/reducers/user'
 import {connect} from 'react-redux'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function Collection(props) {
   const [{isOver, canDrop, item}, drop] = useDrop({
@@ -13,7 +15,9 @@ function Collection(props) {
         //thunk to add to collection.
         props.addToCollection(props.collection, item.id)
       } else {
-        alert('card is already in the deck!')
+        toast.warning('Card is already in the deck!', {
+          position: toast.POSITION.TOP_CENTER
+        })
       }
     },
     collect: monitor => ({
@@ -24,16 +28,39 @@ function Collection(props) {
   })
 
   return props.collection._id ? (
-    <div onClick={props.handleClick} ref={drop}>
+    <div className="single-collection">
       <div
-        className={
-          props.collection.isDeck ? 'collection' : 'collection allCards'
-        }
-      >{`${props.collection.name}`}</div>
-      <span>
-        {props.collection.cards.length}
-        {props.collection.isDeck ? '/20' : ''}
-      </span>
+        onClick={props.handleClick}
+        ref={drop}
+        style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}
+      >
+        <div
+          className={
+            props.collection.isDeck
+              ? props.collection.name === 'Default Deck'
+                ? 'collection default'
+                : 'collection'
+              : 'collection allCards'
+          }
+        >
+          <p className="breakName">{`${props.collection.name}`}</p>
+        </div>
+        <span>
+          {props.collection.cards.length}
+          {props.collection.isDeck ? '/20' : ''}
+          {!['Default Deck', 'My Cards'].includes(props.collection.name) ? (
+            <button
+              style={{marginLeft: '1vh'}}
+              onClick={() => props.removeCollection(props.collection._id)}
+              type="button"
+            >
+              X
+            </button>
+          ) : (
+            ''
+          )}
+        </span>
+      </div>
     </div>
   ) : (
     <h1>pick a deck</h1>
@@ -42,7 +69,8 @@ function Collection(props) {
 
 const mapDispatchToProps = dispatch => ({
   addToCollection: (collection, cardId) =>
-    dispatch(addToCollection(collection, cardId))
+    dispatch(addToCollection(collection, cardId)),
+  removeCollection: collId => dispatch(removeCollection(collId))
 })
 const mapStateToProps = (state, ownProps) => ({
   collection: state.user.collections.filter(

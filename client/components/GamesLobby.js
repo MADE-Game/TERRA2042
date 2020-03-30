@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
@@ -31,16 +30,28 @@ class GamesLobby extends Component {
       roomId: event.target.value
     })
   }
-  handleSubmit(e) {
+
+  handleSubmit() {
     this.props.history.push(`/games/rooms/${this.state.roomId}`)
   }
   noClassAlert() {
     alert('You must select your class before entering a game')
   }
   render() {
-    console.log('props in render', this.props)
+    delete localStorage.log
+    if (localStorage.gameId) {
+      this.props.history.push(
+        `/games/rooms/${localStorage.roomId}/game/${localStorage.gameId}`
+      )
+    }
+
     return (
       <div>
+        <Link to="/home">
+          <button type="button" className="buttonStyle1">
+            Home
+          </button>
+        </Link>
         <h1>Welcome to the lobby!</h1>
         {this.state.classSelected === true ? (
           <Link to={`/games/rooms/${Math.floor(Math.random() * 1000000)}`}>
@@ -118,6 +129,7 @@ class GamesLobby extends Component {
     )
   }
 }
+
 const mapState = state => {
   return {
     decks: state.user.collections

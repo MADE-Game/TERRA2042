@@ -1,5 +1,7 @@
 import axios from 'axios'
 import history from '../../history'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 /**
  * ACTION TYPES
@@ -12,6 +14,10 @@ const CREATE_DECK = 'CREATE_DECK'
 const EDIT_COLLECTION = 'EDIT_COLLECTION'
 const SELECT_DECK = 'SELECT_DECK'
 const SET_CLASS = 'SET_CLASS'
+const REMOVE_COLLECTION = 'REMOVE_COLLECTION'
+const ADD_TO_USER_CARDS = 'ADD_TO_USER_CARDS'
+const GET_CARDS_IN_SHOP = 'GET_CARDS_IN_SHOP'
+const GET_FINISHED_GAMES = 'GET_FINISHED_GAMES'
 
 /**
  * INITIAL STATE
@@ -25,7 +31,9 @@ const initialState = {
   },
   defaultUser: {},
   selectedDeck: {},
-  selectedClass: 'defaultClass'
+  selectedClass: 'defaultClass',
+  inShop: [],
+  history: []
 }
 /**
  * ACTION CREATORS
@@ -37,6 +45,10 @@ const gotAllCollections = collections => ({
   type: ALL_COLLECTIONS_FOR_USER,
   collections
 })
+const gotFinishedGames = games => ({
+  type: GET_FINISHED_GAMES,
+  games
+})
 const gotCollection = collection => ({
   type: GET_COLLECTION,
   collection
@@ -46,10 +58,12 @@ const createdDeck = deck => ({
   type: CREATE_DECK,
   deck
 })
+
 const editedCollection = collection => ({
   type: EDIT_COLLECTION,
   collection
 })
+
 const selectedDeck = deck => ({
   type: SELECT_DECK,
   deck
@@ -58,6 +72,21 @@ const selectedDeck = deck => ({
 const selectedClass = Class => ({
   type: SET_CLASS,
   Class
+})
+const removedCollection = collectionId => ({
+  type: REMOVE_COLLECTION,
+  collectionId
+})
+
+const addedToUserCards = (userCards, cardCost) => ({
+  type: ADD_TO_USER_CARDS,
+  userCards,
+  cardCost
+})
+
+const gotCardsInShop = cards => ({
+  type: GET_CARDS_IN_SHOP,
+  cards
 })
 
 /**
@@ -111,13 +140,18 @@ export const selectDeck = name => {
   }
 }
 
-export const getCollection = collectionId => {
-  return async dispatch => {
-    const {data: collection} = await axios.get(
-      `/api/collections/${collectionId}`
-    )
-    dispatch(gotCollection(collection))
-  }
+export const getCollection = collectionId => async dispatch => {
+  const {data: collection} = await axios.get(`/api/collections/${collectionId}`)
+  dispatch(gotCollection(collection))
+}
+export const getGames = () => async dispatch => {
+  const {data: games} = await axios.get('/api/games/completed')
+  dispatch(gotFinishedGames(games))
+}
+
+export const getCardsInShop = () => async dispatch => {
+  const {data: cards} = await axios.get('/api/cards/?inShop=true')
+  dispatch(gotCardsInShop(cards))
 }
 
 export const logout = () => async dispatch => {
@@ -149,10 +183,10 @@ export const addToCollection = (collection, cardId) => {
     }
   }
 }
+
 export const removeFromCollection = (collection, cardId) => {
   return async dispatch => {
     try {
-      console.log('collection', collection)
       const fullCollection = {
         ...collection,
         cards: collection.cards.filter(card => card._id !== cardId)
@@ -172,9 +206,36 @@ export const removeFromCollection = (collection, cardId) => {
 
 export const createDeck = name => async dispatch => {
   try {
-    const {data: deck} = await axios.post('/api/collections', {name})
-    console.log('created dekc!', deck)
-    dispatch(createdDeck(deck))
+    const deck = await axios.post('/api/collections', {name})
+    deck.status === 206
+      ? toast.warning(`${deck.data} already exists!`, {
+          position: toast.POSITION.TOP_CENTER
+        })
+      : dispatch(createdDeck(deck.data))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export const removeCollection = collectionId => async dispatch => {
+  try {
+    await axios.delete(`/api/collections/${collectionId}`)
+    dispatch(removedCollection(collectionId))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export const addToUserCards = (cards, cardCost) => async dispatch => {
+  try {
+    const {data: userCards} = await axios.put(
+      '/api/collections/user/userCards',
+      {
+        cards,
+        cardCost
+      }
+    )
+    dispatch(addedToUserCards(userCards, cardCost))
   } catch (error) {
     console.error(error)
   }
@@ -216,12 +277,31 @@ export default function(state = initialState, action) {
       return {...state, collections: action.collections}
     case GET_COLLECTION:
       return {...state, selectedCollection: action.collection}
+    case GET_CARDS_IN_SHOP:
+      return {...state, inShop: action.cards}
+    case REMOVE_COLLECTION:
+      return {
+        ...state,
+        collections: state.collections.filter(
+          coll => coll._id !== action.collectionId
+        )
+      }
+    case ADD_TO_USER_CARDS:
+      return {
+        ...state,
+        collections: state.collections.map(coll =>
+          coll.isDeck ? coll : action.userCards
+        ),
+        gold: state.gold - action.cardCost
+      }
     case SELECT_DECK:
       return {...state, selectedDeck: action.deck._id}
     case SET_CLASS:
       return {...state, selectedClass: action.Class}
     case CREATE_DECK:
       return {...state, collections: [...state.collections, action.deck]}
+    case GET_FINISHED_GAMES:
+      return {...state, history: action.games}
     default:
       return state
   }

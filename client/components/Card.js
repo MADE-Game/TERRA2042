@@ -3,6 +3,8 @@ import {ItemTypes} from '../dnd/types'
 import {useDrag, useDrop} from 'react-dnd'
 import {playerAttackCard} from '../store/thunksAndActionCreators'
 import {connect} from 'react-redux'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Card = props => {
   const [{isDragging}, drag] = useDrag({
@@ -24,13 +26,15 @@ const Card = props => {
     drop: () => {
       if (!props.isMyTurn) {
         //CHAT LOG OPPORTUNITY
-        return console.log('it is not my turn!')
+        return toast.warning("It's not your turn!", {
+          position: toast.POSITION.TOP_CENTER
+        })
       } else if (item.card.attackOccurred) {
-        // eslint-disable-next-line no-alert
-        alert("This fighter can't attack until next turn")
+        toast.warning("This fighter can't attack until next turn", {
+          position: toast.POSITION.TOP_CENTER
+        })
       } else if (props.player === 'enemy' && !props.inHand && !item.inHand) {
         props.attackCard(item.card, props.card)
-        console.log('logging attacker', item.card)
       }
     },
     collect: monitor => ({

@@ -10,6 +10,9 @@ import {connect} from 'react-redux'
 import React, {Component} from 'react'
 import Backend from 'react-dnd-html5-backend'
 import {DndProvider} from 'react-dnd'
+import {Link} from 'react-router-dom'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 class CollectionList extends Component {
   constructor() {
@@ -26,16 +29,25 @@ class CollectionList extends Component {
 
   componentDidMount() {
     this.props.loadInitialData(this.props.user._id)
+    this.props.loadCards(this.props.userCollections[0]._id)
+    let allCardsDiv = document.getElementsByClassName('buttonContainer')
     // this.props.loadCards(this.props.selectedCollection._id)
   }
 
   handleClick(collectionId) {
     this.props.loadCards(collectionId)
+    // this.props.loadInitialData(this.props.user._id)
   }
 
   handleSubmit(event) {
     event.preventDefault()
-    this.props.createDeck(this.state.name)
+
+    if (/\S/.test(this.state.name)) this.props.createDeck(this.state.name)
+    else
+      toast.error('Deck name cannot be empty!', {
+        position: toast.POSITION.TOP_CENTER
+      })
+
     this.setState({
       name: ''
     })
@@ -46,6 +58,7 @@ class CollectionList extends Component {
       name: event.target.value
     })
   }
+
   handleRemove(coll, cardId) {
     this.props.removeFromCollection(coll, cardId)
   }
@@ -54,39 +67,78 @@ class CollectionList extends Component {
     return (
       <DndProvider backend={Backend}>
         <div>
-          <div id="collections">
-            {this.props.userCollections.map(collection => {
-              return (
-                <Collection
-                  handleClick={() => {
-                    this.handleClick(collection._id)
+          <div
+            style={{
+              display: 'flex',
+              backgroundColor: '#b1645e',
+              padding: '1em',
+              boxShadow:
+                'inset 0px 1px 0px #5f1d18, 0px 10px 0px 0px #5f1d18, 0px 0px 0px'
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center'
+              }}
+            >
+              <Link to="/home">
+                <button type="button" className="buttonStyle5">
+                  Home
+                </button>
+              </Link>
+              <form
+                onSubmit={this.handleSubmit}
+                style={{display: 'flex', flexDirection: 'column'}}
+              >
+                <input
+                  required
+                  name="deck"
+                  className="inputStyle1"
+                  placeholder="Deck Name"
+                  value={this.state.name}
+                  onChange={this.handleChange}
+                  onKeyDown={event => {
+                    if (event.key === ' ') {
+                      toast.warning('No spaces allowed', {
+                        position: toast.POSITION.TOP_CENTER
+                      })
+                      event.preventDefault()
+                      return false
+                    }
                   }}
-                  key={collection._id}
-                  collection={collection}
-                />
-              )
-            })}
+                ></input>
+                <button type="submit" className="buttonStyle5">
+                  Create Deck
+                </button>
+              </form>
+              <h3 style={{textAlign: 'center', margin: '0'}}>
+                {this.props.selectedCollection.name}
+              </h3>
+            </div>
+            <div id="collections">
+              {this.props.userCollections.map(collection => {
+                return (
+                  <Collection
+                    handleClick={() => {
+                      this.handleClick(collection._id)
+                    }}
+                    key={collection._id}
+                    collection={collection}
+                  />
+                )
+              })}
+            </div>
           </div>
-          <form onSubmit={this.handleSubmit}>
-            <label htmlFor="deck">Deck Name</label>
-            <input
-              name="deck"
-              value={this.state.name}
-              onChange={this.handleChange}
-            ></input>
-            <button type="submit">Create Deck</button>
-          </form>
-
           <div id="selectedCollection">
-            <hr />
-            <h1>{this.props.selectedCollection.name}</h1>
             {this.props.selectedCollection.cards.map(card => {
               return (
                 <DisplayCard
                   key={card._id}
                   card={card}
                   isDeck={this.props.selectedCollection.isDeck}
-                  handleRemove={e =>
+                  handleRemove={() =>
                     this.handleRemove(this.props.selectedCollection, card._id)
                   }
                 />

@@ -35,6 +35,7 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
       const imgUrl = profile.photos[0].value
       const [userName] = email.split('@')
       const collections = []
+      const gold = 20
 
       try {
         const user = await User.findOne({googleId: googleId})
@@ -45,7 +46,8 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
             email,
             imgUrl,
             userName,
-            collections
+            collections,
+            gold
           })
           const allCards = await Card.find().limit(20)
 

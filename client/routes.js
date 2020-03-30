@@ -1,16 +1,16 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {withRouter, Route, Switch} from 'react-router-dom'
+import {withRouter, Route, Switch, Link} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome} from './components'
 import GamesLobby from './components/GamesLobby'
+import History from './components/History'
 import Collection from './components/Collection'
-import {Shop} from './components/Shop'
+import Shop from './components/Shop'
 import Board from './components/Board'
 import NotFound from './components/not-found'
 import {me} from './store'
 import CollectionList from './components/CollectionList'
-import Chat from './components/Chat'
 import Room from './components/Room'
 
 /**
@@ -39,8 +39,12 @@ class Routes extends Component {
             />
             <Route path="/games/rooms/:roomId/game/:id">
               <div id="board-chat">
+                <Link to="/home">
+                  <button type="button" className="buttonStyle1">
+                    Home
+                  </button>
+                </Link>
                 <Board />
-                <Chat />
               </div>
             </Route>
             <Route path="/decks" component={CollectionList} />
@@ -48,6 +52,7 @@ class Routes extends Component {
             <Route exact path="/" component={UserHome} />
             <Route path="/shop" component={Shop} />
             <Route path="/collection" component={Collection} />
+            <Route path="/history" component={History} />
             <Route path="/devBoard" component={Board} />
             <Route component={NotFound} />
           </Switch>

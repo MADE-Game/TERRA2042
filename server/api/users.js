@@ -1,10 +1,11 @@
 const router = require('express').Router()
 const {User, Collection} = require('../db/models')
+const {userOnly, adminOnly} = require('../utils/index')
 
 module.exports = router
 
 //all users
-router.get('/', async (req, res, next) => {
+router.get('/', adminOnly, async (req, res, next) => {
   try {
     const users = await User.find()
     res.json(users)
@@ -13,7 +14,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/:userId', async (req, res, next) => {
+router.get('/:userId', adminOnly, async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId)
     res.json(user)
@@ -22,9 +23,8 @@ router.get('/:userId', async (req, res, next) => {
   }
 })
 
-router.put('/collections/selected', async (req, res, next) => {
+router.put('/collections/selected', userOnly, async (req, res, next) => {
   try {
-    console.log('req.body', req.body)
     const deck = await Collection.findOne({
       userId: req.user._id,
       name: req.body.name
@@ -38,8 +38,13 @@ router.put('/collections/selected', async (req, res, next) => {
   }
 })
 
-router.get('/:userId/collections', async (req, res, next) => {
+// get all collections associated with particular user
+router.get('/:userId/collections', userOnly, async (req, res, next) => {
   try {
+    console.log(req.user)
+    if (req.params.userId !== req.user._id.toString() && !req.user.isAdmin) {
+      return res.status(401).send('Admin only!')
+    }
     const user = await User.findById(req.params.userId)
     const collections = await Collection.find({_id: {$in: user.collections}})
     res.json(collections)
@@ -88,13 +93,17 @@ router.delete('/:userId', async (req, res, next) => {
 //update user info
 router.put('/:userId', async (req, res, next) => {
   try {
-    const user = await User.findByIdAndUpdate(req.params.userId, {
-      email: req.body.email,
-      userName: req.body.userName,
-      imgUrl: req.body.imgUrl,
-      games: req.body.games,
-      collections: req.body.collections
-    })
+    const user = await User.findByIdAndUpdate(
+      req.params.userId,
+      {
+        email: req.body.email,
+        userName: req.body.userName,
+        imgUrl: req.body.imgUrl,
+        games: req.body.games,
+        collections: req.body.collections
+      },
+      {new: true}
+    )
     res.json(user)
   } catch (err) {
     next(err)

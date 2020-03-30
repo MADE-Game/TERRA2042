@@ -31,6 +31,7 @@ const GAMENSP = gameNsp => {
         numPpl: gameNsp.adapter.rooms[`room${data.roomId}`].length
       })
       // }
+      socket.to(`room${id}`).emit('rejoined game', data)
     })
 
     socket.on('id exchange', data => {
@@ -43,9 +44,15 @@ const GAMENSP = gameNsp => {
     socket.on('game started', data => {
       socket.to(`room${data.roomId}`).emit('game started', data)
     })
+
+    socket.on('left game', data => {
+      socket.to(`room${id}`).emit('left game', data)
+    })
+
     socket.on('move made', () => {
       socket.to(`room${id}`).emit('move made')
     })
+
     socket.on('play card', data => {
       socket.to(`room${id}`).emit('play card', data)
     })
@@ -61,9 +68,11 @@ const GAMENSP = gameNsp => {
     socket.on('send msg', data => {
       gameNsp.in(`room${id}`).emit('send msg', data)
     })
+
     socket.on('end turn', () => {
       socket.to(`room${id}`).emit('end turn')
     })
+
     socket.on('game over', () => {
       gameNsp.in(`room${id}`).emit('game over')
     })

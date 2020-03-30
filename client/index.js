@@ -5,6 +5,13 @@ import {Router} from 'react-router-dom'
 import history from './history'
 import store from './store'
 import App from './app'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
+toast.configure({
+  draggable: false,
+  autoClose: 3000
+})
 
 ReactDOM.render(
   <Provider store={store}>

@@ -3,20 +3,26 @@ import Card from './Card'
 import {ItemTypes} from '../dnd/types'
 import {useDrop} from 'react-dnd'
 import {connect} from 'react-redux'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 const Plane = props => {
   const [{isOver, canDrop, item}, drop] = useDrop({
     accept: ItemTypes.CARD,
     drop: () => {
       if (!props.isMyTurn) {
-        return console.log('it is not my turn!')
+        return toast.warning("It's not your turn!", {
+          position: toast.POSITION.TOP_CENTER
+        })
       }
 
       if (props.player === 'hero' && item.inHand === true) {
         item.card.attackOccurred = true
         props.playCard(item.card)
         if (props.inPlay.length === 5) {
-          // eslint-disable-next-line no-alert
-          alert('Your Battlefield is full')
+          toast.warning('Your Battlefield is full!', {
+            position: toast.POSITION.TOP_CENTER
+          })
         }
       }
     },
@@ -28,7 +34,11 @@ const Plane = props => {
   })
 
   return (
-    <div className="plane" ref={drop}>
+    <div
+      className="plane"
+      ref={drop}
+      style={{marginTop: '2vh', marginBottom: '2vh'}}
+    >
       {props.inPlay.map(card => {
         return (
           <Card

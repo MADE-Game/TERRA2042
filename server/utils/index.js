@@ -94,11 +94,27 @@ const validateBoard = function(newBoard, oldGame, actorId) {
     throw new Error('Invalid move! You cannot do that')
   }
 }
+const userOnly = (req, res, next) => {
+  if (req.user) {
+    next()
+  } else {
+    return res.status(401).send('You are not allowed to do that.')
+  }
+}
+const adminOnly = (req, res, next) => {
+  if (req.user.isAdmin) {
+    next()
+  } else {
+    return res.status(401).send('Admin only.')
+  }
+}
 
 module.exports = {
   relativizeBoard,
   objectifyBoard,
   isMyTurn,
   validateBoard,
-  shuffleDeck
+  shuffleDeck,
+  userOnly,
+  adminOnly
 }
