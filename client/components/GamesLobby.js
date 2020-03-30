@@ -19,11 +19,19 @@ class GamesLobby extends Component {
       roomId: event.target.value
     })
   }
+
   handleSubmit() {
     this.props.history.push(`/games/rooms/${this.state.roomId}`)
   }
+
   render() {
     delete localStorage.log
+    if (localStorage.gameId) {
+      this.props.history.push(
+        `/games/rooms/${localStorage.roomId}/game/${localStorage.gameId}`
+      )
+    }
+
     return (
       <div>
         <Link to="/home">
@@ -71,6 +79,7 @@ class GamesLobby extends Component {
     )
   }
 }
+
 const mapState = state => {
   return {
     decks: state.user.collections

@@ -14,6 +14,10 @@ import {
 import {socket} from './Room'
 import {withRouter} from 'react-router'
 import PropTypes from 'prop-types'
+import {confirmAlert} from 'react-confirm-alert'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 //used for slightly delaying socket speed prior to save.
 const STUTTER = 25
@@ -30,7 +34,16 @@ class Board extends Component {
   }
 
   componentDidMount() {
-    socket.emit('join', {roomId: this.props.match.params.roomId})
+    if (!localStorage.gameId) {
+      localStorage.gameId = this.props.match.params.id
+      localStorage.roomId = this.props.match.params.roomId
+    }
+
+    socket.emit('join', {
+      roomId: this.props.match.params.roomId,
+      playerName: this.props.playerName
+    })
+
     socket.on('play card', () => {
       setTimeout(
         function() {
@@ -39,6 +52,19 @@ class Board extends Component {
         STUTTER
       )
     })
+
+    socket.on('left game', data => {
+      toast.info(`${data.playerName} has left the game`, {
+        position: toast.POSITION.TOP_CENTER
+      })
+    })
+
+    socket.on('rejoined game', data => {
+      toast.info(`${data.playerName} has entered the game`, {
+        position: toast.POSITION.TOP_CENTER
+      })
+    })
+
     socket.on('end turn', () => {
       setTimeout(
         function() {
@@ -54,6 +80,9 @@ class Board extends Component {
         }.bind(this),
         STUTTER
       )
+
+      delete localStorage.gameId
+      delete localStorage.roomId
     })
 
     socket.on('attack', () => {
@@ -85,6 +114,23 @@ class Board extends Component {
       )
   }
 
+  componentWillUnmount() {
+    confirmAlert({
+      title: 'Confirm',
+      message: 'Are you sure you want to leave the game?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () =>
+            socket.emit('left game', {playerName: this.props.playerName})
+        },
+        {
+          label: 'Cancel'
+        }
+      ]
+    })
+  }
+
   render() {
     return (
       <DndProvider backend={Backend}>
@@ -107,7 +153,8 @@ const mapStateToProps = state => {
     gameState: state.game,
     isMyTurn: state.game.data.localTurn,
     canEnd: state.game.data.isMyTurn,
-    player: state.game.player
+    player: state.game.player,
+    playerName: state.user.userName
   }
 }
 const mapDispatchToProps = dispatch => {
