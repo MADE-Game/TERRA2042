@@ -12,14 +12,10 @@ label {
   display: block;
 }
 
+form div,
 nav a {
   display: inline-block;
   margin: 1em;
-}
-
-form div {
-  margin: 1em;
-  display: inline-block;
 }
 
 .side,
@@ -167,6 +163,18 @@ form div {
   border-radius: 0.5vh;
 }
 
+.inputStyle1 {
+  width: 8vh;
+  margin: 0;
+  padding-left: 5vh;
+  padding-right: 5vh;
+  padding-top: 0.5vh;
+  padding-bottom: 0.5vh;
+  font-size: 13px;
+  padding-bottom: 0.5vh;
+  border-radius: 0.5vh;
+}
+
 #googleLogin {
   font-weight: bold;
   color: white;
@@ -182,96 +190,62 @@ form div {
   justify-content: center;
 }
 
-.buttonStyle1 {
-  width: 100%;
-  font-size: 13px;
-  margin-top: 0;
-  text-align: center;
+.buttonStyle1,
+.buttonStyle2,
+.buttonStyle3,
+.buttonStyle4,
+.buttonStyle5 {
   margin-bottom: 1.5vh;
   padding-left: 5vh;
   padding-right: 5vh;
   padding-top: 0.5vh;
   padding-bottom: 0.5vh;
-  border-radius: 0.5vh;
+  margin-top: 0;
   border: 0px;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 0.5vh;
   box-shadow: inset 0px 1px 0px #5f1d18, 0px 5px 0px 0px #5f1d18, 0px 0px 0px;
 }
 
-.buttonStyle1:hover {
+.buttonStyle1:hover,
+.buttonStyle2:hover,
+.buttonStyle3:hover,
+.buttonStyle5:hover {
   background-color: #5f1d18;
   color: #fff;
   border: 0px;
   cursor: pointer;
   box-shadow: inset 0px 1px 0px #5f1d18, 0px 5px 0px 0px #784642, 0px 0px 0px;
+}
+
+.buttonStyle1 {
+  width: 20.5vh;
 }
 
 .buttonStyle2 {
   width: 20%;
-  font-size: 13px;
-  margin-top: 0;
-  text-align: center;
-  margin-bottom: 1.5vh;
-  padding-left: 5vh;
-  padding-right: 5vh;
-  padding-top: 0.5vh;
-  padding-bottom: 0.5vh;
-  border-radius: 0.5vh;
-  border: 0px;
-  box-shadow: inset 0px 1px 0px #5f1d18, 0px 5px 0px 0px #5f1d18, 0px 0px 0px;
-}
-
-.buttonStyle2:hover {
-  background-color: #5f1d18;
-  color: #fff;
-  border: 0px;
-  cursor: pointer;
-  box-shadow: inset 0px 1px 0px #5f1d18, 0px 5px 0px 0px #784642, 0px 0px 0px;
 }
 
 .buttonStyle3 {
   width: 15%;
-  font-size: 13px;
-  margin-top: 0;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  text-align: center;
-  margin-bottom: 1.5vh;
-  padding-left: 0.5vh;
-  padding-right: 0.5vh;
-  padding-top: 0.5vh;
-  padding-bottom: 0.5vh;
-  border-radius: 0.5vh;
-  border: 0px;
-  box-shadow: inset 0px 1px 0px #5f1d18, 0px 5px 0px 0px #5f1d18, 0px 0px 0px;
-}
-
-.buttonStyle3:hover {
-  background-color: #5f1d18;
-  color: #fff;
-  border: 0px;
-  box-shadow: inset 0px 1px 0px #5f1d18, 0px 5px 0px 0px #784642, 0px 0px 0px;
 }
 
 .buttonStyle4 {
   width: 15%;
-  font-size: 13px;
-  margin-top: 0;
   display: flex;
   color: rgb(189, 201, 202);
-  color: rgb(136, 159, 161);
   flex-direction: row;
   justify-content: center;
-  text-align: center;
-  margin-bottom: 1.5vh;
-  padding-left: 0.5vh;
-  padding-right: 0.5vh;
-  padding-top: 0.5vh;
-  padding-bottom: 0.5vh;
-  border-radius: 0.5vh;
-  border: 0px;
   box-shadow: inset 0px 1px 0px rgb(136, 159, 161),
     0px 5px 0px 0px rgb(136, 159, 161), 0px 0px 0px;
+}
+
+.buttonStyle5 {
+  width: 18.5vh;
 }
 
 .buttonText {
@@ -312,7 +286,18 @@ form div {
   margin-left: 0.5vh;
   margin-right: 0.5vh;
   padding-bottom: 7vh;
+  width: 11vh;
+  height: 3.5vh;
   text-align: center;
+}
+
+.breakName {
+  word-wrap: break-word;
+  margin: 0;
+}
+
+.xButton {
+  margin-top: -5vh;
 }
 
 #homepage a {

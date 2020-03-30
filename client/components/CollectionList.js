@@ -29,6 +29,8 @@ class CollectionList extends Component {
 
   componentDidMount() {
     this.props.loadInitialData(this.props.user._id)
+    this.props.loadCards(this.props.userCollections[0]._id)
+    let allCardsDiv = document.getElementsByClassName('buttonContainer')
     // this.props.loadCards(this.props.selectedCollection._id)
   }
 
@@ -65,47 +67,71 @@ class CollectionList extends Component {
     return (
       <DndProvider backend={Backend}>
         <div>
-          <Link to="/home">
-            <button type="button" className="buttonStyle1">
-              Home
-            </button>
-          </Link>
-          <div id="collections">
-            {this.props.userCollections.map(collection => {
-              return (
-                <Collection
-                  handleClick={() => {
-                    this.handleClick(collection._id)
-                  }}
-                  key={collection._id}
-                  collection={collection}
-                />
-              )
-            })}
-          </div>
-          <form onSubmit={this.handleSubmit}>
-            <label htmlFor="deck">Deck Name</label>
-            <input
-              required
-              name="deck"
-              value={this.state.name}
-              onChange={this.handleChange}
-              onKeyDown={event => {
-                if (event.key === ' ') {
-                  toast.warning('No spaces allowed', {
-                    position: toast.POSITION.TOP_CENTER
-                  })
-                  event.preventDefault()
-                  return false
-                }
+          <div
+            style={{
+              display: 'flex',
+              backgroundColor: '#b1645e',
+              padding: '1em',
+              boxShadow:
+                'inset 0px 1px 0px #5f1d18, 0px 10px 0px 0px #5f1d18, 0px 0px 0px'
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center'
               }}
-            ></input>
-            <button type="submit">Create Deck</button>
-          </form>
-
+            >
+              <Link to="/home">
+                <button type="button" className="buttonStyle5">
+                  Home
+                </button>
+              </Link>
+              <form
+                onSubmit={this.handleSubmit}
+                style={{display: 'flex', flexDirection: 'column'}}
+              >
+                <input
+                  required
+                  name="deck"
+                  className="inputStyle1"
+                  placeholder="Deck Name"
+                  value={this.state.name}
+                  onChange={this.handleChange}
+                  onKeyDown={event => {
+                    if (event.key === ' ') {
+                      toast.warning('No spaces allowed', {
+                        position: toast.POSITION.TOP_CENTER
+                      })
+                      event.preventDefault()
+                      return false
+                    }
+                  }}
+                ></input>
+                <button type="submit" className="buttonStyle5">
+                  Create Deck
+                </button>
+              </form>
+              <h3 style={{textAlign: 'center', margin: '0'}}>
+                {this.props.selectedCollection.name}
+              </h3>
+            </div>
+            <div id="collections">
+              {this.props.userCollections.map(collection => {
+                return (
+                  <Collection
+                    handleClick={() => {
+                      this.handleClick(collection._id)
+                    }}
+                    key={collection._id}
+                    collection={collection}
+                  />
+                )
+              })}
+            </div>
+          </div>
           <div id="selectedCollection">
-            <hr />
-            <h1>{this.props.selectedCollection.name}</h1>
             {this.props.selectedCollection.cards.map(card => {
               return (
                 <DisplayCard
