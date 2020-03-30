@@ -1,5 +1,7 @@
 import axios from 'axios'
 import history from '../../history'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 /**
  * ACTION TYPES
@@ -191,8 +193,9 @@ export const createDeck = name => async dispatch => {
   try {
     const deck = await axios.post('/api/collections', {name})
     deck.status === 206
-      ? // eslint-disable-next-line no-alert
-        alert(`${deck.data} already exists!`)
+      ? toast.warning(`${deck.data} already exists!`, {
+          position: toast.POSITION.TOP_CENTER
+        })
       : dispatch(createdDeck(deck.data))
   } catch (error) {
     console.error(error)

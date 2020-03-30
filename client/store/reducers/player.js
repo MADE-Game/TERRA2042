@@ -9,6 +9,8 @@ import {
   PLAYER_ATTACK_HERO,
   INCREMENT_SETTLERS
 } from '../actionTypes'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const initialState = {
   deck: [],
@@ -61,8 +63,9 @@ export default function(state = initialState, action) {
           drawsThisTurn: state.drawsThisTurn + 1
         }
       } else {
-        // eslint-disable-next-line no-alert
-        alert("You can't draw any more cards this turn")
+        toast.warning("You can't draw any more cards this turn!", {
+          position: toast.POSITION.TOP_CENTER
+        })
         return state
       }
     case PLAYER_ATTACK_CARD:

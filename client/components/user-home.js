@@ -4,21 +4,33 @@ import {connect} from 'react-redux'
 import {me} from '../store/reducers/user'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 /**
  * COMPONENT
  */
 
-export class UserHome extends React.Component {
+export class UserHome extends Component {
   componentDidMount() {
-    // this.props.me()
     if (!document.getElementById('theme')) {
       try {
         const theme = document.createElement('audio')
         theme.id = 'theme'
         theme.src = '/theme.mp3'
+        theme.loop = true
         document.getElementById('app').appendChild(theme)
         theme.play()
+
+        window.addEventListener('keydown', event => {
+          if (event.key === 'ArrowDown' && theme.paused) theme.play()
+          else if (event.key === 'ArrowDown' && !theme.paused) theme.pause()
+        })
+
+        if (!theme.paused)
+          toast.info('Press down-arrow key to pause/play the soundtrack', {
+            position: toast.POSITION.TOP_CENTER
+          })
       } catch (error) {
         return false
       }

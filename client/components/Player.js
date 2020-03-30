@@ -3,6 +3,8 @@ import {ItemTypes} from '../dnd/types'
 import {useDrop} from 'react-dnd'
 import {playerAttackHero} from '../store/thunksAndActionCreators'
 import {connect} from 'react-redux'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Player = props => {
   const [{isOver, canDrop, item}, drop] = useDrop({
@@ -10,8 +12,9 @@ const Player = props => {
 
     drop: () => {
       if (item.card.attackOccurred) {
-        // eslint-disable-next-line no-alert
-        alert("This fighter can't attack until next turn")
+        toast.warning("This fighter can't attack until next turn!", {
+          position: toast.POSITION.TOP_CENTER
+        })
       } else if (
         !item.inHand &&
         item.player === 'hero' &&

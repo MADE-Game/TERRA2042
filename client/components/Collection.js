@@ -3,6 +3,8 @@ import {ItemTypes} from '../dnd/types'
 import {useDrop} from 'react-dnd'
 import {addToCollection, removeCollection} from '../store/reducers/user'
 import {connect} from 'react-redux'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function Collection(props) {
   const [{isOver, canDrop, item}, drop] = useDrop({
@@ -13,8 +15,9 @@ function Collection(props) {
         //thunk to add to collection.
         props.addToCollection(props.collection, item.id)
       } else {
-        // eslint-disable-next-line no-alert
-        alert('card is already in the deck!')
+        toast.warning('Card is already in the deck!', {
+          position: toast.POSITION.TOP_CENTER
+        })
       }
     },
     collect: monitor => ({

@@ -11,6 +11,8 @@ import React, {Component} from 'react'
 import Backend from 'react-dnd-html5-backend'
 import {DndProvider} from 'react-dnd'
 import {Link} from 'react-router-dom'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 class CollectionList extends Component {
   constructor() {
@@ -39,8 +41,10 @@ class CollectionList extends Component {
     event.preventDefault()
 
     if (/\S/.test(this.state.name)) this.props.createDeck(this.state.name)
-    // eslint-disable-next-line no-alert
-    else alert('Deck name cannot be empty!')
+    else
+      toast.error('Deck name cannot be empty!', {
+        position: toast.POSITION.TOP_CENTER
+      })
 
     this.setState({
       name: ''
@@ -52,6 +56,7 @@ class CollectionList extends Component {
       name: event.target.value
     })
   }
+
   handleRemove(coll, cardId) {
     this.props.removeFromCollection(coll, cardId)
   }
@@ -87,8 +92,9 @@ class CollectionList extends Component {
               onChange={this.handleChange}
               onKeyDown={event => {
                 if (event.key === ' ') {
-                  // eslint-disable-next-line no-alert
-                  alert('No spaces!')
+                  toast.warning('No spaces allowed', {
+                    position: toast.POSITION.TOP_CENTER
+                  })
                   event.preventDefault()
                   return false
                 }
