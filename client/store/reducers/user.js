@@ -16,6 +16,7 @@ const SELECT_DECK = 'SELECT_DECK'
 const REMOVE_COLLECTION = 'REMOVE_COLLECTION'
 const ADD_TO_USER_CARDS = 'ADD_TO_USER_CARDS'
 const GET_CARDS_IN_SHOP = 'GET_CARDS_IN_SHOP'
+const GET_FINISHED_GAMES = 'GET_FINISHED_GAMES'
 
 /**
  * INITIAL STATE
@@ -29,7 +30,8 @@ const initialState = {
   },
   defaultUser: {},
   selectedDeck: {},
-  inShop: []
+  inShop: [],
+  history: []
 }
 /**
  * ACTION CREATORS
@@ -41,7 +43,10 @@ const gotAllCollections = collections => ({
   type: ALL_COLLECTIONS_FOR_USER,
   collections
 })
-
+const gotFinishedGames = games => ({
+  type: GET_FINISHED_GAMES,
+  games
+})
 const gotCollection = collection => ({
   type: GET_COLLECTION,
   collection
@@ -132,6 +137,10 @@ export const selectDeck = name => {
 export const getCollection = collectionId => async dispatch => {
   const {data: collection} = await axios.get(`/api/collections/${collectionId}`)
   dispatch(gotCollection(collection))
+}
+export const getGames = () => async dispatch => {
+  const {data: games} = await axios.get('/api/games/completed')
+  dispatch(gotFinishedGames(games))
 }
 
 export const getCardsInShop = () => async dispatch => {
@@ -272,6 +281,8 @@ export default function(state = initialState, action) {
       return {...state, selectedDeck: action.deck._id}
     case CREATE_DECK:
       return {...state, collections: [...state.collections, action.deck]}
+    case GET_FINISHED_GAMES:
+      return {...state, history: action.games}
     default:
       return state
   }

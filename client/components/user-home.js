@@ -66,6 +66,13 @@ export class UserHome extends Component {
             </Link>
           </div>
           <div>
+            <div>
+              <Link to="/history">
+                <button type="submit" className="buttonStyle2">
+                  Stats
+                </button>
+              </Link>
+            </div>
             <a href="#" onClick={this.props.handleClick}>
               <button type="submit" className="buttonStyle2">
                 Logout
