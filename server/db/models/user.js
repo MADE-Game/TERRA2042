@@ -12,8 +12,10 @@ const UserSchema = new Schema({
   collections: Array,
   salt: String,
   games: Array,
-  selectedDeck: String
+  selectedDeck: String,
+  gold: Number
 })
+
 UserSchema.static('encryptPassword', function(plainText, salt) {
   const hash = crypto.createHash('sha1')
   hash.update(plainText)

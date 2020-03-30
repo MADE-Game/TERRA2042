@@ -1,7 +1,7 @@
 import React from 'react'
 import {ItemTypes} from '../dnd/types'
 import {useDrop} from 'react-dnd'
-import {addToCollection} from '../store/reducers/user'
+import {addToCollection, removeCollection} from '../store/reducers/user'
 import {connect} from 'react-redux'
 
 function Collection(props) {
@@ -13,6 +13,7 @@ function Collection(props) {
         //thunk to add to collection.
         props.addToCollection(props.collection, item.id)
       } else {
+        // eslint-disable-next-line no-alert
         alert('card is already in the deck!')
       }
     },
@@ -24,16 +25,32 @@ function Collection(props) {
   })
 
   return props.collection._id ? (
-    <div onClick={props.handleClick} ref={drop}>
-      <div
-        className={
-          props.collection.isDeck ? 'collection' : 'collection allCards'
-        }
-      >{`${props.collection.name}`}</div>
-      <span>
-        {props.collection.cards.length}
-        {props.collection.isDeck ? '/20' : ''}
-      </span>
+    <div id="single-collection">
+      <div onClick={props.handleClick} ref={drop}>
+        <div
+          className={
+            props.collection.isDeck
+              ? props.collection.name === 'Default Deck'
+                ? 'collection default'
+                : 'collection'
+              : 'collection allCards'
+          }
+        >{`${props.collection.name}`}</div>
+        <span>
+          {props.collection.cards.length}
+          {props.collection.isDeck ? '/20' : ''}
+        </span>
+      </div>
+      {!['Default Deck', 'My Cards'].includes(props.collection.name) ? (
+        <button
+          onClick={() => props.removeCollection(props.collection._id)}
+          type="button"
+        >
+          X
+        </button>
+      ) : (
+        ''
+      )}
     </div>
   ) : (
     <h1>pick a deck</h1>
@@ -42,7 +59,8 @@ function Collection(props) {
 
 const mapDispatchToProps = dispatch => ({
   addToCollection: (collection, cardId) =>
-    dispatch(addToCollection(collection, cardId))
+    dispatch(addToCollection(collection, cardId)),
+  removeCollection: collId => dispatch(removeCollection(collId))
 })
 const mapStateToProps = (state, ownProps) => ({
   collection: state.user.collections.filter(

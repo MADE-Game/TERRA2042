@@ -26,7 +26,8 @@ router.post('/signup', async (req, res, next) => {
       userName: req.body.userName,
       collections: [],
       googleId: req.body.googleId,
-      password: req.body.password
+      password: req.body.password,
+      gold: 20
     })
     let savedUser = await user.save()
 
@@ -83,9 +84,8 @@ router.get('/me', async (req, res) => {
       userId: req.user._id
     })
     const userToSend = {...req.user._doc, collections}
-    return res.json(userToSend)
-  }
-  res.json({})
+    res.json(userToSend)
+  } else res.json({})
 })
 
 router.use('/google', require('./google'))

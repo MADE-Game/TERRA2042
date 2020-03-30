@@ -9,6 +9,7 @@ class Chat extends Component {
       userName: this.props.userName,
       message: ''
     }
+
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.log = this.log.bind(this)
@@ -44,7 +45,7 @@ class Chat extends Component {
   }
 
   componentWillUnmount() {
-    localStorage.clear()
+    delete localStorage.log
   }
 
   log(action, data = null) {
@@ -98,10 +99,11 @@ class Chat extends Component {
 
   render() {
     return (
+
       <div id="chatContainer">
         <div id="chat">
           <form onSubmit={this.handleSubmit}>
-            <div id="msg"></div>
+            <div id="msg"/>
             <textarea
               required
               style={{

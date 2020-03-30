@@ -12,6 +12,17 @@ import {logout} from '../store'
 export class UserHome extends React.Component {
   componentDidMount() {
     // this.props.me()
+    if (!document.getElementById('theme')) {
+      try {
+        const theme = document.createElement('audio')
+        theme.id = 'theme'
+        theme.src = '/theme.mp3'
+        document.getElementById('app').appendChild(theme)
+        theme.play()
+      } catch (error) {
+        return false
+      }
+    }
   }
 
   render() {
