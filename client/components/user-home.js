@@ -4,6 +4,8 @@ import {connect} from 'react-redux'
 import {me} from '../store/reducers/user'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 /**
  * COMPONENT
@@ -11,7 +13,10 @@ import {logout} from '../store'
 
 export class UserHome extends Component {
   componentDidMount() {
-    // this.props.me()
+    toast.info('Press down-arrow key to pause/play the soundtrack', {
+      position: toast.POSITION.TOP_CENTER
+    })
+
     if (!document.getElementById('theme')) {
       try {
         const theme = document.createElement('audio')
