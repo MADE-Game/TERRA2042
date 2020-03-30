@@ -4,6 +4,8 @@ import {ShopCard} from './ShopCard'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {addToUserCards, getCardsInShop} from '../store/reducers/user'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 class Shop extends Component {
   constructor() {
@@ -20,7 +22,7 @@ class Shop extends Component {
     else if (window.confirm('confirm purchase')) {
       this.props.addToUserCards([...this.props.userCards, cardId], cardCost)
       event.target.setAttribute('disabled', true)
-      alert('Purchase successful!')
+      toast('Purchase successful!')
     }
   }
 
