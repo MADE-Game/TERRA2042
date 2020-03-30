@@ -18,7 +18,38 @@ router.get('/', adminOnly, async (req, res, next) => {
     next(err)
   }
 })
+//completed games
+router.get('/completed', userOnly, async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id)
+    const games = await Game.find({_id: {$in: user.games}, isFinished: true})
+    const mappedGames = await games.map(async game => {
+      let p1 = await User.findById(game.p1)
+      let p2 = await User.findById(game.p2)
+      return {
+        p1: p1.userName,
+        p2: p2.userName,
+        game: JSON.parse(game.game),
+        _id: game._id
+      }
+    })
+    Promise.all(mappedGames).then(completed => res.json(completed))
+  } catch (err) {
+    next(err)
+  }
+})
 
+//games in progress
+router.get('/running', userOnly, async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id)
+
+    const games = await Game.find({_id: {$in: user.games}, isFinished: false})
+    res.json(games)
+  } catch (err) {
+    next(err)
+  }
+})
 //one game
 router.get('/:gameId', userOnly, async (req, res, next) => {
   try {
@@ -86,30 +117,6 @@ router.put('/save/:gameId', userOnly, async (req, res, next) => {
     res.json(gameToSave)
   } catch (error) {
     next(error)
-  }
-})
-
-//completed games
-router.get('/completed', userOnly, async (req, res, next) => {
-  try {
-    const user = await User.findById(req.user._id)
-
-    const games = await Game.find({_id: {$in: user.games}, isFinished: true})
-    res.json(games)
-  } catch (err) {
-    next(err)
-  }
-})
-
-//games in progress
-router.get('/running', userOnly, async (req, res, next) => {
-  try {
-    const user = await User.findById(req.user._id)
-
-    const games = await Game.find({_id: {$in: user.games}, isFinished: false})
-    res.json(games)
-  } catch (err) {
-    next(err)
   }
 })
 

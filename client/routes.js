@@ -4,6 +4,7 @@ import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome} from './components'
 import GamesLobby from './components/GamesLobby'
+import History from './components/History'
 import Collection from './components/Collection'
 import Shop from './components/Shop'
 import Board from './components/Board'
@@ -46,6 +47,7 @@ class Routes extends Component {
             <Route exact path="/" component={UserHome} />
             <Route path="/shop" component={Shop} />
             <Route path="/collection" component={Collection} />
+            <Route path="/history" component={History} />
             <Route path="/devBoard" component={Board} />
             <Route component={NotFound} />
           </Switch>
