@@ -90,8 +90,8 @@ export const startTurn = () => dispatch => {
   dispatch(startedTurn())
 }
 
-export const incrementTheSettlers = hero => async dispatch => {
-  const result = engine.incrementSettlers(hero)
+export const incrementTheSettlers = (hero, user) => async dispatch => {
+  const result = engine.incrementSettlers(hero, user)
   await dispatch(incrementedSettlers(result))
 }
 // export const setTheClass = (hero, Class) => async dispatch => {

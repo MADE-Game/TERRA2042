@@ -164,13 +164,14 @@ const Side = props => {
                     className="buttonStyle4"
                     type="submit"
                     style={{marginTop: '-4vh'}}
-                    // onClick={() =>
-                    //   props.endTurn(
-                    //     props.gameId,
-                    //     props.gameState,
-                    //     props.player
-                    //   )
-                    // }
+                    onClick={() =>
+                      props.endTurn(
+                        props.gameId,
+                        props.gameState,
+                        props.player,
+                        props.user
+                      )
+                    }
                   >
                     <p className="buttonText">End Turn</p>
                   </button>
@@ -224,7 +225,8 @@ const mapStateToProps = function(state) {
     gameState: state.game,
     player: state.game.player,
     planeFull: state.game.player.planeFull,
-    canDraw: state.game.data.localTurn
+    canDraw: state.game.data.localTurn,
+    user: state.user
   }
 }
 
@@ -233,9 +235,9 @@ const mapDispatchToProps = function(dispatch) {
     playCard: (hero, card) => dispatch(playerPlayCard(hero, card)),
     drawCard: deck => dispatch(playerDrawCard(deck)),
     hurtByDraw: hero => dispatch(hurtByTheDraw(hero)),
-    endTurn: async (id, gameState, hero) => {
+    endTurn: async (id, gameState, hero, user) => {
       await dispatch(endTurn())
-      await dispatch(incrementTheSettlers(hero))
+      await dispatch(incrementTheSettlers(hero, user))
       await dispatch(
         saveGame(id, {...gameState, data: {...gameState.data, isMyTurn: false}})
       )

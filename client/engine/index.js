@@ -15,9 +15,13 @@ const engine = {
     newAttacker.attackOccurred = true
     return [newAttacker, newHero]
   },
-  incrementSettlers: hero => {
+  incrementSettlers: (hero, user) => {
     const newHero = hero
-    newHero.settlers += 1
+    if (user.selectedClass === 'Forager') {
+      newHero.settlers += 2
+    } else {
+      newHero.settlers += 1
+    }
     return hero
   },
 
@@ -26,7 +30,6 @@ const engine = {
     newHero.settlers -= card.cost
     return newHero
   },
-
   drawCard: deck => {
     const card = deck.shift()
     return {
@@ -34,7 +37,6 @@ const engine = {
       card
     }
   },
-
   hurtByDraw: hero => {
     const newHero = hero
     newHero.settlers -= 2

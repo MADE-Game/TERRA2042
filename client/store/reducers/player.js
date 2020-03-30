@@ -26,7 +26,6 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case LOAD_GAME:
-      console.log('logging action.game', action.game)
       return {
         ...state,
         deck: action.game.game.player.deck,
