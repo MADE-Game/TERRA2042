@@ -32,7 +32,9 @@ router.get('/load/:gameId', async (req, res, next) => {
     const gameFound = await Game.findById(req.params.gameId)
 
     const {_id, game, p1, p2, isFinished} = gameFound
+
     const parsedGame = JSON.parse(game)
+    console.log('log parsedGame', parsedGame)
     const isPlayer1 = gameFound.p1 === req.user._id.toString()
     const isPlayer2 = gameFound.p2 === req.user._id.toString()
 
@@ -43,6 +45,7 @@ router.get('/load/:gameId', async (req, res, next) => {
       {p1, p2, ...parsedGame, isMyTurn},
       req.user._id
     )
+
     const gameToSend = {_id, game: relativeBoard, p1, p2, isFinished}
     res.json(gameToSend)
   } catch (error) {
@@ -123,16 +126,14 @@ router.post('/newGame', async (req, res, next) => {
           hand: [],
           deck: [],
           inPlay: [],
-          settlers: 20,
-          class: ''
+          settlers: 20
         },
 
         player2: {
           hand: [],
           deck: [],
           inPlay: [],
-          settlers: 20,
-          class: ''
+          settlers: 20
         }
       }
 

@@ -11,8 +11,8 @@ import {
   END_TURN,
   HURT_BY_DRAW,
   START_TURN,
-  INCREMENT_SETTLERS,
-  SET_CLASS
+  INCREMENT_SETTLERS
+  // SET_CLASS
 } from './actionTypes'
 
 import engine from '../engine/index'
@@ -23,10 +23,11 @@ const gotAllCards = cards => ({
   type: GET_ALL_CARDS,
   cards
 })
-const setClassAction = hero => ({
-  type: SET_CLASS,
-  hero
-})
+
+// const setClassAction = hero => ({
+//   type: SET_CLASS,
+//   hero
+// })
 const incrementedSettlers = hero => ({
   type: INCREMENT_SETTLERS,
   hero
@@ -93,10 +94,10 @@ export const incrementTheSettlers = hero => async dispatch => {
   const result = engine.incrementSettlers(hero)
   await dispatch(incrementedSettlers(result))
 }
-export const setTheClass = (hero, Class) => async dispatch => {
-  const newHero = engine.setClass(hero, Class)
-  await dispatch(setClassAction(newHero))
-}
+// export const setTheClass = (hero, Class) => async dispatch => {
+//   const newHero = engine.setClass(hero, Class)
+//   await dispatch(setClassAction(newHero))
+// }
 
 export const playerPlayCard = (hero, card) => {
   const result = engine.payCost(hero, card)
@@ -174,6 +175,7 @@ export const loadGame = id => {
 export const saveGame = (id, gameState) => {
   return async dispatch => {
     try {
+      console.log('logging gameState in saveGame', gameState)
       await Axios.put('/api/games/save/' + id, gameState)
       dispatch(savedGame())
     } catch (error) {
@@ -197,11 +199,13 @@ export const hurtByTheDraw = hero => {
   }
 }
 
-export const startGame = (p1Id, p2Id) => {
+export const startGame = (p1Id, p2Id, class1, class2) => {
   return async () => {
     const {data: game} = await Axios.post('/api/games/newGame', {
       p1: p1Id,
-      p2: p2Id
+      p2: p2Id,
+      class1,
+      class2
     })
     return game._id
   }

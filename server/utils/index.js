@@ -36,6 +36,7 @@ const shuffleDeck = deck => {
 const objectifyBoard = (gameFromSave, gameInDB, userId) => {
   const isP1Player = userId.toString() === gameInDB.p1
   //if user is p1, set p2 to opponent
+
   if (isP1Player) {
     return {
       player2: {
@@ -48,7 +49,8 @@ const objectifyBoard = (gameFromSave, gameInDB, userId) => {
         hand: gameFromSave.player.hand,
         inPlay: gameFromSave.player.inPlay,
         deck: gameFromSave.player.deck,
-        settlers: gameFromSave.player.settlers
+        settlers: gameFromSave.player.settlers,
+        class: gameFromSave.player.class
       }
     }
   } else {
@@ -56,7 +58,8 @@ const objectifyBoard = (gameFromSave, gameInDB, userId) => {
       player1: {
         ...gameInDB.game.player1,
         inPlay: gameFromSave.opponent.inPlay,
-        settlers: gameFromSave.opponent.settlers
+        settlers: gameFromSave.opponent.settlers,
+        class: gameFromSave.player.class
       },
       player2: {
         ...gameInDB.player2,

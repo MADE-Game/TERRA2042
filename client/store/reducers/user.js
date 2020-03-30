@@ -11,6 +11,7 @@ const GET_COLLECTION = 'GET_COLLECTION'
 const CREATE_DECK = 'CREATE_DECK'
 const EDIT_COLLECTION = 'EDIT_COLLECTION'
 const SELECT_DECK = 'SELECT_DECK'
+const SET_CLASS = 'SET_CLASS'
 
 /**
  * INITIAL STATE
@@ -23,7 +24,8 @@ const initialState = {
     _id: ''
   },
   defaultUser: {},
-  selectedDeck: {}
+  selectedDeck: {},
+  selectedClass: 'defaultClass'
 }
 /**
  * ACTION CREATORS
@@ -51,6 +53,11 @@ const editedCollection = collection => ({
 const selectedDeck = deck => ({
   type: SELECT_DECK,
   deck
+})
+
+const selectedClass = Class => ({
+  type: SET_CLASS,
+  Class
 })
 
 /**
@@ -173,6 +180,17 @@ export const createDeck = name => async dispatch => {
   }
 }
 
+export const selectClass = (id, Class) => async dispatch => {
+  try {
+    const {data: theClass} = await axios.put(`/api/users/${id}/class`, {
+      Class
+    })
+    dispatch(selectedClass(theClass))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 /**
  * REDUCER
  */
@@ -200,6 +218,8 @@ export default function(state = initialState, action) {
       return {...state, selectedCollection: action.collection}
     case SELECT_DECK:
       return {...state, selectedDeck: action.deck._id}
+    case SET_CLASS:
+      return {...state, selectedClass: action.Class}
     case CREATE_DECK:
       return {...state, collections: [...state.collections, action.deck]}
     default:
