@@ -6,10 +6,11 @@ const {
   objectifyBoard,
   validateBoard,
   shuffleDeck,
+  adminOnly,
   userOnly
 } = require('../utils/index.js')
 //all games
-router.get('/', async (req, res, next) => {
+router.get('/', adminOnly, async (req, res, next) => {
   try {
     const games = await Game.find()
     res.json(games)
@@ -19,7 +20,7 @@ router.get('/', async (req, res, next) => {
 })
 
 //one game
-router.get('/:gameId', async (req, res, next) => {
+router.get('/:gameId', userOnly, async (req, res, next) => {
   try {
     const game = await Game.findById(req.params.gameId)
     res.json(game)
@@ -28,7 +29,7 @@ router.get('/:gameId', async (req, res, next) => {
   }
 })
 
-router.get('/load/:gameId', async (req, res, next) => {
+router.get('/load/:gameId', userOnly, async (req, res, next) => {
   try {
     const gameFound = await Game.findById(req.params.gameId)
 
@@ -51,10 +52,10 @@ router.get('/load/:gameId', async (req, res, next) => {
   }
 })
 // eslint-disable-next-line complexity
-router.put('/save/:gameId', async (req, res, next) => {
+router.put('/save/:gameId', userOnly, async (req, res, next) => {
   try {
     const {data} = req.body
-    console.log('logging data in save put route: ', data)
+
     const gameToSave = await Game.findById(req.params.gameId)
     //establish what player makes this request.
     const isPlayer1 = gameToSave.p1 === req.user._id.toString()
