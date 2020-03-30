@@ -107,7 +107,7 @@ router.delete('/:collectionId', async (req, res, next) => {
 //update collection info
 router.put('/:collectionId', async (req, res, next) => {
   try {
-    // had to comment this out to the route below work
+    // had to comment this out to make the route below work
     // if (!req.body.isDeck) {
     //   return res.status(401).send('you cannot edit this!')
     // }

@@ -30,6 +30,10 @@ class Board extends Component {
   }
 
   componentDidMount() {
+    if (!localStorage.gameId) {
+      localStorage.gameId = this.props.match.params.id
+      localStorage.roomId = this.props.match.params.roomId
+    }
     socket.emit('join', {roomId: this.props.match.params.roomId})
     socket.on('play card', () => {
       setTimeout(

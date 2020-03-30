@@ -24,6 +24,12 @@ class GamesLobby extends Component {
   }
   render() {
     delete localStorage.log
+    if (localStorage.gameId) {
+      this.props.history.push(
+        `/games/rooms/${localStorage.roomId}/game/${localStorage.gameId}`
+      )
+    }
+
     return (
       <div>
         <Link to="/home">
