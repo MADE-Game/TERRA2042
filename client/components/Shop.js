@@ -5,7 +5,9 @@ import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {addToUserCards, getCardsInShop} from '../store/reducers/user'
 import {toast} from 'react-toastify'
+import {confirmAlert} from 'react-confirm-alert'
 import 'react-toastify/dist/ReactToastify.css'
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 class Shop extends Component {
   constructor() {
@@ -18,11 +20,33 @@ class Shop extends Component {
   }
 
   handleClick(event, cardId, cardCost) {
-    if (this.props.gold < cardCost) alert('Not enough gold!')
-    else if (window.confirm('confirm purchase')) {
-      this.props.addToUserCards([...this.props.userCards, cardId], cardCost)
-      event.target.setAttribute('disabled', true)
-      toast('Purchase successful!')
+    if (this.props.gold < cardCost)
+      toast.error('Not enough gold!', {
+        position: toast.POSITION.TOP_CENTER
+      })
+    else {
+      confirmAlert({
+        title: 'Confirm',
+        message: 'Please confirm your purchase',
+        buttons: [
+          {
+            label: 'Buy',
+            onClick: () => {
+              this.props.addToUserCards(
+                [...this.props.userCards, cardId],
+                cardCost
+              )
+              event.target.setAttribute('disabled', true)
+              toast.success('Purchase successful!', {
+                position: toast.POSITION.TOP_CENTER
+              })
+            }
+          },
+          {
+            label: 'Cancel'
+          }
+        ]
+      })
     }
   }
 

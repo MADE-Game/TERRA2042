@@ -8,7 +8,10 @@ import App from './app'
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-toast.configure()
+toast.configure({
+  draggable: false,
+  autoClose: 3000
+})
 
 ReactDOM.render(
   <Provider store={store}>
