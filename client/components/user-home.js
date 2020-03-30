@@ -13,10 +13,6 @@ import 'react-toastify/dist/ReactToastify.css'
 
 export class UserHome extends Component {
   componentDidMount() {
-    toast.info('Press down-arrow key to pause/play the soundtrack', {
-      position: toast.POSITION.TOP_CENTER
-    })
-
     if (!document.getElementById('theme')) {
       try {
         const theme = document.createElement('audio')
@@ -30,6 +26,11 @@ export class UserHome extends Component {
           if (event.key === 'ArrowDown' && theme.paused) theme.play()
           else if (event.key === 'ArrowDown' && !theme.paused) theme.pause()
         })
+
+        if (!theme.paused)
+          toast.info('Press down-arrow key to pause/play the soundtrack', {
+            position: toast.POSITION.TOP_CENTER
+          })
       } catch (error) {
         return false
       }
