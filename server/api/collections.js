@@ -3,7 +3,7 @@ const {Collection, Card, User} = require('../db/models')
 const {userOnly, adminOnly} = require('../utils/index')
 module.exports = router
 
-router.get('/', async (req, res, next) => {
+router.get('/', adminOnly, async (req, res, next) => {
   try {
     const collections = await Collection.find()
     res.json(collections)
@@ -44,7 +44,7 @@ router.get('/:collectionId', userOnly, async (req, res, next) => {
 //all of a user's collections
 router.get('/users/:userId', userOnly, async (req, res, next) => {
   try {
-    if (req.user.id !== req.params.id && !req.user.isAdmin) {
+    if (req.user._id.toString() !== req.params.userId && !req.user.isAdmin) {
       return res.status(401).send('Admin only!')
     }
     const collections = await Collection.findOne({
@@ -57,7 +57,7 @@ router.get('/users/:userId', userOnly, async (req, res, next) => {
 })
 
 //create new collection
-router.post('/', async (req, res, next) => {
+router.post('/', userOnly, async (req, res, next) => {
   try {
     let collection = await Collection.findOne({name: req.body.name})
     if (collection) return res.status(206).json(collection.name)
@@ -89,11 +89,6 @@ router.post('/', async (req, res, next) => {
 //delete collection
 router.delete('/:collectionId', userOnly, async (req, res, next) => {
   try {
-    if (req.user.id !== req.params.id && !req.user.isAdmin) {
-      return res.status(401).send('Admin only!')
-    }
-    await Collection.findByIdAndRemove(req.params.collectionId)
-
     await User.findByIdAndUpdate(
       req.user._id,
       {
@@ -103,6 +98,7 @@ router.delete('/:collectionId', userOnly, async (req, res, next) => {
       },
       {new: true}
     )
+    await Collection.findByIdAndRemove(req.params.collectionId)
 
     res.sendStatus(204)
   } catch (err) {
@@ -111,15 +107,12 @@ router.delete('/:collectionId', userOnly, async (req, res, next) => {
 })
 
 //update collection info
-router.put('/:collectionId', async (req, res, next) => {
+router.put('/:collectionId', userOnly, async (req, res, next) => {
   try {
     // had to comment this out to the route below work
     // if (!req.body.isDeck) {
     //   return res.status(401).send('you cannot edit this!')
     // }
-    if (req.user.id !== req.params.id && !req.user.isAdmin) {
-      return res.status(401).send('Admin only!')
-    }
     const collection = await Collection.findByIdAndUpdate(
       req.params.collectionId,
       {
