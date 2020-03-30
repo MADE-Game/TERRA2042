@@ -2,6 +2,7 @@
 import React from 'react'
 import {getGames} from '../store/reducers/user'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 
 const mapGames = (games, username) => {
   return games.map(game => {
@@ -38,6 +39,11 @@ class History extends React.Component {
     }, 0)
     return (
       <div className="history">
+        <Link to="/home">
+          <button type="button" className="buttonStyle1">
+            Home
+          </button>
+        </Link>
         <h1>total wins: {totalWins}</h1>
         {this.props.games.length === 0 ? (
           <h1>Play your first game to see your stats!</h1>
