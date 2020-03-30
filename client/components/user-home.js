@@ -9,7 +9,7 @@ import {logout} from '../store'
  * COMPONENT
  */
 
-export class UserHome extends React.Component {
+export class UserHome extends Component {
   componentDidMount() {
     // this.props.me()
     if (!document.getElementById('theme')) {
@@ -17,8 +17,14 @@ export class UserHome extends React.Component {
         const theme = document.createElement('audio')
         theme.id = 'theme'
         theme.src = '/theme.mp3'
+        theme.loop = true
         document.getElementById('app').appendChild(theme)
         theme.play()
+
+        window.addEventListener('keydown', event => {
+          if (event.key === 'ArrowDown' && theme.paused) theme.play()
+          else if (event.key === 'ArrowDown' && !theme.paused) theme.pause()
+        })
       } catch (error) {
         return false
       }
