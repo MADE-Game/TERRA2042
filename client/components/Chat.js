@@ -38,6 +38,9 @@ class Chat extends Component {
     socket.on('end turn', () => {
       this.log('end turn')
     })
+
+    let chat = document.getElementById('msg')
+    chat.scrollTop = chat.scrollHeight
   }
 
   componentWillUnmount() {
@@ -74,6 +77,7 @@ class Chat extends Component {
 
     display.appendChild(message)
     localStorage.log = display.innerHTML
+    display.scrollTop = display.scrollHeight
   }
 
   handleSubmit(event) {
@@ -94,25 +98,32 @@ class Chat extends Component {
 
   render() {
     return (
-      <div id="chat">
-        <form onSubmit={this.handleSubmit}>
-          <div id="msg"></div>
-          <br />
-          <textarea
-            required
-            style={{marginLeft: '1.5%', resize: 'none'}}
-            cols="50"
-            rows="5"
-            name="message"
-            value={this.state.message}
-            placeholder="message"
-            onChange={this.handleChange}
-            onKeyDown={event => {
-              if (event.key === 'Enter' && /\S/.test(event.target.value))
-                this.handleSubmit(event)
-            }}
-          ></textarea>
-        </form>
+      <div id="chatContainer">
+        <div id="chat">
+          <form onSubmit={this.handleSubmit}>
+            <div id="msg"></div>
+            <textarea
+              required
+              style={{
+                resize: 'none',
+                borderRadius: '5px',
+                border: 'none',
+                margin: 0,
+                width: '98%'
+              }}
+              cols="50"
+              rows="3"
+              name="message"
+              value={this.state.message}
+              placeholder="message"
+              onChange={this.handleChange}
+              onKeyDown={event => {
+                if (event.key === 'Enter' && /\S/.test(event.target.value))
+                  this.handleSubmit(event)
+              }}
+            ></textarea>
+          </form>
+        </div>
       </div>
     )
   }

@@ -85,13 +85,14 @@ form div {
 
 .plane,
 .hand {
-  border: 2px dashed rgb(70, 70, 70);
   min-height: 10vh;
 }
 
 #buttonContainer {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  padding-right: 3vh;
+  border: 0px;
 }
 
 .formContainer {
@@ -225,6 +226,57 @@ form div {
   box-shadow: inset 0px 1px 0px #5f1d18, 0px 5px 0px 0px #784642, 0px 0px 0px;
 }
 
+.buttonStyle3 {
+  width: 15%;
+  font-size: 13px;
+  margin-top: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 1.5vh;
+  padding-left: 0.5vh;
+  padding-right: 0.5vh;
+  padding-top: 0.5vh;
+  padding-bottom: 0.5vh;
+  border-radius: 0.5vh;
+  border: 0px;
+  box-shadow: inset 0px 1px 0px #5f1d18, 0px 5px 0px 0px #5f1d18, 0px 0px 0px;
+}
+
+.buttonStyle3:hover {
+  background-color: #5f1d18;
+  color: #fff;
+  border: 0px;
+  box-shadow: inset 0px 1px 0px #5f1d18, 0px 5px 0px 0px #784642, 0px 0px 0px;
+}
+
+.buttonStyle4 {
+  width: 15%;
+  font-size: 13px;
+  margin-top: 0;
+  display: flex;
+  color: rgb(189, 201, 202);
+  color: rgb(136, 159, 161);
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 1.5vh;
+  padding-left: 0.5vh;
+  padding-right: 0.5vh;
+  padding-top: 0.5vh;
+  padding-bottom: 0.5vh;
+  border-radius: 0.5vh;
+  border: 0px;
+  box-shadow: inset 0px 1px 0px rgb(136, 159, 161),
+    0px 5px 0px 0px rgb(136, 159, 161), 0px 0px 0px;
+}
+
+.buttonText {
+  text-align: center;
+  margin: 0;
+}
+
 #welcomeStyle {
   font-size: 2vh;
   font-weight: bold;
@@ -234,7 +286,11 @@ form div {
 }
 
 .hero img {
-  width: 11vh;
+  width: 10vh;
+}
+
+.heroText {
+  margin: 0;
 }
 
 #collections {
@@ -278,14 +334,50 @@ form div {
   margin: 0 1% 0 1%;
 }
 
-#chat {
+#chatContainer {
   display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+#chat {
   flex-direction: column;
   justify-content: flex-end;
   width: 35%;
   max-width: 35%;
   min-width: 325px;
 }
+
+#msg {
+  background-color: rgba(255, 255, 255, 0.25);
+  width: 98%;
+  border-radius: 5px;
+  border: none;
+  margin: 0;
+  padding: 0;
+  /* margin-right: 1vh; */
+  max-height: 10vh;
+  overflow: auto;
+}
+
+#msg p {
+  margin: 0;
+  color: #fff;
+  padding-left: 1vh;
+  padding-top: 0.25vh;
+  padding-bottom: 0.25vh;
+  font-size: 10px;
+}
+
+#msg span {
+  margin: 0;
+  color: #5f1d18;
+  padding-left: 1vh;
+  padding-top: 0.25vh;
+  padding-bottom: 0.25vh;
+  font-size: 10px;
+}
+
 .allCards {
   background-color: black;
   color: white;

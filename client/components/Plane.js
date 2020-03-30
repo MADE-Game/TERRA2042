@@ -28,7 +28,11 @@ const Plane = props => {
   })
 
   return (
-    <div className="plane" ref={drop}>
+    <div
+      className="plane"
+      ref={drop}
+      style={{marginTop: '2vh', marginBottom: '2vh'}}
+    >
       {props.inPlay.map(card => {
         return (
           <Card
