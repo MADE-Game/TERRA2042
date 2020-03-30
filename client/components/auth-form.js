@@ -41,18 +41,16 @@ const AuthForm = props => {
         </div>
 
         <div className="loginButtons">
-          <button type="submit" className="buttonStyle1">
+          <button type="submit" className="buttonStyle0">
             {displayName}
           </button>
           {displayName === 'Login' ? (
             <Link to="/signup">
-              <button type="submit" className="buttonStyle1">
-                Sign Up
-              </button>
+              <button type="submit">Sign Up</button>
             </Link>
           ) : (
             <Link to="/login">
-              <button type="submit" className="buttonStyle1">
+              <button type="submit" className="buttonStyle6">
                 Login
               </button>
             </Link>

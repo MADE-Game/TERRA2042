@@ -190,11 +190,13 @@ nav a {
   justify-content: center;
 }
 
+.buttonStyle0,
 .buttonStyle1,
 .buttonStyle2,
 .buttonStyle3,
 .buttonStyle4,
-.buttonStyle5 {
+.buttonStyle5,
+.buttonStyle6 {
   margin-bottom: 1.5vh;
   padding-left: 5vh;
   padding-right: 5vh;
@@ -208,10 +210,12 @@ nav a {
   box-shadow: inset 0px 1px 0px #5f1d18, 0px 5px 0px 0px #5f1d18, 0px 0px 0px;
 }
 
+.buttonStyle0:hover,
 .buttonStyle1:hover,
 .buttonStyle2:hover,
 .buttonStyle3:hover,
-.buttonStyle5:hover {
+.buttonStyle5:hover,
+.buttonStyle6:hover {
   background-color: #5f1d18;
   color: #fff;
   border: 0px;
@@ -246,6 +250,10 @@ nav a {
 
 .buttonStyle5 {
   width: 18.5vh;
+}
+
+.buttonStyle6 {
+  width: 100%;
 }
 
 .buttonText {
