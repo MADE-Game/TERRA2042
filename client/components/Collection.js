@@ -28,8 +28,12 @@ function Collection(props) {
   })
 
   return props.collection._id ? (
-    <div id="single-collection">
-      <div onClick={props.handleClick} ref={drop}>
+    <div className="single-collection">
+      <div
+        onClick={props.handleClick}
+        ref={drop}
+        style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}
+      >
         <div
           className={
             props.collection.isDeck
@@ -38,22 +42,25 @@ function Collection(props) {
                 : 'collection'
               : 'collection allCards'
           }
-        >{`${props.collection.name}`}</div>
+        >
+          <p className="breakName">{`${props.collection.name}`}</p>
+        </div>
         <span>
           {props.collection.cards.length}
           {props.collection.isDeck ? '/20' : ''}
+          {!['Default Deck', 'My Cards'].includes(props.collection.name) ? (
+            <button
+              style={{marginLeft: '1vh'}}
+              onClick={() => props.removeCollection(props.collection._id)}
+              type="button"
+            >
+              X
+            </button>
+          ) : (
+            ''
+          )}
         </span>
       </div>
-      {!['Default Deck', 'My Cards'].includes(props.collection.name) ? (
-        <button
-          onClick={() => props.removeCollection(props.collection._id)}
-          type="button"
-        >
-          X
-        </button>
-      ) : (
-        ''
-      )}
     </div>
   ) : (
     <h1>pick a deck</h1>
