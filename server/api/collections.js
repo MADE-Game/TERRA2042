@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const {Collection, Card, User} = require('../db/models')
+const {userOnly, adminOnly} = require('../utils/index')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -12,7 +13,7 @@ router.get('/', async (req, res, next) => {
 })
 
 //returns all cards associated with collection.
-router.get('/:collectionId/cards', async (req, res, next) => {
+router.get('/:collectionId/cards', userOnly, async (req, res, next) => {
   try {
     let collection
     let cards
@@ -30,7 +31,7 @@ router.get('/:collectionId/cards', async (req, res, next) => {
 })
 
 //one collection
-router.get('/:collectionId', async (req, res, next) => {
+router.get('/:collectionId', userOnly, async (req, res, next) => {
   try {
     const collection = await Collection.findById(req.params.collectionId)
     const cards = await Card.find({_id: {$in: collection.cards}})
@@ -41,8 +42,11 @@ router.get('/:collectionId', async (req, res, next) => {
 })
 
 //all of a user's collections
-router.get('/users/:userId', async (req, res, next) => {
+router.get('/users/:userId', userOnly, async (req, res, next) => {
   try {
+    if (req.user.id !== req.params.id && !req.user.isAdmin) {
+      return res.status(401).send('Admin only!')
+    }
     const collections = await Collection.findOne({
       userId: req.params.userId
     })
@@ -76,7 +80,6 @@ router.post('/', async (req, res, next) => {
       },
       {new: true}
     )
-
     res.json(collection)
   } catch (err) {
     next(err)
@@ -84,8 +87,11 @@ router.post('/', async (req, res, next) => {
 })
 
 //delete collection
-router.delete('/:collectionId', async (req, res, next) => {
+router.delete('/:collectionId', userOnly, async (req, res, next) => {
   try {
+    if (req.user.id !== req.params.id && !req.user.isAdmin) {
+      return res.status(401).send('Admin only!')
+    }
     await Collection.findByIdAndRemove(req.params.collectionId)
 
     await User.findByIdAndUpdate(
@@ -111,7 +117,9 @@ router.put('/:collectionId', async (req, res, next) => {
     // if (!req.body.isDeck) {
     //   return res.status(401).send('you cannot edit this!')
     // }
-
+    if (req.user.id !== req.params.id && !req.user.isAdmin) {
+      return res.status(401).send('Admin only!')
+    }
     const collection = await Collection.findByIdAndUpdate(
       req.params.collectionId,
       {
@@ -130,7 +138,7 @@ router.put('/:collectionId', async (req, res, next) => {
 })
 
 // add a card to users "My Cards" collection
-router.put('/user/userCards', async (req, res, next) => {
+router.put('/user/userCards', userOnly, async (req, res, next) => {
   try {
     const collection = await Collection.findOneAndUpdate(
       {isDeck: false, userId: req.user._id},

@@ -13,7 +13,8 @@ const UserSchema = new Schema({
   salt: String,
   games: Array,
   selectedDeck: String,
-  gold: Number
+  gold: Number,
+  isAdmin: Boolean
 })
 
 UserSchema.static('encryptPassword', function(plainText, salt) {

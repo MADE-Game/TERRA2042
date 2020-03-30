@@ -5,7 +5,8 @@ const {
   relativizeBoard,
   objectifyBoard,
   validateBoard,
-  shuffleDeck
+  shuffleDeck,
+  userOnly
 } = require('../utils/index.js')
 //all games
 router.get('/', async (req, res, next) => {
@@ -88,9 +89,11 @@ router.put('/save/:gameId', async (req, res, next) => {
 })
 
 //completed games
-router.get('/completed', async (req, res, next) => {
+router.get('/completed', userOnly, async (req, res, next) => {
   try {
-    const games = await Game.find({isFinished: true})
+    const user = await User.findById(req.user._id)
+
+    const games = await Game.find({_id: {$in: user.games}, isFinished: true})
     res.json(games)
   } catch (err) {
     next(err)
@@ -98,16 +101,18 @@ router.get('/completed', async (req, res, next) => {
 })
 
 //games in progress
-router.get('/running', async (req, res, next) => {
+router.get('/running', userOnly, async (req, res, next) => {
   try {
-    const games = await Game.find({isFinished: false})
+    const user = await User.findById(req.user._id)
+
+    const games = await Game.find({_id: {$in: user.games}, isFinished: false})
     res.json(games)
   } catch (err) {
     next(err)
   }
 })
 
-router.post('/newGame', async (req, res, next) => {
+router.post('/newGame', userOnly, async (req, res, next) => {
   try {
     const game = await Game.findOne({
       p1: req.body.p1,
@@ -156,8 +161,10 @@ router.post('/newGame', async (req, res, next) => {
       deck1 = shuffleDeck(deck1)
       deck2 = shuffleDeck(deck2)
 
+      //dole out hands
       const p1Hand = deck1.splice(0, 3)
       const p2Hand = deck2.splice(0, 4)
+
       gameToMakeString.player1.hand = p1Hand
       gameToMakeString.player2.hand = p2Hand
       gameToMakeString.player1.deck = deck1
