@@ -73,6 +73,7 @@ class Board extends Component {
         STUTTER
       )
     })
+
     socket.on('game over', () => {
       setTimeout(
         function() {
