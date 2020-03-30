@@ -11,7 +11,9 @@ const Plane = props => {
     accept: ItemTypes.CARD,
     drop: () => {
       if (!props.isMyTurn) {
-        return console.log('it is not my turn!')
+        return toast.warning("It's not your turn!", {
+          position: toast.POSITION.TOP_CENTER
+        })
       }
 
       if (props.player === 'hero' && item.inHand === true) {
