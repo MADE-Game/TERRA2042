@@ -10,7 +10,6 @@ import Board from './components/Board'
 import NotFound from './components/not-found'
 import {me} from './store'
 import CollectionList from './components/CollectionList'
-import Chat from './components/Chat'
 import Room from './components/Room'
 
 /**
@@ -40,7 +39,6 @@ class Routes extends Component {
             <Route path="/games/rooms/:roomId/game/:id">
               <div id="board-chat">
                 <Board />
-                <Chat />
               </div>
             </Route>
             <Route path="/decks" component={CollectionList} />

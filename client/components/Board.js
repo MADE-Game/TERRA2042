@@ -3,7 +3,6 @@ import Side from './Side'
 import {DndProvider} from 'react-dnd'
 import Backend from 'react-dnd-html5-backend'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
 import {
   getAllCards,
   loadGame,
@@ -93,37 +92,7 @@ class Board extends Component {
         <div className="board">
           <div className="container">
             <Side top={true} side={enemySide} />
-            <Side side={playerSide} />
-            {!this.props.isFinished ? (
-              this.props.isMyTurn ? (
-                <div id="buttonContainer">
-                  <button
-                    type="submit"
-                    onClick={() =>
-                      this.props.endTurn(
-                        this.props.match.params.id,
-                        this.props.gameState,
-                        this.props.player
-                      )
-                    }
-                    className="turnButton"
-                  >
-                    End Turn
-                  </button>
-                </div>
-              ) : (
-                'not my turn'
-              )
-            ) : (
-              <div>
-                <h1>Game Over!</h1>
-                <Link to="/lobby">
-                  <button type="submit" className="buttonStyle2">
-                    Back to Lobby?
-                  </button>
-                </Link>
-              </div>
-            )}
+            <Side side={playerSide} gameId={this.props.match.params.id} />
           </div>
         </div>
       </DndProvider>
@@ -133,7 +102,6 @@ class Board extends Component {
 
 const mapStateToProps = state => {
   return {
-    isFinished: state.game.data.isFinished,
     cards: state.game.cards,
     inPlay: state.game.player.inPlay,
     gameState: state.game,
