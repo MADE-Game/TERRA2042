@@ -32,7 +32,7 @@ const Player = props => {
   return (
     <div className="hero" ref={drop}>
       <img src={props.imgUrl} />
-      <p>Settlers: {props.player.settlers}</p>
+      <p className="heroText">Settlers: {props.player.settlers}</p>
     </div>
   )
 }
