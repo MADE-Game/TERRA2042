@@ -10,7 +10,7 @@ class Room extends Component {
     const roomId = this.props.match.params.roomId
 
     socket.emit('join', {roomId: roomId})
-    socket.on('join', data => {
+    socket.once('join', data => {
       if (data.numPpl === 2) {
         socket.emit('id exchange', {
           oppId: user._id,
@@ -18,12 +18,6 @@ class Room extends Component {
         })
       }
     })
-
-    // socket.on('full', data => {
-    //   socket.leave(`room${data.roomId}`)
-    //   // eslint-disable-next-line no-alert
-    //   alert('Room is full!')
-    // })
 
     socket.on('id exchange', async data => {
       if (socket.id === data.host) {

@@ -41,7 +41,6 @@ router.put('/collections/selected', userOnly, async (req, res, next) => {
 // get all collections associated with particular user
 router.get('/:userId/collections', userOnly, async (req, res, next) => {
   try {
-    console.log(req.user)
     if (req.params.userId !== req.user._id.toString() && !req.user.isAdmin) {
       return res.status(401).send('Admin only!')
     }

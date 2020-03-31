@@ -14,10 +14,8 @@ import {
 import {socket} from './Room'
 import {withRouter} from 'react-router'
 import PropTypes from 'prop-types'
-import {confirmAlert} from 'react-confirm-alert'
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import 'react-confirm-alert/src/react-confirm-alert.css'
 
 //used for slightly delaying socket speed prior to save.
 const STUTTER = 25
@@ -40,7 +38,10 @@ class Board extends Component {
     }
 
     socket.emit('join', {
-      roomId: this.props.match.params.roomId,
+      roomId: this.props.match.params.roomId
+    })
+
+    socket.emit('player joined', {
       playerName: this.props.playerName
     })
 
@@ -59,7 +60,7 @@ class Board extends Component {
       })
     })
 
-    socket.on('rejoined game', data => {
+    socket.on('player joined', data => {
       toast.info(`${data.playerName} has entered the game`, {
         position: toast.POSITION.TOP_CENTER
       })
@@ -73,6 +74,7 @@ class Board extends Component {
         STUTTER
       )
     })
+
     socket.on('game over', () => {
       setTimeout(
         function() {
@@ -115,20 +117,7 @@ class Board extends Component {
   }
 
   componentWillUnmount() {
-    confirmAlert({
-      title: 'Confirm',
-      message: 'Are you sure you want to leave the game?',
-      buttons: [
-        {
-          label: 'Yes',
-          onClick: () =>
-            socket.emit('left game', {playerName: this.props.playerName})
-        },
-        {
-          label: 'Cancel'
-        }
-      ]
-    })
+    socket.removeAllListeners()
   }
 
   render() {
