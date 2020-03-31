@@ -19,12 +19,6 @@ class Room extends Component {
       }
     })
 
-    // socket.on('full', data => {
-    //   socket.leave(`room${data.roomId}`)
-    //   // eslint-disable-next-line no-alert
-    //   alert('Room is full!')
-    // })
-
     socket.on('id exchange', async data => {
       if (socket.id === data.host) {
         const gameId = await this.props.startGame(user._id, data.oppId)
@@ -61,10 +55,6 @@ class Room extends Component {
       history.push(`/games/rooms/${roomId}/game/${data.gameId}`)
     })
   }
-
-  // componentWillUnmount() {
-  //   socket.disconnect()
-  // }
 
   render() {
     return (

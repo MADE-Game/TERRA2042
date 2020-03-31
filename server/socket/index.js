@@ -21,9 +21,6 @@ const GAMENSP = gameNsp => {
     socket.on('join', data => {
       socket.join(`room${data.roomId}`)
 
-      // if (gameNsp.adapter.rooms[`room${data.roomId}`].length > 2) {
-      //   gameNsp.to(socket.id).emit('full', {roomId: data.roomId})
-      // } else {
       id = data.roomId
       if (gameNsp.adapter.rooms[`room${data.roomId}`].length === 1) {
         gameNsp.adapter.rooms[`room${data.roomId}`].host = socket.id
@@ -32,7 +29,6 @@ const GAMENSP = gameNsp => {
       gameNsp.to(socket.id).emit('join', {
         numPpl: gameNsp.adapter.rooms[`room${data.roomId}`].length
       })
-      // }
     })
 
     // handles a player rejoining a game

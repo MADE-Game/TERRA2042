@@ -14,10 +14,8 @@ import {
 import {socket} from './Room'
 import {withRouter} from 'react-router'
 import PropTypes from 'prop-types'
-import {confirmAlert} from 'react-confirm-alert'
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import 'react-confirm-alert/src/react-confirm-alert.css'
 
 //used for slightly delaying socket speed prior to save.
 const STUTTER = 25
@@ -121,23 +119,6 @@ class Board extends Component {
   componentWillUnmount() {
     socket.removeAllListeners()
   }
-
-  // componentWillUnmount() {
-  //   confirmAlert({
-  //     title: 'Confirm',
-  //     message: 'Are you sure you want to leave the game?',
-  //     buttons: [
-  //       {
-  //         label: 'Yes',
-  //         onClick: () =>
-  //           socket.emit('left game', {playerName: this.props.playerName})
-  //       },
-  //       {
-  //         label: 'Cancel'
-  //       }
-  //     ]
-  //   })
-  // }
 
   render() {
     return (
