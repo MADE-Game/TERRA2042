@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import {selectDeck, selectClass} from '../store/reducers/user'
 
 const classesArray = [
+  'Select Class',
   'Forager',
   'Medic',
   'Metalhead',
@@ -53,7 +54,8 @@ class GamesLobby extends Component {
           </button>
         </Link>
         <h1>Welcome to the lobby!</h1>
-        {this.state.classSelected === true ? (
+        {this.state.classSelected === true &&
+        this.props.user.selectedClass !== 'Select Class' ? (
           <Link to={`/games/rooms/${Math.floor(Math.random() * 1000000)}`}>
             <button type="button">Create Game Room</button>
           </Link>

@@ -16,6 +16,7 @@ import {connect} from 'react-redux'
 import Player from './Player'
 
 const Side = props => {
+  console.log('logging props in side', props)
   return (
     <div className="side">
       {/* player or opponent boolean check */}
@@ -87,7 +88,8 @@ const Side = props => {
                             props.endTurn(
                               props.gameId,
                               props.gameState,
-                              props.player
+                              props.player,
+                              props.user
                             )
                           }
                         >
@@ -127,7 +129,8 @@ const Side = props => {
                             props.endTurn(
                               props.gameId,
                               props.gameState,
-                              props.player
+                              props.player,
+                              props.user
                             )
                           }
                         >
@@ -164,14 +167,15 @@ const Side = props => {
                     className="buttonStyle4"
                     type="submit"
                     style={{marginTop: '-4vh'}}
-                    onClick={() =>
+                    onClick={() => {
+                      console.log('logging props in onClick', props)
                       props.endTurn(
                         props.gameId,
                         props.gameState,
                         props.player,
                         props.user
                       )
-                    }
+                    }}
                   >
                     <p className="buttonText">End Turn</p>
                   </button>
@@ -236,6 +240,7 @@ const mapDispatchToProps = function(dispatch) {
     drawCard: deck => dispatch(playerDrawCard(deck)),
     hurtByDraw: hero => dispatch(hurtByTheDraw(hero)),
     endTurn: async (id, gameState, hero, user) => {
+      console.log('log in mapDispatch', id, gameState, hero, user)
       await dispatch(endTurn())
       await dispatch(incrementTheSettlers(hero, user))
       await dispatch(

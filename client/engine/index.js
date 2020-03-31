@@ -17,6 +17,10 @@ const engine = {
   },
   incrementSettlers: (hero, user) => {
     const newHero = hero
+    console.log('logging in increment', user)
+    if (!user) {
+      user = {selectedClass: 'muhClass'}
+    }
     if (user.selectedClass === 'Forager') {
       newHero.settlers += 2
     } else {
