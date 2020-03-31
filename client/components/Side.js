@@ -18,7 +18,6 @@ import Player from './Player'
 
 // eslint-disable-next-line complexity
 const Side = props => {
-  console.log('logging props in side', props)
   return (
     <div className="side">
       {/* player or opponent boolean check */}
@@ -266,13 +265,12 @@ const mapDispatchToProps = function(dispatch) {
     drawCard: (deck, user) => dispatch(playerDrawCard(deck, user)),
     hurtByDraw: hero => dispatch(hurtByTheDraw(hero)),
     endTurn: async (id, gameState, hero, user) => {
-      console.log('log in mapDispatch', id, gameState, hero, user)
       await dispatch(endTurn())
       await dispatch(incrementTheSettlers(hero, user))
       await dispatch(
         saveGame(id, {...gameState, data: {...gameState.data, isMyTurn: false}})
       )
-      socket.emit('end turn')
+      socket.emit('end turn', {roomId: localStorage.roomId})
     },
     cultistDraw: (deck, player) => dispatch(cultistDrawCard(deck, player))
   }

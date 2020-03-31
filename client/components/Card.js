@@ -37,6 +37,7 @@ const Card = props => {
         props.attackCard(item.card, props.card)
       }
     },
+
     collect: monitor => ({
       isOver: !!monitor.isOver(),
       canDrop: !!monitor.canDrop(),

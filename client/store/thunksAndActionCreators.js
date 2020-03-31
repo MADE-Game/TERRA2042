@@ -103,7 +103,7 @@ export const cultistDrawCard = (deck, player) => {
   const result = engine.cultistDraw(deck, player)
   return async dispatch => {
     await dispatch(cultistDrew(result.newDeck, result.card, result.newPlayer))
-    socket.emit('draw card')
+    socket.emit('draw card', {roomId: localStorage.roomId})
   }
 }
 
@@ -112,12 +112,15 @@ export const playerPlayCard = (hero, card) => {
   if (result.settlers <= 0) {
     return async dispatch => {
       await dispatch(playerHeroDied())
-      socket.emit('game over')
+      socket.emit('game over', {roomId: localStorage.roomId})
     }
   }
   return async dispatch => {
     await dispatch(playerPlayedCard(hero, card))
-    socket.emit('play card', card)
+    socket.emit('play card', {
+      card,
+      roomId: localStorage.roomId
+    })
   }
 }
 //Retrieves all cards from the database
@@ -143,7 +146,8 @@ export const playerAttackCard = (attacker, defender) => {
     await dispatch(playerAttackedCard(...result))
     socket.emit('attack', {
       attacker: result[0],
-      defender: result[1]
+      defender: result[1],
+      roomId: localStorage.roomId
     })
   }
 }
@@ -153,7 +157,7 @@ export const playerDrawCard = (deck, user) => {
   const {newDeck, card} = engine.drawCard(deck, user)
   return async dispatch => {
     await dispatch(playerDrewCard(newDeck, card))
-    socket.emit('draw card')
+    socket.emit('draw card', {roomId: localStorage.roomId})
   }
 }
 export const playerAttackHero = (attacker, hero) => {
@@ -161,11 +165,12 @@ export const playerAttackHero = (attacker, hero) => {
   if (result[1].settlers <= 0) {
     return async dispatch => {
       await dispatch(opponentHeroDied())
-      socket.emit('game over')
+      socket.emit('game over', {roomId: localStorage.roomId})
     }
   } else {
     return dispatch => {
       dispatch(playerAttackedHero(...result))
+      socket.emit('hero attacked')
     }
   }
 }
@@ -183,7 +188,6 @@ export const clearBoard = () => {
 export const saveGame = (id, gameState) => {
   return async dispatch => {
     try {
-      console.log('logging gameState in saveGame', gameState)
       await Axios.put('/api/games/save/' + id, gameState)
       dispatch(savedGame())
     } catch (error) {
@@ -200,7 +204,7 @@ export const hurtByTheDraw = hero => {
   if (result.settlers <= 0) {
     return dispatch => {
       dispatch(playerHeroDied())
-      socket.emit('game over')
+      socket.emit('game over', {roomId: localStorage.roomId})
     }
   } else {
     return dispatch => dispatch(hurtByDrawnCard(result))

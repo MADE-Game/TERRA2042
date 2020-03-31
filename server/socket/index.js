@@ -33,7 +33,7 @@ const GAMENSP = gameNsp => {
 
     // handles a player rejoining a game
     socket.on('player joined', data => {
-      socket.to(`room${id}`).emit('player joined', data)
+      socket.to(`room${data.roomId}`).emit('player joined', data)
     })
 
     socket.on('id exchange', data => {
@@ -48,35 +48,35 @@ const GAMENSP = gameNsp => {
     })
 
     socket.on('left game', data => {
-      socket.to(`room${id}`).emit('left game', data)
-    })
-
-    socket.on('move made', () => {
-      socket.to(`room${id}`).emit('move made')
+      socket.to(`room${data.roomId}`).emit('left game', data)
     })
 
     socket.on('play card', data => {
-      socket.to(`room${id}`).emit('play card', data)
+      socket.to(`room${data.roomId}`).emit('play card', data)
     })
 
     socket.on('attack', data => {
-      socket.to(`room${id}`).emit('attack', data)
+      socket.to(`room${data.roomId}`).emit('attack', data)
     })
 
-    socket.on('draw card', () => {
-      socket.to(`room${id}`).emit('draw card')
+    socket.on('draw card', data => {
+      socket.to(`room${data.roomId}`).emit('draw card')
+    })
+
+    socket.on('hero attacked', () => {
+      socket.to(`room${id}`).emit('hero attacked')
     })
 
     socket.on('send msg', data => {
-      gameNsp.in(`room${id}`).emit('send msg', data)
+      gameNsp.in(`room${data.roomId}`).emit('send msg', data)
     })
 
-    socket.on('end turn', () => {
-      socket.to(`room${id}`).emit('end turn')
+    socket.on('end turn', data => {
+      socket.to(`room${data.roomId}`).emit('end turn')
     })
 
-    socket.on('game over', () => {
-      gameNsp.in(`room${id}`).emit('game over')
+    socket.on('game over', data => {
+      gameNsp.in(`room${data.roomId}`).emit('game over')
     })
   })
 }

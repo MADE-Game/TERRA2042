@@ -18,9 +18,14 @@ const Player = props => {
       } else if (
         !item.inHand &&
         item.player === 'hero' &&
-        props.side !== 'bottom'
+        props.side !== 'bottom' &&
+        props.isMyTurn
       ) {
         props.attackHero(item.card, props.player)
+      } else {
+        toast.warning("It's not your turn!", {
+          position: toast.POSITION.TOP_CENTER
+        })
       }
     },
     collect: monitor => ({
@@ -36,10 +41,17 @@ const Player = props => {
     </div>
   )
 }
+
+const mapStateToProps = state => {
+  return {
+    isMyTurn: state.game.data.isMyTurn
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     attackHero: (attacker, hero) => dispatch(playerAttackHero(attacker, hero))
   }
 }
 
-export default connect(null, mapDispatchToProps)(Player)
+export default connect(mapStateToProps, mapDispatchToProps)(Player)

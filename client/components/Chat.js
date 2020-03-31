@@ -85,7 +85,8 @@ class Chat extends Component {
     event.preventDefault()
     socket.emit('send msg', {
       message: this.state.message,
-      user: this.state.userName
+      user: this.state.userName,
+      roomId: localStorage.roomId
     })
 
     this.setState({
