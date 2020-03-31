@@ -8,7 +8,8 @@ import {
   HURT_BY_DRAW,
   PLAYER_ATTACK_HERO,
   INCREMENT_SETTLERS,
-  CULTIST_DRAW
+  CULTIST_DRAW,
+  CLEAR_BOARD
 } from '../actionTypes'
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -35,6 +36,8 @@ export default function(state = initialState, action) {
         hand: action.game.game.player.hand,
         settlers: action.game.game.player.settlers
       }
+    case CLEAR_BOARD:
+      return initialState
     case PLAYER_PLAY_CARD:
       if (state.inPlay.length < 4) {
         return {
@@ -141,6 +144,7 @@ export default function(state = initialState, action) {
         alert('A cultist can only use the draw card power once per turn')
         return state
       }
+
     default:
       return state
   }
