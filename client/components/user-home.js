@@ -64,9 +64,7 @@ export class UserHome extends Component {
           <div>
             <div>
               <Link to="/history">
-                <button type="submit" className="buttonStyle2">
-                  Stats
-                </button>
+                <Button text="Stats" color="default" icon="stats" />
               </Link>
             </div>
             <a href="#" onClick={this.props.handleClick}>

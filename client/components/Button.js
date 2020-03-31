@@ -6,6 +6,7 @@ import VideogameAssetIcon from '@material-ui/icons/VideogameAsset'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import ViewCarouselIcon from '@material-ui/icons/ViewCarousel'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import AssessmentIcon from '@material-ui/icons/Assessment'
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -67,6 +68,17 @@ export function MyButton(props) {
         color={props.color}
         className={classes.button}
         endIcon={<ExitToAppIcon />}
+      >
+        {props.text}
+      </Button>
+    )
+  } else if (props.icon === 'stats') {
+    return (
+      <Button
+        variant="contained"
+        color={props.color}
+        className={classes.button}
+        startIcon={<AssessmentIcon />}
       >
         {props.text}
       </Button>
