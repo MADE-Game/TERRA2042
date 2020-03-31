@@ -103,7 +103,7 @@ export const cultistDrawCard = (deck, player) => {
   const result = engine.cultistDraw(deck, player)
   return async dispatch => {
     await dispatch(cultistDrew(result.newDeck, result.card, result.newPlayer))
-    socket.emit('draw card')
+    socket.emit('draw card', {roomId: localStorage.roomId})
   }
 }
 
