@@ -123,7 +123,6 @@ class Board extends Component {
   render() {
     return (
       <DndProvider backend={Backend}>
-        {/* <h1>TEST</h1> */}
         <div className="board">
           <div className="container">
             <Side top={true} side={enemySide} />

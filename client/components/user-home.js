@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import {MyButton as Button} from './Button'
 
 /**
  * COMPONENT
@@ -53,42 +54,27 @@ export class UserHome extends Component {
                   : '/lobby'
               }
             >
-              <button type="submit" className="buttonStyle2">
-                Play
-              </button>
+              <Button text="Play" color="default" icon="game" />
             </Link>
-            {/* <Link to="/lobby">
-              <button type="submit" className="buttonStyle2">
-                Play
-              </button>
-            </Link> */}
           </div>
           <div>
             <Link to="/shop">
-              <button type="submit" className="buttonStyle2">
-                Shop
-              </button>
+              <Button text="Shop" color="default" icon="shop" />
             </Link>
           </div>
           <div>
             <Link to="/decks">
-              <button type="submit" className="buttonStyle2">
-                My Collection
-              </button>
+              <Button text="My Collection" color="default" icon="deck" />
             </Link>
           </div>
           <div>
             <div>
               <Link to="/history">
-                <button type="submit" className="buttonStyle2">
-                  Stats
-                </button>
+                <Button text="Stats" color="default" icon="stats" />
               </Link>
             </div>
             <a href="#" onClick={this.props.handleClick}>
-              <button type="submit" className="buttonStyle2">
-                Logout
-              </button>
+              <Button text="Logout" color="default" icon="logout" />
             </a>
           </div>
           <p></p>
