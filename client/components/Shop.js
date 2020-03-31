@@ -6,8 +6,14 @@ import {connect} from 'react-redux'
 import {addToUserCards, getCardsInShop} from '../store/reducers/user'
 import {toast} from 'react-toastify'
 import {confirmAlert} from 'react-confirm-alert'
+import {fadeIn} from 'react-animations'
+import styled, {keyframes} from 'styled-components'
 import 'react-toastify/dist/ReactToastify.css'
 import 'react-confirm-alert/src/react-confirm-alert.css'
+
+const Fade = styled.div`
+  animation: 3s ${keyframes`${fadeIn}`};
+`
 
 class Shop extends Component {
   constructor() {
@@ -59,19 +65,21 @@ class Shop extends Component {
           </button>
         </Link>
         <span>Gold {this.props.gold}</span>
-        <div id="shop-cards">
-          {this.props.inShop.map(card => {
-            return (
-              <ShopCard
-                key={card._id}
-                card={card}
-                handleClick={(cardId, cardCost) =>
-                  this.handleClick(event, cardId, cardCost)
-                }
-              />
-            )
-          })}
-        </div>
+        <Fade>
+          <div id="shop-cards">
+            {this.props.inShop.map(card => {
+              return (
+                <ShopCard
+                  key={card._id}
+                  card={card}
+                  handleClick={(cardId, cardCost) =>
+                    this.handleClick(event, cardId, cardCost)
+                  }
+                />
+              )
+            })}
+          </div>
+        </Fade>
       </div>
     )
   }

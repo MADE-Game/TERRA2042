@@ -41,13 +41,23 @@ router.put('/collections/selected', userOnly, async (req, res, next) => {
 // get all collections associated with particular user
 router.get('/:userId/collections', userOnly, async (req, res, next) => {
   try {
-    console.log(req.user)
     if (req.params.userId !== req.user._id.toString() && !req.user.isAdmin) {
       return res.status(401).send('Admin only!')
     }
     const user = await User.findById(req.params.userId)
     const collections = await Collection.find({_id: {$in: user.collections}})
     res.json(collections)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.put('/:userId/class', async (req, res, next) => {
+  try {
+    await User.findByIdAndUpdate(req.params.userId, {
+      selectedClass: req.body.Class
+    })
+    res.json(req.body.Class)
   } catch (err) {
     next(err)
   }

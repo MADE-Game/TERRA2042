@@ -13,6 +13,7 @@ const UserSchema = new Schema({
   salt: String,
   games: Array,
   selectedDeck: String,
+  selectedClass: String,
   gold: Number,
   isAdmin: Boolean
 })

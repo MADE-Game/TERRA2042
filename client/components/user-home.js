@@ -47,7 +47,13 @@ export class UserHome extends Component {
         <div className="column">
           <p id="welcomeStyle">Welcome, {userName}</p>
           <div>
-            <Link to="/lobby">
+            <Link
+              to={
+                localStorage.gameId
+                  ? `/games/rooms/${localStorage.roomId}/game/${localStorage.gameId}`
+                  : '/lobby'
+              }
+            >
               <Button text="Play" color="default" icon="game" />
             </Link>
           </div>

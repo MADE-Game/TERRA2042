@@ -11,11 +11,14 @@ import Board from './components/Board'
 import NotFound from './components/not-found'
 import {me} from './store'
 import CollectionList from './components/CollectionList'
-import Room from './components/Room'
+import Room, {socket} from './components/Room'
+import {confirmAlert} from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 /**
  * COMPONENT
  */
+
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
@@ -39,11 +42,34 @@ class Routes extends Component {
             />
             <Route path="/games/rooms/:roomId/game/:id">
               <div id="board-chat">
-                <Link to="/home">
-                  <button type="button" className="buttonStyle1">
+                <a>
+                  <button
+                    type="button"
+                    className="buttonStyle1"
+                    onClick={() =>
+                      confirmAlert({
+                        title: 'Confirm',
+                        message: 'Are you sure you want to leave the game?',
+                        buttons: [
+                          {
+                            label: 'Yes',
+                            onClick: () => {
+                              socket.emit('left game', {
+                                playerName: this.props.playerName
+                              })
+                              this.props.history.replace('/home')
+                            }
+                          },
+                          {
+                            label: 'Cancel'
+                          }
+                        ]
+                      })
+                    }
+                  >
                     Home
                   </button>
-                </Link>
+                </a>
                 <Board />
               </div>
             </Route>
@@ -74,7 +100,8 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user._id
+    isLoggedIn: !!state.user._id,
+    playerName: state.user.userName
   }
 }
 

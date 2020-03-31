@@ -26,7 +26,7 @@ export const ShopCard = ({card, handleClick}) => {
           textAlign: 'center'
         }}
       >
-        {name}
+        {card.name}
       </h2>
       <div
         className="stats"
