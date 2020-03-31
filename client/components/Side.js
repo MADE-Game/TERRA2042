@@ -226,6 +226,9 @@ const Side = props => {
                 Cultist Draw Card
               </button>
             )}
+            {props.user.selectedClass === 'Medic' && (
+              <button type="submit">Medic Heal Power</button>
+            )}
           </div>
         </div>
       )}

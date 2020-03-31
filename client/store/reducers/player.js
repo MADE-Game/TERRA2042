@@ -8,7 +8,8 @@ import {
   HURT_BY_DRAW,
   PLAYER_ATTACK_HERO,
   INCREMENT_SETTLERS,
-  CULTIST_DRAW
+  CULTIST_DRAW,
+  MEDIC_HEAL
 } from '../actionTypes'
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -140,6 +141,17 @@ export default function(state = initialState, action) {
         // eslint-disable-next-line no-alert
         alert('A cultist can only use the draw card power once per turn')
         return state
+      }
+    case MEDIC_HEAL:
+      return {
+        ...state,
+        inPlay: state.inPlay.map(card => {
+          if (card._id === action.fighter._id) {
+            return action.fighter
+          } else {
+            return card
+          }
+        })
       }
     default:
       return state

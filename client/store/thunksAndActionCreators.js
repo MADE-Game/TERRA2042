@@ -12,7 +12,8 @@ import {
   HURT_BY_DRAW,
   START_TURN,
   INCREMENT_SETTLERS,
-  CULTIST_DRAW
+  CULTIST_DRAW,
+  MEDIC_HEAL
 } from './actionTypes'
 
 import engine from '../engine/index'
@@ -84,11 +85,19 @@ const startedTurn = () => ({
   type: START_TURN
 })
 
+const medicHealed = fighter => ({
+  type: MEDIC_HEAL
+})
+
 export const endTurn = () => async dispatch => {
   await dispatch(endedTurn())
 }
 export const startTurn = () => dispatch => {
   dispatch(startedTurn())
+}
+export const medicHealPower = fighter => dispatch => {
+  const result = engine.medicHeal(fighter)
+  dispatch(medicHealed(result))
 }
 
 export const incrementTheSettlers = (hero, user) => async dispatch => {

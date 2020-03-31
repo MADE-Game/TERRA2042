@@ -9,6 +9,7 @@ export const START_TURN = 'START_TURN'
 export const HURT_BY_DRAW = 'HURT_BY_DRAW'
 export const INCREMENT_SETTLERS = 'INCREMENT_SETTLERS'
 export const CULTIST_DRAW = 'CULTIST_DRAW'
+export const MEDIC_HEAL = 'MEDIC_HEAL'
 
 //opponent actions
 export const OPP_HERO_DEAD = 'OPP_HERO_DEAD'

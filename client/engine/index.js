@@ -70,6 +70,11 @@ const engine = {
       card,
       newPlayer
     }
+  },
+  medicHeal: fighter => {
+    let newFighter = fighter
+    newFighter.health += newFighter.health / 2
+    return newFighter
   }
 }
 
