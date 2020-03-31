@@ -1,11 +1,11 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Login, Signup} from './components'
 import Routes from './routes'
 import {me} from './store'
 import {Route, Switch} from 'react-router-dom'
 
-class App extends React.Component {
+class App extends Component {
   componentDidMount() {
     this.props.loadInitialData()
   }
