@@ -10,7 +10,7 @@ class Room extends Component {
     const roomId = this.props.match.params.roomId
 
     socket.emit('join', {roomId: roomId})
-    socket.on('join', data => {
+    socket.once('join', data => {
       if (data.numPpl === 2) {
         socket.emit('id exchange', {
           oppId: user._id,
@@ -61,6 +61,10 @@ class Room extends Component {
       history.push(`/games/rooms/${roomId}/game/${data.gameId}`)
     })
   }
+
+  // componentWillUnmount() {
+  //   socket.disconnect()
+  // }
 
   render() {
     return (

@@ -100,11 +100,6 @@ export const playerPlayCard = (hero, card) => {
   return async dispatch => {
     await dispatch(playerPlayedCard(hero, card))
     socket.emit('play card', card)
-    var today = new Date()
-    var time = today
-    console.log(time.getUTCMinutes())
-    console.log(time.getUTCSeconds())
-    console.log(time.getUTCMilliseconds())
   }
 }
 //Retrieves all cards from the database

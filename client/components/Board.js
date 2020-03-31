@@ -40,7 +40,10 @@ class Board extends Component {
     }
 
     socket.emit('join', {
-      roomId: this.props.match.params.roomId,
+      roomId: this.props.match.params.roomId
+    })
+
+    socket.emit('player joined', {
       playerName: this.props.playerName
     })
 
@@ -59,7 +62,7 @@ class Board extends Component {
       })
     })
 
-    socket.on('rejoined game', data => {
+    socket.on('player joined', data => {
       toast.info(`${data.playerName} has entered the game`, {
         position: toast.POSITION.TOP_CENTER
       })
@@ -115,22 +118,22 @@ class Board extends Component {
       )
   }
 
-  componentWillUnmount() {
-    confirmAlert({
-      title: 'Confirm',
-      message: 'Are you sure you want to leave the game?',
-      buttons: [
-        {
-          label: 'Yes',
-          onClick: () =>
-            socket.emit('left game', {playerName: this.props.playerName})
-        },
-        {
-          label: 'Cancel'
-        }
-      ]
-    })
-  }
+  // componentWillUnmount() {
+  //   confirmAlert({
+  //     title: 'Confirm',
+  //     message: 'Are you sure you want to leave the game?',
+  //     buttons: [
+  //       {
+  //         label: 'Yes',
+  //         onClick: () =>
+  //           socket.emit('left game', {playerName: this.props.playerName})
+  //       },
+  //       {
+  //         label: 'Cancel'
+  //       }
+  //     ]
+  //   })
+  // }
 
   render() {
     return (
