@@ -22,7 +22,6 @@ class Shop extends Component {
   }
 
   componentDidMount() {
-    console.dir(fadeIn)
     this.props.getCardsInShop()
   }
 
