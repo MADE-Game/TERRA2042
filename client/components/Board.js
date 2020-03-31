@@ -118,6 +118,10 @@ class Board extends Component {
       )
   }
 
+  componentWillUnmount() {
+    socket.removeAllListeners()
+  }
+
   // componentWillUnmount() {
   //   confirmAlert({
   //     title: 'Confirm',
