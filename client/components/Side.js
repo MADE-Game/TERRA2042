@@ -108,7 +108,7 @@ const Side = props => {
                       <h1>Game Over!</h1>
                       <Link to="/lobby">
                         <button type="submit" className="buttonStyle2">
-                          Back to Lobby?
+                          Back to Lobby?a
                         </button>
                       </Link>
                     </div>
@@ -166,23 +166,34 @@ const Side = props => {
                 >
                   <p className="buttonText">Draw Card</p>
                 </button>
-                <div id="buttonContainer">
-                  <button
-                    className="buttonStyle4"
-                    type="submit"
-                    style={{marginTop: '-4vh'}}
-                    onClick={() => {
-                      props.endTurn(
-                        props.gameId,
-                        props.gameState,
-                        props.player,
-                        props.user
-                      )
-                    }}
-                  >
-                    <p className="buttonText">End Turn</p>
-                  </button>
-                </div>
+                {!props.isFinished ? (
+                  <div id="buttonContainer">
+                    <button
+                      className="buttonStyle4"
+                      type="submit"
+                      style={{marginTop: '-4vh'}}
+                      onClick={() => {
+                        props.endTurn(
+                          props.gameId,
+                          props.gameState,
+                          props.player,
+                          props.user
+                        )
+                      }}
+                    >
+                      <p className="buttonText">End Turn</p>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <h1>Game Over!</h1>
+                    <Link to="/lobby">
+                      <button type="submit" className="buttonStyle2">
+                        Back to Lobby?
+                      </button>
+                    </Link>
+                  </div>
+                )}
               </div>
             )}
             <div style={{display: 'flex', justifyContent: 'space-between'}}>
