@@ -73,6 +73,10 @@ class Board extends Component {
         }.bind(this),
         STUTTER
       )
+
+      toast.info("It's your turn!", {
+        position: toast.POSITION.TOP_CENTER
+      })
     })
 
     socket.on('game over', () => {
