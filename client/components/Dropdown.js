@@ -23,7 +23,6 @@ const Dropdown = props => {
     setDeck(event.target.value)
   }
 
-  console.log(props)
   return (
     <div>
       <FormControl className={classes.formControl}>

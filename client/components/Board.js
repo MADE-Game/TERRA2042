@@ -151,6 +151,7 @@ const mapStateToProps = state => {
     playerName: state.user.userName
   }
 }
+
 const mapDispatchToProps = dispatch => {
   return {
     getAllCards: () => dispatch(getAllCards()),

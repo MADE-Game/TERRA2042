@@ -22,7 +22,6 @@ class Room extends Component {
 
     socket.on('id exchange', async data => {
       if (socket.id === data.host) {
-        console.log('logging socket data in Room', data)
         const gameId = await this.props.startGame(
           user._id,
           data.oppId,

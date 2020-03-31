@@ -183,7 +183,6 @@ export const clearBoard = () => {
 export const saveGame = (id, gameState) => {
   return async dispatch => {
     try {
-      console.log('logging gameState in saveGame', gameState)
       await Axios.put('/api/games/save/' + id, gameState)
       dispatch(savedGame())
     } catch (error) {
