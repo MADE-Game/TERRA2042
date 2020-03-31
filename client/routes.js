@@ -42,7 +42,7 @@ class Routes extends Component {
             />
             <Route path="/games/rooms/:roomId/game/:id">
               <div id="board-chat">
-                <Link>
+                <a>
                   <button
                     type="button"
                     className="buttonStyle1"
@@ -69,7 +69,7 @@ class Routes extends Component {
                   >
                     Home
                   </button>
-                </Link>
+                </a>
                 <Board />
               </div>
             </Route>
