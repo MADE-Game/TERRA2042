@@ -20,6 +20,7 @@ export class UserHome extends Component {
         theme.id = 'theme'
         theme.src = '/theme.mp3'
         theme.loop = true
+        theme.volume = 0.1
         document.getElementById('app').appendChild(theme)
         theme.play()
 
@@ -61,6 +62,13 @@ export class UserHome extends Component {
             </Link>
           </div>
           <div>
+            <div>
+              <Link to="/history">
+                <button type="submit" className="buttonStyle2">
+                  Stats
+                </button>
+              </Link>
+            </div>
             <a href="#" onClick={this.props.handleClick}>
               <Button text="Logout" color="default" icon="logout" />
             </a>

@@ -2,50 +2,6 @@
 
 const seeder = require('mongoose-seed')
 
-// const monsterNames = [
-//   'Centaurs',
-//   'Basilisks',
-//   'Chimera',
-//   'Medusa',
-//   'Centaurs',
-//   'Basilisks',
-//   'Chimera',
-//   'Medusa',
-//   'Cyclopes',
-//   'Harpies',
-//   'Typhon',
-//   'Echidna',
-//   'Furies',
-//   'Scylla',
-//   'Banshees',
-//   'Charybdis',
-//   'Harpies',
-//   'Typhon',
-//   'Echidna',
-//   'Furies',
-//   'Scylla',
-//   'Centaurs',
-//   'Basilisks',
-//   'Chimera',
-//   'Medusa',
-//   'Cyclopes',
-//   'Basilisks',
-//   'Chimera',
-//   'Harpies',
-//   'Typhon',
-//   'Chimera',
-//   'Medusa',
-//   'Medusa',
-//   'Cyclopes',
-//   'Harpies',
-//   'Typhon',
-//   'Scylla',
-//   'Centaurs',
-//   'Basilisks',
-//   'Chimera',
-//   'Medusa'
-// ]
-
 const monsterNames = [
   'Centaurs',
   'Basilisks',
@@ -92,11 +48,25 @@ for (let j = 0; j < monsterNames.length; j++) {
     health: Math.floor(Math.random() * (5 - 1) + 1)
   })
 }
+const userDoc = [
+  {
+    email: 'admin@admin.com',
+    imgUrl: '',
+    userName: 'admin',
+    password: 'made',
+    gold: 1000,
+    isAdmin: true
+  }
+]
 
 const data = [
   {
     model: 'card',
     documents: cardDocs
+  },
+  {
+    model: 'user',
+    documents: userDoc
   }
 ]
 

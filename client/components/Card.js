@@ -26,14 +26,15 @@ const Card = props => {
     drop: () => {
       if (!props.isMyTurn) {
         //CHAT LOG OPPORTUNITY
-        return console.log('it is not my turn!')
+        return toast.warning("It's not your turn!", {
+          position: toast.POSITION.TOP_CENTER
+        })
       } else if (item.card.attackOccurred) {
         toast.warning("This fighter can't attack until next turn", {
           position: toast.POSITION.TOP_CENTER
         })
       } else if (props.player === 'enemy' && !props.inHand && !item.inHand) {
         props.attackCard(item.card, props.card)
-        console.log('logging attacker', item.card)
       }
     },
     collect: monitor => ({
