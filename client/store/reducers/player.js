@@ -7,7 +7,8 @@ import {
   END_TURN,
   HURT_BY_DRAW,
   PLAYER_ATTACK_HERO,
-  INCREMENT_SETTLERS
+  INCREMENT_SETTLERS,
+  CULTIST_DRAW
 } from '../actionTypes'
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -19,7 +20,8 @@ const initialState = {
   settlers: 20,
   planeFull: false,
   drawsThisTurn: 0,
-  drawLimit: 1
+  drawLimit: 1,
+  cultistHasDrawn: false
 }
 
 // eslint-disable-next-line complexity
@@ -56,11 +58,20 @@ export default function(state = initialState, action) {
       }
     case PLAYER_DRAW_CARD:
       if (state.drawsThisTurn < state.drawLimit) {
-        return {
-          ...state,
-          deck: action.deck,
-          hand: [...state.hand, action.card],
-          drawsThisTurn: state.drawsThisTurn + 1
+        if (!Array.isArray(action.card)) {
+          return {
+            ...state,
+            deck: action.deck,
+            hand: [...state.hand, action.card],
+            drawsThisTurn: state.drawsThisTurn + 1
+          }
+        } else {
+          return {
+            ...state,
+            deck: action.deck,
+            hand: [...state.hand, action.card[0], action.card[1]],
+            drawsThisTurn: state.drawsThisTurn + 1
+          }
         }
       } else {
         toast.warning("You can't draw any more cards this turn!", {
@@ -116,7 +127,20 @@ export default function(state = initialState, action) {
         ...state,
         settlers: action.hero.settlers
       }
-
+    case CULTIST_DRAW:
+      if (!state.cultistHasDrawn) {
+        return {
+          ...state,
+          settlers: action.player.settlers,
+          deck: action.deck,
+          hand: [...state.hand, action.card],
+          cultistHasDrawn: true
+        }
+      } else {
+        // eslint-disable-next-line no-alert
+        alert('A cultist can only use the draw card power once per turn')
+        return state
+      }
     default:
       return state
   }

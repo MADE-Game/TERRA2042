@@ -15,12 +15,10 @@ const engine = {
     newAttacker.attackOccurred = true
     return [newAttacker, newHero]
   },
+
   incrementSettlers: (hero, user) => {
     const newHero = hero
-    console.log('logging in increment', user)
-    if (!user) {
-      user = {selectedClass: 'muhClass'}
-    }
+
     if (user.selectedClass === 'Forager') {
       newHero.settlers += 2
     } else {
@@ -34,8 +32,20 @@ const engine = {
     newHero.settlers -= card.cost
     return newHero
   },
-  drawCard: deck => {
-    const card = deck.shift()
+  drawCard: (deck, user) => {
+    let randomNum = Math.floor(Math.random() * Math.floor(6))
+    let card = {}
+    if (user.selectedClass === 'Hoarder') {
+      if (randomNum === 1) {
+        card = deck.slice(0, 2)
+        deck.shift()
+        deck.shift()
+      } else {
+        card = deck.shift()
+      }
+    } else {
+      card = deck.shift()
+    }
     return {
       newDeck: deck,
       card
@@ -50,6 +60,16 @@ const engine = {
     const newHero = hero
     newHero.class = Class
     return newHero
+  },
+  cultistDraw: (deck, player) => {
+    let card = deck.shift()
+    const newPlayer = player
+    newPlayer.settlers -= 2
+    return {
+      newDeck: deck,
+      card,
+      newPlayer
+    }
   }
 }
 

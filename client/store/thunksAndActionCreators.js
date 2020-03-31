@@ -11,8 +11,8 @@ import {
   END_TURN,
   HURT_BY_DRAW,
   START_TURN,
-  INCREMENT_SETTLERS
-  // SET_CLASS
+  INCREMENT_SETTLERS,
+  CULTIST_DRAW
 } from './actionTypes'
 
 import engine from '../engine/index'
@@ -23,11 +23,12 @@ const gotAllCards = cards => ({
   type: GET_ALL_CARDS,
   cards
 })
-
-// const setClassAction = hero => ({
-//   type: SET_CLASS,
-//   hero
-// })
+const cultistDrew = (deck, card, player) => ({
+  type: CULTIST_DRAW,
+  deck,
+  player,
+  card
+})
 const incrementedSettlers = hero => ({
   type: INCREMENT_SETTLERS,
   hero
@@ -94,10 +95,13 @@ export const incrementTheSettlers = (hero, user) => async dispatch => {
   const result = engine.incrementSettlers(hero, user)
   await dispatch(incrementedSettlers(result))
 }
-// export const setTheClass = (hero, Class) => async dispatch => {
-//   const newHero = engine.setClass(hero, Class)
-//   await dispatch(setClassAction(newHero))
-// }
+export const cultistDrawCard = (deck, player) => {
+  const result = engine.cultistDraw(deck, player)
+  return async dispatch => {
+    await dispatch(cultistDrew(result.newDeck, result.card, result.newPlayer))
+    socket.emit('draw card')
+  }
+}
 
 export const playerPlayCard = (hero, card) => {
   const result = engine.payCost(hero, card)
@@ -146,8 +150,8 @@ export const playerAttackCard = (attacker, defender) => {
 }
 
 //a player draws a card from their deck and adds it to their hand
-export const playerDrawCard = deck => {
-  const {newDeck, card} = engine.drawCard(deck)
+export const playerDrawCard = (deck, user) => {
+  const {newDeck, card} = engine.drawCard(deck, user)
   return async dispatch => {
     await dispatch(playerDrewCard(newDeck, card))
     socket.emit('draw card')

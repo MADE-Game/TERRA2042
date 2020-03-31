@@ -7,7 +7,8 @@ import {
   playerDrawCard,
   saveGame,
   incrementTheSettlers,
-  hurtByTheDraw
+  hurtByTheDraw,
+  cultistDrawCard
 } from '../store/thunksAndActionCreators'
 import Chat from './Chat'
 import {Link} from 'react-router-dom'
@@ -15,6 +16,7 @@ import {socket} from './Room'
 import {connect} from 'react-redux'
 import Player from './Player'
 
+// eslint-disable-next-line complexity
 const Side = props => {
   console.log('logging props in side', props)
   return (
@@ -70,7 +72,9 @@ const Side = props => {
                   <button
                     className="buttonStyle3"
                     type="submit"
-                    onClick={() => props.drawCard(props.player.deck)}
+                    onClick={() =>
+                      props.drawCard(props.player.deck, props.user)
+                    }
                   >
                     <p className="buttonText">Draw Card</p>
                   </button>
@@ -168,7 +172,6 @@ const Side = props => {
                     type="submit"
                     style={{marginTop: '-4vh'}}
                     onClick={() => {
-                      console.log('logging props in onClick', props)
                       props.endTurn(
                         props.gameId,
                         props.gameState,
@@ -212,6 +215,18 @@ const Side = props => {
               })}
             </div>
           </div>
+          <div>
+            {props.user.selectedClass === 'Cultist' && (
+              <button
+                type="submit"
+                onClick={() => {
+                  props.cultistDraw(props.player.deck, props.player)
+                }}
+              >
+                Cultist Draw Card
+              </button>
+            )}
+          </div>
         </div>
       )}
     </div>
@@ -237,7 +252,7 @@ const mapStateToProps = function(state) {
 const mapDispatchToProps = function(dispatch) {
   return {
     playCard: (hero, card) => dispatch(playerPlayCard(hero, card)),
-    drawCard: deck => dispatch(playerDrawCard(deck)),
+    drawCard: (deck, user) => dispatch(playerDrawCard(deck, user)),
     hurtByDraw: hero => dispatch(hurtByTheDraw(hero)),
     endTurn: async (id, gameState, hero, user) => {
       console.log('log in mapDispatch', id, gameState, hero, user)
@@ -247,7 +262,8 @@ const mapDispatchToProps = function(dispatch) {
         saveGame(id, {...gameState, data: {...gameState.data, isMyTurn: false}})
       )
       socket.emit('end turn')
-    }
+    },
+    cultistDraw: (deck, player) => dispatch(cultistDrawCard(deck, player))
   }
 }
 
