@@ -6,10 +6,8 @@ import {connect} from 'react-redux'
 import {
   getAllCards,
   loadGame,
-  endTurn,
   saveGame,
   startTurn,
-  incrementTheSettlers,
   clearBoard
 } from '../store/thunksAndActionCreators'
 import {socket} from './Room'
@@ -43,7 +41,8 @@ class Board extends Component {
     })
 
     socket.emit('player joined', {
-      playerName: this.props.playerName
+      playerName: this.props.playerName,
+      roomId: this.props.match.params.roomId
     })
 
     socket.on('play card', () => {
@@ -165,14 +164,6 @@ const mapDispatchToProps = dispatch => {
   return {
     getAllCards: () => dispatch(getAllCards()),
     loadGame: id => dispatch(loadGame(id)),
-    endTurn: async (id, gameState, hero) => {
-      await dispatch(endTurn())
-      await dispatch(incrementTheSettlers(hero))
-      await dispatch(
-        saveGame(id, {...gameState, data: {...gameState.data, isMyTurn: false}})
-      )
-      socket.emit('end turn')
-    },
     saveGame: (id, gameState) => dispatch(saveGame(id, gameState)),
     startTurn: () => dispatch(startTurn()),
     clearBoard: () => dispatch(clearBoard())

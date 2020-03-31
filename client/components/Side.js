@@ -270,7 +270,7 @@ const mapDispatchToProps = function(dispatch) {
       await dispatch(
         saveGame(id, {...gameState, data: {...gameState.data, isMyTurn: false}})
       )
-      socket.emit('end turn')
+      socket.emit('end turn', {roomId: localStorage.roomId})
     },
     cultistDraw: (deck, player) => dispatch(cultistDrawCard(deck, player))
   }

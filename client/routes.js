@@ -55,7 +55,8 @@ class Routes extends Component {
                             label: 'Yes',
                             onClick: () => {
                               socket.emit('left game', {
-                                playerName: this.props.playerName
+                                playerName: this.props.playerName,
+                                roomId: localStorage.roomId
                               })
                               this.props.history.replace('/home')
                             }
