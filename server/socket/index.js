@@ -67,6 +67,10 @@ const GAMENSP = gameNsp => {
       socket.to(`room${id}`).emit('draw card')
     })
 
+    socket.on('hero attacked', () => {
+      socket.to(`room${id}`).emit('hero attacked')
+    })
+
     socket.on('send msg', data => {
       gameNsp.in(`room${id}`).emit('send msg', data)
     })

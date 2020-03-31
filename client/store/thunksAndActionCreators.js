@@ -166,6 +166,7 @@ export const playerAttackHero = (attacker, hero) => {
   } else {
     return dispatch => {
       dispatch(playerAttackedHero(...result))
+      socket.emit('hero attacked')
     }
   }
 }

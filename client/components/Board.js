@@ -92,6 +92,15 @@ class Board extends Component {
       delete localStorage.roomId
     })
 
+    socket.on('hero attacked', () => {
+      setTimeout(
+        function() {
+          this.props.loadGame(this.props.match.params.id)
+        }.bind(this),
+        STUTTER
+      )
+    })
+
     socket.on('attack', () => {
       setTimeout(
         function() {
