@@ -12,7 +12,8 @@ import {
   HURT_BY_DRAW,
   START_TURN,
   INCREMENT_SETTLERS,
-  CULTIST_DRAW
+  CULTIST_DRAW,
+  CLEAR_BOARD
 } from './actionTypes'
 
 import engine from '../engine/index'
@@ -28,6 +29,9 @@ const cultistDrew = (deck, card, player) => ({
   deck,
   player,
   card
+})
+const clearedBoard = () => ({
+  type: CLEAR_BOARD
 })
 const incrementedSettlers = hero => ({
   type: INCREMENT_SETTLERS,
@@ -169,6 +173,11 @@ export const loadGame = id => {
   return async dispatch => {
     const {data: game} = await Axios.get(`/api/games/load/${id}`)
     dispatch(loadedGame(game))
+  }
+}
+export const clearBoard = () => {
+  return dispatch => {
+    dispatch(clearedBoard())
   }
 }
 export const saveGame = (id, gameState) => {
