@@ -17,11 +17,11 @@ const DisplayCard = props => {
   })
   return (
     <div>
-      <div style={{marginTop: '3vh'}} ref={drag}>
+      <div ref={drag}>
         <div
           className="collectionCard"
           style={{
-            fontSize: 12,
+            // marginRight: '1.75vh',
             fontWeight: 'bold',
             cursor: 'move'
           }}
@@ -33,7 +33,7 @@ const DisplayCard = props => {
                 paddingRight: '1em'
               }}
             >
-              Cost: {cost}
+              {cost}
             </h3>
           </div>
           <img src={imageUrl} className="collectionCardImg" />

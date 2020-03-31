@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
 import {Link} from 'react-router-dom'
+import {MyButton as Button} from './Button'
+import Textfield from './Textfield'
 
 /**
  * COMPONENT
@@ -46,7 +48,9 @@ const AuthForm = props => {
           </button>
           {displayName === 'Login' ? (
             <Link to="/signup">
-              <button type="submit">Sign Up</button>
+              <button type="submit" className="buttonStyle6">
+                Sign Up
+              </button>
             </Link>
           ) : (
             <Link to="/login">
