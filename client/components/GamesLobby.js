@@ -1,17 +1,29 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {selectDeck} from '../store/reducers/user'
+import {selectDeck, selectClass} from '../store/reducers/user'
 
+const classesArray = [
+  'Select Class',
+  'Forager',
+  'Medic',
+  'Metalhead',
+  'Cultist',
+  'Bandit',
+  'Hoarder'
+]
 class GamesLobby extends Component {
   constructor() {
     super()
     this.state = {
       roomId: '',
-      name: ''
+      name: '',
+      // eslint-disable-next-line react/no-unused-state
+      classSelected: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.noClassAlert = this.noClassAlert.bind(this)
   }
 
   handleChange(event) {
@@ -23,7 +35,9 @@ class GamesLobby extends Component {
   handleSubmit() {
     this.props.history.push(`/games/rooms/${this.state.roomId}`)
   }
-
+  noClassAlert() {
+    alert('You must select your class before entering a game')
+  }
   render() {
     delete localStorage.log
     // if (localStorage.gameId) {
@@ -40,9 +54,17 @@ class GamesLobby extends Component {
           </button>
         </Link>
         <h1>Welcome to the lobby!</h1>
-        <Link to={`/games/rooms/${Math.floor(Math.random() * 1000000)}`}>
-          <button type="button">Create Game Room</button>
-        </Link>
+        {this.state.classSelected === true &&
+        this.props.user.selectedClass !== 'Select Class' ? (
+          <Link to={`/games/rooms/${Math.floor(Math.random() * 1000000)}`}>
+            <button type="button">Create Game Room</button>
+          </Link>
+        ) : (
+          <button type="button" onClick={this.noClassAlert}>
+            Create Game Room
+          </button>
+        )}
+
         <hr />
         <form onSubmit={this.handleSubmit}>
           <input
@@ -52,9 +74,16 @@ class GamesLobby extends Component {
             onSubmit={this.handleSubmit}
           />
         </form>
-        <Link to={`/games/rooms/${this.state.roomId}`}>
-          <button type="button">Join Game Room</button>
-        </Link>
+        {this.state.classSelected === true ? (
+          <Link to={`/games/rooms/${this.state.roomId}`}>
+            <button type="button">Join Game Room</button>
+          </Link>
+        ) : (
+          <button type="button" onClick={this.noClassAlert}>
+            Join Game Room
+          </button>
+        )}
+
         <p>
           I think this is a good place to be able to pick your deck and class!
         </p>
@@ -75,6 +104,29 @@ class GamesLobby extends Component {
             </option>
           ))}
         </select>
+
+        <label htmlFor="class">Pick Your Class</label>
+        <select
+          name="class"
+          onChange={e => {
+            this.setState({
+              name: e.target.value,
+              // eslint-disable-next-line react/no-unused-state
+              classSelected: true
+            })
+            this.props.selectClass(this.props.user._id, e.target.value)
+            localStorage.setItem('theClass', e.target.value)
+          }}
+          value={this.state.class}
+        >
+          {classesArray.map(Class => {
+            return (
+              <option value={Class} key={Class}>
+                {Class}
+              </option>
+            )
+          })}
+        </select>
       </div>
     )
   }
@@ -84,10 +136,12 @@ const mapState = state => {
   return {
     decks: state.user.collections
       .filter(coll => coll.cards.length === 20 && coll.isDeck)
-      .map(coll => coll.name)
+      .map(coll => coll.name),
+    user: state.user
   }
 }
 const mapDispatch = dispatch => ({
-  selectDeck: deckName => dispatch(selectDeck(deckName))
+  selectDeck: deckName => dispatch(selectDeck(deckName)),
+  selectClass: (id, Class) => dispatch(selectClass(id, Class))
 })
 export default connect(mapState, mapDispatch)(GamesLobby)

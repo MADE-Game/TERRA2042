@@ -8,6 +8,7 @@ class Room extends Component {
   componentDidMount() {
     const user = this.props.user
     const roomId = this.props.match.params.roomId
+    let classData = localStorage.getItem('theClass')
 
     socket.emit('join', {roomId: roomId})
     socket.once('join', data => {
@@ -21,7 +22,13 @@ class Room extends Component {
 
     socket.on('id exchange', async data => {
       if (socket.id === data.host) {
-        const gameId = await this.props.startGame(user._id, data.oppId)
+        console.log('logging socket data in Room', data)
+        const gameId = await this.props.startGame(
+          user._id,
+          data.oppId,
+          classData,
+          data.classData
+        )
         this.props.updateUserGames(user._id, {
           email: user.email,
           userName: user.userName,
@@ -34,7 +41,8 @@ class Room extends Component {
 
         socket.emit('game started', {
           gameId: gameId,
-          roomId: roomId
+          roomId: roomId,
+          classData
         })
 
         history.push(`/games/rooms/${roomId}/game/${gameId}`)
@@ -57,21 +65,27 @@ class Room extends Component {
   }
 
   render() {
+    let classData = localStorage.getItem('theClass')
     return (
-      <h1>{`Your room is: ${this.props.match.params.roomId}\nSend this to your friend!`}</h1>
+      <div>
+        <h1>{`Your room is: ${this.props.match.params.roomId}\nSend this to your friend!`}</h1>
+        {classData}
+      </div>
     )
   }
 }
 
 const mapStateToProps = state => {
   return {
-    user: state.user
+    user: state.user,
+    player: state.game.player
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    startGame: (p1Id, p2Id) => dispatch(startGame(p1Id, p2Id)),
+    startGame: (p1Id, p2Id, class1, class2) =>
+      dispatch(startGame(p1Id, p2Id, class1, class2)),
     updateUserGames: (userId, userData) =>
       dispatch(updateUserGames(userId, userData))
   }

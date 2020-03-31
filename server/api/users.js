@@ -52,6 +52,17 @@ router.get('/:userId/collections', userOnly, async (req, res, next) => {
   }
 })
 
+router.put('/:userId/class', async (req, res, next) => {
+  try {
+    await User.findByIdAndUpdate(req.params.userId, {
+      selectedClass: req.body.Class
+    })
+    res.json(req.body.Class)
+  } catch (err) {
+    next(err)
+  }
+})
+
 //new user
 router.post('/ ', async (req, res, next) => {
   try {
