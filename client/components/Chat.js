@@ -99,11 +99,10 @@ class Chat extends Component {
 
   render() {
     return (
-
       <div id="chatContainer">
         <div id="chat">
           <form onSubmit={this.handleSubmit}>
-            <div id="msg"/>
+            <div id="msg" />
             <textarea
               required
               style={{

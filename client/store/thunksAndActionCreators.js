@@ -11,7 +11,8 @@ import {
   END_TURN,
   HURT_BY_DRAW,
   START_TURN,
-  INCREMENT_SETTLERS
+  INCREMENT_SETTLERS,
+  CULTIST_DRAW
 } from './actionTypes'
 
 import engine from '../engine/index'
@@ -21,6 +22,12 @@ import {socket} from '../components/Room'
 const gotAllCards = cards => ({
   type: GET_ALL_CARDS,
   cards
+})
+const cultistDrew = (deck, card, player) => ({
+  type: CULTIST_DRAW,
+  deck,
+  player,
+  card
 })
 const incrementedSettlers = hero => ({
   type: INCREMENT_SETTLERS,
@@ -84,9 +91,16 @@ export const startTurn = () => dispatch => {
   dispatch(startedTurn())
 }
 
-export const incrementTheSettlers = hero => async dispatch => {
-  const result = engine.incrementSettlers(hero)
+export const incrementTheSettlers = (hero, user) => async dispatch => {
+  const result = engine.incrementSettlers(hero, user)
   await dispatch(incrementedSettlers(result))
+}
+export const cultistDrawCard = (deck, player) => {
+  const result = engine.cultistDraw(deck, player)
+  return async dispatch => {
+    await dispatch(cultistDrew(result.newDeck, result.card, result.newPlayer))
+    socket.emit('draw card')
+  }
 }
 
 export const playerPlayCard = (hero, card) => {
@@ -131,8 +145,8 @@ export const playerAttackCard = (attacker, defender) => {
 }
 
 //a player draws a card from their deck and adds it to their hand
-export const playerDrawCard = deck => {
-  const {newDeck, card} = engine.drawCard(deck)
+export const playerDrawCard = (deck, user) => {
+  const {newDeck, card} = engine.drawCard(deck, user)
   return async dispatch => {
     await dispatch(playerDrewCard(newDeck, card))
     socket.emit('draw card')
@@ -160,6 +174,7 @@ export const loadGame = id => {
 export const saveGame = (id, gameState) => {
   return async dispatch => {
     try {
+      console.log('logging gameState in saveGame', gameState)
       await Axios.put('/api/games/save/' + id, gameState)
       dispatch(savedGame())
     } catch (error) {
@@ -183,11 +198,13 @@ export const hurtByTheDraw = hero => {
   }
 }
 
-export const startGame = (p1Id, p2Id) => {
+export const startGame = (p1Id, p2Id, class1, class2) => {
   return async () => {
     const {data: game} = await Axios.post('/api/games/newGame', {
       p1: p1Id,
-      p2: p2Id
+      p2: p2Id,
+      class1,
+      class2
     })
     return game._id
   }
