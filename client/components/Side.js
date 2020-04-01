@@ -96,6 +96,7 @@ const Side = props => {
                           style={{marginTop: '-4vh'}}
                           onClick={() => {
                             // if (props.timeout) clearTimeout(props.timeout)
+                            console.log('saving gameState', props.gameState)
                             props.endTurn(
                               props.gameId,
                               props.gameState,
@@ -141,6 +142,7 @@ const Side = props => {
                           style={{marginTop: '-4vh'}}
                           onClick={() => {
                             // if (props.timeout) clearTimeout(props.timeout)
+                            console.log('saving gameState', props.gameState)
                             props.endTurn(
                               props.gameId,
                               props.gameState,
@@ -292,7 +294,11 @@ const mapDispatchToProps = function(dispatch) {
       dispatch(endTurn())
       dispatch(incrementTheSettlers(hero, user))
       dispatch(
-        saveGame(id, {...gameState, data: {...gameState.data, isMyTurn: false}})
+        saveGame(id, {
+          ...gameState,
+          player: {...gameState.player, drawsThisTurn: 0},
+          data: {...gameState.data, isMyTurn: false}
+        })
       )
       socket.emit('end turn', {roomId: localStorage.roomId})
     },

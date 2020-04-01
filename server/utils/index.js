@@ -5,6 +5,7 @@ const relativizeBoard = (game, userId) => {
   //if user is p1, set p2 to opponent
   const opponent =
     userId.toString() === game.p1 ? {...game.player2} : {...game.player1}
+  console.log('setting player in gameto return to', player)
   const gameToReturn = {
     player,
     opponent: {
@@ -36,16 +37,16 @@ const shuffleDeck = deck => {
 const objectifyBoard = (gameFromSave, gameInDB, userId) => {
   const isP1Player = userId.toString() === gameInDB.p1
   //if user is p1, set p2 to opponent
-
+  console.log(
+    'in objectify board, player has saved this amt of draws per turn',
+    gameFromSave.player.drawsThisTurn
+  )
   if (isP1Player) {
     return {
       player2: {
         ...gameInDB.game.player2,
         inPlay: gameFromSave.opponent.inPlay,
-        settlers: gameFromSave.opponent.settlers,
-        drawsThisTurn: gameFromSave.opponent.drawsThisTurn,
-        drawLimit: gameFromSave.opponent.drawLimit,
-        cultistHasDrawn: gameFromSave.opponent.cultistHasDrawn
+        settlers: gameFromSave.opponent.settlers
       },
       player1: {
         ...gameInDB.player1,
@@ -64,10 +65,7 @@ const objectifyBoard = (gameFromSave, gameInDB, userId) => {
       player1: {
         ...gameInDB.game.player1,
         inPlay: gameFromSave.opponent.inPlay,
-        settlers: gameFromSave.opponent.settlers,
-        drawsThisTurn: gameFromSave.opponent.drawsThisTurn,
-        drawLimit: gameFromSave.opponent.drawLimit,
-        cultistHasDrawn: gameFromSave.opponent.cultistHasDrawn
+        settlers: gameFromSave.opponent.settlers
       },
       player2: {
         ...gameInDB.player2,

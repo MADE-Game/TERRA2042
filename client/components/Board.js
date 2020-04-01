@@ -101,7 +101,6 @@ class Board extends Component {
     socket.on('game over', data => {
       setTimeout(
         async function() {
-          console.log('data is', data)
           await this.props.loadGame(this.props.match.params.id)
 
           const gold =
@@ -157,11 +156,16 @@ class Board extends Component {
   }
 
   async componentDidUpdate() {
-    if (this.props.canEnd)
+    if (this.props.canEnd) {
+      console.log(
+        'saving in update draws occured',
+        this.props.gameState.player.drawsThisTurn
+      )
       await this.props.saveGame(
         this.props.match.params.id,
         this.props.gameState
       )
+    }
   }
 
   componentWillUnmount() {
@@ -241,6 +245,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(
         saveGame(gameId, {
           ...gameState,
+          player: {...gameState.player, drawsThisTurn: 0},
           data: {...gameState.data, isMyTurn: false}
         })
       )
