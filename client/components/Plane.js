@@ -42,6 +42,7 @@ const Plane = props => {
       {props.inPlay.map(card => {
         return (
           <Card
+            inPlane={true}
             card={card}
             key={card.id || card._id}
             player={props.player}
