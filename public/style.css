@@ -1,7 +1,16 @@
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: lightgray;
   margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-image: url('./images/made-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-width: 100vw;
+  min-height: 100vh;
 }
 
 a {
@@ -61,10 +70,6 @@ nav a {
 .card {
   display: flex;
   flex-direction: column;
-  background-image: url('./images/card_bg.png');
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
   font-size: 10px;
   align-items: center;
 }
@@ -97,10 +102,6 @@ nav a {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-image: url('./images/made-bg.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   min-width: 100vw;
   min-height: 100vh;
 }
@@ -133,17 +134,6 @@ nav a {
 
 .navCenter {
   text-align: center;
-}
-
-#userHomeStyle {
-  display: flex;
-  justify-content: center;
-  background-image: url('./images/made-bg.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  min-width: 100vw;
-  min-height: 100vh;
 }
 
 .column {
@@ -318,6 +308,7 @@ nav a {
 #selectedCollection {
   display: flex;
   flex-wrap: wrap;
+  margin-top: 4vh;
   justify-content: center;
 }
 
