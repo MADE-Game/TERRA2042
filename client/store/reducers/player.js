@@ -34,7 +34,10 @@ export default function(state = initialState, action) {
         deck: action.game.game.player.deck,
         inPlay: action.game.game.player.inPlay,
         hand: action.game.game.player.hand,
-        settlers: action.game.game.player.settlers
+        settlers: action.game.game.player.settlers,
+        drawsThisTurn: action.game.game.player.drawsThisTurn,
+        drawLimit: action.game.game.player.drawLimit,
+        cultistHasDrawn: action.game.game.player.cultistHasDrawn
       }
     case CLEAR_BOARD:
       return initialState

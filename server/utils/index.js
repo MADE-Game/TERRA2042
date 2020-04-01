@@ -50,7 +50,10 @@ const objectifyBoard = (gameFromSave, gameInDB, userId) => {
         inPlay: gameFromSave.player.inPlay,
         deck: gameFromSave.player.deck,
         settlers: gameFromSave.player.settlers,
-        class: gameFromSave.player.class
+        class: gameFromSave.player.class,
+        drawsThisTurn: gameFromSave.player.drawsThisTurn,
+        drawLimit: gameFromSave.player.drawLimit,
+        cultistHasDrawn: gameFromSave.player.cultistHasDrawn
       }
     }
   } else {
@@ -58,15 +61,18 @@ const objectifyBoard = (gameFromSave, gameInDB, userId) => {
       player1: {
         ...gameInDB.game.player1,
         inPlay: gameFromSave.opponent.inPlay,
-        settlers: gameFromSave.opponent.settlers,
-        class: gameFromSave.player.class
+        settlers: gameFromSave.opponent.settlers
       },
       player2: {
         ...gameInDB.player2,
         hand: gameFromSave.player.hand,
         inPlay: gameFromSave.player.inPlay,
         deck: gameFromSave.player.deck,
-        settlers: gameFromSave.player.settlers
+        settlers: gameFromSave.player.settlers,
+        class: gameFromSave.player.class,
+        drawsThisTurn: gameFromSave.player.drawsThisTurn,
+        drawLimit: gameFromSave.player.drawLimit,
+        cultistHasDrawn: gameFromSave.player.cultistHasDrawn
       }
     }
   }
