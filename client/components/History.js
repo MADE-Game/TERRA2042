@@ -44,7 +44,8 @@ class History extends React.Component {
   render() {
     const games = mapGames(this.props.games, this.props.userName)
     const totalWins = games.reduce((acc, curr) => {
-      return acc + (curr[1] === 'W') ? 1 : 0
+      acc += curr[1] === 'W' ? 1 : 0
+      return acc
     }, 0)
     return (
       <div className="history">
