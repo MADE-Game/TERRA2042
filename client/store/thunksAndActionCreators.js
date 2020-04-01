@@ -170,7 +170,7 @@ export const playerAttackHero = (attacker, hero) => {
   } else {
     return dispatch => {
       dispatch(playerAttackedHero(...result))
-      socket.emit('hero attacked')
+      socket.emit('hero attacked', {roomId: localStorage.roomId})
     }
   }
 }

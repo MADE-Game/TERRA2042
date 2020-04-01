@@ -63,8 +63,8 @@ const GAMENSP = gameNsp => {
       socket.to(`room${data.roomId}`).emit('draw card')
     })
 
-    socket.on('hero attacked', () => {
-      socket.to(`room${id}`).emit('hero attacked')
+    socket.on('hero attacked', data => {
+      socket.to(`room${data.roomId}`).emit('hero attacked')
     })
 
     socket.on('send msg', data => {
