@@ -8,7 +8,8 @@ import {
   loadGame,
   saveGame,
   startTurn,
-  clearBoard
+  clearBoard,
+  endTurn
 } from '../store/thunksAndActionCreators'
 import {socket} from './Room'
 import {withRouter} from 'react-router'
@@ -77,6 +78,19 @@ class Board extends Component {
       toast.info("It's your turn!", {
         position: toast.POSITION.TOP_CENTER
       })
+
+      setTimeout(() => {
+        if (this.props.isMyTurn) {
+          this.props.forfeitTurn(
+            this.props.match.params.id,
+            this.props.gameState
+          )
+          socket.emit('end turn', {roomId: localStorage.roomId})
+          toast.error('You forfeited your turn!', {
+            position: toast.POSITION.TOP_CENTER
+          })
+        }
+      }, 25000)
     })
 
     socket.on('game over', () => {
@@ -166,7 +180,16 @@ const mapDispatchToProps = dispatch => {
     loadGame: id => dispatch(loadGame(id)),
     saveGame: (id, gameState) => dispatch(saveGame(id, gameState)),
     startTurn: () => dispatch(startTurn()),
-    clearBoard: () => dispatch(clearBoard())
+    clearBoard: () => dispatch(clearBoard()),
+    forfeitTurn: (gameId, gameState) => {
+      dispatch(endTurn())
+      dispatch(
+        saveGame(gameId, {
+          ...gameState,
+          data: {...gameState.data, isMyTurn: false}
+        })
+      )
+    }
   }
 }
 
