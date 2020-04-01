@@ -21,6 +21,7 @@ import {CountdownCircleTimer} from 'react-countdown-circle-timer'
 
 //used for slightly delaying socket speed prior to save.
 const STUTTER = 25
+let KEY = Math.random()
 
 const enemySide = {
   heroUrl: '/images/monsters/11.png'
@@ -37,6 +38,7 @@ class Board extends Component {
     if (!localStorage.gameId) {
       localStorage.gameId = this.props.match.params.id
       localStorage.roomId = this.props.match.params.roomId
+      localStorage.playerId = this.props.playerId
     }
 
     socket.emit('join', {
@@ -81,18 +83,18 @@ class Board extends Component {
         position: toast.POSITION.TOP_CENTER
       })
 
-      this.timeout = setTimeout(() => {
-        if (this.props.isMyTurn) {
-          this.props.forfeitTurn(
-            this.props.match.params.id,
-            this.props.gameState
-          )
-          socket.emit('end turn', {roomId: localStorage.roomId})
-          toast.error('You forfeited your turn!', {
-            position: toast.POSITION.TOP_CENTER
-          })
-        }
-      }, 20000)
+      // this.timeout = setTimeout(() => {
+      //   if (this.props.isMyTurn) {
+      //     this.props.forfeitTurn(
+      //       this.props.match.params.id,
+      //       this.props.gameState
+      //     )
+      //     socket.emit('end turn', {roomId: localStorage.roomId})
+      //     toast.error('You forfeited your turn!', {
+      //       position: toast.POSITION.TOP_CENTER
+      //     })
+      //   }
+      // }, 20000)
     })
 
     socket.on('game over', data => {
@@ -118,8 +120,9 @@ class Board extends Component {
 
       delete localStorage.gameId
       delete localStorage.roomId
+      delete localStorage.playerId
 
-      clearTimeout(this.timeout)
+      // clearTimeout(this.timeout)
     })
 
     socket.on('hero attacked', () => {
@@ -169,13 +172,27 @@ class Board extends Component {
     return (
       <DndProvider backend={Backend}>
         <CountdownCircleTimer
+          size={100}
+          strokeWidth={10}
+          trailColor="black"
           onComplete={() => {
-            // do your stuff here
-            return [true, 1500] // repeat animation in 1.5 seconds
+            if (this.props.isMyTurn) {
+              this.props.forfeitTurn(
+                this.props.match.params.id,
+                this.props.gameState
+              )
+              socket.emit('end turn', {roomId: localStorage.roomId})
+              toast.error('You forfeited your turn!', {
+                position: toast.POSITION.TOP_CENTER
+              })
+            }
+
+            KEY = Math.random()
           }}
-          isPlaying
+          isPlaying={this.props.isMyTurn}
           durationSeconds={30}
           colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
+          key={KEY}
         />
         <div className="board">
           <div className="container">
@@ -201,7 +218,8 @@ const mapStateToProps = state => {
     isMyTurn: state.game.data.localTurn,
     canEnd: state.game.data.isMyTurn,
     player: state.game.player,
-    playerName: state.user.userName
+    playerName: state.user.userName,
+    playerId: state.user._id
   }
 }
 
