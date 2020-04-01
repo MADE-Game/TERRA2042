@@ -238,6 +238,9 @@ const Side = props => {
                 )
               })}
             </div>
+            <p className="heroText">
+              Deck: {props.player.deck.length} cards left.
+            </p>
           </div>
           <div>
             {props.user.selectedClass === 'Cultist' && (
