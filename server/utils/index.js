@@ -5,7 +5,7 @@ const relativizeBoard = (game, userId) => {
   //if user is p1, set p2 to opponent
   const opponent =
     userId.toString() === game.p1 ? {...game.player2} : {...game.player1}
-  console.log('setting player in gameto return to', player)
+
   const gameToReturn = {
     player,
     opponent: {
@@ -37,10 +37,7 @@ const shuffleDeck = deck => {
 const objectifyBoard = (gameFromSave, gameInDB, userId) => {
   const isP1Player = userId.toString() === gameInDB.p1
   //if user is p1, set p2 to opponent
-  console.log(
-    'in objectify board, player has saved this amt of draws per turn',
-    gameFromSave.player.drawsThisTurn
-  )
+
   if (isP1Player) {
     return {
       player2: {

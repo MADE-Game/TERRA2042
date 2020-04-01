@@ -68,7 +68,7 @@ router.get('/load/:gameId', userOnly, async (req, res, next) => {
     const {_id, game, p1, p2, isFinished} = gameFound
 
     const parsedGame = JSON.parse(game)
-    console.log('in load. parsedGame in DB', parsedGame)
+
     const isPlayer1 = gameFound.p1 === req.user._id.toString()
     const isPlayer2 = gameFound.p2 === req.user._id.toString()
 
@@ -93,7 +93,7 @@ router.get('/load/:gameId', userOnly, async (req, res, next) => {
 router.put('/save/:gameId', userOnly, async (req, res, next) => {
   try {
     const {data} = req.body
-    console.log('received this in save', req.body)
+
     const gameToSave = await Game.findById(req.params.gameId)
     //establish what player makes this request.
     const isPlayer1 = gameToSave.p1 === req.user._id.toString()
