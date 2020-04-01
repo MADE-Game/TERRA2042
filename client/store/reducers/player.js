@@ -9,7 +9,8 @@ import {
   PLAYER_ATTACK_HERO,
   INCREMENT_SETTLERS,
   CULTIST_DRAW,
-  MEDIC_HEAL
+  MEDIC_HEAL,
+  CLEAR_BOARD
 } from '../actionTypes'
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -22,7 +23,8 @@ const initialState = {
   planeFull: false,
   drawsThisTurn: 0,
   drawLimit: 1,
-  cultistHasDrawn: false
+  cultistHasDrawn: false,
+  healUsed: false
 }
 
 // eslint-disable-next-line complexity
@@ -36,6 +38,8 @@ export default function(state = initialState, action) {
         hand: action.game.game.player.hand,
         settlers: action.game.game.player.settlers
       }
+    case CLEAR_BOARD:
+      return initialState
     case PLAYER_PLAY_CARD:
       if (state.inPlay.length < 4) {
         return {
@@ -103,7 +107,8 @@ export default function(state = initialState, action) {
           card.attackOccurred = false
           return card
         }),
-
+        cultistHasDrawn: false,
+        healUsed: false,
         drawsThisTurn: 0,
         planeFull: false
       }
@@ -151,7 +156,8 @@ export default function(state = initialState, action) {
           } else {
             return card
           }
-        })
+        }),
+        healUsed: true
       }
     default:
       return state

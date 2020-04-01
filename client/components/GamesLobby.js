@@ -2,6 +2,11 @@ import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {selectDeck, selectClass} from '../store/reducers/user'
+import Dropdown from './Dropdown'
+import Textfield from './Textfield'
+import {MyButton as Button} from './Button'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const classesArray = [
   'Select Class',
@@ -35,98 +40,70 @@ class GamesLobby extends Component {
   handleSubmit() {
     this.props.history.push(`/games/rooms/${this.state.roomId}`)
   }
+
   noClassAlert() {
-    alert('You must select your class before entering a game')
+    toast.warning('You must select your class before entering a game', {
+      position: toast.POSITION.TOP_CENTER
+    })
   }
+
   render() {
     delete localStorage.log
-    // if (localStorage.gameId) {
-    //   this.props.history.push(
-    //     `/games/rooms/${localStorage.roomId}/game/${localStorage.gameId}`
-    //   )
-    // }
 
     return (
-      <div>
-        <Link to="/home">
-          <button type="button" className="buttonStyle1">
-            Home
-          </button>
-        </Link>
-        <h1>Welcome to the lobby!</h1>
-        {this.state.classSelected === true &&
-        this.props.user.selectedClass !== 'Select Class' ? (
-          <Link to={`/games/rooms/${Math.floor(Math.random() * 1000000)}`}>
-            <button type="button">Create Game Room</button>
+      <div id="lobby">
+        <div id="lobbyBox">
+          <p>LOBBY</p>
+          <Link to="/home">
+            <Button text="Home" color="default" icon="home" />
           </Link>
-        ) : (
-          <button type="button" onClick={this.noClassAlert}>
-            Create Game Room
-          </button>
-        )}
+          {this.state.classSelected === true &&
+          this.props.user.selectedClass !== 'Select Class' ? (
+            <Link to={`/games/rooms/${Math.floor(Math.random() * 1000000)}`}>
+              <Button text="Create Game" color="default" />
+            </Link>
+          ) : (
+            <Button
+              text="Create Game"
+              color="default"
+              onClick={this.noClassAlert}
+            />
+          )}
 
-        <hr />
-        <form onSubmit={this.handleSubmit}>
-          <input
-            name="room"
-            value={this.state.roomId}
-            onChange={this.handleChange}
-            onSubmit={this.handleSubmit}
+          <div onChange={this.handleChange} value={this.state.roomId}>
+            <Textfield name="room number" />
+          </div>
+          <Dropdown
+            selectDeck={this.props.selectDeck}
+            name={this.state.name}
+            decks={this.props.decks}
           />
-        </form>
-        {this.state.classSelected === true ? (
-          <Link to={`/games/rooms/${this.state.roomId}`}>
-            <button type="button">Join Game Room</button>
-          </Link>
-        ) : (
-          <button type="button" onClick={this.noClassAlert}>
-            Join Game Room
-          </button>
-        )}
-
-        <p>
-          I think this is a good place to be able to pick your deck and class!
-        </p>
-        <label htmlFor="deck">Pick your deck</label>
-        <select
-          name="deck"
-          onChange={e => {
-            this.setState({
-              name: e.target.value
-            })
-            this.props.selectDeck(e.target.value)
-          }}
-          value={this.state.name}
-        >
-          {this.props.decks.map(deck => (
-            <option value={deck} key={deck}>
-              {deck}
-            </option>
-          ))}
-        </select>
-
-        <label htmlFor="class">Pick Your Class</label>
-        <select
-          name="class"
-          onChange={e => {
-            this.setState({
-              name: e.target.value,
-              // eslint-disable-next-line react/no-unused-state
-              classSelected: true
-            })
-            this.props.selectClass(this.props.user._id, e.target.value)
-            localStorage.setItem('theClass', e.target.value)
-          }}
-          value={this.state.class}
-        >
-          {classesArray.map(Class => {
-            return (
-              <option value={Class} key={Class}>
-                {Class}
-              </option>
-            )
-          })}
-        </select>
+          <label htmlFor="class">Pick Your Class</label>
+          <select
+            name="class"
+            onChange={e => {
+              this.setState({
+                name: e.target.value,
+                // eslint-disable-next-line react/no-unused-state
+                classSelected: true
+              })
+              this.props.selectClass(this.props.user._id, e.target.value)
+              localStorage.setItem('theClass', e.target.value)
+            }}
+            value={this.state.class}
+          >
+            {classesArray.map(Class => {
+              return (
+                <option value={Class} key={Class}>
+                  {Class}
+                </option>
+              )
+            })}
+          </select>
+          <div onClick={this.handleSubmit}>
+            <Button text="Join Game" color="secondary" />
+          </div>
+        </div>
       </div>
     )
   }

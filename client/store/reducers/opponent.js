@@ -2,7 +2,8 @@ import {
   PLAYER_ATTACK_CARD,
   PLAYER_ATTACK_HERO,
   LOAD_GAME,
-  END_TURN
+  END_TURN,
+  CLEAR_BOARD
 } from '../actionTypes'
 
 const initialState = {
@@ -22,6 +23,8 @@ export default function(state = initialState, action) {
         deck: action.game.game.opponent.deck,
         settlers: action.game.game.opponent.settlers
       }
+    case CLEAR_BOARD:
+      return initialState
     case PLAYER_ATTACK_CARD:
       return {
         ...state,

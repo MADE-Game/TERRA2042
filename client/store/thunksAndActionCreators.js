@@ -13,7 +13,8 @@ import {
   START_TURN,
   INCREMENT_SETTLERS,
   CULTIST_DRAW,
-  MEDIC_HEAL
+  MEDIC_HEAL,
+  CLEAR_BOARD
 } from './actionTypes'
 
 import engine from '../engine/index'
@@ -29,6 +30,9 @@ const cultistDrew = (deck, card, player) => ({
   deck,
   player,
   card
+})
+const clearedBoard = () => ({
+  type: CLEAR_BOARD
 })
 const incrementedSettlers = hero => ({
   type: INCREMENT_SETTLERS,
@@ -86,7 +90,8 @@ const startedTurn = () => ({
 })
 
 const medicHealed = fighter => ({
-  type: MEDIC_HEAL
+  type: MEDIC_HEAL,
+  fighter
 })
 
 export const endTurn = () => async dispatch => {
@@ -178,6 +183,11 @@ export const loadGame = id => {
   return async dispatch => {
     const {data: game} = await Axios.get(`/api/games/load/${id}`)
     dispatch(loadedGame(game))
+  }
+}
+export const clearBoard = () => {
+  return dispatch => {
+    dispatch(clearedBoard())
   }
 }
 export const saveGame = (id, gameState) => {

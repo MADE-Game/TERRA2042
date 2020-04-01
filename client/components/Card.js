@@ -1,7 +1,10 @@
 import React from 'react'
 import {ItemTypes} from '../dnd/types'
 import {useDrag, useDrop} from 'react-dnd'
-import {playerAttackCard} from '../store/thunksAndActionCreators'
+import {
+  playerAttackCard,
+  medicHealPower
+} from '../store/thunksAndActionCreators'
 import {connect} from 'react-redux'
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -46,7 +49,19 @@ const Card = props => {
 
   const {name, attack, health, imageUrl, cost} = props.card
   return (
-    <div ref={drag}>
+    <div
+      ref={drag}
+      onClick={() => {
+        if (!props.healUsed) {
+          if (props.healEngaged === true) {
+            console.log('Healed!')
+            props.medicHeal(props.card)
+          }
+        } else {
+          alert('heal has already been used this round!')
+        }
+      }}
+    >
       <div
         className="card"
         ref={drop}
@@ -103,10 +118,12 @@ const Card = props => {
 
 const mapDispatch = dispatch => ({
   attackCard: (attacker, defender) =>
-    dispatch(playerAttackCard(attacker, defender))
+    dispatch(playerAttackCard(attacker, defender)),
+  medicHeal: fighter => dispatch(medicHealPower(fighter))
 })
 const mapState = state => ({
-  isMyTurn: state.game.data.isMyTurn
+  isMyTurn: state.game.data.isMyTurn,
+  healUsed: state.game.player.healUsed
 })
 
 export default connect(mapState, mapDispatch)(Card)

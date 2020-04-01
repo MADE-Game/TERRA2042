@@ -9,7 +9,8 @@ import {
   endTurn,
   saveGame,
   startTurn,
-  incrementTheSettlers
+  incrementTheSettlers,
+  clearBoard
 } from '../store/thunksAndActionCreators'
 import {socket} from './Room'
 import {withRouter} from 'react-router'
@@ -118,12 +119,12 @@ class Board extends Component {
 
   componentWillUnmount() {
     socket.removeAllListeners()
+    this.props.clearBoard()
   }
 
   render() {
     return (
       <DndProvider backend={Backend}>
-        {/* <h1>TEST</h1> */}
         <div className="board">
           <div className="container">
             <Side top={true} side={enemySide} />
@@ -159,7 +160,8 @@ const mapDispatchToProps = dispatch => {
       socket.emit('end turn')
     },
     saveGame: (id, gameState) => dispatch(saveGame(id, gameState)),
-    startTurn: () => dispatch(startTurn())
+    startTurn: () => dispatch(startTurn()),
+    clearBoard: () => dispatch(clearBoard())
   }
 }
 

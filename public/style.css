@@ -1,5 +1,5 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Roboto', sans-serif;
   background-color: lightgray;
   margin: 0;
 }
@@ -91,6 +91,7 @@ nav a {
   border: 0px;
 }
 
+#lobby,
 .formContainer {
   display: flex;
   justify-content: center;
@@ -102,6 +103,25 @@ nav a {
   background-repeat: no-repeat;
   min-width: 100vw;
   min-height: 100vh;
+}
+
+#lobbyBox {
+  width: 25%;
+  background-color: rgba(255, 255, 255, 0.25);
+  display: flex;
+  flex-direction: column;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  border-radius: 5px;
+  align-items: center;
+}
+
+#lobbyBox p {
+  color: #fff;
+  font-size: 14px;
+  margin: 0;
+  padding-bottom: 0.5vh;
+  font-weight: bold;
 }
 
 .formColumn {
@@ -116,13 +136,7 @@ nav a {
 }
 
 #userHomeStyle {
-  text-align: center;
   display: flex;
-}
-
-.column {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   background-image: url('./images/made-bg.png');
   background-size: cover;
@@ -130,6 +144,12 @@ nav a {
   background-repeat: no-repeat;
   min-width: 100vw;
   min-height: 100vh;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .userHomeBackground {
   width: 100%;
@@ -175,6 +195,19 @@ nav a {
   border-radius: 0.5vh;
 }
 
+.inputStyle2 {
+  width: 9vh;
+  margin-top: 1vh;
+  margin-bottom: 0.5vh;
+  padding-left: 5vh;
+  padding-right: 5vh;
+  padding-top: 0.5vh;
+  padding-bottom: 0.5vh;
+  font-size: 8px;
+  padding-bottom: 0.5vh;
+  border-radius: 0.5vh;
+}
+
 #googleLogin {
   font-weight: bold;
   color: white;
@@ -190,11 +223,13 @@ nav a {
   justify-content: center;
 }
 
+.buttonStyle0,
 .buttonStyle1,
 .buttonStyle2,
 .buttonStyle3,
 .buttonStyle4,
-.buttonStyle5 {
+.buttonStyle5,
+.buttonStyle6 {
   margin-bottom: 1.5vh;
   padding-left: 5vh;
   padding-right: 5vh;
@@ -208,10 +243,12 @@ nav a {
   box-shadow: inset 0px 1px 0px #5f1d18, 0px 5px 0px 0px #5f1d18, 0px 0px 0px;
 }
 
+.buttonStyle0:hover,
 .buttonStyle1:hover,
 .buttonStyle2:hover,
 .buttonStyle3:hover,
-.buttonStyle5:hover {
+.buttonStyle5:hover,
+.buttonStyle6:hover {
   background-color: #5f1d18;
   color: #fff;
   border: 0px;
@@ -248,6 +285,10 @@ nav a {
   width: 18.5vh;
 }
 
+.buttonStyle6 {
+  width: 100%;
+}
+
 .buttonText {
   text-align: center;
   margin: 0;
@@ -258,6 +299,7 @@ nav a {
   font-weight: bold;
   color: #fff;
   margin: 0;
+  text-align: center;
   padding-bottom: 2vh;
 }
 

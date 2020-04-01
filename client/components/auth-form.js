@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
 import {Link} from 'react-router-dom'
+import {MyButton as Button} from './Button'
+import TextField from '@material-ui/core/TextField'
 
 /**
  * COMPONENT
@@ -20,6 +22,12 @@ const AuthForm = props => {
               type="text"
               placeholder="Email"
               className="inputStyle"
+            />
+            <TextField
+              id="outlined-basic"
+              errorText="Requires Valid Email Address"
+              label="Email"
+              variant="outlined"
             />
           </div>
         )}
@@ -41,18 +49,18 @@ const AuthForm = props => {
         </div>
 
         <div className="loginButtons">
-          <button type="submit" className="buttonStyle1">
+          <button type="submit" className="buttonStyle0">
             {displayName}
           </button>
           {displayName === 'Login' ? (
             <Link to="/signup">
-              <button type="submit" className="buttonStyle1">
+              <button type="submit" className="buttonStyle6">
                 Sign Up
               </button>
             </Link>
           ) : (
             <Link to="/login">
-              <button type="submit" className="buttonStyle1">
+              <button type="submit" className="buttonStyle6">
                 Login
               </button>
             </Link>

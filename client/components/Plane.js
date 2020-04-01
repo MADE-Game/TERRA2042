@@ -46,6 +46,7 @@ const Plane = props => {
             key={card.id || card._id}
             player={props.player}
             inHand={false}
+            healEngaged={props.healEngaged}
           />
         )
       })}
