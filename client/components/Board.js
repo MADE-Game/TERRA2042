@@ -17,6 +17,7 @@ import {withRouter} from 'react-router'
 import PropTypes from 'prop-types'
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import {MyButton as Button} from './Button'
 import {CountdownCircleTimer} from 'react-countdown-circle-timer'
 
 //used for slightly delaying socket speed prior to save.
@@ -196,6 +197,14 @@ class Board extends Component {
         />
         <div className="board">
           <div className="container">
+            <a>
+              <Button
+                text="Home"
+                color="default"
+                icon="home2"
+                history={this.props.history}
+              />
+            </a>
             <Side top={true} side={enemySide} timeout={this.timeout} />
             <Side
               side={playerSide}

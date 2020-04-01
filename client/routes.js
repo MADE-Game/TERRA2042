@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {withRouter, Route, Switch, Link} from 'react-router-dom'
+import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome} from './components'
 import GamesLobby from './components/GamesLobby'
@@ -11,9 +11,7 @@ import Board from './components/Board'
 import NotFound from './components/not-found'
 import {me} from './store'
 import CollectionList from './components/CollectionList'
-import Room, {socket} from './components/Room'
-import {confirmAlert} from 'react-confirm-alert'
-import 'react-confirm-alert/src/react-confirm-alert.css'
+import Room from './components/Room'
 
 /**
  * COMPONENT
@@ -40,40 +38,7 @@ class Routes extends Component {
               path="/games/rooms/:roomId"
               render={({match}) => <Room match={match} />}
             />
-            <Route path="/games/rooms/:roomId/game/:id">
-              <div id="board-chat">
-                <a>
-                  <button
-                    type="button"
-                    className="buttonStyle1"
-                    onClick={() =>
-                      confirmAlert({
-                        title: 'Confirm',
-                        message: 'Are you sure you want to leave the game?',
-                        buttons: [
-                          {
-                            label: 'Yes',
-                            onClick: () => {
-                              socket.emit('left game', {
-                                playerName: this.props.playerName,
-                                roomId: localStorage.roomId
-                              })
-                              this.props.history.replace('/home')
-                            }
-                          },
-                          {
-                            label: 'Cancel'
-                          }
-                        ]
-                      })
-                    }
-                  >
-                    Home
-                  </button>
-                </a>
-                <Board />
-              </div>
-            </Route>
+            <Route path="/games/rooms/:roomId/game/:id" component={Board} />
             <Route path="/decks" component={CollectionList} />
             <Route path="/home" component={UserHome} />
             <Route exact path="/" component={UserHome} />
