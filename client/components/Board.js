@@ -152,7 +152,6 @@ class Board extends Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <DndProvider backend={Backend}>
         <div className="board">
