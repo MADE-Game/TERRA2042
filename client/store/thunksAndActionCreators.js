@@ -88,8 +88,8 @@ const startedTurn = () => ({
   type: START_TURN
 })
 
-export const endTurn = () => async dispatch => {
-  await dispatch(endedTurn())
+export const endTurn = () => dispatch => {
+  dispatch(endedTurn())
 }
 export const startTurn = () => dispatch => {
   dispatch(startedTurn())
