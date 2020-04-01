@@ -102,6 +102,8 @@ const Side = props => {
                               props.player,
                               props.user
                             )
+
+                            window.KEY = Math.random()
                           }}
                         >
                           <p className="buttonText">End Turn</p>
@@ -145,6 +147,8 @@ const Side = props => {
                               props.player,
                               props.user
                             )
+
+                            window.KEY = Math.random()
                           }}
                         >
                           <p className="buttonText">End Turn</p>
@@ -190,6 +194,8 @@ const Side = props => {
                           props.player,
                           props.user
                         )
+
+                        window.KEY = Math.random()
                       }}
                     >
                       <p className="buttonText">End Turn</p>
