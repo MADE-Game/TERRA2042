@@ -159,14 +159,20 @@ router.post('/newGame', userOnly, async (req, res, next) => {
           hand: [],
           deck: [],
           inPlay: [],
-          settlers: 20
+          settlers: 20,
+          drawsThisTurn: 0,
+          drawLimit: 1,
+          cultistHasDrawn: false
         },
 
         player2: {
           hand: [],
           deck: [],
           inPlay: [],
-          settlers: 20
+          settlers: 20,
+          drawsThisTurn: 0,
+          drawLimit: 1,
+          cultistHasDrawn: false
         }
       }
 
