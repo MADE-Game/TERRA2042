@@ -46,6 +46,7 @@ const Card = props => {
   })
 
   const {name, attack, health, imageUrl, cost} = props.card
+
   return (
     <div ref={drag}>
       <div
@@ -106,6 +107,7 @@ const mapDispatch = dispatch => ({
   attackCard: (attacker, defender) =>
     dispatch(playerAttackCard(attacker, defender))
 })
+
 const mapState = state => ({
   isMyTurn: state.game.data.isMyTurn
 })

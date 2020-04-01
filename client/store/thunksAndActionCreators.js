@@ -13,7 +13,8 @@ import {
   START_TURN,
   INCREMENT_SETTLERS,
   CULTIST_DRAW,
-  CLEAR_BOARD
+  CLEAR_BOARD,
+  GIVE_GOLD
 } from './actionTypes'
 
 import engine from '../engine/index'
@@ -94,6 +95,10 @@ export const endTurn = () => dispatch => {
 export const startTurn = () => dispatch => {
   dispatch(startedTurn())
 }
+export const gotGold = amt => ({
+  type: GIVE_GOLD,
+  amt
+})
 
 export const incrementTheSettlers = (hero, user) => async dispatch => {
   const result = engine.incrementSettlers(hero, user)
@@ -112,7 +117,10 @@ export const playerPlayCard = (hero, card) => {
   if (result.settlers <= 0) {
     return async dispatch => {
       await dispatch(playerHeroDied())
-      socket.emit('game over', {roomId: localStorage.roomId})
+      socket.emit('game over', {
+        roomId: localStorage.roomId,
+        winner: 'opponent'
+      })
     }
   }
   return async dispatch => {
@@ -152,6 +160,12 @@ export const playerAttackCard = (attacker, defender) => {
   }
 }
 
+export const giveGold = amt => {
+  return dispatch => {
+    dispatch(gotGold(amt))
+  }
+}
+
 //a player draws a card from their deck and adds it to their hand
 export const playerDrawCard = (deck, user) => {
   const {newDeck, card} = engine.drawCard(deck, user)
@@ -165,7 +179,7 @@ export const playerAttackHero = (attacker, hero) => {
   if (result[1].settlers <= 0) {
     return async dispatch => {
       await dispatch(opponentHeroDied())
-      socket.emit('game over', {roomId: localStorage.roomId})
+      socket.emit('game over', {roomId: localStorage.roomId, winner: 'player'})
     }
   } else {
     return dispatch => {
@@ -204,7 +218,10 @@ export const hurtByTheDraw = hero => {
   if (result.settlers <= 0) {
     return dispatch => {
       dispatch(playerHeroDied())
-      socket.emit('game over', {roomId: localStorage.roomId})
+      socket.emit('game over', {
+        roomId: localStorage.roomId,
+        winner: 'opponent'
+      })
     }
   } else {
     return dispatch => dispatch(hurtByDrawnCard(result))

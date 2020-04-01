@@ -15,6 +15,12 @@ import {Link} from 'react-router-dom'
 import {socket} from './Room'
 import {connect} from 'react-redux'
 import Player from './Player'
+import {zoomInLeft} from 'react-animations'
+import styled, {keyframes} from 'styled-components'
+
+const Draw = styled.div`
+  animation: 1s ${keyframes`${zoomInLeft}`};
+`
 
 // eslint-disable-next-line complexity
 const Side = props => {
@@ -89,7 +95,7 @@ const Side = props => {
                           type="submit"
                           style={{marginTop: '-4vh'}}
                           onClick={() => {
-                            if (props.timeout) clearTimeout(props.timeout)
+                            // if (props.timeout) clearTimeout(props.timeout)
                             props.endTurn(
                               props.gameId,
                               props.gameState,
@@ -132,7 +138,7 @@ const Side = props => {
                           type="submit"
                           style={{marginTop: '-4vh'}}
                           onClick={() => {
-                            if (props.timeout) clearTimeout(props.timeout)
+                            // if (props.timeout) clearTimeout(props.timeout)
                             props.endTurn(
                               props.gameId,
                               props.gameState,
@@ -177,7 +183,7 @@ const Side = props => {
                       type="submit"
                       style={{marginTop: '-4vh'}}
                       onClick={() => {
-                        if (props.timeout) clearTimeout(props.timeout)
+                        // if (props.timeout) clearTimeout(props.timeout)
                         props.endTurn(
                           props.gameId,
                           props.gameState,
@@ -221,15 +227,20 @@ const Side = props => {
             >
               {props.hand.map(card => {
                 return (
-                  <Card
-                    card={card}
-                    key={card._id}
-                    player="hero"
-                    inHand={true}
-                  />
+                  <Draw key={card._id}>
+                    <Card
+                      card={card}
+                      key={card._id}
+                      player="hero"
+                      inHand={true}
+                    />
+                  </Draw>
                 )
               })}
             </div>
+            <p className="heroText">
+              Deck: {props.player.deck.length} cards left.
+            </p>
           </div>
           <div>
             {props.user.selectedClass === 'Cultist' && (

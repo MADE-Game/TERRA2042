@@ -15,7 +15,6 @@ const DisplayCard = props => {
       }
     }
   })
-  console.log(imageUrl)
   return (
     <div style={{marginBottom: '3vh'}}>
       <div ref={drag}>
