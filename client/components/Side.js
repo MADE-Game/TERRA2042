@@ -15,6 +15,12 @@ import {Link} from 'react-router-dom'
 import {socket} from './Room'
 import {connect} from 'react-redux'
 import Player from './Player'
+import {zoomInLeft} from 'react-animations'
+import styled, {keyframes} from 'styled-components'
+
+const Draw = styled.div`
+  animation: 1s ${keyframes`${zoomInLeft}`};
+`
 
 // eslint-disable-next-line complexity
 const Side = props => {
@@ -221,12 +227,14 @@ const Side = props => {
             >
               {props.hand.map(card => {
                 return (
-                  <Card
-                    card={card}
-                    key={card._id}
-                    player="hero"
-                    inHand={true}
-                  />
+                  <Draw key={card._id}>
+                    <Card
+                      card={card}
+                      key={card._id}
+                      player="hero"
+                      inHand={true}
+                    />
+                  </Draw>
                 )
               })}
             </div>
