@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {socket} from './Room'
@@ -32,6 +33,10 @@ class Chat extends Component {
       this.log('attack', data)
     })
 
+    socket.on('hero attacked', () => {
+      this.log('hero attacked')
+    })
+
     socket.on('draw card', () => {
       this.log('draw card')
     })
@@ -46,6 +51,7 @@ class Chat extends Component {
 
   componentWillUnmount() {
     delete localStorage.log
+    socket.removeAllListeners()
   }
 
   log(action, data = null) {
@@ -60,10 +66,13 @@ class Chat extends Component {
         message.innerText = `${data.user}: ${data.message}`
         break
       case 'play card':
-        message.innerText = `${data.name} was played!\n${data.attack} attack points\n${data.health} defense points`
+        message.innerText = `${data.card.name} was played!\n${data.card.attack} attack points\n${data.card.health} defense points`
         break
       case 'attack':
         message.innerText = `${data.attacker.name} attacked ${data.defender.name}!`
+        break
+      case 'hero attacked':
+        message.innerText = 'Your hero was attacked!'
         break
       case 'draw card':
         message.innerText = 'Opponent drew a card'

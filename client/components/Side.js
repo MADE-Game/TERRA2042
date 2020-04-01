@@ -84,17 +84,19 @@ const Side = props => {
                       //if the player hasn't drawn a card
                       <div id="buttonContainer">
                         <button
+                          disabled={!props.gameState.data.isMyTurn}
                           className="buttonStyle3"
                           type="submit"
                           style={{marginTop: '-4vh'}}
-                          onClick={() =>
+                          onClick={() => {
+                            if (props.timeout) clearTimeout(props.timeout)
                             props.endTurn(
                               props.gameId,
                               props.gameState,
                               props.player,
                               props.user
                             )
-                          }
+                          }}
                         >
                           <p className="buttonText">End Turn</p>
                         </button>
@@ -125,17 +127,19 @@ const Side = props => {
                     props.canDraw ? (
                       <div id="buttonContainer">
                         <button
+                          disabled={!props.gameState.data.isMyTurn}
                           className="buttonStyle3"
                           type="submit"
                           style={{marginTop: '-4vh'}}
-                          onClick={() =>
+                          onClick={() => {
+                            if (props.timeout) clearTimeout(props.timeout)
                             props.endTurn(
                               props.gameId,
                               props.gameState,
                               props.player,
                               props.user
                             )
-                          }
+                          }}
                         >
                           <p className="buttonText">End Turn</p>
                         </button>
@@ -168,10 +172,12 @@ const Side = props => {
                 {!props.isFinished ? (
                   <div id="buttonContainer">
                     <button
+                      disabled={!props.gameState.data.isMyTurn}
                       className="buttonStyle4"
                       type="submit"
                       style={{marginTop: '-4vh'}}
                       onClick={() => {
+                        if (props.timeout) clearTimeout(props.timeout)
                         props.endTurn(
                           props.gameId,
                           props.gameState,
@@ -255,7 +261,8 @@ const mapStateToProps = function(state) {
     player: state.game.player,
     planeFull: state.game.player.planeFull,
     canDraw: state.game.data.localTurn,
-    user: state.user
+    user: state.user,
+    isMyTurn: state.game.data.isMyTurn
   }
 }
 
@@ -264,10 +271,10 @@ const mapDispatchToProps = function(dispatch) {
     playCard: (hero, card) => dispatch(playerPlayCard(hero, card)),
     drawCard: (deck, user) => dispatch(playerDrawCard(deck, user)),
     hurtByDraw: hero => dispatch(hurtByTheDraw(hero)),
-    endTurn: async (id, gameState, hero, user) => {
-      await dispatch(endTurn())
-      await dispatch(incrementTheSettlers(hero, user))
-      await dispatch(
+    endTurn: (id, gameState, hero, user) => {
+      dispatch(endTurn())
+      dispatch(incrementTheSettlers(hero, user))
+      dispatch(
         saveGame(id, {...gameState, data: {...gameState.data, isMyTurn: false}})
       )
       socket.emit('end turn', {roomId: localStorage.roomId})

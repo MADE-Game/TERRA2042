@@ -88,8 +88,8 @@ const startedTurn = () => ({
   type: START_TURN
 })
 
-export const endTurn = () => async dispatch => {
-  await dispatch(endedTurn())
+export const endTurn = () => dispatch => {
+  dispatch(endedTurn())
 }
 export const startTurn = () => dispatch => {
   dispatch(startedTurn())
@@ -170,7 +170,7 @@ export const playerAttackHero = (attacker, hero) => {
   } else {
     return dispatch => {
       dispatch(playerAttackedHero(...result))
-      socket.emit('hero attacked')
+      socket.emit('hero attacked', {roomId: localStorage.roomId})
     }
   }
 }
