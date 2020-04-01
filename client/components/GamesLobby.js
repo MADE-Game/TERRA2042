@@ -96,9 +96,17 @@ class GamesLobby extends Component {
               )
             })}
           </select>
-          <div onClick={this.handleSubmit}>
-            <Button text="Join Game" color="secondary" />
-          </div>
+          {/* <Button text="Join Game" color="secondary" /> */}
+          {this.state.classSelected === true &&
+          this.props.user.selectedClass !== 'Select Class' ? (
+            <div onClick={this.handleSubmit}>
+              <Button text="Join Game" color="secondary" />
+            </div>
+          ) : (
+            <div onClick={this.noClassAlert}>
+              <Button text="Join Game" color="secondary" />
+            </div>
+          )}
         </div>
       </div>
     )

@@ -8,7 +8,8 @@ import {
   loadGame,
   saveGame,
   startTurn,
-  clearBoard
+  clearBoard,
+  endTurn
 } from '../store/thunksAndActionCreators'
 import {socket} from './Room'
 import {withRouter} from 'react-router'
@@ -77,6 +78,19 @@ class Board extends Component {
       toast.info("It's your turn!", {
         position: toast.POSITION.TOP_CENTER
       })
+
+      this.timeout = setTimeout(() => {
+        if (this.props.isMyTurn) {
+          this.props.forfeitTurn(
+            this.props.match.params.id,
+            this.props.gameState
+          )
+          socket.emit('end turn', {roomId: localStorage.roomId})
+          toast.error('You forfeited your turn!', {
+            position: toast.POSITION.TOP_CENTER
+          })
+        }
+      }, 20000)
     })
 
     socket.on('game over', () => {
@@ -89,6 +103,8 @@ class Board extends Component {
 
       delete localStorage.gameId
       delete localStorage.roomId
+
+      clearTimeout(this.timeout)
     })
 
     socket.on('hero attacked', () => {
@@ -139,8 +155,12 @@ class Board extends Component {
       <DndProvider backend={Backend}>
         <div className="board">
           <div className="container">
-            <Side top={true} side={enemySide} />
-            <Side side={playerSide} gameId={this.props.match.params.id} />
+            <Side top={true} side={enemySide} timeout={this.timeout} />
+            <Side
+              side={playerSide}
+              gameId={this.props.match.params.id}
+              timeout={this.timeout}
+            />
           </div>
         </div>
       </DndProvider>
@@ -166,7 +186,16 @@ const mapDispatchToProps = dispatch => {
     loadGame: id => dispatch(loadGame(id)),
     saveGame: (id, gameState) => dispatch(saveGame(id, gameState)),
     startTurn: () => dispatch(startTurn()),
-    clearBoard: () => dispatch(clearBoard())
+    clearBoard: () => dispatch(clearBoard()),
+    forfeitTurn: (gameId, gameState) => {
+      dispatch(endTurn())
+      dispatch(
+        saveGame(gameId, {
+          ...gameState,
+          data: {...gameState.data, isMyTurn: false}
+        })
+      )
+    }
   }
 }
 
