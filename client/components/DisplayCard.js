@@ -15,8 +15,9 @@ const DisplayCard = props => {
       }
     }
   })
+  console.log(imageUrl)
   return (
-    <div>
+    <div style={{marginBottom: '3vh'}}>
       <div ref={drag}>
         <div
           className="collectionCard"
@@ -26,35 +27,40 @@ const DisplayCard = props => {
             cursor: 'move'
           }}
         >
-          <div>
+          <div
+            style={{
+              marginTop: '-1vh',
+              backgroundImage: `url('.${imageUrl}')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              minWidth: '12vh',
+              minHeight: '20vh',
+              display: 'flex',
+              flexDirection: 'column',
+              color: '#fff',
+              justifyContent: 'space-between'
+            }}
+          >
             <h3
               style={{
-                textAlign: 'right',
-                paddingRight: '1em'
+                textAlign: 'center',
+                margin: 0,
+                color: '#fff'
               }}
             >
               {cost}
             </h3>
-          </div>
-          <img src={imageUrl} className="collectionCardImg" />
-          <h2
-            style={{
-              textAlign: 'center'
-            }}
-          >
-            {name}
-          </h2>
-          <div
-            className="stats"
-            style={{
-              // paddingRight: '1em',
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-evenly'
-            }}
-          >
-            <h3>{attack}</h3>
-            <h3>{health}</h3>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-evenly'
+              }}
+            >
+              <h3 style={{margin: 0}}>{attack}</h3>
+              <h3 style={{margin: 0}}>{health}</h3>
+            </div>
           </div>
         </div>
       </div>
