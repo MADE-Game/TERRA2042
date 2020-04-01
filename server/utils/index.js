@@ -42,7 +42,10 @@ const objectifyBoard = (gameFromSave, gameInDB, userId) => {
       player2: {
         ...gameInDB.game.player2,
         inPlay: gameFromSave.opponent.inPlay,
-        settlers: gameFromSave.opponent.settlers
+        settlers: gameFromSave.opponent.settlers,
+        drawsThisTurn: gameFromSave.opponent.drawsThisTurn,
+        drawLimit: gameFromSave.opponent.drawLimit,
+        cultistHasDrawn: gameFromSave.opponent.cultistHasDrawn
       },
       player1: {
         ...gameInDB.player1,
@@ -61,7 +64,10 @@ const objectifyBoard = (gameFromSave, gameInDB, userId) => {
       player1: {
         ...gameInDB.game.player1,
         inPlay: gameFromSave.opponent.inPlay,
-        settlers: gameFromSave.opponent.settlers
+        settlers: gameFromSave.opponent.settlers,
+        drawsThisTurn: gameFromSave.opponent.drawsThisTurn,
+        drawLimit: gameFromSave.opponent.drawLimit,
+        cultistHasDrawn: gameFromSave.opponent.cultistHasDrawn
       },
       player2: {
         ...gameInDB.player2,
