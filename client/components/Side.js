@@ -107,7 +107,6 @@ const Side = props => {
                           style={{marginTop: '-4vh'}}
                           onClick={() => {
                             // if (props.timeout) clearTimeout(props.timeout)
-                            console.log('saving gameState', props.gameState)
                             props.endTurn(
                               props.gameId,
                               props.gameState,
@@ -152,8 +151,7 @@ const Side = props => {
                           type="submit"
                           style={{marginTop: '-4vh'}}
                           onClick={() => {
-                            // if (props.timeout) clearTimeout(props.timeout)
-                            console.log('saving gameState', props.gameState)
+                            // if (props.timeout) clearTimeout(props.timeout
                             props.endTurn(
                               props.gameId,
                               props.gameState,

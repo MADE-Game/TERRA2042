@@ -157,10 +157,6 @@ class Board extends Component {
 
   async componentDidUpdate() {
     if (this.props.canEnd) {
-      console.log(
-        'saving in update draws occured',
-        this.props.gameState.player.drawsThisTurn
-      )
       await this.props.saveGame(
         this.props.match.params.id,
         this.props.gameState
