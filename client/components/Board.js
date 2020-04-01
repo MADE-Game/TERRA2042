@@ -20,7 +20,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import {CountdownCircleTimer} from 'react-countdown-circle-timer'
 
 //used for slightly delaying socket speed prior to save.
-const STUTTER = 25
+const STUTTER = 35
 let KEY = Math.random()
 
 const enemySide = {
