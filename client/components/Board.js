@@ -79,7 +79,7 @@ class Board extends Component {
         position: toast.POSITION.TOP_CENTER
       })
 
-      setTimeout(() => {
+      this.timeout = setTimeout(() => {
         if (this.props.isMyTurn) {
           this.props.forfeitTurn(
             this.props.match.params.id,
@@ -153,8 +153,12 @@ class Board extends Component {
       <DndProvider backend={Backend}>
         <div className="board">
           <div className="container">
-            <Side top={true} side={enemySide} />
-            <Side side={playerSide} gameId={this.props.match.params.id} />
+            <Side top={true} side={enemySide} timeout={this.timeout} />
+            <Side
+              side={playerSide}
+              gameId={this.props.match.params.id}
+              timeout={this.timeout}
+            />
           </div>
         </div>
       </DndProvider>
