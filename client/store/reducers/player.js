@@ -11,7 +11,7 @@ import {
   CULTIST_DRAW,
   CLEAR_BOARD
 } from '../actionTypes'
-import {toast} from 'react-toastify'
+
 import 'react-toastify/dist/ReactToastify.css'
 
 const initialState = {
@@ -80,9 +80,6 @@ export default function(state = initialState, action) {
           }
         }
       } else {
-        toast.warning("You can't draw any more cards this turn!", {
-          position: toast.POSITION.TOP_CENTER
-        })
         return state
       }
     case PLAYER_ATTACK_CARD:

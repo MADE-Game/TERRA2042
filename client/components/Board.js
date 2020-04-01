@@ -21,7 +21,7 @@ import {MyButton as Button} from './Button'
 import {CountdownCircleTimer} from 'react-countdown-circle-timer'
 
 //used for slightly delaying socket speed prior to save.
-const STUTTER = 35
+const STUTTER = 100
 window.KEY = Math.random()
 
 const enemySide = {
