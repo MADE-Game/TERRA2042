@@ -37,6 +37,7 @@ class Board extends Component {
     if (!localStorage.gameId) {
       localStorage.gameId = this.props.match.params.id
       localStorage.roomId = this.props.match.params.roomId
+      localStorage.playerId = this.props.playerId
     }
 
     socket.emit('join', {
@@ -105,6 +106,7 @@ class Board extends Component {
 
       delete localStorage.gameId
       delete localStorage.roomId
+      delete localStorage.playerId
 
       // clearTimeout(this.timeout)
     })
@@ -201,7 +203,8 @@ const mapStateToProps = state => {
     isMyTurn: state.game.data.localTurn,
     canEnd: state.game.data.isMyTurn,
     player: state.game.player,
-    playerName: state.user.userName
+    playerName: state.user.userName,
+    playerId: state.user._id
   }
 }
 

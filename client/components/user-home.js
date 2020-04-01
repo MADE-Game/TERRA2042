@@ -49,7 +49,8 @@ export class UserHome extends Component {
           <div>
             <Link
               to={
-                localStorage.gameId
+                localStorage.gameId &&
+                localStorage.playerId === this.props.user._id
                   ? `/games/rooms/${localStorage.roomId}/game/${localStorage.gameId}`
                   : '/lobby'
               }
