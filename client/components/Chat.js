@@ -51,6 +51,7 @@ class Chat extends Component {
 
   componentWillUnmount() {
     delete localStorage.log
+    socket.removeAllListeners()
   }
 
   log(action, data = null) {
