@@ -90,7 +90,7 @@ class Board extends Component {
             position: toast.POSITION.TOP_CENTER
           })
         }
-      }, 25000)
+      }, 20000)
     })
 
     socket.on('game over', () => {
