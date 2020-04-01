@@ -16,6 +16,7 @@ import {withRouter} from 'react-router'
 import PropTypes from 'prop-types'
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import {CountdownCircleTimer} from 'react-countdown-circle-timer'
 
 //used for slightly delaying socket speed prior to save.
 const STUTTER = 25
@@ -153,6 +154,15 @@ class Board extends Component {
   render() {
     return (
       <DndProvider backend={Backend}>
+        <CountdownCircleTimer
+          onComplete={() => {
+            // do your stuff here
+            return [true, 1500] // repeat animation in 1.5 seconds
+          }}
+          isPlaying
+          durationSeconds={30}
+          colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
+        />
         <div className="board">
           <div className="container">
             <Side top={true} side={enemySide} timeout={this.timeout} />
