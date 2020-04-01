@@ -16,6 +16,7 @@ import {withRouter} from 'react-router'
 import PropTypes from 'prop-types'
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import {MyButton as Button} from './Button'
 
 //used for slightly delaying socket speed prior to save.
 const STUTTER = 25
@@ -151,10 +152,19 @@ class Board extends Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <DndProvider backend={Backend}>
         <div className="board">
           <div className="container">
+            <a>
+              <Button
+                text="Home"
+                color="default"
+                icon="home2"
+                history={this.props.history}
+              />
+            </a>
             <Side top={true} side={enemySide} timeout={this.timeout} />
             <Side
               side={playerSide}

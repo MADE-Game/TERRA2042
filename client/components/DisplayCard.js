@@ -3,7 +3,7 @@ import {useDrag} from 'react-dnd'
 import {ItemTypes} from '../dnd/types'
 
 const DisplayCard = props => {
-  const {name, attack, health, imageUrl, cost} = props.card
+  const {attack, health, imageUrl, cost} = props.card
   const [{isDragging}, drag] = useDrag({
     item: {
       type: ItemTypes.DECK_CARD,
