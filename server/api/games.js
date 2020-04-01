@@ -88,7 +88,6 @@ router.get('/load/:gameId', userOnly, async (req, res, next) => {
 router.put('/save/:gameId', userOnly, async (req, res, next) => {
   try {
     const {data} = req.body
-    console.log('pay load in save', req.body)
     const gameToSave = await Game.findById(req.params.gameId)
     //establish what player makes this request.
     const isPlayer1 = gameToSave.p1 === req.user._id.toString()
@@ -111,7 +110,6 @@ router.put('/save/:gameId', userOnly, async (req, res, next) => {
       {p1: gameToSave.p1, game: JSON.parse(gameToSave.game)},
       req.user._id
     )
-    console.log('object board', objectifiedGame)
     gameToSave.game = JSON.stringify(objectifiedGame)
     gameToSave.isFinished = data.isFinished
 
