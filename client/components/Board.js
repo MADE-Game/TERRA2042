@@ -103,8 +103,8 @@ class Board extends Component {
           const gold =
             (data === 'player' && this.props.isMyTurn) ||
             (data === 'opponent' && !this.props.isMyTurn)
-              ? '3'
-              : '1'
+              ? 3
+              : 1
 
           this.props.giveGold(gold)
 
