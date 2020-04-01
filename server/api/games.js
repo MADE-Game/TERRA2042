@@ -88,7 +88,6 @@ router.get('/load/:gameId', userOnly, async (req, res, next) => {
 router.put('/save/:gameId', userOnly, async (req, res, next) => {
   try {
     const {data} = req.body
-
     const gameToSave = await Game.findById(req.params.gameId)
     //establish what player makes this request.
     const isPlayer1 = gameToSave.p1 === req.user._id.toString()
@@ -112,10 +111,32 @@ router.put('/save/:gameId', userOnly, async (req, res, next) => {
       req.user._id
     )
     gameToSave.game = JSON.stringify(objectifiedGame)
+    if (data.isFinished) {
+      //game is over
+
+      //save player wins
+      let winner, loser
+      if (req.body.opponent.settlers <= 0) {
+        winner = await User.findById(isPlayer1 ? gameToSave.p1 : gameToSave.p2)
+        loser = await User.findById(isPlayer1 ? gameToSave.p2 : gameToSave.p1)
+      }
+      //enemy has won
+      else {
+        winner = await User.findById(isPlayer1 ? gameToSave.p2 : gameToSave.p1)
+        loser = await User.findById(isPlayer1 ? gameToSave.p1 : gameToSave.p2)
+      }
+      winner.gold += 3
+      loser.gold += 1
+      await winner.save()
+      await loser.save()
+    }
     gameToSave.isFinished = data.isFinished
 
+    //toggle turn.
     gameToSave.isP1Turn = isPlayer1 ? data.isMyTurn : !data.isMyTurn
+
     await gameToSave.save()
+
     res.json(gameToSave)
   } catch (error) {
     next(error)
