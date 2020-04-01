@@ -9,6 +9,7 @@ import {
   saveGame,
   startTurn,
   clearBoard,
+  giveGold,
   endTurn
 } from '../store/thunksAndActionCreators'
 import {socket} from './Room'
@@ -93,10 +94,23 @@ class Board extends Component {
       }, 20000)
     })
 
-    socket.on('game over', () => {
+    socket.on('game over', data => {
       setTimeout(
-        function() {
-          this.props.loadGame(this.props.match.params.id)
+        async function() {
+          console.log('data is', data)
+          await this.props.loadGame(this.props.match.params.id)
+
+          const gold =
+            (data === 'player' && this.props.isMyTurn) ||
+            (data === 'opponent' && !this.props.isMyTurn)
+              ? '3'
+              : '1'
+
+          this.props.giveGold(gold)
+
+          toast.info("You've earned " + gold + ' gold!', {
+            position: toast.POSITION.TOP_RIGHT
+          })
         }.bind(this),
         STUTTER
       )
@@ -170,6 +184,7 @@ class Board extends Component {
 
 const mapStateToProps = state => {
   return {
+    id: state.user._id,
     cards: state.game.cards,
     inPlay: state.game.player.inPlay,
     gameState: state.game,
@@ -183,6 +198,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getAllCards: () => dispatch(getAllCards()),
+    giveGold: amt => dispatch(giveGold(amt)),
     loadGame: id => dispatch(loadGame(id)),
     saveGame: (id, gameState) => dispatch(saveGame(id, gameState)),
     startTurn: () => dispatch(startTurn()),

@@ -76,7 +76,7 @@ const GAMENSP = gameNsp => {
     })
 
     socket.on('game over', data => {
-      gameNsp.in(`room${data.roomId}`).emit('game over')
+      gameNsp.in(`room${data.roomId}`).emit('game over', data.winner)
     })
   })
 }
