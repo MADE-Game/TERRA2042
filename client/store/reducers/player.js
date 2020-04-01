@@ -29,12 +29,16 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case LOAD_GAME:
+      console.log('pay load on load', action)
       return {
         ...state,
         deck: action.game.game.player.deck,
         inPlay: action.game.game.player.inPlay,
         hand: action.game.game.player.hand,
-        settlers: action.game.game.player.settlers
+        settlers: action.game.game.player.settlers,
+        drawsThisTurn: action.game.game.player.drawsThisTurn,
+        drawLimit: action.game.game.player.drawLimit,
+        cultistHasDrawn: action.game.game.player.cultistHasDrawn
       }
     case CLEAR_BOARD:
       return initialState
