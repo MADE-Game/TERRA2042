@@ -84,18 +84,18 @@ const Side = props => {
                       //if the player hasn't drawn a card
                       <div id="buttonContainer">
                         <button
-                          disabled={!props.isMyTurn}
+                          disabled={!props.gameState.data.isMyTurn}
                           className="buttonStyle3"
                           type="submit"
                           style={{marginTop: '-4vh'}}
-                          onClick={() =>
+                          onClick={() => {
                             props.endTurn(
                               props.gameId,
                               props.gameState,
                               props.player,
                               props.user
                             )
-                          }
+                          }}
                         >
                           <p className="buttonText">End Turn</p>
                         </button>
@@ -126,18 +126,18 @@ const Side = props => {
                     props.canDraw ? (
                       <div id="buttonContainer">
                         <button
-                          disabled={!props.isMyTurn}
+                          disabled={!props.gameState.data.isMyTurn}
                           className="buttonStyle3"
                           type="submit"
                           style={{marginTop: '-4vh'}}
-                          onClick={() =>
+                          onClick={() => {
                             props.endTurn(
                               props.gameId,
                               props.gameState,
                               props.player,
                               props.user
                             )
-                          }
+                          }}
                         >
                           <p className="buttonText">End Turn</p>
                         </button>
@@ -170,7 +170,7 @@ const Side = props => {
                 {!props.isFinished ? (
                   <div id="buttonContainer">
                     <button
-                      disabled={!props.isMyTurn}
+                      disabled={!props.gameState.data.isMyTurn}
                       className="buttonStyle4"
                       type="submit"
                       style={{marginTop: '-4vh'}}
