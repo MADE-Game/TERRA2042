@@ -21,7 +21,7 @@ import {MyButton as Button} from './Button'
 import {CountdownCircleTimer} from 'react-countdown-circle-timer'
 
 //used for slightly delaying socket speed prior to save.
-const STUTTER = 25
+const STUTTER = 100
 window.KEY = Math.random()
 
 const enemySide = {
@@ -88,7 +88,6 @@ class Board extends Component {
     socket.on('game over', data => {
       setTimeout(
         async function() {
-          console.log('data is', data)
           await this.props.loadGame(this.props.match.params.id)
 
           const gold =
@@ -142,11 +141,12 @@ class Board extends Component {
   }
 
   async componentDidUpdate() {
-    if (this.props.canEnd)
+    if (this.props.canEnd) {
       await this.props.saveGame(
         this.props.match.params.id,
         this.props.gameState
       )
+    }
   }
 
   componentWillUnmount() {
@@ -226,6 +226,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(
         saveGame(gameId, {
           ...gameState,
+          player: {...gameState.player, drawsThisTurn: 0},
           data: {...gameState.data, isMyTurn: false}
         })
       )

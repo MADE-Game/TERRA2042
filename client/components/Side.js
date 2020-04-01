@@ -17,6 +17,7 @@ import {connect} from 'react-redux'
 import Player from './Player'
 import {zoomInLeft} from 'react-animations'
 import styled, {keyframes} from 'styled-components'
+import {toast} from 'react-toastify'
 
 const Draw = styled.div`
   animation: 1s ${keyframes`${zoomInLeft}`};
@@ -77,8 +78,18 @@ const Side = props => {
                   <button
                     className="buttonStyle3"
                     type="submit"
-                    onClick={() =>
-                      props.drawCard(props.player.deck, props.user)
+                    onClick={
+                      props.allowedToDraw
+                        ? () => {
+                            props.drawCard(props.player.deck, props.user)
+                          }
+                        : () =>
+                            toast.warning(
+                              "You can't draw any more cards this turn!",
+                              {
+                                position: toast.POSITION.TOP_CENTER
+                              }
+                            )
                     }
                   >
                     <p className="buttonText">Draw Card</p>
@@ -276,7 +287,8 @@ const mapStateToProps = function(state) {
     planeFull: state.game.player.planeFull,
     canDraw: state.game.data.localTurn,
     user: state.user,
-    isMyTurn: state.game.data.isMyTurn
+    isMyTurn: state.game.data.isMyTurn,
+    allowedToDraw: state.game.player.drawsThisTurn < state.game.player.drawLimit
   }
 }
 
@@ -289,7 +301,11 @@ const mapDispatchToProps = function(dispatch) {
       dispatch(endTurn())
       dispatch(incrementTheSettlers(hero, user))
       dispatch(
-        saveGame(id, {...gameState, data: {...gameState.data, isMyTurn: false}})
+        saveGame(id, {
+          ...gameState,
+          player: {...gameState.player, drawsThisTurn: 0},
+          data: {...gameState.data, isMyTurn: false}
+        })
       )
       socket.emit('end turn', {roomId: localStorage.roomId})
     },

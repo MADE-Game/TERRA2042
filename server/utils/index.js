@@ -5,6 +5,7 @@ const relativizeBoard = (game, userId) => {
   //if user is p1, set p2 to opponent
   const opponent =
     userId.toString() === game.p1 ? {...game.player2} : {...game.player1}
+
   const gameToReturn = {
     player,
     opponent: {
