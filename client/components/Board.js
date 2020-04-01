@@ -21,7 +21,7 @@ import {CountdownCircleTimer} from 'react-countdown-circle-timer'
 
 //used for slightly delaying socket speed prior to save.
 const STUTTER = 25
-let KEY = Math.random()
+window.KEY = Math.random()
 
 const enemySide = {
   heroUrl: '/images/monsters/11.png'
@@ -187,21 +187,17 @@ class Board extends Component {
               })
             }
 
-            KEY = Math.random()
+            window.KEY = Math.random()
           }}
           isPlaying={this.props.isMyTurn}
           durationSeconds={30}
           colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
-          key={KEY}
+          key={window.KEY}
         />
         <div className="board">
           <div className="container">
-            <Side top={true} side={enemySide} timeout={this.timeout} />
-            <Side
-              side={playerSide}
-              gameId={this.props.match.params.id}
-              timeout={this.timeout}
-            />
+            <Side top={true} side={enemySide} />
+            <Side side={playerSide} gameId={this.props.match.params.id} />
           </div>
         </div>
       </DndProvider>
