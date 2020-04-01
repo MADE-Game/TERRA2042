@@ -103,6 +103,8 @@ class Board extends Component {
 
       delete localStorage.gameId
       delete localStorage.roomId
+
+      clearTimeout(this.timeout)
     })
 
     socket.on('hero attacked', () => {
