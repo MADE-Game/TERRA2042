@@ -84,6 +84,7 @@ const Side = props => {
                       //if the player hasn't drawn a card
                       <div id="buttonContainer">
                         <button
+                          disabled={!props.isMyTurn}
                           className="buttonStyle3"
                           type="submit"
                           style={{marginTop: '-4vh'}}
@@ -125,6 +126,7 @@ const Side = props => {
                     props.canDraw ? (
                       <div id="buttonContainer">
                         <button
+                          disabled={!props.isMyTurn}
                           className="buttonStyle3"
                           type="submit"
                           style={{marginTop: '-4vh'}}
@@ -168,6 +170,7 @@ const Side = props => {
                 {!props.isFinished ? (
                   <div id="buttonContainer">
                     <button
+                      disabled={!props.isMyTurn}
                       className="buttonStyle4"
                       type="submit"
                       style={{marginTop: '-4vh'}}
@@ -255,7 +258,8 @@ const mapStateToProps = function(state) {
     player: state.game.player,
     planeFull: state.game.player.planeFull,
     canDraw: state.game.data.localTurn,
-    user: state.user
+    user: state.user,
+    isMyTurn: state.game.data.isMyTurn
   }
 }
 
