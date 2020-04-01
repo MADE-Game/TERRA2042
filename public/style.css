@@ -46,7 +46,7 @@ nav a {
 .side {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  min-width: 90vw;
 }
 
 .board {
@@ -62,7 +62,6 @@ nav a {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  width: 90%;
   height: auto;
 }
 
@@ -351,6 +350,7 @@ nav a {
 
 #board-chat {
   display: flex;
+  flex-direction: row;
   margin: 0 1% 0 1%;
 }
 
