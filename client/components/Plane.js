@@ -5,6 +5,12 @@ import {useDrop} from 'react-dnd'
 import {connect} from 'react-redux'
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import {pulse} from 'react-animations'
+import styled, {keyframes} from 'styled-components'
+
+const Pulse = styled.div`
+  animation: 2s ${keyframes`${pulse}`} infinite;
+`
 
 const Plane = props => {
   const [{isOver, canDrop, item}, drop] = useDrop({
@@ -40,14 +46,23 @@ const Plane = props => {
       style={{marginTop: '2vh', marginBottom: '2vh'}}
     >
       {props.inPlay.map(card => {
-        return (
+        return card.attackOccurred ? (
           <Card
-            inPlane={true}
             card={card}
             key={card.id || card._id}
             player={props.player}
             inHand={false}
           />
+        ) : (
+          <Pulse>
+            <Card
+              inPlane={true}
+              card={card}
+              key={card.id || card._id}
+              player={props.player}
+              inHand={false}
+            />
+          </Pulse>
         )
       })}
     </div>
