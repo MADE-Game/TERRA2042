@@ -42,7 +42,7 @@ class BanditComponent extends React.Component {
               this.handleClickOpen()
             } else {
               // eslint-disable-next-line no-alert
-              toast.warning('You can only use bandit power once per turn', {
+              toast.warning('You can only use bandit power once per turn!', {
                 position: toast.POSITION.TOP_CENTER
               })
             }
