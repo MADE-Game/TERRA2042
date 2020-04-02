@@ -35,7 +35,7 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
       const imgUrl = profile.photos[0].value
       const [userName] = email.split('@')
       const collections = []
-      const gold = 20
+      const gold = 5
 
       try {
         const user = await User.findOne({googleId: googleId})
@@ -49,13 +49,13 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
             collections,
             gold
           })
-          const allCards = await Card.find().limit(20)
+          const starter = await Card.find().limit(20)
 
           const myCards = new Collection({
             userId: newUser._id,
             name: 'My Cards',
             cards: [
-              ...allCards.map(card => {
+              ...starter.map(card => {
                 return card._id
               })
             ],
@@ -65,7 +65,7 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
             userId: newUser._id,
             name: 'Default Deck',
             cards: [
-              ...allCards.map(card => {
+              ...starter.map(card => {
                 return card._id
               })
             ],

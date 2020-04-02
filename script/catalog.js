@@ -1,43 +1,19 @@
 module.exports = [
   {
-    name: 'Crystal Golem',
-    imageUrl: `/images/monsters/1.png`,
-    cost: 4,
+    name: 'Chubo',
+    imageUrl: `/images/monsters/30.png`,
+    cost: 1,
     type: 'fighter',
-    attack: 4,
-    health: 3
+    attack: 2,
+    health: 1
   },
   {
-    name: 'Ice Golem',
-    imageUrl: `/images/monsters/2.png`,
-    cost: 4,
+    name: 'Feral Crock',
+    imageUrl: `/images/monsters/24.png`,
+    cost: 2,
     type: 'fighter',
-    attack: 3,
-    health: 4
-  },
-  {
-    name: 'Earth Golem',
-    imageUrl: `/images/monsters/3.png`,
-    cost: 3,
-    type: 'fighter',
-    attack: 3,
-    health: 3
-  },
-  {
-    name: 'Radiated Golem',
-    imageUrl: `/images/monsters/4.png`,
-    cost: 5,
-    type: 'fighter',
-    attack: 5,
-    health: 4
-  },
-  {
-    name: 'Molten Golem',
-    imageUrl: `/images/monsters/5.png`,
-    cost: 5,
-    type: 'fighter',
-    attack: 4,
-    health: 5
+    attack: 2,
+    health: 2
   },
   {
     name: 'SCORP-10n',
@@ -55,6 +31,7 @@ module.exports = [
     attack: 2,
     health: 1
   },
+
   {
     name: 'G-Tank',
     imageUrl: `/images/monsters/8.png`,
@@ -128,19 +105,11 @@ module.exports = [
     health: 1
   },
   {
-    name: 'Amalgolem',
-    imageUrl: `/images/monsters/17.png`,
-    cost: 6,
+    name: 'MED-AIR3',
+    imageUrl: `/images/monsters/29.png`,
+    cost: 2,
     type: 'fighter',
-    attack: 5,
-    health: 6
-  },
-  {
-    name: 'Spyder-13',
-    imageUrl: `/images/monsters/18.png`,
-    cost: 3,
-    type: 'fighter',
-    attack: 3,
+    attack: 1,
     health: 4
   },
   {
@@ -184,12 +153,28 @@ module.exports = [
     health: 2
   },
   {
-    name: 'Feral Crock',
-    imageUrl: `/images/monsters/24.png`,
+    name: 'Landshark',
+    imageUrl: `/images/monsters/27.png`,
     cost: 2,
     type: 'fighter',
-    attack: 2,
-    health: 2
+    attack: 3,
+    health: 1
+  },
+  {
+    name: 'Spyder-13',
+    imageUrl: `/images/monsters/18.png`,
+    cost: 3,
+    type: 'fighter',
+    attack: 3,
+    health: 4
+  },
+  {
+    name: 'Amalgolem',
+    imageUrl: `/images/monsters/17.png`,
+    cost: 6,
+    type: 'fighter',
+    attack: 5,
+    health: 6
   },
   {
     name: 'Militant',
@@ -207,14 +192,7 @@ module.exports = [
     attack: 6,
     health: 3
   },
-  {
-    name: 'Landshark',
-    imageUrl: `/images/monsters/27.png`,
-    cost: 2,
-    type: 'fighter',
-    attack: 3,
-    health: 1
-  },
+
   {
     name: 'Basalisk',
     imageUrl: `/images/monsters/28.png`,
@@ -222,22 +200,6 @@ module.exports = [
     type: 'fighter',
     attack: 3,
     health: 6
-  },
-  {
-    name: 'MED-AIR3',
-    imageUrl: `/images/monsters/29.png`,
-    cost: 2,
-    type: 'fighter',
-    attack: 1,
-    health: 4
-  },
-  {
-    name: 'Chubo',
-    imageUrl: `/images/monsters/30.png`,
-    cost: 1,
-    type: 'fighter',
-    attack: 2,
-    health: 1
   },
   {
     name: 'Chubo-EX',
@@ -262,5 +224,45 @@ module.exports = [
     type: 'fighter',
     attack: 6,
     health: 6
+  },
+  {
+    name: 'Crystal Golem',
+    imageUrl: `/images/monsters/1.png`,
+    cost: 4,
+    type: 'fighter',
+    attack: 4,
+    health: 3
+  },
+  {
+    name: 'Ice Golem',
+    imageUrl: `/images/monsters/2.png`,
+    cost: 4,
+    type: 'fighter',
+    attack: 3,
+    health: 4
+  },
+  {
+    name: 'Molten Golem',
+    imageUrl: `/images/monsters/5.png`,
+    cost: 5,
+    type: 'fighter',
+    attack: 4,
+    health: 5
+  },
+  {
+    name: 'Earth Golem',
+    imageUrl: `/images/monsters/3.png`,
+    cost: 3,
+    type: 'fighter',
+    attack: 3,
+    health: 3
+  },
+  {
+    name: 'Radiated Golem',
+    imageUrl: `/images/monsters/4.png`,
+    cost: 5,
+    type: 'fighter',
+    attack: 5,
+    health: 4
   }
 ]

@@ -36,17 +36,6 @@ const monsterNames = [
 
 const cardDocs = require('./catalog')
 
-for (let j = 0; j < monsterNames.length; j++) {
-  cardDocs.push({
-    name: monsterNames[j],
-    imageUrl:
-      j < 20 ? `/images/monsters/${j + 1}.png` : `/images/monsters/${422}.png`,
-    cost: 1,
-    type: 'fighter',
-    attack: Math.floor(Math.random() * (5 - 1) + 1),
-    health: Math.floor(Math.random() * (5 - 1) + 1)
-  })
-}
 const userDoc = [
   {
     email: 'admin@admin.com',
