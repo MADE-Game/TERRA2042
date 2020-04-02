@@ -325,8 +325,9 @@ class Side extends React.Component {
                           this.props.player
                         )
                       } else {
-                        // eslint-disable-next-line no-alert
-                        alert('Not your turn!')
+                        toast.warning('Not your turn!', {
+                          position: toast.POSITION.TOP_CENTER
+                        })
                       }
                     }}
                   >
@@ -348,14 +349,17 @@ class Side extends React.Component {
                         if (!this.props.metalHeadUsed) {
                           this.props.metalHeadSummon(this.props.player)
                         } else {
-                          // eslint-disable-next-line no-alert
-                          alert(
-                            'You can only use Metalhead power once per turn'
+                          toast.warning(
+                            'You can only use Metalhead power once per turn',
+                            {
+                              position: toast.POSITION.TOP_CENTER
+                            }
                           )
                         }
                       } else {
-                        // eslint-disable-next-line no-alert
-                        alert('Not your turn!')
+                        toast.warning('Not your turn!', {
+                          position: toast.POSITION.TOP_CENTER
+                        })
                       }
                     }}
                   >
@@ -373,12 +377,11 @@ class Side extends React.Component {
                     className="buttonStyle3"
                     onClick={() => {
                       if (this.props.canDraw) {
-                        console.log('healEngaged')
-                        // this.setState({healEngaged: true})
                         this.props.engagedHeal()
                       } else {
-                        // eslint-disable-next-line no-alert
-                        alert('Not your turn!')
+                        toast.warning('Not your turn!', {
+                          position: toast.POSITION.TOP_CENTER
+                        })
                       }
                     }}
                   >

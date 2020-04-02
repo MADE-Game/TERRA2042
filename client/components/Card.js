@@ -53,7 +53,24 @@ const Card = props => {
 
   const {name, attack, health, imageUrl, cost} = props.card
   return (
-    <div ref={drop}>
+    <div
+      ref={drag}
+      onClick={() => {
+        if (!props.healUsed) {
+          if (props.healEngaged === true) {
+            console.log('Healed!')
+            props.medicHeal(props.card)
+          }
+        } else {
+          toast.warning('Heal has already been used this round', {
+            position: toast.POSITION.TOP_CENTER
+          })
+        }
+        if (props.banditAttackEngaged) {
+          props.clearAttack(props.card)
+        }
+      }}
+    >
       <div
         ref={drag}
         onClick={() => {
