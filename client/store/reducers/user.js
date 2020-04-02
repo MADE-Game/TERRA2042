@@ -209,8 +209,9 @@ export const removeFromCollection = (collection, cardId) => {
         '/api/collections/' + collection._id,
         fullCollection
       )
-
-      dispatch(editedCollection(newCollection))
+      setTimeout(() => {
+        dispatch(editedCollection(newCollection))
+      }, 750)
     } catch (e) {
       console.error(e)
     }
@@ -248,7 +249,9 @@ export const addToUserCards = (cards, cardCost) => async dispatch => {
         cardCost
       }
     )
-    dispatch(addedToUserCards(userCards, cardCost))
+    setTimeout(() => {
+      dispatch(addedToUserCards(userCards, cardCost))
+    }, 750)
   } catch (error) {
     console.error(error)
   }

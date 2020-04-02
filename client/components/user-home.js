@@ -20,7 +20,7 @@ export const UserHome = props => {
         <div>
           <Link
             to={
-              localStorage.gameId && localStorage.playerId === props.user._id
+              localStorage.gameId && localStorage.playerId === props.userId
                 ? `/games/rooms/${localStorage.roomId}/game/${localStorage.gameId}`
                 : '/lobby'
             }
@@ -59,7 +59,8 @@ export const UserHome = props => {
  */
 const mapStateToProps = state => {
   return {
-    userName: state.user.userName
+    userName: state.user.userName,
+    userId: state.user._id
   }
 }
 const mapDispatchToProps = dispatch => {
