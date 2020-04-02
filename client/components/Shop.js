@@ -69,6 +69,7 @@ class Shop extends Component {
           </button>
         </Link>
         <span>Gold {this.props.gold}</span>
+        {/* // still need the to implement with arrows */}
         <Pagination
           page={this.state.page}
           count={Math.ceil(this.props.inShop.length / 12)}
