@@ -169,6 +169,10 @@ router.post('/newGame', userOnly, async (req, res, next) => {
           drawsThisTurn: 0,
           drawLimit: 1,
           cultistHasDrawn: false
+          // healUsed: false,
+          // banditUsed: false,
+          // banditAttackEngaged: false,
+          // metalHeadUsed: false
         },
 
         player2: {
@@ -179,6 +183,10 @@ router.post('/newGame', userOnly, async (req, res, next) => {
           drawsThisTurn: 0,
           drawLimit: 1,
           cultistHasDrawn: false
+          // healUsed: false,
+          // banditUsed: false,
+          // banditAttackEngaged: false,
+          // metalHeadUsed: false
         }
       }
 
