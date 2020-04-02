@@ -249,7 +249,9 @@ export const addToUserCards = (cards, cardCost) => async dispatch => {
         cardCost
       }
     )
-    dispatch(addedToUserCards(userCards, cardCost))
+    setTimeout(() => {
+      dispatch(addedToUserCards(userCards, cardCost))
+    }, 750)
   } catch (error) {
     console.error(error)
   }
