@@ -11,7 +11,7 @@ function Collection(props) {
     accept: ItemTypes.DECK_CARD,
     drop: () => {
       //thunk!
-      if (!props.collection.cards.includes(item.id)) {
+      if (!props.collection.cards.map(card => card._id).includes(item.id)) {
         //thunk to add to collection.
         props.addToCollection(props.collection, item.id)
       } else {
