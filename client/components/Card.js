@@ -28,7 +28,6 @@ const Card = props => {
     accept: props.player === 'hero' ? ItemTypes.ENEMY_CARD : ItemTypes.CARD,
 
     drop: () => {
-      console.log('dropped on card!')
       if (!props.isMyTurn) {
         //CHAT LOG OPPORTUNITY
         return toast.warning("It's not your turn!", {
@@ -52,24 +51,7 @@ const Card = props => {
 
   const {name, attack, health, imageUrl, cost} = props.card
   return (
-    <div
-      ref={drag}
-      onClick={() => {
-        if (!props.healUsed) {
-          if (props.healEngaged === true) {
-            console.log('Healed!')
-            props.medicHeal(props.card)
-          }
-        } else {
-          toast.warning('Heal has already been used this round', {
-            position: toast.POSITION.TOP_CENTER
-          })
-        }
-        if (props.banditAttackEngaged) {
-          props.clearAttack(props.card)
-        }
-      }}
-    >
+    <div ref={drop}>
       <div
         ref={drag}
         onClick={() => {
@@ -79,8 +61,9 @@ const Card = props => {
               props.medicHeal(props.card)
             }
           } else {
-            // eslint-disable-next-line no-alert
-            alert('heal has already been used this turn!')
+            toast.warning('Heal has already been used this round', {
+              position: toast.POSITION.TOP_CENTER
+            })
           }
           if (props.banditAttackEngaged) {
             props.clearAttack(props.card)
@@ -88,48 +71,66 @@ const Card = props => {
         }}
       >
         <div
-          className="collectionCard"
-          style={{
-            // marginRight: '1.75vh',
-            fontWeight: 'bold',
-            cursor: 'move'
+          ref={drag}
+          onClick={() => {
+            if (!props.healUsed) {
+              if (props.healEngaged === true) {
+                console.log('Healed!')
+                props.medicHeal(props.card)
+              }
+            } else {
+              // eslint-disable-next-line no-alert
+              alert('heal has already been used this turn!')
+            }
+            if (props.banditAttackEngaged) {
+              props.clearAttack(props.card)
+            }
           }}
         >
           <div
+            className="collectionCard"
             style={{
-              marginTop: '-1vh',
-              backgroundImage: `url('${imageUrl}')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
-              minWidth: '12vh',
-              minHeight: '20vh',
-              display: 'flex',
-              flexDirection: 'column',
-              color: '#fff',
-              justifyContent: 'space-between'
+              // marginRight: '1.75vh',
+              fontWeight: 'bold',
+              cursor: 'move'
             }}
           >
-            <h3
-              style={{
-                textAlign: 'center',
-                margin: 0,
-                color: '#fff'
-              }}
-            >
-              {cost}
-            </h3>
-            <h3 style={{textAlign: 'center', paddingTop: '7.5vh'}}>{name}</h3>
             <div
               style={{
+                marginTop: '-1vh',
+                backgroundImage: `url('${imageUrl}')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                minWidth: '12vh',
+                minHeight: '20vh',
                 display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-evenly'
+                flexDirection: 'column',
+                color: '#fff',
+                justifyContent: 'space-between'
               }}
             >
-              <h3 style={{margin: 0}}>{attack}</h3>
+              <h3
+                style={{
+                  textAlign: 'center',
+                  margin: 0,
+                  color: '#fff'
+                }}
+              >
+                {cost}
+              </h3>
+              <h3 style={{textAlign: 'center', paddingTop: '7.5vh'}}>{name}</h3>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-evenly'
+                }}
+              >
+                <h3 style={{margin: 0}}>{attack}</h3>
 
-              <h3 style={{margin: 0}}>{health}</h3>
+                <h3 style={{margin: 0}}>{health}</h3>
+              </div>
             </div>
           </div>
         </div>
