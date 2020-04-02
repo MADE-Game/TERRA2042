@@ -205,13 +205,15 @@ export const getAllCards = () => {
 //card[attacker].
 export const playerAttackCard = (attacker, defender) => {
   const result = engine.attack(attacker, defender)
-  return async dispatch => {
-    await dispatch(playerAttackedCard(...result))
-    socket.emit('attack', {
-      attacker: result[0],
-      defender: result[1],
-      roomId: localStorage.roomId
-    })
+  return dispatch => {
+    setTimeout(() => {
+      dispatch(playerAttackedCard(...result))
+      socket.emit('attack', {
+        attacker: result[0],
+        defender: result[1],
+        roomId: localStorage.roomId
+      })
+    }, 1000)
   }
 }
 
