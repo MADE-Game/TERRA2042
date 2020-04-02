@@ -233,7 +233,7 @@ module.exports = [
   },
   {
     name: 'Chubo',
-    imageUrl: `/images/monsters/29.png`,
+    imageUrl: `/images/monsters/30.png`,
     cost: 1,
     type: 'fighter',
     attack: 2,
@@ -241,7 +241,7 @@ module.exports = [
   },
   {
     name: 'Chubo-EX',
-    imageUrl: `/images/monsters/29.png`,
+    imageUrl: `/images/monsters/31.png`,
     cost: 2,
     type: 'fighter',
     attack: 3,
@@ -249,7 +249,7 @@ module.exports = [
   },
   {
     name: 'Devill',
-    imageUrl: `/images/monsters/29.png`,
+    imageUrl: `/images/monsters/32.png`,
     cost: 3,
     type: 'fighter',
     attack: 2,
@@ -257,7 +257,7 @@ module.exports = [
   },
   {
     name: 'Great Ogre',
-    imageUrl: `/images/monsters/29.png`,
+    imageUrl: `/images/monsters/33.png`,
     cost: 7,
     type: 'fighter',
     attack: 6,
