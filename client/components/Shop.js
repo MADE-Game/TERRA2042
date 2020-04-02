@@ -6,14 +6,18 @@ import {connect} from 'react-redux'
 import {addToUserCards, getCardsInShop} from '../store/reducers/user'
 import {toast} from 'react-toastify'
 import {confirmAlert} from 'react-confirm-alert'
-import {fadeIn} from 'react-animations'
+import {fadeIn, fadeOutUp} from 'react-animations'
 import styled, {keyframes} from 'styled-components'
 import {Pagination} from '@material-ui/lab'
 import 'react-toastify/dist/ReactToastify.css'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 
 const Fade = styled.div`
-  animation: 3s ${keyframes`${fadeIn}`};
+  animation: 2s ${keyframes`${fadeIn}`};
+`
+
+const FadeUp = styled.div`
+  animation: 1s ${keyframes`${fadeOutUp}`};
 `
 
 class Shop extends Component {
@@ -21,7 +25,8 @@ class Shop extends Component {
     super()
     this.handleClick = this.handleClick.bind(this)
     this.state = {
-      page: 1
+      page: 1,
+      recentlyBought: ''
     }
   }
 
@@ -49,6 +54,9 @@ class Shop extends Component {
               event.target.setAttribute('disabled', true)
               toast.success('Purchase successful!', {
                 position: toast.POSITION.TOP_CENTER
+              })
+              this.setState({
+                recentlyBought: cardId
               })
             }
           },
@@ -83,7 +91,7 @@ class Shop extends Component {
             {this.props.inShop
               .slice((this.state.page - 1) * 8, this.state.page * 8)
               .map(card => {
-                return (
+                return this.state.recentlyBought !== card._id ? (
                   <ShopCard
                     key={card._id}
                     card={card}
@@ -91,6 +99,10 @@ class Shop extends Component {
                       this.handleClick(event, cardId, cardCost)
                     }
                   />
+                ) : (
+                  <FadeUp>
+                    <ShopCard key={card._id} card={card} />
+                  </FadeUp>
                 )
               })}
           </div>

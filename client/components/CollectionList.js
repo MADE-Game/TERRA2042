@@ -15,12 +15,19 @@ import {toast} from 'react-toastify'
 import Button from '@material-ui/core/Button'
 import {MyButton as Button2} from './Button'
 import 'react-toastify/dist/ReactToastify.css'
+import {zoomOut} from 'react-animations'
+import styled, {keyframes} from 'styled-components'
+
+const Zoom = styled.div`
+  animation: 1s ${keyframes`${zoomOut}`};
+`
 
 class CollectionList extends Component {
   constructor() {
     super()
     this.state = {
-      name: ''
+      name: '',
+      recentlyDeleted: ''
     }
 
     this.handleClick = this.handleClick.bind(this)
@@ -64,6 +71,9 @@ class CollectionList extends Component {
 
   handleRemove(coll, cardId) {
     this.props.removeFromCollection(coll, cardId)
+    this.setState({
+      recentlyDeleted: cardId
+    })
   }
 
   render() {
@@ -156,7 +166,7 @@ class CollectionList extends Component {
           </div>
           <div id="selectedCollection">
             {this.props.selectedCollection.cards.map(card => {
-              return (
+              return this.state.recentlyDeleted !== card._id ? (
                 <DisplayCard
                   key={card._id}
                   card={card}
@@ -165,6 +175,14 @@ class CollectionList extends Component {
                     this.handleRemove(this.props.selectedCollection, card._id)
                   }
                 />
+              ) : (
+                <Zoom key={card._id}>
+                  <DisplayCard
+                    key={card._id}
+                    card={card}
+                    isDeck={this.props.selectedCollection.isDeck}
+                  />
+                </Zoom>
               )
             })}
           </div>
