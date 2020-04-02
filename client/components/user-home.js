@@ -3,7 +3,6 @@ import {connect} from 'react-redux'
 import {me} from '../store/reducers/user'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
-
 import 'react-toastify/dist/ReactToastify.css'
 import {MyButton as Button} from './Button'
 

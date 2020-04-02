@@ -40,7 +40,7 @@ class GamesLobby extends Component {
   handleSubmit(e) {
     e.preventDefault()
     if (this.state.roomId !== '') {
-      this.props.history.push(`/games/rooms/${this.state.roomId}`)
+      return this.props.history.push(`/games/rooms/${this.state.roomId}`)
     }
     toast.warning('That is not a valid room name!', {
       position: toast.POSITION.TOP_CENTER
