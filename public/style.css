@@ -433,3 +433,7 @@ label {
 #room-num {
   color: orange;
 }
+.textfield {
+  text-align: center;
+  color: white;
+}

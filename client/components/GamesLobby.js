@@ -39,7 +39,12 @@ class GamesLobby extends Component {
 
   handleSubmit(e) {
     e.preventDefault()
-    this.props.history.push(`/games/rooms/${this.state.roomId}`)
+    if (this.state.roomId !== '') {
+      this.props.history.push(`/games/rooms/${this.state.roomId}`)
+    }
+    toast.warning('That is not a valid room name!', {
+      position: toast.POSITION.TOP_CENTER
+    })
   }
 
   noClassAlert(e) {
@@ -59,13 +64,11 @@ class GamesLobby extends Component {
           <Link to="/home">
             <Button text="Home" color="default" icon="home" />
           </Link>
-
           <Dropdown
             selectDeck={this.props.selectDeck}
             name={this.state.name}
             decks={this.props.decks}
           />
-          {/* <label htmlFor="class">Pick Your Class</label> */}
           <select
             name="class"
             onChange={e => {
@@ -98,7 +101,7 @@ class GamesLobby extends Component {
                 : this.noClassAlert
             }
           >
-            <Textfield name="room number" />
+            <Textfield name="room number" className="textfield" />
           </div>
           {this.state.classSelected === true &&
           this.props.user.selectedClass !== 'Select Class' ? (
