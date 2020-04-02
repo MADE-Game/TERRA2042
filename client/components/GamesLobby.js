@@ -63,13 +63,10 @@ class GamesLobby extends Component {
               <Button text="Create Game" color="default" />
             </Link>
           ) : (
-            <Button
-              text="Create Game"
-              color="default"
-              onClick={this.noClassAlert}
-            />
+            <div onClick={this.noClassAlert}>
+              <Button text="Create Game" color="default" />
+            </div>
           )}
-
           <div onChange={this.handleChange} value={this.state.roomId}>
             <Textfield name="room number" />
           </div>
@@ -84,7 +81,6 @@ class GamesLobby extends Component {
             onChange={e => {
               this.setState({
                 name: e.target.value,
-                // eslint-disable-next-line react/no-unused-state
                 classSelected: true
               })
               this.props.selectClass(this.props.user._id, e.target.value)
@@ -100,9 +96,17 @@ class GamesLobby extends Component {
               )
             })}
           </select>
-          <div onClick={this.handleSubmit}>
-            <Button text="Join Game" color="secondary" />
-          </div>
+          {/* <Button text="Join Game" color="secondary" /> */}
+          {this.state.classSelected === true &&
+          this.props.user.selectedClass !== 'Select Class' ? (
+            <div onClick={this.handleSubmit}>
+              <Button text="Join Game" color="secondary" />
+            </div>
+          ) : (
+            <div onClick={this.noClassAlert}>
+              <Button text="Join Game" color="secondary" />
+            </div>
+          )}
         </div>
       </div>
     )

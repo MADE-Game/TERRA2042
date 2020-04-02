@@ -17,7 +17,7 @@ import {
   CLEAR_ATTACK,
   METAL_HEAD_POWER
 } from '../actionTypes'
-import {toast} from 'react-toastify'
+
 import 'react-toastify/dist/ReactToastify.css'
 
 const initialState = {
@@ -44,7 +44,10 @@ export default function(state = initialState, action) {
         deck: action.game.game.player.deck,
         inPlay: action.game.game.player.inPlay,
         hand: action.game.game.player.hand,
-        settlers: action.game.game.player.settlers
+        settlers: action.game.game.player.settlers,
+        drawsThisTurn: action.game.game.player.drawsThisTurn,
+        drawLimit: action.game.game.player.drawLimit,
+        cultistHasDrawn: action.game.game.player.cultistHasDrawn
       }
     case CLEAR_BOARD:
       return initialState
@@ -87,9 +90,6 @@ export default function(state = initialState, action) {
           }
         }
       } else {
-        toast.warning("You can't draw any more cards this turn!", {
-          position: toast.POSITION.TOP_CENTER
-        })
         return state
       }
     case PLAYER_ATTACK_CARD:

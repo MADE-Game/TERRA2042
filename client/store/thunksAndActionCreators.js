@@ -15,11 +15,11 @@ import {
   CULTIST_DRAW,
   MEDIC_HEAL,
   CLEAR_BOARD,
-  // BANDIT_POWER,
   BANDIT_DECREMENT,
   METAL_HEAD_POWER,
   BANDIT_ATTACK_ENGAGE,
-  CLEAR_ATTACK
+  CLEAR_ATTACK,
+  GIVE_GOLD
 } from './actionTypes'
 
 import engine from '../engine/index'
@@ -131,6 +131,10 @@ export const clearAttackThunk = fighter => dispatch => {
   const result = engine.clearAttack(fighter)
   dispatch(clearedAttack(result))
 }
+export const gotGold = amt => ({
+  type: GIVE_GOLD,
+  amt
+})
 
 export const banditDecrementThunk = (player, opponent) => dispatch => {
   const result = engine.banditDecrement(player, opponent)
@@ -153,7 +157,7 @@ export const cultistDrawCard = (deck, player) => {
   const result = engine.cultistDraw(deck, player)
   return async dispatch => {
     await dispatch(cultistDrew(result.newDeck, result.card, result.newPlayer))
-    socket.emit('draw card')
+    socket.emit('draw card', {roomId: localStorage.roomId})
   }
 }
 export const banditEngage = () => {
@@ -164,12 +168,18 @@ export const playerPlayCard = (hero, card) => {
   if (result.settlers <= 0) {
     return async dispatch => {
       await dispatch(playerHeroDied())
-      socket.emit('game over')
+      socket.emit('game over', {
+        roomId: localStorage.roomId,
+        winner: 'opponent'
+      })
     }
   }
   return async dispatch => {
     await dispatch(playerPlayedCard(hero, card))
-    socket.emit('play card', card)
+    socket.emit('play card', {
+      card,
+      roomId: localStorage.roomId
+    })
   }
 }
 //Retrieves all cards from the database
@@ -195,8 +205,15 @@ export const playerAttackCard = (attacker, defender) => {
     await dispatch(playerAttackedCard(...result))
     socket.emit('attack', {
       attacker: result[0],
-      defender: result[1]
+      defender: result[1],
+      roomId: localStorage.roomId
     })
+  }
+}
+
+export const giveGold = amt => {
+  return dispatch => {
+    dispatch(gotGold(amt))
   }
 }
 
@@ -205,7 +222,7 @@ export const playerDrawCard = (deck, user) => {
   const {newDeck, card} = engine.drawCard(deck, user)
   return async dispatch => {
     await dispatch(playerDrewCard(newDeck, card))
-    socket.emit('draw card')
+    socket.emit('draw card', {roomId: localStorage.roomId})
   }
 }
 export const playerAttackHero = (attacker, hero) => {
@@ -213,11 +230,12 @@ export const playerAttackHero = (attacker, hero) => {
   if (result[1].settlers <= 0) {
     return async dispatch => {
       await dispatch(opponentHeroDied())
-      socket.emit('game over')
+      socket.emit('game over', {roomId: localStorage.roomId, winner: 'player'})
     }
   } else {
     return dispatch => {
       dispatch(playerAttackedHero(...result))
+      socket.emit('hero attacked', {roomId: localStorage.roomId})
     }
   }
 }
@@ -235,7 +253,6 @@ export const clearBoard = () => {
 export const saveGame = (id, gameState) => {
   return async dispatch => {
     try {
-      console.log('logging gameState in saveGame', gameState)
       await Axios.put('/api/games/save/' + id, gameState)
       dispatch(savedGame())
     } catch (error) {
@@ -252,7 +269,10 @@ export const hurtByTheDraw = hero => {
   if (result.settlers <= 0) {
     return dispatch => {
       dispatch(playerHeroDied())
-      socket.emit('game over')
+      socket.emit('game over', {
+        roomId: localStorage.roomId,
+        winner: 'opponent'
+      })
     }
   } else {
     return dispatch => dispatch(hurtByDrawnCard(result))

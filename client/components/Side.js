@@ -17,6 +17,13 @@ import {Link} from 'react-router-dom'
 import {socket} from './Room'
 import {connect} from 'react-redux'
 import Player from './Player'
+import {zoomInLeft} from 'react-animations'
+import styled, {keyframes} from 'styled-components'
+import {toast} from 'react-toastify'
+
+const Draw = styled.div`
+  animation: 1s ${keyframes`${zoomInLeft}`};
+`
 
 // eslint-disable-next-line complexity
 class Side extends React.Component {
@@ -83,11 +90,21 @@ class Side extends React.Component {
                     <button
                       className="buttonStyle3"
                       type="submit"
-                      onClick={() =>
-                        this.props.drawCard(
-                          this.props.player.deck,
-                          this.props.user
-                        )
+                      onClick={
+                        this.props.allowedToDraw
+                          ? () => {
+                              this.props.drawCard(
+                                this.props.player.deck,
+                                this.props.user
+                              )
+                            }
+                          : () =>
+                              toast.warning(
+                                "You can't draw any more cards this turn!",
+                                {
+                                  position: toast.POSITION.TOP_CENTER
+                                }
+                              )
                       }
                     >
                       <p className="buttonText">Draw Card</p>
@@ -99,17 +116,19 @@ class Side extends React.Component {
                         //if the player hasn't drawn a card
                         <div id="buttonContainer">
                           <button
+                            disabled={!this.props.gameState.data.isMyTurn}
                             className="buttonStyle3"
                             type="submit"
                             style={{marginTop: '-4vh'}}
-                            onClick={() =>
+                            onClick={() => {
                               this.props.endTurn(
                                 this.props.gameId,
                                 this.props.gameState,
                                 this.props.player,
                                 this.props.user
                               )
-                            }
+                              window.KEY = Math.random()
+                            }}
                           >
                             <p className="buttonText">End Turn</p>
                           </button>
@@ -122,13 +141,14 @@ class Side extends React.Component {
                         <h1>Game Over!</h1>
                         <Link to="/lobby">
                           <button type="submit" className="buttonStyle2">
-                            Back to Lobby?a
+                            Back to Lobby?
                           </button>
                         </Link>
                       </div>
                     )}
                   </div>
                 ) : (
+                  //good--------------------------
                   <div>
                     <button
                       type="submit"
@@ -140,22 +160,25 @@ class Side extends React.Component {
                       this.props.canDraw ? (
                         <div id="buttonContainer">
                           <button
+                            disabled={!this.props.gameState.data.isMyTurn}
                             className="buttonStyle3"
                             type="submit"
                             style={{marginTop: '-4vh'}}
-                            onClick={() =>
+                            onClick={() => {
                               this.props.endTurn(
                                 this.props.gameId,
                                 this.props.gameState,
                                 this.props.player,
                                 this.props.user
                               )
-                            }
+                              window.KEY = Math.random()
+                            }}
                           >
                             <p className="buttonText">End Turn</p>
                           </button>
                         </div>
                       ) : (
+                        //good-----------------------
                         'not my turn'
                       )
                     ) : (
@@ -181,24 +204,32 @@ class Side extends React.Component {
                     <p className="buttonText">Draw Card</p>
                   </button>
                   {!this.props.isFinished ? (
+                    // props.canDraw ? (
                     <div id="buttonContainer">
                       <button
-                        className="buttonStyle4"
+                        disabled={!this.props.gameState.data.isMyTurn}
+                        className="buttonStyle3"
                         type="submit"
                         style={{marginTop: '-4vh'}}
                         onClick={() => {
+                          // if (props.timeout) clearTimeout(props.timeout
                           this.props.endTurn(
                             this.props.gameId,
                             this.props.gameState,
                             this.props.player,
                             this.props.user
                           )
+
+                          window.KEY = Math.random()
                         }}
                       >
                         <p className="buttonText">End Turn</p>
                       </button>
                     </div>
                   ) : (
+                    // ) : (
+                    //   'not my turn'
+                    // )
                     <div>
                       <h1>Game Over!</h1>
                       <Link to="/lobby">
@@ -207,14 +238,18 @@ class Side extends React.Component {
                         </button>
                       </Link>
                     </div>
+                    // )
                   )}
+                  {/* ) */}
                 </div>
               )}
+
               <div style={{display: 'flex', justifyContent: 'space-between'}}>
                 <div></div>
                 <Chat />
               </div>
             </div>
+
             <div
               className="hand"
               style={{display: 'flex', justifyContent: 'center'}}
@@ -230,16 +265,22 @@ class Side extends React.Component {
               >
                 {this.props.hand.map(card => {
                   return (
-                    <Card
-                      card={card}
-                      key={card._id}
-                      player="hero"
-                      inHand={true}
-                    />
+                    <Draw key={card._id}>
+                      <Card
+                        card={card}
+                        key={card._id}
+                        player="hero"
+                        inHand={true}
+                      />
+                    </Draw>
                   )
                 })}
               </div>
+              <p className="heroText">
+                Deck: {this.props.player.deck.length} cards left.
+              </p>
             </div>
+
             <div>
               {this.props.user.selectedClass === 'Cultist' && (
                 <button
@@ -259,6 +300,7 @@ class Side extends React.Component {
                   Cultist Draw Card
                 </button>
               )}
+              {/* good */}
               {this.props.user.selectedClass === 'Metalhead' && (
                 <button
                   type="submit"
@@ -284,6 +326,7 @@ class Side extends React.Component {
                   type="submit"
                   onClick={() => {
                     if (this.props.canDraw) {
+                      console.log('healEngaged')
                       this.setState({healEngaged: true})
                     } else {
                       // eslint-disable-next-line no-alert
@@ -320,7 +363,9 @@ const mapStateToProps = function(state) {
     planeFull: state.game.player.planeFull,
     canDraw: state.game.data.localTurn,
     user: state.user,
-    metalHeadUsed: state.game.player.metalHeadUsed
+    metalHeadUsed: state.game.player.metalHeadUsed,
+    isMyTurn: state.game.data.isMyTurn,
+    allowedToDraw: state.game.player.drawsThisTurn < state.game.player.drawLimit
   }
 }
 
@@ -329,14 +374,17 @@ const mapDispatchToProps = function(dispatch) {
     playCard: (hero, card) => dispatch(playerPlayCard(hero, card)),
     drawCard: (deck, user) => dispatch(playerDrawCard(deck, user)),
     hurtByDraw: hero => dispatch(hurtByTheDraw(hero)),
-    endTurn: async (id, gameState, hero, user) => {
-      console.log('log in mapDispatch', id, gameState, hero, user)
-      await dispatch(endTurn())
-      await dispatch(incrementTheSettlers(hero, user))
-      await dispatch(
-        saveGame(id, {...gameState, data: {...gameState.data, isMyTurn: false}})
+    endTurn: (id, gameState, hero, user) => {
+      dispatch(endTurn())
+      dispatch(incrementTheSettlers(hero, user))
+      dispatch(
+        saveGame(id, {
+          ...gameState,
+          player: {...gameState.player, drawsThisTurn: 0},
+          data: {...gameState.data, isMyTurn: false}
+        })
       )
-      socket.emit('end turn')
+      socket.emit('end turn', {roomId: localStorage.roomId})
     },
     cultistDraw: (deck, player) => dispatch(cultistDrawCard(deck, player)),
     metalHeadSummon: fighter => dispatch(metalHeadSummon(fighter))

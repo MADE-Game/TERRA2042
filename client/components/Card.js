@@ -41,6 +41,7 @@ const Card = props => {
         props.attackCard(item.card, props.card)
       }
     },
+
     collect: monitor => ({
       isOver: !!monitor.isOver(),
       canDrop: !!monitor.canDrop(),
@@ -49,6 +50,7 @@ const Card = props => {
   })
 
   const {name, attack, health, imageUrl, cost} = props.card
+
   return (
     <div
       ref={drag}
@@ -127,6 +129,7 @@ const mapDispatch = dispatch => ({
   medicHeal: fighter => dispatch(medicHealPower(fighter)),
   clearAttack: fighter => dispatch(clearAttackThunk(fighter))
 })
+
 const mapState = state => ({
   isMyTurn: state.game.data.isMyTurn,
   healUsed: state.game.player.healUsed,

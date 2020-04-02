@@ -18,6 +18,7 @@ const REMOVE_COLLECTION = 'REMOVE_COLLECTION'
 const ADD_TO_USER_CARDS = 'ADD_TO_USER_CARDS'
 const GET_CARDS_IN_SHOP = 'GET_CARDS_IN_SHOP'
 const GET_FINISHED_GAMES = 'GET_FINISHED_GAMES'
+const GIVE_GOLD = 'GIVE_GOLD'
 
 /**
  * INITIAL STATE
@@ -33,7 +34,8 @@ const initialState = {
   selectedDeck: {},
   selectedClass: 'defaultClass',
   inShop: [],
-  history: []
+  history: [],
+  gold: 0
 }
 /**
  * ACTION CREATORS
@@ -159,6 +161,7 @@ export const logout = () => async dispatch => {
     await axios.post('/auth/logout')
     dispatch(removeUser())
     history.push('/login')
+    localStorage.clear()
   } catch (err) {
     console.error(err)
   }
@@ -279,6 +282,8 @@ export default function(state = initialState, action) {
       return {...state, selectedCollection: action.collection}
     case GET_CARDS_IN_SHOP:
       return {...state, inShop: action.cards}
+    case GIVE_GOLD:
+      return {...state, gold: state.gold + action.amt}
     case REMOVE_COLLECTION:
       return {
         ...state,

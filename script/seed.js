@@ -1,5 +1,4 @@
 'use strict'
-
 const seeder = require('mongoose-seed')
 
 const monsterNames = [
@@ -35,7 +34,7 @@ const monsterNames = [
   'Shop 10'
 ]
 
-const cardDocs = []
+const cardDocs = require('./catalog')
 
 for (let j = 0; j < monsterNames.length; j++) {
   cardDocs.push({

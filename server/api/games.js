@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 const router = require('express').Router()
 const {Game, Collection, Card, User} = require('../db/models')
 module.exports = router
@@ -67,7 +68,7 @@ router.get('/load/:gameId', userOnly, async (req, res, next) => {
     const {_id, game, p1, p2, isFinished} = gameFound
 
     const parsedGame = JSON.parse(game)
-    console.log('log parsedGame', parsedGame)
+
     const isPlayer1 = gameFound.p1 === req.user._id.toString()
     const isPlayer2 = gameFound.p2 === req.user._id.toString()
 
@@ -86,6 +87,9 @@ router.get('/load/:gameId', userOnly, async (req, res, next) => {
   }
 })
 // eslint-disable-next-line complexity
+// eslint-disable-next-line max-statements
+// eslint-disable-next-line complexity
+// eslint-disable-next-line max-statements
 router.put('/save/:gameId', userOnly, async (req, res, next) => {
   try {
     const {data} = req.body
@@ -113,10 +117,32 @@ router.put('/save/:gameId', userOnly, async (req, res, next) => {
       req.user._id
     )
     gameToSave.game = JSON.stringify(objectifiedGame)
+    if (data.isFinished) {
+      //game is over
+
+      //save player wins
+      let winner, loser
+      if (req.body.opponent.settlers <= 0) {
+        winner = await User.findById(isPlayer1 ? gameToSave.p1 : gameToSave.p2)
+        loser = await User.findById(isPlayer1 ? gameToSave.p2 : gameToSave.p1)
+      }
+      //enemy has won
+      else {
+        winner = await User.findById(isPlayer1 ? gameToSave.p2 : gameToSave.p1)
+        loser = await User.findById(isPlayer1 ? gameToSave.p1 : gameToSave.p2)
+      }
+      winner.gold += 3
+      loser.gold += 1
+      await winner.save()
+      await loser.save()
+    }
     gameToSave.isFinished = data.isFinished
 
+    //toggle turn.
     gameToSave.isP1Turn = isPlayer1 ? data.isMyTurn : !data.isMyTurn
+
     await gameToSave.save()
+
     res.json(gameToSave)
   } catch (error) {
     next(error)
@@ -139,14 +165,28 @@ router.post('/newGame', userOnly, async (req, res, next) => {
           hand: [],
           deck: [],
           inPlay: [],
-          settlers: 20
+          settlers: 20,
+          drawsThisTurn: 0,
+          drawLimit: 1,
+          cultistHasDrawn: false
+          // healUsed: false,
+          // banditUsed: false,
+          // banditAttackEngaged: false,
+          // metalHeadUsed: false
         },
 
         player2: {
           hand: [],
           deck: [],
           inPlay: [],
-          settlers: 20
+          settlers: 20,
+          drawsThisTurn: 0,
+          drawLimit: 1,
+          cultistHasDrawn: false
+          // healUsed: false,
+          // banditUsed: false,
+          // banditAttackEngaged: false,
+          // metalHeadUsed: false
         }
       }
 

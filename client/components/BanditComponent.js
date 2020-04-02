@@ -56,9 +56,10 @@ class BanditComponent extends React.Component {
           <DialogTitle id="alert-dialog-title">Bandit Raid</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              At the cost of 2 settlers, enable a fighter to attack again or
-              kill 4 settlers in your enemies settlement. You must click on a
-              fighter to revive their attack ability
+              At the cost of 2 settlers, enable a fighter to attack that has
+              been deactivated, or kill 4 settlers in your enemies settlement.
+              You must click on a fighter after closing the window to activate
+              their attack ability
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -69,7 +70,7 @@ class BanditComponent extends React.Component {
               }}
               color="primary"
             >
-              Enable a Fighter to Attack Again
+              Enable a Fighter to Attack
             </Button>
             <Button
               onClick={() => {

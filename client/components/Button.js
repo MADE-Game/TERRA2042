@@ -7,6 +7,9 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import ViewCarouselIcon from '@material-ui/icons/ViewCarousel'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import AssessmentIcon from '@material-ui/icons/Assessment'
+import {confirmAlert} from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'
+import {socket} from './Room'
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -24,6 +27,39 @@ export function MyButton(props) {
         color={props.color}
         className={classes.button}
         startIcon={<HomeIcon />}
+      >
+        {props.text}
+      </Button>
+    )
+  } else if (props.icon === 'home2') {
+    return (
+      <Button
+        variant="contained"
+        color={props.color}
+        className={classes.button}
+        startIcon={<HomeIcon />}
+        style={{width: '15%'}}
+        onClick={() =>
+          confirmAlert({
+            title: 'Confirm',
+            message: 'Are you sure you want to leave the game?',
+            buttons: [
+              {
+                label: 'Yes',
+                onClick: () => {
+                  socket.emit('left game', {
+                    playerName: props.playerName,
+                    roomId: localStorage.roomId
+                  })
+                  props.history.replace('/home')
+                }
+              },
+              {
+                label: 'Cancel'
+              }
+            ]
+          })
+        }
       >
         {props.text}
       </Button>

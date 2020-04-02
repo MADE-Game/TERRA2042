@@ -95,6 +95,7 @@ const engine = {
       attack: 2,
       health: 2,
       attackOccurred: true,
+      _v: 0,
       _id: 1
     }
     let newPlayer = player
