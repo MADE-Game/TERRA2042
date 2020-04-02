@@ -37,11 +37,13 @@ class GamesLobby extends Component {
     })
   }
 
-  handleSubmit() {
+  handleSubmit(e) {
+    e.preventDefault()
     this.props.history.push(`/games/rooms/${this.state.roomId}`)
   }
 
-  noClassAlert() {
+  noClassAlert(e) {
+    e.preventDefault()
     toast.warning('You must select your class before entering a game', {
       position: toast.POSITION.TOP_CENTER
     })
@@ -53,23 +55,11 @@ class GamesLobby extends Component {
     return (
       <div id="lobby">
         <div id="lobbyBox">
-          <p>LOBBY</p>
+          <p>Welcome to the lobby!</p>
           <Link to="/home">
             <Button text="Home" color="default" icon="home" />
           </Link>
-          {this.state.classSelected === true &&
-          this.props.user.selectedClass !== 'Select Class' ? (
-            <Link to={`/games/rooms/${Math.floor(Math.random() * 1000000)}`}>
-              <Button text="Create Game" color="default" />
-            </Link>
-          ) : (
-            <div onClick={this.noClassAlert}>
-              <Button text="Create Game" color="default" />
-            </div>
-          )}
-          <div onChange={this.handleChange} value={this.state.roomId}>
-            <Textfield name="room number" />
-          </div>
+
           <Dropdown
             selectDeck={this.props.selectDeck}
             name={this.state.name}
@@ -96,7 +86,29 @@ class GamesLobby extends Component {
               )
             })}
           </select>
+          {this.state.classSelected === true &&
+          this.props.user.selectedClass !== 'Select Class' ? (
+            <Link to={`/games/rooms/${Math.floor(Math.random() * 1000000)}`}>
+              <Button text="Create Game" color="default" />
+            </Link>
+          ) : (
+            <div onClick={this.noClassAlert}>
+              <Button text="Create Game" color="default" />
+            </div>
+          )}
           {/* <Button text="Join Game" color="secondary" /> */}
+          <div
+            onChange={this.handleChange}
+            value={this.state.roomId}
+            onSubmit={
+              this.state.classSelected === true &&
+              this.props.user.selectedClass !== 'Select Class'
+                ? this.handleSubmit
+                : this.noClassAlert
+            }
+          >
+            <Textfield name="room number" />
+          </div>
           {this.state.classSelected === true &&
           this.props.user.selectedClass !== 'Select Class' ? (
             <div onClick={this.handleSubmit}>
