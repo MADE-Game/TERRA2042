@@ -4,8 +4,8 @@ import {useDrop} from 'react-dnd'
 import {addToCollection, removeCollection} from '../store/reducers/user'
 import {connect} from 'react-redux'
 import {toast} from 'react-toastify'
-import {confirmAlert} from 'react-confirm-alert'
-import 'react-confirm-alert/src/react-confirm-alert.css'
+// import {confirmAlert} from 'react-confirm-alert'
+// import 'react-confirm-alert/src/react-confirm-alert.css'
 import 'react-toastify/dist/ReactToastify.css'
 
 function Collection(props) {
@@ -49,7 +49,7 @@ function Collection(props) {
             style={{margin: 0, padding: 0}}
           >{`${props.collection.name}`}</p>
         </div>
-        <span className="deckCount">
+        {/* <span className="deckCount">
           {props.collection.cards.length}
           {props.collection.isDeck ? '/20' : ''}
           {!['Default Deck', 'My Cards'].includes(props.collection.name) ? (
@@ -81,7 +81,7 @@ function Collection(props) {
           ) : (
             ''
           )}
-        </span>
+        </span> */}
       </div>
     </div>
   ) : (
