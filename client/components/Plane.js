@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React from 'react'
 import Card from './Card'
 import {ItemTypes} from '../dnd/types'
@@ -5,11 +6,15 @@ import {useDrop} from 'react-dnd'
 import {connect} from 'react-redux'
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import {pulse} from 'react-animations'
+import {pulse, flipOutY} from 'react-animations'
 import styled, {keyframes} from 'styled-components'
 
 const Pulse = styled.div`
   animation: 2s ${keyframes`${pulse}`} infinite;
+`
+
+const Flip = styled.div`
+  animation: 1s ${keyframes`${flipOutY}`};
 `
 
 const Plane = props => {
@@ -46,25 +51,61 @@ const Plane = props => {
       style={{marginTop: '2vh', marginBottom: '2vh'}}
     >
       {props.inPlay.map(card => {
-        return card.attackOccurred ? (
-          <Card
-            card={card}
-            key={card.id || card._id}
-            player={props.player}
-            inHand={false}
-            healEngaged={props.healEngaged}
-          />
-        ) : (
-          <Pulse key={card.id || card._id}>
+        if (card.attackOccurred && card.health > 0) {
+          return (
             <Card
-              inPlane={true}
               card={card}
               key={card.id || card._id}
               player={props.player}
               inHand={false}
+              healEngaged={props.healEngaged}
             />
-          </Pulse>
-        )
+          )
+        } else if (!card.attackOccurred && card.health > 0) {
+          return (
+            <Pulse key={card.id || card._id}>
+              <Card
+                inPlane={true}
+                card={card}
+                key={card.id || card._id}
+                player={props.player}
+                inHand={false}
+              />
+            </Pulse>
+          )
+        } else {
+          return (
+            <Flip key={card.id || card._id}>
+              <Card
+                card={card}
+                key={card.id || card._id}
+                player={props.player}
+                inHand={false}
+                healEngaged={props.healEngaged}
+              />
+            </Flip>
+          )
+        }
+
+        // return card.attackOccurred ? (
+        //   <Card
+        //     card={card}
+        //     key={card.id || card._id}
+        //     player={props.player}
+        //     inHand={false}
+        //     healEngaged={props.healEngaged}
+        //   />
+        // ) : (
+        //   <Pulse key={card.id || card._id}>
+        //     <Card
+        //       inPlane={true}
+        //       card={card}
+        //       key={card.id || card._id}
+        //       player={props.player}
+        //       inHand={false}
+        //     />
+        //   </Pulse>
+        // )
       })}
     </div>
   )

@@ -184,6 +184,7 @@ class Board extends Component {
           <div className="container">
             <a>
               <Button
+                playerName={this.props.playerName}
                 text="Home"
                 color="default"
                 icon="home2"
