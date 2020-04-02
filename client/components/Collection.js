@@ -11,13 +11,12 @@ function Collection(props) {
     accept: ItemTypes.DECK_CARD,
     drop: () => {
       //thunk!
-      if (!props.collection.cards.includes(item.id)) {
+      if (!props.collection.cards.map(card => card._id).includes(item.id)) {
         //thunk to add to collection.
         props.addToCollection(props.collection, item.id)
+        toast.info(`${item.name} added to ${props.collection.name}`)
       } else {
-        toast.warning('Card is already in the deck!', {
-          position: toast.POSITION.TOP_CENTER
-        })
+        toast.warning('Card is already in the deck!')
       }
     },
     collect: monitor => ({

@@ -33,7 +33,10 @@ router.get('/:collectionId/cards', userOnly, async (req, res, next) => {
 //one collection
 router.get('/:collectionId', userOnly, async (req, res, next) => {
   try {
-    const collection = await Collection.findById(req.params.collectionId)
+    let collection = await Collection.findById(req.params.collectionId)
+    if (!collection) {
+      collection = await Collection.findOne({userId: req.user._id.toString()})
+    }
     const cards = await Card.find({_id: {$in: collection.cards}})
     res.json({...collection._doc, cards})
   } catch (err) {
