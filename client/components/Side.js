@@ -126,6 +126,28 @@ class Side extends React.Component {
                 this.props.player.deck.length ? (
                   //if they have cards in their deck
                   <div style={{paddingLeft: '3vh'}}>
+                    <button
+                      className="buttonStyle3"
+                      type="submit"
+                      onClick={
+                        this.props.allowedToDraw
+                          ? () => {
+                              this.props.drawCard(
+                                this.props.player.deck,
+                                this.props.user
+                              )
+                            }
+                          : () =>
+                              toast.warning(
+                                "You can't draw any more cards this turn!",
+                                {
+                                  position: toast.POSITION.TOP_CENTER
+                                }
+                              )
+                      }
+                    >
+                      <p className="buttonText">Draw Card</p>
+                    </button>
                     {/* boolean that checks whether or not the player has finished their turn */}
                     {!this.props.isFinished ? (
                       /* boolean that checks whether or not the player has drawn a card this turn */
@@ -133,31 +155,10 @@ class Side extends React.Component {
                         //if the player hasn't drawn a card
                         <div id="buttonContainer">
                           <button
-                            className="buttonStyle3"
-                            type="submit"
-                            onClick={
-                              this.props.allowedToDraw
-                                ? () => {
-                                    this.props.drawCard(
-                                      this.props.player.deck,
-                                      this.props.user
-                                    )
-                                  }
-                                : () =>
-                                    toast.warning(
-                                      "You can't draw any more cards this turn!",
-                                      {
-                                        position: toast.POSITION.TOP_CENTER
-                                      }
-                                    )
-                            }
-                          >
-                            <p className="buttonText">Draw Card</p>
-                          </button>
-                          <button
                             disabled={!this.props.gameState.data.isMyTurn}
                             className="buttonStyle3"
                             type="submit"
+                            style={{marginTop: '-4vh'}}
                             onClick={() => {
                               this.props.endTurn(
                                 this.props.gameId,
