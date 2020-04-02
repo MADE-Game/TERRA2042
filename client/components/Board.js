@@ -17,11 +17,9 @@ import {withRouter} from 'react-router'
 import PropTypes from 'prop-types'
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import {MyButton as Button} from './Button'
-import {CountdownCircleTimer} from 'react-countdown-circle-timer'
 
 //used for slightly delaying socket speed prior to save.
-const STUTTER = 100
+const STUTTER = 250
 window.KEY = Math.random()
 
 const enemySide = {
@@ -157,40 +155,8 @@ class Board extends Component {
   render() {
     return (
       <DndProvider backend={Backend}>
-        <CountdownCircleTimer
-          size={100}
-          strokeWidth={10}
-          trailColor="black"
-          onComplete={() => {
-            if (this.props.isMyTurn) {
-              this.props.forfeitTurn(
-                this.props.match.params.id,
-                this.props.gameState
-              )
-              socket.emit('end turn', {roomId: localStorage.roomId})
-              toast.error('You forfeited your turn!', {
-                position: toast.POSITION.TOP_CENTER
-              })
-            }
-
-            window.KEY = Math.random()
-          }}
-          isPlaying={this.props.isMyTurn}
-          durationSeconds={30}
-          colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
-          key={window.KEY}
-        />
         <div className="board">
           <div className="container">
-            <a>
-              <Button
-                playerName={this.props.playerName}
-                text="Home"
-                color="default"
-                icon="home2"
-                history={this.props.history}
-              />
-            </a>
             <Side top={true} side={enemySide} />
             <Side side={playerSide} gameId={this.props.match.params.id} />
           </div>
@@ -221,17 +187,7 @@ const mapDispatchToProps = dispatch => {
     loadGame: id => dispatch(loadGame(id)),
     saveGame: (id, gameState) => dispatch(saveGame(id, gameState)),
     startTurn: () => dispatch(startTurn()),
-    clearBoard: () => dispatch(clearBoard()),
-    forfeitTurn: async (gameId, gameState) => {
-      dispatch(endTurn())
-      dispatch(
-        saveGame(gameId, {
-          ...gameState,
-          player: {...gameState.player, drawsThisTurn: 0},
-          data: {...gameState.data, isMyTurn: false}
-        })
-      )
-    }
+    clearBoard: () => dispatch(clearBoard())
   }
 }
 

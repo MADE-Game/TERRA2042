@@ -54,9 +54,11 @@ class History extends React.Component {
             Home
           </button>
         </Link>
-        <h1>total wins: {totalWins}</h1>
+        <h1 className="history-text">total wins: {totalWins}</h1>
         {this.props.games.length === 0 ? (
-          <h1>Play your first game to see your stats!</h1>
+          <h1 className="history-text">
+            Play your first game to see your stats!
+          </h1>
         ) : (
           <TableContainer component={Paper}>
             <Table stickyHeader>

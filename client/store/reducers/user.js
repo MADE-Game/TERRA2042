@@ -143,8 +143,18 @@ export const selectDeck = name => {
 }
 
 export const getCollection = collectionId => async dispatch => {
-  const {data: collection} = await axios.get(`/api/collections/${collectionId}`)
-  dispatch(gotCollection(collection))
+  try {
+    const {data: collection} = await axios.get(
+      `/api/collections/${collectionId}`
+    )
+    dispatch(gotCollection(collection))
+  } catch (error) {
+    if (error.response) {
+      console.error(error.response.data)
+    } else {
+      console.log('Error', error)
+    }
+  }
 }
 export const getGames = () => async dispatch => {
   const {data: games} = await axios.get('/api/games/completed')
@@ -294,6 +304,11 @@ export default function(state = initialState, action) {
     case ADD_TO_USER_CARDS:
       return {
         ...state,
+        inShop: state.inShop.filter(
+          card =>
+            card._id !==
+            action.userCards.cards[action.userCards.cards.length - 1]
+        ),
         collections: state.collections.map(coll =>
           coll.isDeck ? coll : action.userCards
         ),

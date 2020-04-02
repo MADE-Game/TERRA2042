@@ -11,13 +11,12 @@ function Collection(props) {
     accept: ItemTypes.DECK_CARD,
     drop: () => {
       //thunk!
-      if (!props.collection.cards.includes(item.id)) {
+      if (!props.collection.cards.map(card => card._id).includes(item.id)) {
         //thunk to add to collection.
         props.addToCollection(props.collection, item.id)
+        toast.info(`${item.name} added to ${props.collection.name}`)
       } else {
-        toast.warning('Card is already in the deck!', {
-          position: toast.POSITION.TOP_CENTER
-        })
+        toast.warning('Card is already in the deck!')
       }
     },
     collect: monitor => ({
@@ -40,12 +39,15 @@ function Collection(props) {
               ? props.collection.name === 'Default Deck'
                 ? 'collection default'
                 : 'collection'
-              : 'collection allCards'
+              : 'allCards'
           }
         >
-          <p className="breakName">{`${props.collection.name}`}</p>
+          <p
+            className="breakName"
+            style={{margin: 0, padding: 0}}
+          >{`${props.collection.name}`}</p>
         </div>
-        <span>
+        <span className="deckCount">
           {props.collection.cards.length}
           {props.collection.isDeck ? '/20' : ''}
           {!['Default Deck', 'My Cards'].includes(props.collection.name) ? (

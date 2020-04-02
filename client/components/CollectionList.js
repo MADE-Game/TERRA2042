@@ -12,6 +12,8 @@ import Backend from 'react-dnd-html5-backend'
 import {DndProvider} from 'react-dnd'
 import {Link} from 'react-router-dom'
 import {toast} from 'react-toastify'
+import Button from '@material-ui/core/Button'
+import {MyButton as Button2} from './Button'
 import 'react-toastify/dist/ReactToastify.css'
 
 class CollectionList extends Component {
@@ -28,7 +30,8 @@ class CollectionList extends Component {
   }
 
   componentDidMount() {
-    this.props.loadInitialData(this.props.user._id)
+    console.log('mounting')
+    //this.props.loadInitialData(this.props.user._id)
     this.props.loadCards(this.props.userCollections[0]._id)
     // let allCardsDiv = document.getElementsByClassName('buttonContainer')
     // this.props.loadCards(this.props.selectedCollection._id)
@@ -66,69 +69,89 @@ class CollectionList extends Component {
   render() {
     return (
       <DndProvider backend={Backend}>
-        <div>
+        <div
+          style={{
+            minWidth: '100vw',
+            minHeight: ' 100vh',
+            display: 'flex',
+            flexDirection: 'column'
+          }}
+        >
           <div
             style={{
               display: 'flex',
-              backgroundColor: '#b1645e',
-              padding: '1em',
-              boxShadow:
-                'inset 0px 1px 0px #5f1d18, 0px 10px 0px 0px #5f1d18, 0px 0px 0px'
+              backgroundImage: `url('./images/decknav.png')`,
+              boxShadow: '5px 5px 5px',
+              alignItems: 'center',
+              justifyContent: 'center',
+              paddingTop: '6vh',
+              paddingBottom: '10.5vh',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              minWidth: '140vw',
+              marginTop: '-2em'
             }}
           >
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center'
-              }}
-            >
-              <Link to="/home">
-                <button type="button" className="buttonStyle5">
-                  Home
-                </button>
-              </Link>
-              <form
-                onSubmit={this.handleSubmit}
-                style={{display: 'flex', flexDirection: 'column'}}
+            <div style={{display: 'flex', width: '70%'}}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center'
+                }}
               >
-                <input
-                  required
-                  name="deck"
-                  className="inputStyle1"
-                  placeholder="Deck Name"
-                  value={this.state.name}
-                  onChange={this.handleChange}
-                  onKeyDown={event => {
-                    if (event.key === ' ') {
-                      toast.warning('No spaces allowed', {
-                        position: toast.POSITION.TOP_CENTER
-                      })
-                      event.preventDefault()
-                      return false
-                    }
-                  }}
-                ></input>
-                <button type="submit" className="buttonStyle5">
-                  Create Deck
-                </button>
-              </form>
-              <h3 style={{textAlign: 'center', margin: '0'}}>
-                {this.props.selectedCollection.name}
-              </h3>
-            </div>
-            <div id="collections">
-              {this.props.userCollections.map(collection => {
-                return (
-                  <Collection
-                    handleClick={() => {
-                      this.handleClick(collection._id)
+                <Link to="/home">
+                  <Button2 text="Home" color="default" icon="home" />
+                </Link>
+                <form onSubmit={this.handleSubmit} id="deckform">
+                  <input
+                    required
+                    name="deck"
+                    className="inputStyle1"
+                    placeholder="Deck Name"
+                    value={this.state.name}
+                    onChange={this.handleChange}
+                    onKeyDown={event => {
+                      if (event.key === ' ') {
+                        toast.warning('No spaces allowed', {
+                          position: toast.POSITION.TOP_CENTER
+                        })
+                        event.preventDefault()
+                        return false
+                      }
                     }}
-                    key={collection._id}
-                    collection={collection}
-                  />
-                )
-              })}
+                  ></input>
+                  <Button variant="contained" type="submit">
+                    Create Deck
+                  </Button>
+                </form>
+                <h3
+                  style={{
+                    textAlign: 'center',
+                    margin: '0',
+                    marginTop: '3%',
+                    fontSize: '12px',
+                    color: '#fff',
+                    letterSpacing: '3px'
+                  }}
+                >
+                  {this.props.selectedCollection.name.toUpperCase()}
+                </h3>
+              </div>
+              <div id="collections">
+                {this.props.userCollections.map(collection => {
+                  return (
+                    <Collection
+                      handleClick={() => {
+                        this.handleClick(collection._id)
+                      }}
+                      key={collection._id}
+                      collection={collection}
+                    />
+                  )
+                })}
+              </div>
             </div>
           </div>
           <div id="selectedCollection">

@@ -7,7 +7,8 @@ const DisplayCard = props => {
   const [{isDragging}, drag] = useDrag({
     item: {
       type: ItemTypes.DECK_CARD,
-      id: props.card._id
+      id: props.card._id,
+      name: props.card.name
     },
     collect: monitor => {
       return {
