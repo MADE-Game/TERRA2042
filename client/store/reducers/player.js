@@ -9,7 +9,14 @@ import {
   PLAYER_ATTACK_HERO,
   INCREMENT_SETTLERS,
   CULTIST_DRAW,
-  CLEAR_BOARD
+  MEDIC_HEAL,
+  CLEAR_BOARD,
+  // BANDIT_POWER,
+  BANDIT_DECREMENT,
+  BANDIT_ATTACK_ENGAGE,
+  CLEAR_ATTACK,
+  METAL_HEAD_POWER,
+  ENGAGE_HEAL
 } from '../actionTypes'
 
 import 'react-toastify/dist/ReactToastify.css'
@@ -22,7 +29,12 @@ const initialState = {
   planeFull: false,
   drawsThisTurn: 0,
   drawLimit: 1,
-  cultistHasDrawn: false
+  cultistHasDrawn: false,
+  healUsed: false,
+  banditUsed: false,
+  banditAttackEngaged: false,
+  metalHeadUsed: false,
+  healEngaged: false
 }
 
 // eslint-disable-next-line complexity
@@ -105,9 +117,13 @@ export default function(state = initialState, action) {
           card.attackOccurred = false
           return card
         }),
-
+        cultistHasDrawn: false,
+        healUsed: false,
+        banditUsed: false,
+        metalHeadUsed: false,
         drawsThisTurn: 0,
-        planeFull: false
+        planeFull: false,
+        healEngaged: false
       }
     case HURT_BY_DRAW:
       return {
@@ -144,7 +160,68 @@ export default function(state = initialState, action) {
         alert('A cultist can only use the draw card power once per turn')
         return state
       }
+    case MEDIC_HEAL:
+      return {
+        ...state,
+        inPlay: state.inPlay.map(card => {
+          if (card._id === action.fighter._id) {
+            return action.fighter
+          } else {
+            return card
+          }
+        }),
+        healUsed: true
+      }
 
+    case BANDIT_DECREMENT:
+      return {
+        ...state,
+        settlers: action.player.settlers,
+        banditUsed: true
+      }
+    case BANDIT_ATTACK_ENGAGE:
+      return {
+        ...state,
+        banditAttackEngaged: true
+      }
+    case CLEAR_ATTACK:
+      return {
+        ...state,
+        inPlay: state.inPlay.map(card => {
+          if (card._id === action.fighter._id) {
+            return action.fighter
+          } else {
+            return card
+          }
+        }),
+        banditUsed: true,
+        banditEngaged: false
+      }
+    case METAL_HEAD_POWER:
+      // eslint-disable-next-line no-case-declarations
+      let idArray = state.inPlay.map(card => {
+        return card._id
+      })
+      if (!state.planeFull) {
+        if (!idArray.includes(action.fighter._id)) {
+          return {
+            ...state,
+            inPlay: [...state.inPlay, action.fighter],
+            settlers: action.player.settlers,
+            metalHeadUsed: true
+          }
+        } else {
+          // eslint-disable-next-line no-alert
+          alert('You can only play one minion at a time')
+          return state
+        }
+      } else {
+        // eslint-disable-next-line no-alert
+        alert('Plane is full!')
+        return state
+      }
+    case ENGAGE_HEAL:
+      return {...state, healEngaged: true}
     default:
       return state
   }

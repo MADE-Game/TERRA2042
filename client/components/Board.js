@@ -83,19 +83,6 @@ class Board extends Component {
       toast.info("It's your turn!", {
         position: toast.POSITION.TOP_CENTER
       })
-
-      // this.timeout = setTimeout(() => {
-      //   if (this.props.isMyTurn) {
-      //     this.props.forfeitTurn(
-      //       this.props.match.params.id,
-      //       this.props.gameState
-      //     )
-      //     socket.emit('end turn', {roomId: localStorage.roomId})
-      //     toast.error('You forfeited your turn!', {
-      //       position: toast.POSITION.TOP_CENTER
-      //     })
-      //   }
-      // }, 20000)
     })
 
     socket.on('game over', data => {
@@ -121,8 +108,6 @@ class Board extends Component {
       delete localStorage.gameId
       delete localStorage.roomId
       delete localStorage.playerId
-
-      // clearTimeout(this.timeout)
     })
 
     socket.on('hero attacked', () => {
@@ -199,6 +184,7 @@ class Board extends Component {
           <div className="container">
             <a>
               <Button
+                playerName={this.props.playerName}
                 text="Home"
                 color="default"
                 icon="home2"
@@ -236,7 +222,7 @@ const mapDispatchToProps = dispatch => {
     saveGame: (id, gameState) => dispatch(saveGame(id, gameState)),
     startTurn: () => dispatch(startTurn()),
     clearBoard: () => dispatch(clearBoard()),
-    forfeitTurn: (gameId, gameState) => {
+    forfeitTurn: async (gameId, gameState) => {
       dispatch(endTurn())
       dispatch(
         saveGame(gameId, {

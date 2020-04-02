@@ -13,8 +13,14 @@ import {
   START_TURN,
   INCREMENT_SETTLERS,
   CULTIST_DRAW,
+  MEDIC_HEAL,
   CLEAR_BOARD,
-  GIVE_GOLD
+  BANDIT_DECREMENT,
+  METAL_HEAD_POWER,
+  BANDIT_ATTACK_ENGAGE,
+  CLEAR_ATTACK,
+  GIVE_GOLD,
+  ENGAGE_HEAL
 } from './actionTypes'
 
 import engine from '../engine/index'
@@ -30,6 +36,18 @@ const cultistDrew = (deck, card, player) => ({
   deck,
   player,
   card
+})
+export const engagedHeal = () => ({
+  type: ENGAGE_HEAL
+})
+const clearedAttack = fighter => ({
+  type: CLEAR_ATTACK,
+  fighter
+})
+const banditDecrement = (player, opponent) => ({
+  type: BANDIT_DECREMENT,
+  player,
+  opponent
 })
 const clearedBoard = () => ({
   type: CLEAR_BOARD
@@ -89,17 +107,52 @@ const startedTurn = () => ({
   type: START_TURN
 })
 
-export const endTurn = () => dispatch => {
-  dispatch(endedTurn())
+const medicHealed = fighter => ({
+  type: MEDIC_HEAL,
+  fighter
+})
+
+const banditAttackEngaged = () => ({
+  type: BANDIT_ATTACK_ENGAGE
+})
+const metalHeadSummoned = (fighter, player) => ({
+  type: METAL_HEAD_POWER,
+  fighter,
+  player
+})
+
+export const endTurn = () => async dispatch => {
+  await dispatch(endedTurn())
 }
 export const startTurn = () => dispatch => {
   dispatch(startedTurn())
+}
+export const medicHealPower = fighter => dispatch => {
+  const result = engine.medicHeal(fighter)
+  dispatch(medicHealed(result))
+}
+export const clearAttackThunk = fighter => dispatch => {
+  const result = engine.clearAttack(fighter)
+  dispatch(clearedAttack(result))
 }
 export const gotGold = amt => ({
   type: GIVE_GOLD,
   amt
 })
 
+export const banditDecrementThunk = (player, opponent) => dispatch => {
+  const result = engine.banditDecrement(player, opponent)
+  dispatch(banditDecrement(...result))
+}
+export const metalHeadSummon = player => async dispatch => {
+  const result = engine.metalHeadPower(player)
+  if (result[1].settlers <= 0) {
+    await dispatch(playerHeroDied())
+    socket.emit('game over')
+  } else {
+    dispatch(metalHeadSummoned(...result))
+  }
+}
 export const incrementTheSettlers = (hero, user) => async dispatch => {
   const result = engine.incrementSettlers(hero, user)
   await dispatch(incrementedSettlers(result))
@@ -111,7 +164,9 @@ export const cultistDrawCard = (deck, player) => {
     socket.emit('draw card', {roomId: localStorage.roomId})
   }
 }
-
+export const banditEngage = () => {
+  return dispatch => dispatch(banditAttackEngaged())
+}
 export const playerPlayCard = (hero, card) => {
   const result = engine.payCost(hero, card)
   if (result.settlers <= 0) {
@@ -150,13 +205,15 @@ export const getAllCards = () => {
 //card[attacker].
 export const playerAttackCard = (attacker, defender) => {
   const result = engine.attack(attacker, defender)
-  return async dispatch => {
-    await dispatch(playerAttackedCard(...result))
-    socket.emit('attack', {
-      attacker: result[0],
-      defender: result[1],
-      roomId: localStorage.roomId
-    })
+  return dispatch => {
+    setTimeout(() => {
+      dispatch(playerAttackedCard(...result))
+      socket.emit('attack', {
+        attacker: result[0],
+        defender: result[1],
+        roomId: localStorage.roomId
+      })
+    }, 1000)
   }
 }
 

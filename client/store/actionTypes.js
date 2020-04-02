@@ -9,7 +9,12 @@ export const START_TURN = 'START_TURN'
 export const HURT_BY_DRAW = 'HURT_BY_DRAW'
 export const INCREMENT_SETTLERS = 'INCREMENT_SETTLERS'
 export const CULTIST_DRAW = 'CULTIST_DRAW'
-
+export const MEDIC_HEAL = 'MEDIC_HEAL'
+export const METAL_HEAD_POWER = 'METAL_HEAD_POWER'
+export const BANDIT_DECREMENT = 'BANDIT_DECREMENT'
+export const BANDIT_ATTACK_ENGAGE = 'BANDIT_ATTACK_ENGAGE'
+export const CLEAR_ATTACK = 'CLEAR_ATTACK'
+export const ENGAGE_HEAL = 'ENGAGE_HEAL'
 //opponent actions
 export const OPP_HERO_DEAD = 'OPP_HERO_DEAD'
 //

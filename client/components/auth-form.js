@@ -4,11 +4,13 @@ import PropTypes from 'prop-types'
 import {auth} from '../store'
 import {Link} from 'react-router-dom'
 import {MyButton as Button} from './Button'
-import Textfield from './Textfield'
 
 /**
  * COMPONENT
  */
+// function emailIsValid (email) {
+//     return /\S+@\S+\.\S+/.test(email)
+// }
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props
 
@@ -19,9 +21,10 @@ const AuthForm = props => {
           <div className="heroInput">
             <input
               name="email"
-              type="text"
+              type="Email"
               placeholder="Email"
               className="inputStyle"
+              required
             />
           </div>
         )}
@@ -31,6 +34,9 @@ const AuthForm = props => {
             type="text"
             placeholder="Username"
             className="inputStyle"
+            minLength="2"
+            maxLength="20"
+            required
           />
         </div>
         <div className="heroInput">
@@ -39,6 +45,9 @@ const AuthForm = props => {
             type="password"
             placeholder="Password"
             className="inputStyle"
+            minLength="4"
+            maxLength="20"
+            required
           />
         </div>
 
@@ -97,6 +106,7 @@ const mapDispatch = dispatch => {
   return {
     handleSubmit(evt) {
       evt.preventDefault()
+      // const validateFunc()
       const formName = evt.target.name
 
       let email = ''
