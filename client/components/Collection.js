@@ -4,6 +4,8 @@ import {useDrop} from 'react-dnd'
 import {addToCollection, removeCollection} from '../store/reducers/user'
 import {connect} from 'react-redux'
 import {toast} from 'react-toastify'
+import {confirmAlert} from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'
 import 'react-toastify/dist/ReactToastify.css'
 
 function Collection(props) {
@@ -53,7 +55,24 @@ function Collection(props) {
           {!['Default Deck', 'My Cards'].includes(props.collection.name) ? (
             <button
               style={{marginLeft: '1vh'}}
-              onClick={() => props.removeCollection(props.collection._id)}
+              onClick={() =>
+                confirmAlert({
+                  title: 'Confirm',
+                  message:
+                    'Are you sure you want to permanently delete this deck?',
+                  buttons: [
+                    {
+                      label: 'Yes',
+                      onClick: () => {
+                        props.removeCollection(props.collection._id)
+                      }
+                    },
+                    {
+                      label: 'Cancel'
+                    }
+                  ]
+                })
+              }
               type="button"
             >
               X

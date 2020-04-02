@@ -15,11 +15,15 @@ import {toast} from 'react-toastify'
 import Button from '@material-ui/core/Button'
 import {MyButton as Button2} from './Button'
 import 'react-toastify/dist/ReactToastify.css'
-import {zoomOut} from 'react-animations'
+import {zoomOut, fadeOut} from 'react-animations'
 import styled, {keyframes} from 'styled-components'
 
 const Zoom = styled.div`
   animation: 1s ${keyframes`${zoomOut}`};
+`
+
+const Fade = styled.div`
+  animation: 1s ${keyframes`${fadeOut}`};
 `
 
 class CollectionList extends Component {
@@ -27,7 +31,8 @@ class CollectionList extends Component {
     super()
     this.state = {
       name: '',
-      recentlyDeleted: ''
+      recentlyDeletedCard: '',
+      recentlyDeletedColl: ''
     }
 
     this.handleClick = this.handleClick.bind(this)
@@ -47,6 +52,9 @@ class CollectionList extends Component {
   handleClick(collectionId) {
     this.props.loadCards(collectionId)
     // this.props.loadInitialData(this.props.user._id)
+    this.setState({
+      recentlyDeletedColl: collectionId
+    })
   }
 
   handleSubmit(event) {
@@ -72,7 +80,7 @@ class CollectionList extends Component {
   handleRemove(coll, cardId) {
     this.props.removeFromCollection(coll, cardId)
     this.setState({
-      recentlyDeleted: cardId
+      recentlyDeletedCard: cardId
     })
   }
 
@@ -151,7 +159,7 @@ class CollectionList extends Component {
               </div>
               <div id="collections">
                 {this.props.userCollections.map(collection => {
-                  return (
+                  return this.state.recentlyDeletedColl !== collection._id ? (
                     <Collection
                       handleClick={() => {
                         this.handleClick(collection._id)
@@ -159,6 +167,13 @@ class CollectionList extends Component {
                       key={collection._id}
                       collection={collection}
                     />
+                  ) : (
+                    <Fade key={collection._id}>
+                      <Collection
+                        key={collection._id}
+                        collection={collection}
+                      />
+                    </Fade>
                   )
                 })}
               </div>
@@ -166,7 +181,7 @@ class CollectionList extends Component {
           </div>
           <div id="selectedCollection">
             {this.props.selectedCollection.cards.map(card => {
-              return this.state.recentlyDeleted !== card._id ? (
+              return this.state.recentlyDeletedCard !== card._id ? (
                 <DisplayCard
                   key={card._id}
                   card={card}
