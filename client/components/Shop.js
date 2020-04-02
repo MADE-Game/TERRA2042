@@ -8,6 +8,7 @@ import {toast} from 'react-toastify'
 import {confirmAlert} from 'react-confirm-alert'
 import {fadeIn} from 'react-animations'
 import styled, {keyframes} from 'styled-components'
+import {Pagination} from '@material-ui/lab'
 import 'react-toastify/dist/ReactToastify.css'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 
@@ -19,6 +20,9 @@ class Shop extends Component {
   constructor() {
     super()
     this.handleClick = this.handleClick.bind(this)
+    this.state = {
+      page: 1
+    }
   }
 
   componentDidMount() {
@@ -65,19 +69,30 @@ class Shop extends Component {
           </button>
         </Link>
         <span>Gold {this.props.gold}</span>
+        {/* // still need the to implement with arrows */}
+        <Pagination
+          page={this.state.page}
+          count={Math.ceil(this.props.inShop.length / 8)}
+          size="large"
+          hideNextButton={true}
+          hidePrevButton={true}
+          onChange={event => this.setState({page: +event.target.innerText})}
+        />
         <Fade>
           <div id="shop-cards">
-            {this.props.inShop.map(card => {
-              return (
-                <ShopCard
-                  key={card._id}
-                  card={card}
-                  handleClick={(cardId, cardCost) =>
-                    this.handleClick(event, cardId, cardCost)
-                  }
-                />
-              )
-            })}
+            {this.props.inShop
+              .slice((this.state.page - 1) * 8, this.state.page * 8)
+              .map(card => {
+                return (
+                  <ShopCard
+                    key={card._id}
+                    card={card}
+                    handleClick={(cardId, cardCost) =>
+                      this.handleClick(event, cardId, cardCost)
+                    }
+                  />
+                )
+              })}
           </div>
         </Fade>
       </div>
