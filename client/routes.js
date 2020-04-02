@@ -28,17 +28,17 @@ class Routes extends Component {
         theme.id = 'theme'
         theme.src = '/theme.mp3'
         theme.loop = true
-        theme.volume = this.state.vol
+        theme.volume = 0.1
         document.getElementById('app').appendChild(theme)
+
         window.addEventListener('keydown', event => {
           if (event.key === 'ArrowDown')
             theme.paused ? theme.play() : theme.pause()
         })
 
-        if (theme.paused)
-          toast.info('Press down-arrow key to pause/play the soundtrack', {
-            position: toast.POSITION.TOP_CENTER
-          })
+        toast.info('Press down-arrow key to pause/play the soundtrack', {
+          position: toast.POSITION.TOP_RIGHT
+        })
       } catch (error) {
         return false
       }
