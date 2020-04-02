@@ -49,16 +49,11 @@ class CollectionList extends Component {
   }
 
   componentDidMount() {
-    console.log('mounting')
-    //this.props.loadInitialData(this.props.user._id)
     this.props.loadCards(this.props.userCollections[0]._id)
-    // let allCardsDiv = document.getElementsByClassName('buttonContainer')
-    // this.props.loadCards(this.props.selectedCollection._id)
   }
 
   handleClick(collectionId) {
     this.props.loadCards(collectionId)
-    // this.props.loadInitialData(this.props.user._id)
   }
 
   handleSubmit(event) {
