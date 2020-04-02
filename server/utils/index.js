@@ -54,7 +54,10 @@ const objectifyBoard = (gameFromSave, gameInDB, userId) => {
         class: gameFromSave.player.class,
         drawsThisTurn: gameFromSave.player.drawsThisTurn,
         drawLimit: gameFromSave.player.drawLimit,
-        cultistHasDrawn: gameFromSave.player.cultistHasDrawn
+        cultistHasDrawn: gameFromSave.player.cultistHasDrawn,
+        healUsed: gameFromSave.player.healUsed,
+        metalHeadUsed: gameFromSave.player.metalHeadUsed,
+        banditUsed: gameFromSave.player.banditUsed
       }
     }
   } else {
@@ -73,7 +76,10 @@ const objectifyBoard = (gameFromSave, gameInDB, userId) => {
         class: gameFromSave.player.class,
         drawsThisTurn: gameFromSave.player.drawsThisTurn,
         drawLimit: gameFromSave.player.drawLimit,
-        cultistHasDrawn: gameFromSave.player.cultistHasDrawn
+        cultistHasDrawn: gameFromSave.player.cultistHasDrawn,
+        healUsed: gameFromSave.player.healUsed,
+        metalHeadUsed: gameFromSave.player.metalHeadUsed,
+        banditUsed: gameFromSave.player.banditUsed
       }
     }
   }

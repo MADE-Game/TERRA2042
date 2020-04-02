@@ -10,6 +10,7 @@ import {
   banditDecrementThunk,
   banditEngage
 } from '../store/thunksAndActionCreators'
+import {toast} from 'react-toastify'
 // import ReactConfirmAlert from 'react-confirm-alert';
 
 class BanditComponent extends React.Component {
@@ -41,7 +42,9 @@ class BanditComponent extends React.Component {
               this.handleClickOpen()
             } else {
               // eslint-disable-next-line no-alert
-              alert('You can only use bandit power once per turn')
+              toast.warning('You can only use bandit power once per turn', {
+                position: toast.POSITION.TOP_CENTER
+              })
             }
           }}
         >

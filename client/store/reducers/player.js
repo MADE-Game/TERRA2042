@@ -11,7 +11,6 @@ import {
   CULTIST_DRAW,
   MEDIC_HEAL,
   CLEAR_BOARD,
-  // BANDIT_POWER,
   BANDIT_DECREMENT,
   BANDIT_ATTACK_ENGAGE,
   CLEAR_ATTACK,
@@ -20,6 +19,7 @@ import {
 } from '../actionTypes'
 
 import 'react-toastify/dist/ReactToastify.css'
+import {toast} from 'react-toastify'
 
 const initialState = {
   deck: [],
@@ -49,7 +49,10 @@ export default function(state = initialState, action) {
         settlers: action.game.game.player.settlers,
         drawsThisTurn: action.game.game.player.drawsThisTurn,
         drawLimit: action.game.game.player.drawLimit,
-        cultistHasDrawn: action.game.game.player.cultistHasDrawn
+        cultistHasDrawn: action.game.game.player.cultistHasDrawn,
+        banditUsed: action.game.game.player.banditUsed,
+        metalHeadUsed: action.game.game.player.metalHeadUsed,
+        healUsed: action.game.game.player.banditUsed
       }
     case CLEAR_BOARD:
       return initialState
@@ -156,8 +159,9 @@ export default function(state = initialState, action) {
           cultistHasDrawn: true
         }
       } else {
-        // eslint-disable-next-line no-alert
-        alert('A cultist can only use the draw card power once per turn')
+        toast.warning('You can only use the cultist power once per turn', {
+          position: toast.POSITION.TOP_CENTER
+        })
         return state
       }
     case MEDIC_HEAL:
@@ -211,13 +215,15 @@ export default function(state = initialState, action) {
             metalHeadUsed: true
           }
         } else {
-          // eslint-disable-next-line no-alert
-          alert('You can only play one minion at a time')
+          toast.warning('You can only play one minion at a time', {
+            position: toast.POSITION.TOP_CENTER
+          })
           return state
         }
       } else {
-        // eslint-disable-next-line no-alert
-        alert('Plane is full!')
+        toast.warning('Plane is full!', {
+          position: toast.POSITION.TOP_CENTER
+        })
         return state
       }
     case ENGAGE_HEAL:

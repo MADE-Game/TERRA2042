@@ -61,8 +61,9 @@ const Card = props => {
             props.medicHeal(props.card)
           }
         } else {
-          // eslint-disable-next-line no-alert
-          alert('heal has already been used this round!')
+          toast.warning('Heal has already been used this round', {
+            position: toast.POSITION.TOP_CENTER
+          })
         }
         if (props.banditAttackEngaged) {
           props.clearAttack(props.card)
