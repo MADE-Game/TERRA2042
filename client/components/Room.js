@@ -66,9 +66,14 @@ class Room extends Component {
   render() {
     let classData = localStorage.getItem('theClass')
     return (
-      <div>
-        <h1>{`Your room is: ${this.props.match.params.roomId}\nSend this to your friend!`}</h1>
-        {classData}
+      <div className="room">
+        <p>Have a friend enter this code in the lobby to join a game</p>
+        <h1>Room code:</h1>
+        <h2 id="room-num">
+          <strong>{this.props.match.params.roomId}</strong>
+        </h2>
+        <h2>waiting for other player...</h2>
+        Selected class: {classData}
       </div>
     )
   }

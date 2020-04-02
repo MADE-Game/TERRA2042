@@ -420,3 +420,15 @@ nav a {
 #card:hover {
   transform: scale(1.1);
 }
+
+.history-text {
+  color: white;
+  text-align: center;
+}
+.room {
+  color: white;
+  text-align: center;
+}
+#room-num {
+  color: orange;
+}
