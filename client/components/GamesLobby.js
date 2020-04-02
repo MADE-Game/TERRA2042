@@ -65,7 +65,7 @@ class GamesLobby extends Component {
             name={this.state.name}
             decks={this.props.decks}
           />
-          <label htmlFor="class">Pick Your Class</label>
+          {/* <label htmlFor="class">Pick Your Class</label> */}
           <select
             name="class"
             onChange={e => {
@@ -86,16 +86,7 @@ class GamesLobby extends Component {
               )
             })}
           </select>
-          {this.state.classSelected === true &&
-          this.props.user.selectedClass !== 'Select Class' ? (
-            <Link to={`/games/rooms/${Math.floor(Math.random() * 1000000)}`}>
-              <Button text="Create Game" color="default" />
-            </Link>
-          ) : (
-            <div onClick={this.noClassAlert}>
-              <Button text="Create Game" color="default" />
-            </div>
-          )}
+
           {/* <Button text="Join Game" color="secondary" /> */}
           <div
             onChange={this.handleChange}
@@ -117,6 +108,16 @@ class GamesLobby extends Component {
           ) : (
             <div onClick={this.noClassAlert}>
               <Button text="Join Game" color="secondary" />
+            </div>
+          )}
+          {this.state.classSelected === true &&
+          this.props.user.selectedClass !== 'Select Class' ? (
+            <Link to={`/games/rooms/${Math.floor(Math.random() * 1000000)}`}>
+              <Button text="Create Game" color="default" />
+            </Link>
+          ) : (
+            <div onClick={this.noClassAlert}>
+              <Button text="Create Game" color="default" />
             </div>
           )}
         </div>

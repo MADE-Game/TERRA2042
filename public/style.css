@@ -106,7 +106,7 @@ nav a {
 }
 
 #lobbyBox {
-  width: 25%;
+  width: 35%;
   background-color: rgba(255, 255, 255, 0.25);
   display: flex;
   flex-direction: column;
@@ -116,7 +116,8 @@ nav a {
   align-items: center;
 }
 
-#lobbyBox p {
+#lobbyBox p,
+label {
   color: #fff;
   font-size: 14px;
   margin: 0;
