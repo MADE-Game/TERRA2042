@@ -487,7 +487,7 @@ nav a {
 
 #shop-cards {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-gap: 100px;
   grid-auto-rows: minmax(5%, auto);
   margin: 5% 3% auto 3%;

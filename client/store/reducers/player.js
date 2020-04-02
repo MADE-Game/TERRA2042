@@ -15,7 +15,8 @@ import {
   BANDIT_DECREMENT,
   BANDIT_ATTACK_ENGAGE,
   CLEAR_ATTACK,
-  METAL_HEAD_POWER
+  METAL_HEAD_POWER,
+  ENGAGE_HEAL
 } from '../actionTypes'
 
 import 'react-toastify/dist/ReactToastify.css'
@@ -32,7 +33,8 @@ const initialState = {
   healUsed: false,
   banditUsed: false,
   banditAttackEngaged: false,
-  metalHeadUsed: false
+  metalHeadUsed: false,
+  healEngaged: false
 }
 
 // eslint-disable-next-line complexity
@@ -120,7 +122,8 @@ export default function(state = initialState, action) {
         banditUsed: false,
         metalHeadUsed: false,
         drawsThisTurn: 0,
-        planeFull: false
+        planeFull: false,
+        healEngaged: false
       }
     case HURT_BY_DRAW:
       return {
@@ -217,7 +220,8 @@ export default function(state = initialState, action) {
         alert('Plane is full!')
         return state
       }
-
+    case ENGAGE_HEAL:
+      return {...state, healEngaged: true}
     default:
       return state
   }

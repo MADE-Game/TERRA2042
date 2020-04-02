@@ -8,6 +8,9 @@ import {MyButton as Button} from './Button'
 /**
  * COMPONENT
  */
+// function emailIsValid (email) {
+//     return /\S+@\S+\.\S+/.test(email)
+// }
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props
 
@@ -18,11 +21,11 @@ const AuthForm = props => {
           <div className="heroInput">
             <input
               name="email"
-              type="text"
+              type="Email"
               placeholder="Email"
               className="inputStyle"
+              required
             />
-            {/* <TextField id="outlined-basic" errorText="Requires Valid Email Address" label="Email" variant="outlined" /> */}
           </div>
         )}
         <div className="heroInput">
@@ -31,6 +34,9 @@ const AuthForm = props => {
             type="text"
             placeholder="Username"
             className="inputStyle"
+            minLength="2"
+            maxLength="20"
+            required
           />
         </div>
         <div className="heroInput">
@@ -39,6 +45,9 @@ const AuthForm = props => {
             type="password"
             placeholder="Password"
             className="inputStyle"
+            minLength="4"
+            maxLength="20"
+            required
           />
         </div>
 

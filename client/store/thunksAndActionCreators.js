@@ -19,7 +19,8 @@ import {
   METAL_HEAD_POWER,
   BANDIT_ATTACK_ENGAGE,
   CLEAR_ATTACK,
-  GIVE_GOLD
+  GIVE_GOLD,
+  ENGAGE_HEAL
 } from './actionTypes'
 
 import engine from '../engine/index'
@@ -35,6 +36,9 @@ const cultistDrew = (deck, card, player) => ({
   deck,
   player,
   card
+})
+export const engagedHeal = () => ({
+  type: ENGAGE_HEAL
 })
 const clearedAttack = fighter => ({
   type: CLEAR_ATTACK,
@@ -201,13 +205,15 @@ export const getAllCards = () => {
 //card[attacker].
 export const playerAttackCard = (attacker, defender) => {
   const result = engine.attack(attacker, defender)
-  return async dispatch => {
-    await dispatch(playerAttackedCard(...result))
-    socket.emit('attack', {
-      attacker: result[0],
-      defender: result[1],
-      roomId: localStorage.roomId
-    })
+  return dispatch => {
+    setTimeout(() => {
+      dispatch(playerAttackedCard(...result))
+      socket.emit('attack', {
+        attacker: result[0],
+        defender: result[1],
+        roomId: localStorage.roomId
+      })
+    }, 1000)
   }
 }
 
