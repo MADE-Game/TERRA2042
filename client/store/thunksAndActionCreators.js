@@ -14,7 +14,12 @@ import {
   INCREMENT_SETTLERS,
   CULTIST_DRAW,
   MEDIC_HEAL,
-  CLEAR_BOARD
+  CLEAR_BOARD,
+  // BANDIT_POWER,
+  BANDIT_DECREMENT,
+  METAL_HEAD_POWER,
+  BANDIT_ATTACK_ENGAGE,
+  CLEAR_ATTACK
 } from './actionTypes'
 
 import engine from '../engine/index'
@@ -30,6 +35,15 @@ const cultistDrew = (deck, card, player) => ({
   deck,
   player,
   card
+})
+const clearedAttack = fighter => ({
+  type: CLEAR_ATTACK,
+  fighter
+})
+const banditDecrement = (player, opponent) => ({
+  type: BANDIT_DECREMENT,
+  player,
+  opponent
 })
 const clearedBoard = () => ({
   type: CLEAR_BOARD
@@ -94,6 +108,15 @@ const medicHealed = fighter => ({
   fighter
 })
 
+const banditAttackEngaged = () => ({
+  type: BANDIT_ATTACK_ENGAGE
+})
+const metalHeadSummoned = (fighter, player) => ({
+  type: METAL_HEAD_POWER,
+  fighter,
+  player
+})
+
 export const endTurn = () => async dispatch => {
   await dispatch(endedTurn())
 }
@@ -104,7 +127,24 @@ export const medicHealPower = fighter => dispatch => {
   const result = engine.medicHeal(fighter)
   dispatch(medicHealed(result))
 }
+export const clearAttackThunk = fighter => dispatch => {
+  const result = engine.clearAttack(fighter)
+  dispatch(clearedAttack(result))
+}
 
+export const banditDecrementThunk = (player, opponent) => dispatch => {
+  const result = engine.banditDecrement(player, opponent)
+  dispatch(banditDecrement(...result))
+}
+export const metalHeadSummon = player => async dispatch => {
+  const result = engine.metalHeadPower(player)
+  if (result[1].settlers <= 0) {
+    await dispatch(playerHeroDied())
+    socket.emit('game over')
+  } else {
+    dispatch(metalHeadSummoned(...result))
+  }
+}
 export const incrementTheSettlers = (hero, user) => async dispatch => {
   const result = engine.incrementSettlers(hero, user)
   await dispatch(incrementedSettlers(result))
@@ -116,7 +156,9 @@ export const cultistDrawCard = (deck, player) => {
     socket.emit('draw card')
   }
 }
-
+export const banditEngage = () => {
+  return dispatch => dispatch(banditAttackEngaged())
+}
 export const playerPlayCard = (hero, card) => {
   const result = engine.payCost(hero, card)
   if (result.settlers <= 0) {

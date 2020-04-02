@@ -3,7 +3,9 @@ import {
   PLAYER_ATTACK_HERO,
   LOAD_GAME,
   END_TURN,
-  CLEAR_BOARD
+  CLEAR_BOARD,
+  BANDIT_DECREMENT,
+  BANDIT_POWER
 } from '../actionTypes'
 
 const initialState = {
@@ -49,6 +51,9 @@ export default function(state = initialState, action) {
         }),
         drawOccurred: 0
       }
+    case BANDIT_DECREMENT:
+      return {...state, settlers: action.opponent.settlers}
+
     default:
       return state
   }

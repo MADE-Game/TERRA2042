@@ -3,7 +3,8 @@ import {ItemTypes} from '../dnd/types'
 import {useDrag, useDrop} from 'react-dnd'
 import {
   playerAttackCard,
-  medicHealPower
+  medicHealPower,
+  clearAttackThunk
 } from '../store/thunksAndActionCreators'
 import {connect} from 'react-redux'
 import {toast} from 'react-toastify'
@@ -58,7 +59,11 @@ const Card = props => {
             props.medicHeal(props.card)
           }
         } else {
+          // eslint-disable-next-line no-alert
           alert('heal has already been used this round!')
+        }
+        if (props.banditAttackEngaged) {
+          props.clearAttack(props.card)
         }
       }}
     >
@@ -119,11 +124,13 @@ const Card = props => {
 const mapDispatch = dispatch => ({
   attackCard: (attacker, defender) =>
     dispatch(playerAttackCard(attacker, defender)),
-  medicHeal: fighter => dispatch(medicHealPower(fighter))
+  medicHeal: fighter => dispatch(medicHealPower(fighter)),
+  clearAttack: fighter => dispatch(clearAttackThunk(fighter))
 })
 const mapState = state => ({
   isMyTurn: state.game.data.isMyTurn,
-  healUsed: state.game.player.healUsed
+  healUsed: state.game.player.healUsed,
+  banditAttackEngaged: state.game.player.banditAttackEngaged
 })
 
 export default connect(mapState, mapDispatch)(Card)

@@ -1,6 +1,7 @@
 import React from 'react'
 import Card from './Card'
 import Plane from './Plane'
+import BanditComponent from './BanditComponent'
 import {
   endTurn,
   playerPlayCard,
@@ -8,7 +9,8 @@ import {
   saveGame,
   incrementTheSettlers,
   hurtByTheDraw,
-  cultistDrawCard
+  cultistDrawCard,
+  metalHeadSummon
 } from '../store/thunksAndActionCreators'
 import Chat from './Chat'
 import {Link} from 'react-router-dom'
@@ -243,25 +245,59 @@ class Side extends React.Component {
                 <button
                   type="submit"
                   onClick={() => {
-                    this.props.cultistDraw(
-                      this.props.player.deck,
-                      this.props.player
-                    )
+                    if (this.props.canDraw) {
+                      this.props.cultistDraw(
+                        this.props.player.deck,
+                        this.props.player
+                      )
+                    } else {
+                      // eslint-disable-next-line no-alert
+                      alert('Not your turn!')
+                    }
                   }}
                 >
                   Cultist Draw Card
+                </button>
+              )}
+              {this.props.user.selectedClass === 'Metalhead' && (
+                <button
+                  type="submit"
+                  onClick={() => {
+                    if (this.props.canDraw) {
+                      if (!this.props.metalHeadUsed) {
+                        this.props.metalHeadSummon(this.props.player)
+                      } else {
+                        // eslint-disable-next-line no-alert
+                        alert('You can only use Metalhead power once per turn')
+                      }
+                    } else {
+                      // eslint-disable-next-line no-alert
+                      alert('Not your turn!')
+                    }
+                  }}
+                >
+                  Metalhead Power
                 </button>
               )}
               {this.props.user.selectedClass === 'Medic' && (
                 <button
                   type="submit"
                   onClick={() => {
-                    console.log('healEngaged')
-                    this.setState({healEngaged: true})
+                    if (this.props.canDraw) {
+                      this.setState({healEngaged: true})
+                    } else {
+                      // eslint-disable-next-line no-alert
+                      alert('Not your turn!')
+                    }
                   }}
                 >
                   Medic Heal Power
                 </button>
+              )}
+              {this.props.user.selectedClass === 'Bandit' && (
+                <div>
+                  <BanditComponent />
+                </div>
               )}
             </div>
           </div>
@@ -283,7 +319,8 @@ const mapStateToProps = function(state) {
     player: state.game.player,
     planeFull: state.game.player.planeFull,
     canDraw: state.game.data.localTurn,
-    user: state.user
+    user: state.user,
+    metalHeadUsed: state.game.player.metalHeadUsed
   }
 }
 
@@ -301,7 +338,8 @@ const mapDispatchToProps = function(dispatch) {
       )
       socket.emit('end turn')
     },
-    cultistDraw: (deck, player) => dispatch(cultistDrawCard(deck, player))
+    cultistDraw: (deck, player) => dispatch(cultistDrawCard(deck, player)),
+    metalHeadSummon: fighter => dispatch(metalHeadSummon(fighter))
   }
 }
 
