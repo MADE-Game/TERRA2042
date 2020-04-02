@@ -70,7 +70,7 @@ class Side extends React.Component {
                     onComplete={() => {
                       if (this.props.isMyTurn) {
                         this.props.forfeitTurn(
-                          this.props.match.params.id,
+                          localStorage.gameId,
                           this.props.gameState
                         )
                         socket.emit('end turn', {roomId: localStorage.roomId})
@@ -450,6 +450,25 @@ const mapDispatchToProps = function(dispatch) {
       socket.emit('end turn', {roomId: localStorage.roomId})
     },
     cultistDraw: (deck, player) => dispatch(cultistDrawCard(deck, player)),
+    forfeitTurn: async (gameId, gameState) => {
+      dispatch(endTurn())
+      dispatch(
+        saveGame(gameId, {
+          ...gameState,
+          player: {
+            ...gameState.player,
+            drawsThisTurn: 0,
+            cultistHasDrawn: false,
+            healUsed: false,
+            banditUsed: false,
+            banditAttackEngaged: false,
+            metalHeadUsed: false,
+            healEngaged: false
+          },
+          data: {...gameState.data, isMyTurn: false}
+        })
+      )
+    },
     metalHeadSummon: fighter => dispatch(metalHeadSummon(fighter)),
     engagedHeal: () => dispatch(engagedHeal())
   }

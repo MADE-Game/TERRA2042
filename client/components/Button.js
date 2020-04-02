@@ -10,6 +10,7 @@ import AssessmentIcon from '@material-ui/icons/Assessment'
 import {confirmAlert} from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import {socket} from './Room'
+import history from '../history'
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -51,7 +52,7 @@ export function MyButton(props) {
                     playerName: props.playerName,
                     roomId: localStorage.roomId
                   })
-                  props.history.replace('/home')
+                  history.replace('/home')
                 }
               },
               {

@@ -294,6 +294,11 @@ export default function(state = initialState, action) {
     case ADD_TO_USER_CARDS:
       return {
         ...state,
+        inShop: state.inShop.filter(
+          card =>
+            card._id !==
+            action.userCards.cards[action.userCards.cards.length - 1]
+        ),
         collections: state.collections.map(coll =>
           coll.isDeck ? coll : action.userCards
         ),

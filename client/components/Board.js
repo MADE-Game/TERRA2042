@@ -19,7 +19,7 @@ import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 //used for slightly delaying socket speed prior to save.
-const STUTTER = 100
+const STUTTER = 250
 window.KEY = Math.random()
 
 const enemySide = {
@@ -187,17 +187,7 @@ const mapDispatchToProps = dispatch => {
     loadGame: id => dispatch(loadGame(id)),
     saveGame: (id, gameState) => dispatch(saveGame(id, gameState)),
     startTurn: () => dispatch(startTurn()),
-    clearBoard: () => dispatch(clearBoard()),
-    forfeitTurn: async (gameId, gameState) => {
-      dispatch(endTurn())
-      dispatch(
-        saveGame(gameId, {
-          ...gameState,
-          player: {...gameState.player, drawsThisTurn: 0},
-          data: {...gameState.data, isMyTurn: false}
-        })
-      )
-    }
+    clearBoard: () => dispatch(clearBoard())
   }
 }
 
