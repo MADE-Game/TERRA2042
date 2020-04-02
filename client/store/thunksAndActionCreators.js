@@ -19,7 +19,8 @@ import {
   METAL_HEAD_POWER,
   BANDIT_ATTACK_ENGAGE,
   CLEAR_ATTACK,
-  GIVE_GOLD
+  GIVE_GOLD,
+  ENGAGE_HEAL
 } from './actionTypes'
 
 import engine from '../engine/index'
@@ -35,6 +36,9 @@ const cultistDrew = (deck, card, player) => ({
   deck,
   player,
   card
+})
+export const engagedHeal = () => ({
+  type: ENGAGE_HEAL
 })
 const clearedAttack = fighter => ({
   type: CLEAR_ATTACK,
