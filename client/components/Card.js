@@ -39,7 +39,6 @@ const Card = props => {
           position: toast.POSITION.TOP_CENTER
         })
       } else if (props.player === 'enemy' && !props.inHand && !item.inHand) {
-        console.log('attack!')
         props.attackCard(item.card, props.card)
       }
     },
