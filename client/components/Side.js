@@ -1,6 +1,7 @@
 import React from 'react'
 import Card from './Card'
 import Plane from './Plane'
+import {MyButton as Button} from './Button'
 import BanditComponent from './BanditComponent'
 import {
   endTurn,
@@ -20,6 +21,7 @@ import Player from './Player'
 import {zoomInLeft} from 'react-animations'
 import styled, {keyframes} from 'styled-components'
 import {toast} from 'react-toastify'
+import {CountdownCircleTimer} from 'react-countdown-circle-timer'
 
 const Draw = styled.div`
   animation: 1s ${keyframes`${zoomInLeft}`};
@@ -34,6 +36,7 @@ class Side extends React.Component {
 
   // eslint-disable-next-line complexity
   render() {
+    console.log(this.props.history)
     return (
       <div className="side">
         {/* player or opponent boolean check */}
@@ -43,24 +46,60 @@ class Side extends React.Component {
             <div
               style={{
                 display: 'flex',
-                flexDirection: 'column',
-                width: '15%',
+                justifyContent: 'space-between',
                 alignItems: 'center',
-                marginLeft: '42.5%',
-                marginRight: '42.5%'
+                paddingTop: '2vh'
               }}
             >
-              <Player
-                imgUrl={this.props.side.heroUrl}
-                player={this.props.opponent}
-                side="top"
-              />
-              <p className="heroText">
-                Deck: {this.props.opponent.deck} cards left.
-              </p>
-              <p className="heroText">
-                Opponent hand size is:{this.props.opponent.hand}
-              </p>
+              <div
+                style={{
+                  display: 'flex',
+                  alignSelf: 'flex-start',
+                  paddingLeft: '2vh'
+                }}
+              >
+                <a>
+                  <Button
+                    text="Home"
+                    color="default"
+                    icon="home2"
+                    history={this.props.history}
+                  />
+                </a>
+                <div style={{marginLeft: '2vh'}}>
+                  <CountdownCircleTimer
+                    size={50}
+                    strokeWidth={5}
+                    trailColor="black"
+                    onComplete={() => {
+                      if (this.props.isMyTurn) {
+                        this.props.forfeitTurn(
+                          this.props.match.params.id,
+                          this.props.gameState
+                        )
+                        socket.emit('end turn', {roomId: localStorage.roomId})
+                        toast.error('You forfeited your turn!', {
+                          position: toast.POSITION.TOP_CENTER
+                        })
+                      }
+
+                      window.KEY = Math.random()
+                    }}
+                    isPlaying={this.props.isMyTurn}
+                    durationSeconds={30}
+                    colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
+                    key={window.KEY}
+                  />
+                </div>
+              </div>
+              <div style={{paddingRight: '2vh'}}>
+                <Player
+                  imgUrl={this.props.side.heroUrl}
+                  player={this.props.opponent}
+                  side="top"
+                  size={this.props.opponent.hand}
+                />
+              </div>
             </div>
             <Plane
               inPlay={this.props.opponentInPlay}
@@ -80,35 +119,13 @@ class Side extends React.Component {
               healEngaged={this.state.healEngaged}
             />
 
-            <div style={{display: 'flex', flexDirection: 'column-reverse'}}>
+            <div style={{display: 'flex', flexDirection: 'column'}}>
               {/* boolean that checks whether or not its the players turn */}
               {this.props.canDraw ? (
                 /* boolean that checks whether or not the player has cards in their deck */
                 this.props.player.deck.length ? (
                   //if they have cards in their deck
                   <div style={{paddingLeft: '3vh'}}>
-                    <button
-                      className="buttonStyle3"
-                      type="submit"
-                      onClick={
-                        this.props.allowedToDraw
-                          ? () => {
-                              this.props.drawCard(
-                                this.props.player.deck,
-                                this.props.user
-                              )
-                            }
-                          : () =>
-                              toast.warning(
-                                "You can't draw any more cards this turn!",
-                                {
-                                  position: toast.POSITION.TOP_CENTER
-                                }
-                              )
-                      }
-                    >
-                      <p className="buttonText">Draw Card</p>
-                    </button>
                     {/* boolean that checks whether or not the player has finished their turn */}
                     {!this.props.isFinished ? (
                       /* boolean that checks whether or not the player has drawn a card this turn */
@@ -116,10 +133,31 @@ class Side extends React.Component {
                         //if the player hasn't drawn a card
                         <div id="buttonContainer">
                           <button
+                            className="buttonStyle3"
+                            type="submit"
+                            onClick={
+                              this.props.allowedToDraw
+                                ? () => {
+                                    this.props.drawCard(
+                                      this.props.player.deck,
+                                      this.props.user
+                                    )
+                                  }
+                                : () =>
+                                    toast.warning(
+                                      "You can't draw any more cards this turn!",
+                                      {
+                                        position: toast.POSITION.TOP_CENTER
+                                      }
+                                    )
+                            }
+                          >
+                            <p className="buttonText">Draw Card</p>
+                          </button>
+                          <button
                             disabled={!this.props.gameState.data.isMyTurn}
                             className="buttonStyle3"
                             type="submit"
-                            style={{marginTop: '-4vh'}}
                             onClick={() => {
                               this.props.endTurn(
                                 this.props.gameId,
@@ -246,7 +284,6 @@ class Side extends React.Component {
 
               <div style={{display: 'flex', justifyContent: 'space-between'}}>
                 <div></div>
-                <Chat />
               </div>
             </div>
 
@@ -254,15 +291,15 @@ class Side extends React.Component {
               className="hand"
               style={{display: 'flex', justifyContent: 'center'}}
             >
-              <Player
-                imgUrl={this.props.side.heroUrl}
-                player={this.props.player}
-                side="bottom"
-              />
               <div
                 className="hand"
                 style={{paddingTop: '2vh', paddingBottom: '2vh'}}
               >
+                <Player
+                  imgUrl={this.props.side.heroUrl}
+                  player={this.props.player}
+                  side="bottom"
+                />
                 {this.props.hand.map(card => {
                   return (
                     <Draw key={card._id}>
@@ -275,10 +312,8 @@ class Side extends React.Component {
                     </Draw>
                   )
                 })}
+                <Chat />
               </div>
-              <p className="heroText">
-                Deck: {this.props.player.deck.length} cards left.
-              </p>
             </div>
 
             <div>

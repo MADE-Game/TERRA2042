@@ -50,7 +50,6 @@ const Card = props => {
   })
 
   const {name, attack, health, imageUrl, cost} = props.card
-
   return (
     <div
       ref={drag}
@@ -62,7 +61,7 @@ const Card = props => {
           }
         } else {
           // eslint-disable-next-line no-alert
-          alert('heal has already been used this round!')
+          alert('heal has already been used this turn!')
         }
         if (props.banditAttackEngaged) {
           props.clearAttack(props.card)
@@ -70,53 +69,49 @@ const Card = props => {
       }}
     >
       <div
-        className="card"
-        ref={drop}
+        className="collectionCard"
         style={{
-          marginRight: '1vh',
+          // marginRight: '1.75vh',
           fontWeight: 'bold',
           cursor: 'move'
         }}
       >
-        <img
-          src="/images/card_bg.png"
-          style={{visibility: 'hidden', maxWidth: '75px', marginTop: '-159%'}}
-        />
-        <div>
-          <p
+        <div
+          style={{
+            marginTop: '-1vh',
+            backgroundImage: `url('${imageUrl}')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            minWidth: '12vh',
+            minHeight: '20vh',
+            display: 'flex',
+            flexDirection: 'column',
+            color: '#fff',
+            justifyContent: 'space-between'
+          }}
+        >
+          <h3
             style={{
-              margin: 0,
               textAlign: 'center',
-              fontSize: 10,
+              margin: 0,
               color: '#fff'
             }}
           >
             {cost}
-          </p>
-        </div>
-        <img src={imageUrl} style={{width: '11vh'}} />
-        <h2
-          style={{
-            textAlign: 'center',
-            margin: 0,
-            fontSize: 8,
-            color: '#fff',
-            marginTop: '-.75vh'
-          }}
-        >
-          {name}
-        </h2>
-        <div
-          className="stats"
-          style={{
-            // paddingRight: '1em',
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-evenly'
-          }}
-        >
-          <p>{attack}</p>
-          <p>{health}</p>
+          </h3>
+          <h3 style={{textAlign: 'center', paddingTop: '7.5vh'}}>{name}</h3>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-evenly'
+            }}
+          >
+            <h3 style={{margin: 0}}>{attack}</h3>
+
+            <h3 style={{margin: 0}}>{health}</h3>
+          </div>
         </div>
       </div>
     </div>

@@ -34,10 +34,21 @@ const Player = props => {
       item: monitor.getItem()
     })
   })
+
   return (
     <div className="hero" ref={drop}>
       <img src={props.imgUrl} />
       <p className="heroText">Settlers: {props.player.settlers}</p>
+      {props.side === 'bottom' ? (
+        <p className="heroText">Deck: {props.player.deck.length} cards left.</p>
+      ) : (
+        <div>
+          <p className="heroText">
+            Deck: {props.player.deck.length} cards left.
+          </p>
+          <p className="heroText">Opponent hand size is:{props.size}</p>
+        </div>
+      )}
     </div>
   )
 }

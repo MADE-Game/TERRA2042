@@ -38,7 +38,6 @@ export function MyButton(props) {
         color={props.color}
         className={classes.button}
         startIcon={<HomeIcon />}
-        style={{width: '15%'}}
         onClick={() =>
           confirmAlert({
             title: 'Confirm',
@@ -47,6 +46,7 @@ export function MyButton(props) {
               {
                 label: 'Yes',
                 onClick: () => {
+                  console.log(props)
                   socket.emit('left game', {
                     playerName: props.playerName,
                     roomId: localStorage.roomId

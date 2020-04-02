@@ -40,12 +40,15 @@ function Collection(props) {
               ? props.collection.name === 'Default Deck'
                 ? 'collection default'
                 : 'collection'
-              : 'collection allCards'
+              : 'allCards'
           }
         >
-          <p className="breakName">{`${props.collection.name}`}</p>
+          <p
+            className="breakName"
+            style={{margin: 0, padding: 0}}
+          >{`${props.collection.name}`}</p>
         </div>
-        <span>
+        <span className="deckCount">
           {props.collection.cards.length}
           {props.collection.isDeck ? '/20' : ''}
           {!['Default Deck', 'My Cards'].includes(props.collection.name) ? (
