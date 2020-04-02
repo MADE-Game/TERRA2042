@@ -70,6 +70,42 @@ const engine = {
       card,
       newPlayer
     }
+  },
+  medicHeal: fighter => {
+    let newFighter = fighter
+    newFighter.health += newFighter.health / 2
+    return newFighter
+  },
+
+  banditDecrement: (player, opponent) => {
+    console.log('banditDecrement')
+    let newOpponent = opponent
+    let newPlayer = player
+    newOpponent.settlers -= 4
+    newPlayer.settlers -= 2
+    return [newPlayer, newOpponent]
+  },
+  metalHeadPower: player => {
+    let metalHeadMinion = {
+      name: 'Minion',
+      type: 'Fighter',
+      imageUrl:
+        'https://cdn.pixabay.com/photo/2016/09/09/20/44/robot-1658023_1280.jpg',
+      cost: 2,
+      attack: 2,
+      health: 2,
+      attackOccurred: true,
+      _v: 0,
+      _id: 1
+    }
+    let newPlayer = player
+    newPlayer.settlers -= metalHeadMinion.cost
+    return [metalHeadMinion, newPlayer]
+  },
+  clearAttack: fighter => {
+    let newFighter = fighter
+    newFighter.attackOccurred = false
+    return newFighter
   }
 }
 

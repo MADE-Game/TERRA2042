@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import {auth} from '../store'
 import {Link} from 'react-router-dom'
 import {MyButton as Button} from './Button'
-import Textfield from './Textfield'
 
 /**
  * COMPONENT
@@ -23,6 +22,7 @@ const AuthForm = props => {
               placeholder="Email"
               className="inputStyle"
             />
+            {/* <TextField id="outlined-basic" errorText="Requires Valid Email Address" label="Email" variant="outlined" /> */}
           </div>
         )}
         <div className="heroInput">
@@ -97,6 +97,7 @@ const mapDispatch = dispatch => {
   return {
     handleSubmit(evt) {
       evt.preventDefault()
+      // const validateFunc()
       const formName = evt.target.name
 
       let email = ''
