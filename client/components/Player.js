@@ -61,9 +61,7 @@ const Player = props => {
         <p className="heroText">Deck: {props.player.deck.length} cards left.</p>
       ) : (
         <div>
-          <p className="heroText">
-            Deck: {props.player.deck.length} cards left.
-          </p>
+          <p className="heroText">Deck: {props.opponent.deck} cards left.</p>
           <p className="heroText">Opponent hand size is:{props.size}</p>
         </div>
       )}
@@ -72,8 +70,10 @@ const Player = props => {
 }
 
 const mapStateToProps = state => {
+  console.log('state', state)
   return {
-    isMyTurn: state.game.data.isMyTurn
+    isMyTurn: state.game.data.isMyTurn,
+    opponent: state.game.opponent
   }
 }
 

@@ -166,5 +166,101 @@ module.exports = [
     type: 'fighter',
     attack: 3,
     health: 2
+  },
+  {
+    name: 'Lizall',
+    imageUrl: `/images/monsters/22.png`,
+    cost: 4,
+    type: 'fighter',
+    attack: 4,
+    health: 4
+  },
+  {
+    name: 'EYE-10',
+    imageUrl: `/images/monsters/23.png`,
+    cost: 3,
+    type: 'fighter',
+    attack: 4,
+    health: 2
+  },
+  {
+    name: 'Feral Crock',
+    imageUrl: `/images/monsters/24.png`,
+    cost: 2,
+    type: 'fighter',
+    attack: 2,
+    health: 2
+  },
+  {
+    name: 'Militant',
+    imageUrl: `/images/monsters/25.png`,
+    cost: 3,
+    type: 'fighter',
+    attack: 3,
+    health: 4
+  },
+  {
+    name: 'MAC',
+    imageUrl: `/images/monsters/26.png`,
+    cost: 5,
+    type: 'fighter',
+    attack: 6,
+    health: 3
+  },
+  {
+    name: 'Landshark',
+    imageUrl: `/images/monsters/27.png`,
+    cost: 2,
+    type: 'fighter',
+    attack: 3,
+    health: 1
+  },
+  {
+    name: 'Basalisk',
+    imageUrl: `/images/monsters/28.png`,
+    cost: 5,
+    type: 'fighter',
+    attack: 3,
+    health: 6
+  },
+  {
+    name: 'MED-AIR3',
+    imageUrl: `/images/monsters/29.png`,
+    cost: 2,
+    type: 'fighter',
+    attack: 1,
+    health: 4
+  },
+  {
+    name: 'Chubo',
+    imageUrl: `/images/monsters/30.png`,
+    cost: 1,
+    type: 'fighter',
+    attack: 2,
+    health: 1
+  },
+  {
+    name: 'Chubo-EX',
+    imageUrl: `/images/monsters/31.png`,
+    cost: 2,
+    type: 'fighter',
+    attack: 3,
+    health: 2
+  },
+  {
+    name: 'Devill',
+    imageUrl: `/images/monsters/32.png`,
+    cost: 3,
+    type: 'fighter',
+    attack: 2,
+    health: 3
+  },
+  {
+    name: 'Great Ogre',
+    imageUrl: `/images/monsters/33.png`,
+    cost: 7,
+    type: 'fighter',
+    attack: 6,
+    health: 6
   }
 ]

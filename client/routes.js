@@ -12,6 +12,8 @@ import NotFound from './components/not-found'
 import {me} from './store'
 import CollectionList from './components/CollectionList'
 import Room from './components/Room'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 /**
  * COMPONENT
@@ -20,6 +22,27 @@ import Room from './components/Room'
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
+    if (!document.getElementById('theme')) {
+      try {
+        const theme = document.createElement('audio')
+        theme.id = 'theme'
+        theme.src = '/theme.mp3'
+        theme.loop = true
+        theme.volume = 0.1
+        document.getElementById('app').appendChild(theme)
+
+        window.addEventListener('keydown', event => {
+          if (event.key === 'ArrowDown')
+            theme.paused ? theme.play() : theme.pause()
+        })
+
+        toast.info('Press down-arrow key to pause/play the soundtrack', {
+          position: toast.POSITION.TOP_RIGHT
+        })
+      } catch (error) {
+        return false
+      }
+    }
   }
 
   render() {
