@@ -31,8 +31,7 @@ class CollectionList extends Component {
     super()
     this.state = {
       name: '',
-      recentlyDeletedCard: '',
-      recentlyDeletedColl: ''
+      recentlyDeletedCard: ''
     }
 
     this.handleClick = this.handleClick.bind(this)
@@ -52,9 +51,6 @@ class CollectionList extends Component {
   handleClick(collectionId) {
     this.props.loadCards(collectionId)
     // this.props.loadInitialData(this.props.user._id)
-    this.setState({
-      recentlyDeletedColl: collectionId
-    })
   }
 
   handleSubmit(event) {
@@ -159,13 +155,14 @@ class CollectionList extends Component {
               </div>
               <div id="collections">
                 {this.props.userCollections.map(collection => {
-                  return this.state.recentlyDeletedColl !== collection._id ? (
+                  return localStorage.recentlyDeletedColl !== collection._id ? (
                     <Collection
                       handleClick={() => {
                         this.handleClick(collection._id)
                       }}
                       key={collection._id}
                       collection={collection}
+                      changeState={this.setState}
                     />
                   ) : (
                     <Fade key={collection._id}>

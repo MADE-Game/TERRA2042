@@ -65,6 +65,7 @@ function Collection(props) {
                       label: 'Yes',
                       onClick: () => {
                         props.removeCollection(props.collection._id)
+                        localStorage.recentlyDeletedColl = props.collection._id
                       }
                     },
                     {
