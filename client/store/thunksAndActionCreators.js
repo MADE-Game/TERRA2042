@@ -140,26 +140,42 @@ export const gotGold = amt => ({
   amt
 })
 
-export const banditDecrementThunk = (player, opponent) => dispatch => {
+export const banditDecrementThunk = (player, opponent) => async dispatch => {
   const result = engine.banditDecrement(player, opponent)
+  if (result[1].settlers <= 0) {
+    await dispatch(opponentHeroDied())
+    socket.emit('game over', {roomId: localStorage.roomId, winner: 'player'})
+  }
+  if (result[0].settlers <= 0) {
+    await dispatch(playerHeroDied())
+    socket.emit('game over', {roomId: localStorage.roomId, winner: 'opponent'})
+  }
   dispatch(banditDecrement(...result))
 }
 export const metalHeadSummon = player => async dispatch => {
   const result = engine.metalHeadPower(player)
   if (result[1].settlers <= 0) {
     await dispatch(playerHeroDied())
-    socket.emit('game over')
-  } else {
-    dispatch(metalHeadSummoned(...result))
+    socket.emit('game over', {roomId: localStorage.roomId, winner: 'opponent'})
   }
+  dispatch(metalHeadSummoned(...result))
 }
+
 export const incrementTheSettlers = (hero, user) => async dispatch => {
   const result = engine.incrementSettlers(hero, user)
   await dispatch(incrementedSettlers(result))
 }
 export const cultistDrawCard = (deck, player) => {
-  const result = engine.cultistDraw(deck, player)
   return async dispatch => {
+    const result = engine.cultistDraw(deck, player)
+    if (result.newPlayer.settlers <= 0) {
+      await dispatch(playerHeroDied())
+      socket.emit('game over', {
+        roomId: localStorage.roomId,
+        winner: 'opponent'
+      })
+    }
+    console.log('logging cultist result', result)
     await dispatch(cultistDrew(result.newDeck, result.card, result.newPlayer))
     socket.emit('draw card', {roomId: localStorage.roomId})
   }

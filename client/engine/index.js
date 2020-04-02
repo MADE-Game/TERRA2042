@@ -73,7 +73,7 @@ const engine = {
   },
   medicHeal: fighter => {
     let newFighter = fighter
-    newFighter.health += newFighter.health
+    newFighter.health += 1.5
     return newFighter
   },
 
@@ -89,8 +89,7 @@ const engine = {
     let metalHeadMinion = {
       name: 'Minion',
       type: 'Fighter',
-      imageUrl:
-        'https://cdn.pixabay.com/photo/2016/09/09/20/44/robot-1658023_1280.jpg',
+      imageUrl: '/images/monsters/30.png',
       cost: 2,
       attack: 2,
       health: 2,
