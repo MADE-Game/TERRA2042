@@ -79,7 +79,7 @@ class CollectionList extends Component {
           <div
             style={{
               display: 'flex',
-              backgroundImage: `url('./images/deckNav.png')`,
+              backgroundImage: `url('./images/decknav.png')`,
               boxShadow: '5px 5px 5px',
               alignItems: 'center',
               justifyContent: 'center',
