@@ -33,7 +33,7 @@ const engine = {
     return newHero
   },
   drawCard: (deck, user) => {
-    let randomNum = Math.floor(Math.random() * Math.floor(6))
+    let randomNum = Math.floor(Math.random() * Math.floor(4))
     let card = {}
     if (user.selectedClass === 'Hoarder') {
       if (randomNum === 1) {
