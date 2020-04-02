@@ -55,7 +55,7 @@ const Plane = props => {
             healEngaged={props.healEngaged}
           />
         ) : (
-          <Pulse>
+          <Pulse key={card.id || card._id}>
             <Card
               inPlane={true}
               card={card}

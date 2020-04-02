@@ -10,6 +10,7 @@ import styled, {keyframes} from 'styled-components'
 
 const Bounce = styled.div`
   animation: 1s ${keyframes`${bounceIn}`};
+  //
 `
 
 const Player = props => {

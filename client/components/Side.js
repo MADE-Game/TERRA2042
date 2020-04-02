@@ -27,9 +27,11 @@ const Draw = styled.div`
 
 // eslint-disable-next-line complexity
 class Side extends React.Component {
-  constructor() {
-    super()
-    this.state = {healEngaged: false}
+  constructor(props) {
+    super(props)
+    this.state = {
+      healEngaged: false
+    }
   }
 
   // eslint-disable-next-line complexity
@@ -55,6 +57,7 @@ class Side extends React.Component {
                 player={this.props.opponent}
                 side="top"
               />
+
               <p className="heroText">
                 Deck: {this.props.opponent.deck} cards left.
               </p>
@@ -212,7 +215,6 @@ class Side extends React.Component {
                         type="submit"
                         style={{marginTop: '-4vh'}}
                         onClick={() => {
-                          // if (props.timeout) clearTimeout(props.timeout
                           this.props.endTurn(
                             this.props.gameId,
                             this.props.gameState,
