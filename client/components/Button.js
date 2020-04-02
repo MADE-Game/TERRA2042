@@ -7,6 +7,8 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import ViewCarouselIcon from '@material-ui/icons/ViewCarousel'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import AssessmentIcon from '@material-ui/icons/Assessment'
+import PublishIcon from '@material-ui/icons/Publish'
+import TrendingFlatIcon from '@material-ui/icons/TrendingFlat'
 import {confirmAlert} from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import {socket} from './Room'
@@ -38,7 +40,6 @@ export function MyButton(props) {
         color={props.color}
         className={classes.button}
         startIcon={<HomeIcon />}
-        style={{width: '15%'}}
         onClick={() =>
           confirmAlert({
             title: 'Confirm',

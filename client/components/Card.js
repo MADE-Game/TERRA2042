@@ -95,8 +95,14 @@ const Card = props => {
             justifyContent: 'space-evenly'
           }}
         >
-          <p>{attack}</p>
-          <p>{health}</p>
+          <p>
+            <img src="/images/attack.png" style={{maxHeight: '.6em'}} />
+            {attack}
+          </p>
+          <p>
+            <img src="/images/health.png" style={{maxHeight: '.6em'}} />
+            {health}
+          </p>
         </div>
       </div>
     </div>

@@ -19,6 +19,7 @@ import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import {MyButton as Button} from './Button'
 import {CountdownCircleTimer} from 'react-countdown-circle-timer'
+import Player from './Player'
 
 //used for slightly delaying socket speed prior to save.
 const STUTTER = 25
@@ -172,40 +173,81 @@ class Board extends Component {
   render() {
     return (
       <DndProvider backend={Backend}>
-        <CountdownCircleTimer
-          size={100}
-          strokeWidth={10}
-          trailColor="black"
-          onComplete={() => {
-            if (this.props.isMyTurn) {
-              this.props.forfeitTurn(
-                this.props.match.params.id,
-                this.props.gameState
-              )
-              socket.emit('end turn', {roomId: localStorage.roomId})
-              toast.error('You forfeited your turn!', {
-                position: toast.POSITION.TOP_CENTER
-              })
-            }
-
-            KEY = Math.random()
-          }}
-          isPlaying={this.props.isMyTurn}
-          durationSeconds={30}
-          colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
-          key={KEY}
-        />
         <div className="board">
           <div className="container">
-            <a>
-              <Button
-                text="Home"
-                color="default"
-                icon="home2"
-                history={this.props.history}
-              />
-            </a>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                paddingTop: '2vh',
+                paddingLeft: '2vh',
+                justifyContent: 'space-between'
+              }}
+            >
+              <div style={{display: 'flex'}}>
+                <a>
+                  <Button
+                    text="Home"
+                    color="default"
+                    icon="home2"
+                    history={this.props.history}
+                  />
+                </a>
+                <div
+                  style={{
+                    paddingLeft: '2vh'
+                  }}
+                >
+                  <CountdownCircleTimer
+                    size={50}
+                    strokeWidth={10}
+                    trailColor="black"
+                    onComplete={() => {
+                      if (this.props.isMyTurn) {
+                        this.props.forfeitTurn(
+                          this.props.match.params.id,
+                          this.props.gameState
+                        )
+                        socket.emit('end turn', {roomId: localStorage.roomId})
+                        toast.error('You forfeited your turn!', {
+                          position: toast.POSITION.TOP_CENTER
+                        })
+                      }
+
+                      KEY = Math.random()
+                    }}
+                    isPlaying={this.props.isMyTurn}
+                    durationSeconds={30}
+                    colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
+                    key={KEY}
+                  />
+                </div>
+              </div>
+              <div
+                style={{
+                  alignSelf: 'flex-end',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  paddingRight: '2vh'
+                }}
+              >
+                <Player
+                  imgUrl={enemySide.heroUrl}
+                  player={this.props.opponent}
+                  side="top"
+                />
+                <p className="heroText">
+                  Deck: {this.props.opponent.deck} cards left.
+                </p>
+                <p className="heroText">
+                  Opponent hand size is:{this.props.opponent.hand}
+                </p>
+              </div>
+            </div>
+
             <Side top={true} side={enemySide} timeout={this.timeout} />
+
             <Side
               side={playerSide}
               gameId={this.props.match.params.id}
@@ -224,6 +266,7 @@ const mapStateToProps = state => {
     cards: state.game.cards,
     inPlay: state.game.player.inPlay,
     gameState: state.game,
+    opponent: state.game.opponent,
     isMyTurn: state.game.data.localTurn,
     canEnd: state.game.data.isMyTurn,
     player: state.game.player,

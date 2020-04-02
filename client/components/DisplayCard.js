@@ -57,8 +57,42 @@ const DisplayCard = props => {
                 justifyContent: 'space-evenly'
               }}
             >
-              <h3 style={{margin: 0}}>{attack}</h3>
-              <h3 style={{margin: 0}}>{health}</h3>
+              <h3
+                style={{
+                  marginRight: 0,
+                  marginTop: 0,
+                  marginBottom: 0
+                  // marginLeft: '.5vh'
+                }}
+              >
+                <img
+                  src="/images/attack.png"
+                  style={{
+                    maxHeight: '.6em',
+                    paddingLeft: '.25vh',
+                    paddingRight: '.25vh'
+                  }}
+                />
+                {attack}
+              </h3>
+              <h3
+                style={{
+                  marginRight: 0,
+                  marginTop: 0,
+                  marginBottom: 0,
+                  marginLeft: '-2vh'
+                }}
+              >
+                <img
+                  src="/images/health.png"
+                  style={{
+                    maxHeight: '.6em',
+                    paddingLeft: '.25vh',
+                    paddingRight: '.25vh'
+                  }}
+                />
+                {health}
+              </h3>
             </div>
           </div>
         </div>

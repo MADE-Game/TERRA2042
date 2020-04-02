@@ -39,17 +39,7 @@ const Side = props => {
               marginLeft: '42.5%',
               marginRight: '42.5%'
             }}
-          >
-            <Player
-              imgUrl={props.side.heroUrl}
-              player={props.opponent}
-              side="top"
-            />
-            <p className="heroText">Deck: {props.opponent.deck} cards left.</p>
-            <p className="heroText">
-              Opponent hand size is:{props.opponent.hand}
-            </p>
-          </div>
+          ></div>
           <Plane
             inPlay={props.opponentInPlay}
             playCard={card => props.playCard(props.opponent, card)}
@@ -74,21 +64,21 @@ const Side = props => {
               props.player.deck.length ? (
                 //if they have cards in their deck
                 <div style={{paddingLeft: '3vh'}}>
-                  <button
-                    className="buttonStyle3"
-                    type="submit"
-                    onClick={() =>
-                      props.drawCard(props.player.deck, props.user)
-                    }
-                  >
-                    <p className="buttonText">Draw Card</p>
-                  </button>
                   {/* boolean that checks whether or not the player has finished their turn */}
                   {!props.isFinished ? (
                     /* boolean that checks whether or not the player has drawn a card this turn */
                     props.canDraw ? (
                       //if the player hasn't drawn a card
                       <div id="buttonContainer">
+                        <button
+                          className="buttonStyle3"
+                          type="submit"
+                          onClick={() =>
+                            props.drawCard(props.player.deck, props.user)
+                          }
+                        >
+                          <p className="buttonText">Draw Card</p>
+                        </button>
                         <button
                           disabled={!props.gameState.data.isMyTurn}
                           className="buttonStyle3"
@@ -115,7 +105,7 @@ const Side = props => {
                       <h1>Game Over!</h1>
                       <Link to="/lobby">
                         <button type="submit" className="buttonStyle2">
-                          Back to Lobby?a
+                          Back to Lobby?
                         </button>
                       </Link>
                     </div>
@@ -123,15 +113,15 @@ const Side = props => {
                 </div>
               ) : (
                 <div>
-                  <button
-                    type="submit"
-                    onClick={() => props.hurtByDraw(props.player)}
-                  >
-                    Draw Card Button
-                  </button>
                   {!props.isFinished ? (
                     props.canDraw ? (
                       <div id="buttonContainer">
+                        <button
+                          type="submit"
+                          onClick={() => props.hurtByDraw(props.player)}
+                        >
+                          Draw Card Button
+                        </button>
                         <button
                           disabled={!props.gameState.data.isMyTurn}
                           className="buttonStyle3"
@@ -167,16 +157,17 @@ const Side = props => {
               )
             ) : (
               <div style={{paddingLeft: '3vh'}}>
-                <button
-                  className="buttonStyle4"
-                  type="submit"
-                  value="disable"
-                  // onClick={() => props.drawCard(props.player.deck)}
-                >
-                  <p className="buttonText">Draw Card</p>
-                </button>
+                {/* enemy turn not finished */}
                 {!props.isFinished ? (
                   <div id="buttonContainer">
+                    <button
+                      className="buttonStyle4"
+                      type="submit"
+                      value="disable"
+                      // onClick={() => props.drawCard(props.player.deck)}
+                    >
+                      <p className="buttonText">Draw Card</p>
+                    </button>
                     <button
                       disabled={!props.gameState.data.isMyTurn}
                       className="buttonStyle4"
@@ -207,10 +198,7 @@ const Side = props => {
                 )}
               </div>
             )}
-            <div style={{display: 'flex', justifyContent: 'space-between'}}>
-              <div></div>
-              <Chat />
-            </div>
+            {/* opponents turn */}
           </div>
           <div
             className="hand"
@@ -238,9 +226,47 @@ const Side = props => {
                 )
               })}
             </div>
-            <p className="heroText">
-              Deck: {props.player.deck.length} cards left.
-            </p>
+            <div style={{alignSelf: 'flex-end', marginBottom: '2vh'}}>
+              <Chat />
+              {/* {!props.isFinished ? (
+                  <div id="buttonContainer">
+                    <button
+                  className="buttonStyle4"
+                  type="submit"
+                  value="disable"
+                  // onClick={() => props.drawCard(props.player.deck)}
+                >
+                  <p className="buttonText">Draw Card</p>
+                </button>
+                    <button
+                      disabled={!props.gameState.data.isMyTurn}
+                      className="buttonStyle4"
+                      type="submit"
+                      style={{marginTop: '-4vh'}}
+                      onClick={() => {
+                        // if (props.timeout) clearTimeout(props.timeout)
+                        props.endTurn(
+                          props.gameId,
+                          props.gameState,
+                          props.player,
+                          props.user
+                        )
+                      }}
+                    >
+                      <p className="buttonText">End Turn</p>
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <h1>Game Over!</h1>
+                    <Link to="/lobby">
+                      <button type="submit" className="buttonStyle2">
+                        Back to Lobby?
+                      </button>
+                    </Link>
+                  </div>
+                )} */}
+            </div>
           </div>
           <div>
             {props.user.selectedClass === 'Cultist' && (
