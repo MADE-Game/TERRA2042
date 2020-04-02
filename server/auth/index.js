@@ -27,7 +27,7 @@ router.post('/signup', async (req, res, next) => {
       collections: [],
       googleId: req.body.googleId,
       password: req.body.password,
-      gold: 20
+      gold: 5
     })
     let savedUser = await user.save()
 
