@@ -1,6 +1,7 @@
 import React from 'react'
 import Card from './Card'
 import Plane from './Plane'
+import {MyButton as Button} from './Button'
 import BanditComponent from './BanditComponent'
 import {
   endTurn,
@@ -21,6 +22,7 @@ import Player from './Player'
 import {zoomInLeft} from 'react-animations'
 import styled, {keyframes} from 'styled-components'
 import {toast} from 'react-toastify'
+import {CountdownCircleTimer} from 'react-countdown-circle-timer'
 
 const Draw = styled.div`
   animation: 1s ${keyframes`${zoomInLeft}`};
@@ -28,9 +30,9 @@ const Draw = styled.div`
 
 // eslint-disable-next-line complexity
 class Side extends React.Component {
-
   // eslint-disable-next-line complexity
   render() {
+    console.log(this.props.history)
     return (
       <div className="side">
         {/* player or opponent boolean check */}
@@ -40,25 +42,60 @@ class Side extends React.Component {
             <div
               style={{
                 display: 'flex',
-                flexDirection: 'column',
-                width: '15%',
+                justifyContent: 'space-between',
                 alignItems: 'center',
-                marginLeft: '42.5%',
-                marginRight: '42.5%'
+                paddingTop: '2vh'
               }}
             >
-              <Player
-                imgUrl={this.props.side.heroUrl}
-                player={this.props.opponent}
-                side="top"
-              />
+              <div
+                style={{
+                  display: 'flex',
+                  alignSelf: 'flex-start',
+                  paddingLeft: '2vh'
+                }}
+              >
+                <a>
+                  <Button
+                    text="Home"
+                    color="default"
+                    icon="home2"
+                    history={this.props.history}
+                  />
+                </a>
+                <div style={{marginLeft: '2vh'}}>
+                  <CountdownCircleTimer
+                    size={50}
+                    strokeWidth={5}
+                    trailColor="black"
+                    onComplete={() => {
+                      if (this.props.isMyTurn) {
+                        this.props.forfeitTurn(
+                          localStorage.gameId,
+                          this.props.gameState
+                        )
+                        socket.emit('end turn', {roomId: localStorage.roomId})
+                        toast.error('You forfeited your turn!', {
+                          position: toast.POSITION.TOP_CENTER
+                        })
+                      }
 
-              <p className="heroText">
-                Deck: {this.props.opponent.deck} cards left.
-              </p>
-              <p className="heroText">
-                Opponent hand size is:{this.props.opponent.hand}
-              </p>
+                      window.KEY = Math.random()
+                    }}
+                    isPlaying={this.props.isMyTurn}
+                    durationSeconds={30}
+                    colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
+                    key={window.KEY}
+                  />
+                </div>
+              </div>
+              <div style={{paddingRight: '2vh'}}>
+                <Player
+                  imgUrl={this.props.side.heroUrl}
+                  player={this.props.opponent}
+                  side="top"
+                  size={this.props.opponent.hand}
+                />
+              </div>
             </div>
             <Plane
               inPlay={this.props.opponentInPlay}
@@ -78,7 +115,7 @@ class Side extends React.Component {
               healEngaged={this.props.healEngaged}
             />
 
-            <div style={{display: 'flex', flexDirection: 'column-reverse'}}>
+            <div style={{display: 'flex', flexDirection: 'column'}}>
               {/* boolean that checks whether or not its the players turn */}
               {this.props.canDraw ? (
                 /* boolean that checks whether or not the player has cards in their deck */
@@ -243,7 +280,6 @@ class Side extends React.Component {
 
               <div style={{display: 'flex', justifyContent: 'space-between'}}>
                 <div></div>
-                <Chat />
               </div>
             </div>
 
@@ -251,15 +287,15 @@ class Side extends React.Component {
               className="hand"
               style={{display: 'flex', justifyContent: 'center'}}
             >
-              <Player
-                imgUrl={this.props.side.heroUrl}
-                player={this.props.player}
-                side="bottom"
-              />
               <div
                 className="hand"
                 style={{paddingTop: '2vh', paddingBottom: '2vh'}}
               >
+                <Player
+                  imgUrl={this.props.side.heroUrl}
+                  player={this.props.player}
+                  side="bottom"
+                />
                 {this.props.hand.map(card => {
                   return (
                     <Draw key={card._id}>
@@ -272,10 +308,8 @@ class Side extends React.Component {
                     </Draw>
                   )
                 })}
+                <Chat />
               </div>
-              <p className="heroText">
-                Deck: {this.props.player.deck.length} cards left.
-              </p>
             </div>
 
             <div>
@@ -416,6 +450,25 @@ const mapDispatchToProps = function(dispatch) {
       socket.emit('end turn', {roomId: localStorage.roomId})
     },
     cultistDraw: (deck, player) => dispatch(cultistDrawCard(deck, player)),
+    forfeitTurn: async (gameId, gameState) => {
+      dispatch(endTurn())
+      dispatch(
+        saveGame(gameId, {
+          ...gameState,
+          player: {
+            ...gameState.player,
+            drawsThisTurn: 0,
+            cultistHasDrawn: false,
+            healUsed: false,
+            banditUsed: false,
+            banditAttackEngaged: false,
+            metalHeadUsed: false,
+            healEngaged: false
+          },
+          data: {...gameState.data, isMyTurn: false}
+        })
+      )
+    },
     metalHeadSummon: fighter => dispatch(metalHeadSummon(fighter)),
     engagedHeal: () => dispatch(engagedHeal())
   }
