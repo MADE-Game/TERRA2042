@@ -72,7 +72,7 @@ class Shop extends Component {
         {/* // still need the to implement with arrows */}
         <Pagination
           page={this.state.page}
-          count={Math.ceil(this.props.inShop.length / 12)}
+          count={Math.ceil(this.props.inShop.length / 8)}
           size="large"
           hideNextButton={true}
           hidePrevButton={true}
@@ -81,7 +81,7 @@ class Shop extends Component {
         <Fade>
           <div id="shop-cards">
             {this.props.inShop
-              .slice((this.state.page - 1) * 12, this.state.page * 12)
+              .slice((this.state.page - 1) * 8, this.state.page * 8)
               .map(card => {
                 return (
                   <ShopCard
