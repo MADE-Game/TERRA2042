@@ -222,7 +222,7 @@ const mapDispatchToProps = dispatch => {
     saveGame: (id, gameState) => dispatch(saveGame(id, gameState)),
     startTurn: () => dispatch(startTurn()),
     clearBoard: () => dispatch(clearBoard()),
-    forfeitTurn: (gameId, gameState) => {
+    forfeitTurn: async (gameId, gameState) => {
       dispatch(endTurn())
       dispatch(
         saveGame(gameId, {

@@ -73,7 +73,7 @@ const engine = {
   },
   medicHeal: fighter => {
     let newFighter = fighter
-    newFighter.health += newFighter.health / 2
+    newFighter.health += newFighter.health
     return newFighter
   },
 
