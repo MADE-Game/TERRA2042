@@ -70,7 +70,6 @@ const Player = props => {
 }
 
 const mapStateToProps = state => {
-  console.log('state', state)
   return {
     isMyTurn: state.game.data.isMyTurn,
     opponent: state.game.opponent
