@@ -48,7 +48,13 @@ export const UserHome = props => {
             <Button text="Logout" color="default" icon="logout" />
           </a>
         </div>
-        <p></p>
+        <a
+          id="rules"
+          href="https://github.com/MADE-Game/TERRA2042/blob/master/README.md#rules"
+        >
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;New to the game? Check out the rules
+          here.
+        </a>
       </div>
     </div>
   )
