@@ -9,7 +9,6 @@ export const ShopCard = ({card, handleClick}) => {
         <div
           className="collectionCard"
           style={{
-            // marginRight: '1.75vh',
             fontWeight: 'bold',
             cursor: 'move'
           }}

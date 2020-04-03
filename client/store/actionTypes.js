@@ -1,4 +1,3 @@
-//player actions
 export const PLAYER_PLAY_CARD = 'PLAYER_PLAY_CARD'
 export const PLAYER_DRAW_CARD = 'PLAYER_DRAW_CARD'
 export const PLAYER_ATTACK_CARD = 'PLAYER_ATTACK_CARD'
@@ -15,9 +14,7 @@ export const BANDIT_DECREMENT = 'BANDIT_DECREMENT'
 export const BANDIT_ATTACK_ENGAGE = 'BANDIT_ATTACK_ENGAGE'
 export const CLEAR_ATTACK = 'CLEAR_ATTACK'
 export const ENGAGE_HEAL = 'ENGAGE_HEAL'
-//opponent actions
 export const OPP_HERO_DEAD = 'OPP_HERO_DEAD'
-//
 export const GET_ALL_CARDS = 'GET_ALL_CARDS'
 export const LOAD_GAME = 'LOAD_GAME'
 export const SAVE_GAME = 'SAVE_GAME'
