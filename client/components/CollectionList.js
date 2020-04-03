@@ -218,43 +218,44 @@ class CollectionList extends Component {
                           key={collection._id}
                           collection={collection}
                         />
-                      </Fade>
-                      <span className="deckCount">
-                        {collection.cards.length}
-                        {collection.isDeck ? '/20' : ''}
-                        {!['Default Deck', 'My Cards'].includes(
-                          collection.name
-                        ) ? (
-                          <button
-                            style={{marginLeft: '1vh'}}
-                            onClick={() =>
-                              confirmAlert({
-                                title: 'Confirm',
-                                message:
-                                  'Are you sure you want to permanently delete this deck?',
-                                buttons: [
-                                  {
-                                    label: 'Yes',
-                                    onClick: () => {
-                                      this.props.removeCollection(
-                                        collection._id
-                                      )
+
+                        <span className="deckCount">
+                          {collection.cards.length}
+                          {collection.isDeck ? '/20' : ''}
+                          {!['Default Deck', 'My Cards'].includes(
+                            collection.name
+                          ) ? (
+                            <button
+                              style={{marginLeft: '1vh'}}
+                              onClick={() =>
+                                confirmAlert({
+                                  title: 'Confirm',
+                                  message:
+                                    'Are you sure you want to permanently delete this deck?',
+                                  buttons: [
+                                    {
+                                      label: 'Yes',
+                                      onClick: () => {
+                                        this.props.removeCollection(
+                                          collection._id
+                                        )
+                                      }
+                                    },
+                                    {
+                                      label: 'Cancel'
                                     }
-                                  },
-                                  {
-                                    label: 'Cancel'
-                                  }
-                                ]
-                              })
-                            }
-                            type="button"
-                          >
-                            X
-                          </button>
-                        ) : (
-                          ''
-                        )}
-                      </span>
+                                  ]
+                                })
+                              }
+                              type="button"
+                            >
+                              X
+                            </button>
+                          ) : (
+                            ''
+                          )}
+                        </span>
+                      </Fade>
                     </div>
                   )
                 })}

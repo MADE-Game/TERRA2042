@@ -32,7 +32,6 @@ const Draw = styled.div`
 class Side extends React.Component {
   // eslint-disable-next-line complexity
   render() {
-    console.log(this.props.history)
     return (
       <div className="side">
         {/* player or opponent boolean check */}
@@ -56,6 +55,7 @@ class Side extends React.Component {
               >
                 <a>
                   <Button
+                    playerName={this.props.user.userName}
                     text="Home"
                     color="default"
                     icon="home2"
