@@ -33,7 +33,7 @@ export function MyIconButton(props) {
   } else if (props.text === 'deleteFromDeck') {
     return (
       <Button
-        onClick={() => props.handleRemove}
+        onClick={props.handleRemove}
         variant="contained"
         className={classes.button2}
         startIcon={<DeleteIcon />}
@@ -53,7 +53,7 @@ export function MyIconButton(props) {
               {
                 label: 'Yes',
                 onClick: () => {
-                  this.props.removeCollection(props.collection._id)
+                  props.removeCollection(props.collection._id)
                 }
               },
               {

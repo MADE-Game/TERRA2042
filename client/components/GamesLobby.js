@@ -23,7 +23,6 @@ class GamesLobby extends Component {
     this.state = {
       roomId: '',
       name: '',
-      // eslint-disable-next-line react/no-unused-state
       classSelected: false
     }
     this.handleChange = this.handleChange.bind(this)

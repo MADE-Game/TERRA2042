@@ -9,8 +9,7 @@ import {
   saveGame,
   startTurn,
   clearBoard,
-  giveGold,
-  endTurn
+  giveGold
 } from '../store/thunksAndActionCreators'
 import {socket} from './Room'
 import {withRouter} from 'react-router'
@@ -19,7 +18,7 @@ import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 //used for slightly delaying socket speed prior to save.
-const STUTTER = 250
+const STUTTER = 350
 window.KEY = Math.random()
 
 const enemySide = {

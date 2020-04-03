@@ -536,3 +536,8 @@ label {
   text-align: center;
   color: white;
 }
+
+#rules {
+  color: white;
+  font-size: 10px;
+}

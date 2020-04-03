@@ -91,7 +91,6 @@ class Shop extends Component {
           <img src="./images/coin.gif" style={{maxWidth: '1em'}} />{' '}
           {this.props.gold}
         </span>
-        {/* // still need the to implement with arrows */}
 
         <Fade>
           <div id="shop-cards">
