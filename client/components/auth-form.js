@@ -16,6 +16,9 @@ const AuthForm = props => {
 
   return (
     <div className="formContainer">
+      <p id="title">
+        <i>TERRA 2042</i>
+      </p>
       <form onSubmit={handleSubmit} name={name} className="formColumn">
         {displayName === 'Sign Up' && (
           <div className="heroInput">

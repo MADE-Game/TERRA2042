@@ -355,6 +355,15 @@ label {
   box-shadow: 1.25px 2.5px 2.5px;
 }
 
+#title {
+  color: #fff;
+  font-family: 'Syncopate', sans-serif;
+  font-weight: 700;
+  font-size: 75px;
+  margin-top: 0;
+  margin-bottom: 2vh;
+}
+
 #lobbyLoader {
   background-color: rgba(255, 255, 255, 0.25);
   padding: 2em;
