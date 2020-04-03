@@ -347,7 +347,7 @@ label {
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
   background-color: rgba(255, 255, 255, 0.25);
-  padding-top: 7vh;
+  padding-top: 3.5vh;
   padding-right: 1.75%;
   padding-left: 1.75%;
   padding-bottom: 3vh;
@@ -388,6 +388,7 @@ label {
 
 .deckCount {
   color: #fff;
+  display: flex;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 

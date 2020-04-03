@@ -18,8 +18,7 @@ import {MyButton as Button2} from './Button'
 import 'react-toastify/dist/ReactToastify.css'
 import {zoomOut, fadeOut, fadeInUp} from 'react-animations'
 import styled, {keyframes} from 'styled-components'
-import {confirmAlert} from 'react-confirm-alert'
-import 'react-confirm-alert/src/react-confirm-alert.css'
+import {MyIconButton as IconButton} from './IconButton'
 
 const Zoom = styled.div`
   animation: 1s ${keyframes`${zoomOut}`};
@@ -107,11 +106,16 @@ class CollectionList extends Component {
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
               // minWidth: '140vw',
-              marginTop: '-2em'
+              marginTop: '-10.5em'
             }}
           >
             <div
-              style={{display: 'flex', paddingLeft: '3vh', paddingRight: '3vh'}}
+              style={{
+                display: 'flex',
+                paddingLeft: '3vh',
+                paddingRight: '3vh',
+                marginTop: '7em'
+              }}
             >
               <div
                 style={{
@@ -177,35 +181,11 @@ class CollectionList extends Component {
                         {!['Default Deck', 'My Cards'].includes(
                           collection.name
                         ) ? (
-                          <button
-                            style={{marginLeft: '1vh'}}
-                            onClick={() =>
-                              confirmAlert({
-                                title: 'Confirm',
-                                message:
-                                  'Are you sure you want to permanently delete this deck?',
-                                buttons: [
-                                  {
-                                    label: 'Yes',
-                                    onClick: () => {
-                                      this.props.removeCollection(
-                                        collection._id
-                                      )
-                                      this.setState({
-                                        recentlyDeletedColl: collection._id.toString()
-                                      })
-                                    }
-                                  },
-                                  {
-                                    label: 'Cancel'
-                                  }
-                                ]
-                              })
-                            }
-                            type="button"
-                          >
-                            X
-                          </button>
+                          <IconButton
+                            text="deleteDeck"
+                            collection={collection}
+                            removeCollection={removeCollection}
+                          />
                         ) : (
                           ''
                         )}
@@ -225,32 +205,11 @@ class CollectionList extends Component {
                           {!['Default Deck', 'My Cards'].includes(
                             collection.name
                           ) ? (
-                            <button
-                              style={{marginLeft: '1vh'}}
-                              onClick={() =>
-                                confirmAlert({
-                                  title: 'Confirm',
-                                  message:
-                                    'Are you sure you want to permanently delete this deck?',
-                                  buttons: [
-                                    {
-                                      label: 'Yes',
-                                      onClick: () => {
-                                        this.props.removeCollection(
-                                          collection._id
-                                        )
-                                      }
-                                    },
-                                    {
-                                      label: 'Cancel'
-                                    }
-                                  ]
-                                })
-                              }
-                              type="button"
-                            >
-                              X
-                            </button>
+                            <IconButton
+                              text="deleteDeck"
+                              collection={collection}
+                              removeCollection={removeCollection}
+                            />
                           ) : (
                             ''
                           )}

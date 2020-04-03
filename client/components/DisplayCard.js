@@ -1,6 +1,7 @@
 import React from 'react'
 import {useDrag} from 'react-dnd'
 import {ItemTypes} from '../dnd/types'
+import {MyIconButton as IconButton} from './IconButton'
 
 const DisplayCard = props => {
   const {name, attack, health, imageUrl, cost} = props.card
@@ -67,9 +68,9 @@ const DisplayCard = props => {
         </div>
       </div>
       {props.isDeck ? (
-        <button type="button" onClick={props.handleRemove}>
-          X
-        </button>
+        <div style={{paddingLeft: '10%', width: '30%'}}>
+          <IconButton handleRemove={props.handleRemove} text="deleteFromDeck" />
+        </div>
       ) : (
         ''
       )}

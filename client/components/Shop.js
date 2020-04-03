@@ -77,7 +77,20 @@ class Shop extends Component {
             <Button text="Home" color="default" icon="home" />
           </Link>
         </div>
-        <span>Gold {this.props.gold}</span>
+        <span
+          style={{
+            marginLeft: '1vw',
+            paddingTop: '1vw',
+            paddingBottom: '1vw',
+            paddingLeft: '2vw',
+            paddingRight: '2vw',
+            backgroundColor: 'rgba(255, 255, 255, 0.25)',
+            borderRadius: '5px'
+          }}
+        >
+          <img src="./images/coin.gif" style={{maxWidth: '1em'}} />{' '}
+          {this.props.gold}
+        </span>
         {/* // still need the to implement with arrows */}
 
         <Fade>
