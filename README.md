@@ -16,10 +16,10 @@ discussion into the code that makes up this repository, see the
 
 To use this as boilerplate, you'll need to take the following steps:
 
-* Don't fork or clone this repo! Instead, create a new, empty
+- Don't fork or clone this repo! Instead, create a new, empty
   directory on your machine and `git init` (or create an empty repo on
   Github and clone it to your local machine)
-* Run the following commands:
+- Run the following commands:
 
 ```
 git remote add boilermaker https://github.com/FullstackAcademy/boilermaker.git
@@ -40,10 +40,10 @@ git merge boilermaker/master
 
 Now that you've got the code, follow these steps to get acclimated:
 
-* Update project name and description in `package.json` and
+- Update project name and description in `package.json` and
   `.travis.yml` files
-* `npm install`
-* Create two postgres databases (`MY_APP_NAME` should match the `name`
+- `npm install`
+- Create two postgres databases (`MY_APP_NAME` should match the `name`
   parameter in `package.json`):
 
 ```
@@ -52,16 +52,16 @@ createdb $MY_APP_NAME
 createdb $MY_APP_NAME-test
 ```
 
-* By default, running `npm test` will use `boilermaker-test`, while
+- By default, running `npm test` will use `boilermaker-test`, while
   regular development uses `boilermaker`
-* Create a file called `secrets.js` in the project root
-  * This file is listed in `.gitignore`, and will _only_ be required
+- Create a file called `secrets.js` in the project root
+  - This file is listed in `.gitignore`, and will _only_ be required
     in your _development_ environment
-  * Its purpose is to attach the secret environment variables that you
+  - Its purpose is to attach the secret environment variables that you
     will use while developing
-  * However, it's **very** important that you **not** push it to
+  - However, it's **very** important that you **not** push it to
     Github! Otherwise, _prying eyes_ will find your secret API keys!
-  * It might look like this:
+  - It might look like this:
 
 ```
 process.env.GOOGLE_CLIENT_ID = 'hush hush'
@@ -71,9 +71,9 @@ process.env.GOOGLE_CALLBACK = '/auth/google/callback'
 
 ### OAuth
 
-* To use OAuth with Google, complete the steps above with a real client
+- To use OAuth with Google, complete the steps above with a real client
   ID and client secret supplied from Google
-  * You can get them from the [Google APIs dashboard][google-apis].
+  - You can get them from the [Google APIs dashboard][google-apis].
 
 [google-apis]: https://console.developers.google.com/apis/credentials
 
@@ -89,9 +89,9 @@ and stick to it. Any linter rule that you object to can be "turned
 off" in `.eslintrc.json`. You may also choose an entirely different
 config if you don't like ours:
 
-* [Standard style guide](https://standardjs.com/)
-* [Airbnb style guide](https://github.com/airbnb/javascript)
-* [Google style guide](https://google.github.io/styleguide/jsguide.html)
+- [Standard style guide](https://standardjs.com/)
+- [Airbnb style guide](https://github.com/airbnb/javascript)
+- [Google style guide](https://google.github.io/styleguide/jsguide.html)
 
 ## Start
 
@@ -107,8 +107,8 @@ From there, just follow your bliss.
 Ready to go world wide? Here's a guide to deployment! There are two
 supported ways to deploy in Boilermaker:
 
-* automatically, via continuous deployment with Travis.
-* "manually", from your local machine via the `deploy` script.
+- automatically, via continuous deployment with Travis.
+- "manually", from your local machine via the `deploy` script.
 
 Either way, you'll need to set up your deployment server to start.
 The steps below are also covered in the CI/CD workshop.
@@ -121,14 +121,14 @@ The steps below are also covered in the CI/CD workshop.
 
 [heroku-cli]: https://devcenter.heroku.com/articles/heroku-cli
 
-* **If you are creating a new app...**
+- **If you are creating a new app...**
 
   1.  `heroku create` or `heroku create your-app-name` if you have a
       name in mind.
   2.  `heroku addons:create heroku-postgresql:hobby-dev` to add
       ("provision") a postgres database to your heroku dyno
 
-* **If you already have a Heroku app...**
+- **If you already have a Heroku app...**
 
   1.  `heroku git:remote your-app-name` You'll need to be a
       collaborator on the app.
@@ -223,3 +223,7 @@ production server to be cluttered up with dev dependencies like
 git-tracking to be cluttered with production build files like
 `bundle.js`! By doing these steps, we make sure our development and
 production environments both stay nice and clean!
+
+#### Rules
+
+Rules will go here.

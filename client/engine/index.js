@@ -78,7 +78,6 @@ const engine = {
   },
 
   banditDecrement: (player, opponent) => {
-    console.log('banditDecrement')
     let newOpponent = opponent
     let newPlayer = player
     newOpponent.settlers -= 4

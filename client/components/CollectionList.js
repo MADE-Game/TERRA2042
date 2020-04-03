@@ -105,7 +105,6 @@ class CollectionList extends Component {
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
-              // minWidth: '140vw',
               marginTop: '-10.5em'
             }}
           >
@@ -166,12 +165,11 @@ class CollectionList extends Component {
                 {this.props.userCollections.map(collection => {
                   return this.state.recentlyDeletedColl !==
                     collection._id.toString() ? (
-                    <div>
+                    <div key={collection._id}>
                       <Collection
                         handleClick={() => {
                           this.handleClick(collection._id)
                         }}
-                        key={collection._id}
                         collection={collection}
                         changeState={this.setState}
                       />
@@ -184,7 +182,7 @@ class CollectionList extends Component {
                           <IconButton
                             text="deleteDeck"
                             collection={collection}
-                            removeCollection={removeCollection}
+                            removeCollection={this.props.removeCollection}
                           />
                         ) : (
                           ''
@@ -192,12 +190,9 @@ class CollectionList extends Component {
                       </span>
                     </div>
                   ) : (
-                    <div>
-                      <Fade key={collection._id}>
-                        <Collection
-                          key={collection._id}
-                          collection={collection}
-                        />
+                    <div key={collection._id}>
+                      <Fade>
+                        <Collection collection={collection} />
 
                         <span className="deckCount">
                           {collection.cards.length}
@@ -265,7 +260,6 @@ const mapDispatch = dispatch => {
       dispatch(getCollection(collectionId))
     },
     loadInitialData: userId => {
-      //at some point this will have to refer to an actual user
       dispatch(getAllUserCollections(userId))
     },
     createDeck: deckName => {
@@ -273,6 +267,7 @@ const mapDispatch = dispatch => {
     },
     removeFromCollection: (collection, cardId) =>
       dispatch(removeFromCollection(collection, cardId)),
+
     removeCollection: collId => dispatch(removeCollection(collId))
   }
 }
