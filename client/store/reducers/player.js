@@ -203,7 +203,7 @@ export default function(state = initialState, action) {
       }
     case METAL_HEAD_POWER:
       // eslint-disable-next-line no-case-declarations
-      let idArray = state.inPlay.map(card => {
+      const idArray = state.inPlay.map(card => {
         return card._id
       })
       if (!state.planeFull) {

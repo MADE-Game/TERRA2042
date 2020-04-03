@@ -203,7 +203,6 @@ export const playerPlayCard = (hero, card) => {
 }
 //Retrieves all cards from the database
 
-//[DEVELOPMENT]: This thunk will load the cards into the player deck.
 export const getAllCards = () => {
   return async dispatch => {
     const {data: cards} = await Axios.get('/api/cards')

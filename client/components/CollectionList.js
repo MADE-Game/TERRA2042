@@ -105,7 +105,6 @@ class CollectionList extends Component {
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
-              // minWidth: '140vw',
               marginTop: '-10.5em'
             }}
           >
