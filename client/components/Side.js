@@ -244,9 +244,6 @@ class Side extends React.Component {
                 >
                   <p className="buttonText">End Turn</p>
                 </button>
-                {/* ) : (
-
-              )} */}
                 {this.props.user.selectedClass === 'Cultist' &&
                   (this.props.isMyTurn ? (
                     <button
@@ -332,6 +329,7 @@ class Side extends React.Component {
                   </div>
                 )}
               </div>
+              {this.props.isFinished && toast.info('Game over!')}
             </div>
           </div>
         )}
