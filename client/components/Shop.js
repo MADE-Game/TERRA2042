@@ -8,6 +8,7 @@ import {toast} from 'react-toastify'
 import {confirmAlert} from 'react-confirm-alert'
 import {fadeIn, fadeOutUp} from 'react-animations'
 import styled, {keyframes} from 'styled-components'
+import {MyButton as Button} from './Button'
 import {Pagination} from '@material-ui/lab'
 import 'react-toastify/dist/ReactToastify.css'
 import 'react-confirm-alert/src/react-confirm-alert.css'
@@ -71,21 +72,14 @@ class Shop extends Component {
   render() {
     return (
       <div id="shop">
-        <Link to="/home">
-          <button type="button" className="buttonStyle1">
-            Home
-          </button>
-        </Link>
+        <div style={{width: '25%'}}>
+          <Link to="/home">
+            <Button text="Home" color="default" icon="home" />
+          </Link>
+        </div>
         <span>Gold {this.props.gold}</span>
         {/* // still need the to implement with arrows */}
-        <Pagination
-          page={this.state.page}
-          count={Math.ceil(this.props.inShop.length / 8)}
-          size="large"
-          hideNextButton={true}
-          hidePrevButton={true}
-          onChange={event => this.setState({page: +event.target.innerText})}
-        />
+
         <Fade>
           <div id="shop-cards">
             {this.props.inShop
@@ -107,6 +101,15 @@ class Shop extends Component {
               })}
           </div>
         </Fade>
+        <Pagination
+          page={this.state.page}
+          count={Math.ceil(this.props.inShop.length / 8)}
+          size="large"
+          hideNextButton={true}
+          hidePrevButton={true}
+          color="secondary"
+          onChange={event => this.setState({page: +event.target.innerText})}
+        />
       </div>
     )
   }
