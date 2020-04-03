@@ -51,6 +51,9 @@ export function MyButton(props) {
                     playerName: props.playerName,
                     roomId: localStorage.roomId
                   })
+                  if (props.text === 'Game Over') {
+                    localStorage.clear()
+                  }
                   history.replace('/home')
                 }
               },
