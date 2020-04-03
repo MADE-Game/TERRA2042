@@ -45,6 +45,7 @@ class CollectionList extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleRemove = this.handleRemove.bind(this)
+    this.handleChangeState = this.handleChangeState.bind(this)
   }
 
   componentDidMount() {
@@ -79,6 +80,12 @@ class CollectionList extends Component {
     this.props.removeFromCollection(coll, cardId)
     this.setState({
       recentlyDeletedCard: cardId
+    })
+  }
+
+  handleChangeState(collId) {
+    this.setState({
+      recentlyDeletedColl: collId
     })
   }
 
@@ -171,7 +178,6 @@ class CollectionList extends Component {
                           this.handleClick(collection._id)
                         }}
                         collection={collection}
-                        changeState={this.setState}
                       />
                       <span className="deckCount">
                         {collection.cards.length}
@@ -180,6 +186,7 @@ class CollectionList extends Component {
                           collection.name
                         ) ? (
                           <IconButton
+                            handleChangeState={this.handleChangeState}
                             text="deleteDeck"
                             collection={collection}
                             removeCollection={this.props.removeCollection}
@@ -201,6 +208,7 @@ class CollectionList extends Component {
                             collection.name
                           ) ? (
                             <IconButton
+                              handleChangeState={this.handleChangeState}
                               text="deleteDeck"
                               collection={collection}
                               removeCollection={removeCollection}
