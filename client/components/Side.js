@@ -328,9 +328,6 @@ class Side extends React.Component {
                   </div>
                 )}
               </div>
-              {this.props.isFinished && (
-                <p hidden={true}>{toast.info('Game over!')}</p>
-              )}
             </div>
           </div>
         )}
