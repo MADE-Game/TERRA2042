@@ -15,7 +15,7 @@ import {
   engagedHeal
 } from '../store/thunksAndActionCreators'
 import Chat from './Chat'
-
+import {Link} from 'react-router-dom'
 import {socket} from './Room'
 import {connect} from 'react-redux'
 import Player from './Player'
@@ -56,7 +56,7 @@ class Side extends React.Component {
                 <a>
                   <Button
                     playerName={this.props.user.userName}
-                    text={this.props.isFinished ? 'Game Over' : 'Home'}
+                    text="Home"
                     color="default"
                     icon="home2"
                     history={this.props.history}
@@ -328,9 +328,7 @@ class Side extends React.Component {
                   </div>
                 )}
               </div>
-              {this.props.isFinished && (
-                <p hidden={true}>{toast.info('Game over!')}</p>
-              )}
+              {this.props.isFinished && toast.info('Game over!')}
             </div>
           </div>
         )}
