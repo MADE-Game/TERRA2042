@@ -47,7 +47,6 @@ export function MyButton(props) {
               {
                 label: 'Yes',
                 onClick: () => {
-                  console.log(props)
                   socket.emit('left game', {
                     playerName: props.playerName,
                     roomId: localStorage.roomId

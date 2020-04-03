@@ -2,6 +2,8 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {socket} from './Room'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 class Chat extends Component {
   constructor(props) {
@@ -23,6 +25,13 @@ class Chat extends Component {
 
     socket.on('send msg', data => {
       this.log('send msg', data)
+    })
+
+    socket.on('alert chat', data => {
+      console.log('yeah hurd it', data)
+      toast.info(`${data.user} sent you a message!`, {
+        position: toast.POSITION.BOTTOM_RIGHT
+      })
     })
 
     socket.on('play card', data => {
@@ -97,6 +106,8 @@ class Chat extends Component {
       user: this.state.userName,
       roomId: localStorage.roomId
     })
+
+    socket.emit('alert chat')
 
     this.setState({
       message: ''
