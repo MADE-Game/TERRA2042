@@ -24,12 +24,11 @@ const Card = props => {
       }
     }
   })
-  const [{isOver, canDrop, item}, drop] = useDrop({
+  const [{item}, drop] = useDrop({
     accept: props.player === 'hero' ? ItemTypes.ENEMY_CARD : ItemTypes.CARD,
 
     drop: () => {
       if (!props.isMyTurn) {
-        //CHAT LOG OPPORTUNITY
         return toast.warning("It's not your turn!", {
           position: toast.POSITION.TOP_CENTER
         })
@@ -70,65 +69,48 @@ const Card = props => {
         }}
       >
         <div
-          ref={drag}
-          onClick={() => {
-            if (!props.healUsed) {
-              if (props.healEngaged === true) {
-                props.medicHeal(props.card)
-              }
-            } else {
-              // eslint-disable-next-line no-alert
-              alert('heal has already been used this turn!')
-            }
-            if (props.banditAttackEngaged) {
-              props.clearAttack(props.card)
-            }
+          className="collectionCard"
+          style={{
+            // marginRight: '1.75vh',
+            fontWeight: 'bold',
+            cursor: 'move'
           }}
         >
           <div
-            className="collectionCard"
             style={{
-              // marginRight: '1.75vh',
-              fontWeight: 'bold',
-              cursor: 'move'
+              marginTop: '-1vh',
+              backgroundImage: `url('${imageUrl}')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              minWidth: '12vh',
+              minHeight: '20vh',
+              display: 'flex',
+              flexDirection: 'column',
+              color: '#fff',
+              justifyContent: 'space-between'
             }}
           >
-            <div
+            <h3
               style={{
-                marginTop: '-1vh',
-                backgroundImage: `url('${imageUrl}')`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                minWidth: '12vh',
-                minHeight: '20vh',
-                display: 'flex',
-                flexDirection: 'column',
-                color: '#fff',
-                justifyContent: 'space-between'
+                textAlign: 'center',
+                margin: 0,
+                color: '#fff'
               }}
             >
-              <h3
-                style={{
-                  textAlign: 'center',
-                  margin: 0,
-                  color: '#fff'
-                }}
-              >
-                {cost}
-              </h3>
-              <h3 style={{textAlign: 'center', paddingTop: '7.5vh'}}>{name}</h3>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-evenly'
-                }}
-              >
-                <h3 style={{margin: 0}}>{attack}</h3>
+              {cost}
+            </h3>
+            <h3 style={{textAlign: 'center', paddingTop: '7.5vh'}}>{name}</h3>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-evenly'
+              }}
+            >
+              <h3 style={{margin: 0}}>{attack}</h3>
 
-                <h3 style={{margin: 0}}>{health}</h3>
-              </div>
+              <h3 style={{margin: 0}}>{health}</h3>
             </div>
           </div>
         </div>
