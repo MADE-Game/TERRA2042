@@ -32,7 +32,6 @@ const Draw = styled.div`
 class Side extends React.Component {
   // eslint-disable-next-line complexity
   render() {
-    console.log('props', this.props)
     return (
       <div className="side">
         {/* player or opponent boolean check */}
