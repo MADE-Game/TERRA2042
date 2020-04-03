@@ -56,7 +56,7 @@ class Side extends React.Component {
                 <a>
                   <Button
                     playerName={this.props.user.userName}
-                    text="Home"
+                    text={this.props.isFinished ? 'Game Over' : 'Home'}
                     color="default"
                     icon="home2"
                     history={this.props.history}
@@ -328,7 +328,6 @@ class Side extends React.Component {
                   </div>
                 )}
               </div>
-              {this.props.isFinished && toast.info('Game over!')}
             </div>
           </div>
         )}
