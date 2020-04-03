@@ -1,7 +1,8 @@
 import React from 'react'
+import {MyIconButton as IconButton} from './IconButton'
 
 export const ShopCard = ({card, handleClick}) => {
-  const {attack, health, imageUrl, cost} = card
+  const {name, attack, health, imageUrl, cost} = card
   return (
     <div style={{marginBottom: '3vh'}}>
       <div>
@@ -16,7 +17,7 @@ export const ShopCard = ({card, handleClick}) => {
           <div
             style={{
               marginTop: '-1vh',
-              backgroundImage: `url('.${imageUrl}')`,
+              backgroundImage: `url('${imageUrl}')`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
@@ -37,6 +38,7 @@ export const ShopCard = ({card, handleClick}) => {
             >
               {cost}
             </h3>
+            <h3 style={{textAlign: 'center', paddingTop: '7.5vh'}}>{name}</h3>
             <div
               style={{
                 display: 'flex',
@@ -45,18 +47,13 @@ export const ShopCard = ({card, handleClick}) => {
               }}
             >
               <h3 style={{margin: 0}}>{attack}</h3>
+
               <h3 style={{margin: 0}}>{health}</h3>
             </div>
           </div>
         </div>
       </div>
-      <button
-        type="button"
-        className="buttonStyle1"
-        onClick={() => handleClick(card._id, card.cost)}
-      >
-        Buy
-      </button>
+      <IconButton handleClick={handleClick} text="BUY" card={card} />
     </div>
   )
 }

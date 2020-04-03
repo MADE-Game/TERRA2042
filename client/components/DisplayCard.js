@@ -3,7 +3,7 @@ import {useDrag} from 'react-dnd'
 import {ItemTypes} from '../dnd/types'
 
 const DisplayCard = props => {
-  const {attack, health, imageUrl, cost} = props.card
+  const {name, attack, health, imageUrl, cost} = props.card
   const [{isDragging}, drag] = useDrag({
     item: {
       type: ItemTypes.DECK_CARD,
@@ -30,7 +30,7 @@ const DisplayCard = props => {
           <div
             style={{
               marginTop: '-1vh',
-              backgroundImage: `url('.${imageUrl}')`,
+              backgroundImage: `url('${imageUrl}')`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
@@ -51,6 +51,7 @@ const DisplayCard = props => {
             >
               {cost}
             </h3>
+            <h3 style={{textAlign: 'center', paddingTop: '7.5vh'}}>{name}</h3>
             <div
               style={{
                 display: 'flex',
@@ -59,6 +60,7 @@ const DisplayCard = props => {
               }}
             >
               <h3 style={{margin: 0}}>{attack}</h3>
+
               <h3 style={{margin: 0}}>{health}</h3>
             </div>
           </div>

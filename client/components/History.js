@@ -12,6 +12,7 @@ import {
   TableCell
 } from '@material-ui/core'
 import Paper from '@material-ui/core/Paper'
+import {MyButton as Button} from './Button'
 
 const mapGames = (games, username) => {
   return games.map(game => {
@@ -49,11 +50,11 @@ class History extends React.Component {
     }, 0)
     return (
       <div className="history">
-        <Link to="/home">
-          <button type="button" className="buttonStyle1">
-            Home
-          </button>
-        </Link>
+        <div style={{width: '25%'}}>
+          <Link to="/home">
+            <Button text="Home" color="default" icon="home" />
+          </Link>
+        </div>
         <h1 className="history-text">total wins: {totalWins}</h1>
         {this.props.games.length === 0 ? (
           <h1 className="history-text">

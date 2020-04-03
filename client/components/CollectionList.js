@@ -98,19 +98,21 @@ class CollectionList extends Component {
             style={{
               display: 'flex',
               backgroundImage: `url('./images/decknav.png')`,
-              boxShadow: '5px 5px 5px',
+              boxShadow: '0px 5px 5px',
               alignItems: 'center',
-              justifyContent: 'center',
+              justifyContent: 'flex-start',
               paddingTop: '6vh',
               paddingBottom: '10.5vh',
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
-              minWidth: '140vw',
+              // minWidth: '140vw',
               marginTop: '-2em'
             }}
           >
-            <div style={{display: 'flex', width: '70%'}}>
+            <div
+              style={{display: 'flex', paddingLeft: '3vh', paddingRight: '3vh'}}
+            >
               <div
                 style={{
                   display: 'flex',
