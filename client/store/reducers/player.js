@@ -25,7 +25,7 @@ const initialState = {
   deck: [],
   inPlay: [],
   hand: [],
-  settlers: 20,
+  settlers: 30,
   planeFull: false,
   drawsThisTurn: 0,
   drawLimit: 1,

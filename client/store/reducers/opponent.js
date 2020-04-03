@@ -4,15 +4,14 @@ import {
   LOAD_GAME,
   END_TURN,
   CLEAR_BOARD,
-  BANDIT_DECREMENT,
-  BANDIT_POWER
+  BANDIT_DECREMENT
 } from '../actionTypes'
 
 const initialState = {
   deck: 0,
   inPlay: [],
   hand: 0,
-  settlers: 20
+  settlers: 30
 }
 
 export default function(state = initialState, action) {
