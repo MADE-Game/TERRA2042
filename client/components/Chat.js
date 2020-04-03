@@ -28,6 +28,7 @@ class Chat extends Component {
     })
 
     socket.on('alert chat', data => {
+      console.log('yeah hurd it', data)
       toast.info(`${data.user} sent you a message!`, {
         position: toast.POSITION.BOTTOM_RIGHT
       })

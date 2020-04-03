@@ -52,6 +52,14 @@ const Player = props => {
         </div>
       </Bounce>
       <p className="heroText">Settlers: {props.player.settlers}</p>
+      {props.side === 'bottom' ? (
+        <p className="heroText">Deck: {props.player.deck.length} cards left.</p>
+      ) : (
+        <div>
+          <p className="heroText">Deck: {props.opponent.deck} cards left.</p>
+          <p className="heroText">Opponent hand size is:{props.size}</p>
+        </div>
+      )}
     </div>
   ) : (
     <div className="hero" ref={drop}>
