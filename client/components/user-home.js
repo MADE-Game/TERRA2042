@@ -51,6 +51,7 @@ export const UserHome = props => {
         <a
           id="rules"
           href="https://github.com/MADE-Game/TERRA2042/blob/master/README.md#rules"
+          target="blank"
         >
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;New to the game? Check out the rules
           here.
