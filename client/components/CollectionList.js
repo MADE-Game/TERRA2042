@@ -184,7 +184,7 @@ class CollectionList extends Component {
                           <IconButton
                             text="deleteDeck"
                             collection={collection}
-                            removeCollection={removeCollection}
+                            removeCollection={this.props.removeCollection}
                           />
                         ) : (
                           ''
@@ -273,6 +273,7 @@ const mapDispatch = dispatch => {
     },
     removeFromCollection: (collection, cardId) =>
       dispatch(removeFromCollection(collection, cardId)),
+
     removeCollection: collId => dispatch(removeCollection(collId))
   }
 }

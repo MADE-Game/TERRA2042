@@ -175,7 +175,6 @@ export const cultistDrawCard = (deck, player) => {
         winner: 'opponent'
       })
     }
-    console.log('logging cultist result', result)
     await dispatch(cultistDrew(result.newDeck, result.card, result.newPlayer))
     socket.emit('draw card', {roomId: localStorage.roomId})
   }

@@ -57,7 +57,6 @@ const Card = props => {
         onClick={() => {
           if (!props.healUsed) {
             if (props.healEngaged === true) {
-              console.log('Healed!')
               props.medicHeal(props.card)
             }
           } else {
@@ -75,7 +74,6 @@ const Card = props => {
           onClick={() => {
             if (!props.healUsed) {
               if (props.healEngaged === true) {
-                console.log('Healed!')
                 props.medicHeal(props.card)
               }
             } else {
