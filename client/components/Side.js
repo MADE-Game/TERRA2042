@@ -32,6 +32,7 @@ const Draw = styled.div`
 class Side extends React.Component {
   // eslint-disable-next-line complexity
   render() {
+    console.log('props', this.props)
     return (
       <div className="side">
         {/* player or opponent boolean check */}
@@ -114,175 +115,6 @@ class Side extends React.Component {
               planeFull={this.props.planeFull}
               healEngaged={this.props.healEngaged}
             />
-
-            <div style={{display: 'flex', flexDirection: 'column'}}>
-              {/* boolean that checks whether or not its the players turn */}
-              {this.props.canDraw ? (
-                /* boolean that checks whether or not the player has cards in their deck */
-                this.props.player.deck.length ? (
-                  //if they have cards in their deck
-                  <div style={{paddingLeft: '3vh'}}>
-                    <button
-                      className="buttonStyle3"
-                      type="submit"
-                      onClick={
-                        this.props.allowedToDraw
-                          ? () => {
-                              this.props.drawCard(
-                                this.props.player.deck,
-                                this.props.user
-                              )
-                            }
-                          : () =>
-                              toast.warning(
-                                "You can't draw any more cards this turn!",
-                                {
-                                  position: toast.POSITION.TOP_CENTER
-                                }
-                              )
-                      }
-                    >
-                      <p className="buttonText">Draw Card</p>
-                    </button>
-                    {/* boolean that checks whether or not the player has finished their turn */}
-                    {!this.props.isFinished ? (
-                      /* boolean that checks whether or not the player has drawn a card this turn */
-                      this.props.canDraw ? (
-                        //if the player hasn't drawn a card
-                        <div id="buttonContainer">
-                          <button
-                            disabled={!this.props.gameState.data.isMyTurn}
-                            className="buttonStyle3"
-                            type="submit"
-                            style={{marginTop: '-4vh'}}
-                            onClick={() => {
-                              this.props.endTurn(
-                                this.props.gameId,
-                                this.props.gameState,
-                                this.props.player,
-                                this.props.user
-                              )
-                              window.KEY = Math.random()
-                            }}
-                          >
-                            <p className="buttonText">End Turn</p>
-                          </button>
-                        </div>
-                      ) : (
-                        'not my turn'
-                      )
-                    ) : (
-                      <div>
-                        <h1>Game Over!</h1>
-                        <Link to="/lobby">
-                          <button type="submit" className="buttonStyle2">
-                            Back to Lobby?
-                          </button>
-                        </Link>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  //good--------------------------
-                  <div>
-                    <button
-                      type="submit"
-                      onClick={() => this.props.hurtByDraw(this.props.player)}
-                    >
-                      Draw Card Button
-                    </button>
-                    {!this.props.isFinished ? (
-                      this.props.canDraw ? (
-                        <div id="buttonContainer">
-                          <button
-                            disabled={!this.props.gameState.data.isMyTurn}
-                            className="buttonStyle3"
-                            type="submit"
-                            style={{marginTop: '-4vh'}}
-                            onClick={() => {
-                              this.props.endTurn(
-                                this.props.gameId,
-                                this.props.gameState,
-                                this.props.player,
-                                this.props.user
-                              )
-                              window.KEY = Math.random()
-                            }}
-                          >
-                            <p className="buttonText">End Turn</p>
-                          </button>
-                        </div>
-                      ) : (
-                        //good-----------------------
-                        'not my turn'
-                      )
-                    ) : (
-                      <div>
-                        <h1>Game Over!</h1>
-                        <Link to="/lobby">
-                          <button type="submit" className="buttonStyle2">
-                            Back to Lobby?
-                          </button>
-                        </Link>
-                      </div>
-                    )}
-                  </div>
-                )
-              ) : (
-                <div style={{paddingLeft: '3vh'}}>
-                  <button
-                    className="buttonStyle4"
-                    type="submit"
-                    value="disable"
-                    // onClick={() => props.drawCard(props.player.deck)}
-                  >
-                    <p className="buttonText">Draw Card</p>
-                  </button>
-                  {!this.props.isFinished ? (
-                    // props.canDraw ? (
-                    <div id="buttonContainer">
-                      <button
-                        disabled={!this.props.gameState.data.isMyTurn}
-                        className="buttonStyle3"
-                        type="submit"
-                        style={{marginTop: '-4vh'}}
-                        onClick={() => {
-                          this.props.endTurn(
-                            this.props.gameId,
-                            this.props.gameState,
-                            this.props.player,
-                            this.props.user
-                          )
-
-                          window.KEY = Math.random()
-                        }}
-                      >
-                        <p className="buttonText">End Turn</p>
-                      </button>
-                    </div>
-                  ) : (
-                    // ) : (
-                    //   'not my turn'
-                    // )
-                    <div>
-                      <h1>Game Over!</h1>
-                      <Link to="/lobby">
-                        <button type="submit" className="buttonStyle2">
-                          Back to Lobby?
-                        </button>
-                      </Link>
-                    </div>
-                    // )
-                  )}
-                  {/* ) */}
-                </div>
-              )}
-
-              <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                <div></div>
-              </div>
-            </div>
-
             <div
               className="hand"
               style={{display: 'flex', justifyContent: 'center'}}
@@ -324,90 +156,182 @@ class Side extends React.Component {
             </div>
 
             <div>
-              {this.props.user.selectedClass === 'Cultist' &&
-                (this.props.isMyTurn ? (
-                  <button
+              {/* draw card */}
+              {/* <button
+                    className="buttonStyle4"
                     type="submit"
-                    className="buttonStyle3"
-                    onClick={() => {
-                      if (this.props.canDraw) {
-                        this.props.cultistDraw(
-                          this.props.player.deck,
-                          this.props.player
-                        )
-                      } else {
-                        toast.warning('Not your turn!', {
-                          position: toast.POSITION.TOP_CENTER
-                        })
-                      }
-                    }}
+                    value="disable"
+                    onClick={() => props.drawCard(props.player.deck)}
                   >
-                    Cultist Draw Card
-                  </button>
-                ) : (
-                  <button type="submit" className="buttonStyle4">
-                    Cultist Draw Card
-                  </button>
-                ))}
-              {/* good */}
-              {this.props.user.selectedClass === 'Metalhead' &&
-                (this.props.isMyTurn ? (
-                  <button
-                    type="submit"
-                    className="buttonStyle3"
-                    onClick={() => {
-                      if (this.props.canDraw) {
-                        if (!this.props.metalHeadUsed) {
-                          this.props.metalHeadSummon(this.props.player)
-                        } else {
-                          toast.warning(
-                            'You can only use Metalhead power once per turn',
-                            {
-                              position: toast.POSITION.TOP_CENTER
-                            }
+                    <p className="buttonText">Draw Card</p>
+                  </button> */}
+
+              {/* hurt by draw */}
+              {/* <button
+                      type="submit"
+                      onClick={() => this.props.hurtByDraw(this.props.player)}
+                    >
+                      Draw Card Button
+                    </button> */}
+
+              {/* end turn */}
+              {/* <div id="buttonContainer">
+                      <button
+                        disabled={!this.props.gameState.data.isMyTurn}
+                        className="buttonStyle3"
+                        type="submit"
+                        style={{marginTop: '-4vh'}}
+                        onClick={() => {
+                          this.props.endTurn(
+                            this.props.gameId,
+                            this.props.gameState,
+                            this.props.player,
+                            this.props.user
                           )
+
+                          window.KEY = Math.random()
+                        }}
+                      >
+                        <p className="buttonText">End Turn</p>
+                      </button>
+                    </div> */}
+
+              {/* game over */}
+              {/* <div>
+                      <h1>Game Over!</h1>
+                      <Link to="/lobby">
+                        <button type="submit" className="buttonStyle2">
+                          Back to Lobby?
+                        </button>
+                      </Link>
+                    </div> */}
+
+              <div style={{display: 'flex', flexDirection: 'row'}}>
+                {this.props.isMyTurn === true &&
+                  (this.props.allowedToDraw ? (
+                    <button
+                      className="buttonStyle3"
+                      type="submit"
+                      onClick={() =>
+                        this.props.drawCard(
+                          this.props.player.deck,
+                          this.props.user
+                        )
+                      }
+                    >
+                      <p className="buttonText">Draw Card</p>
+                    </button>
+                  ) : (
+                    <button type="submit" className="buttonStyle4">
+                      Draw Card
+                    </button>
+                  ))}
+                {/* {this.props.isMyTurn === true ? ( */}
+                <button
+                  disabled={!this.props.gameState.data.isMyTurn}
+                  className="buttonStyle3"
+                  type="submit"
+                  onClick={() => {
+                    this.props.endTurn(
+                      this.props.gameId,
+                      this.props.gameState,
+                      this.props.player,
+                      this.props.user
+                    )
+
+                    window.KEY = Math.random()
+                  }}
+                >
+                  <p className="buttonText">End Turn</p>
+                </button>
+                {/* ) : (
+
+              )} */}
+                {this.props.user.selectedClass === 'Cultist' &&
+                  (this.props.isMyTurn ? (
+                    <button
+                      type="submit"
+                      className="buttonStyle3"
+                      onClick={() => {
+                        if (this.props.canDraw) {
+                          this.props.cultistDraw(
+                            this.props.player.deck,
+                            this.props.player
+                          )
+                        } else {
+                          toast.warning('Not your turn!', {
+                            position: toast.POSITION.TOP_CENTER
+                          })
                         }
-                      } else {
-                        toast.warning('Not your turn!', {
-                          position: toast.POSITION.TOP_CENTER
-                        })
-                      }
-                    }}
-                  >
-                    Metalhead Power
-                  </button>
-                ) : (
-                  <button type="submit" className="buttonStyle4">
-                    Metalhead Power
-                  </button>
-                ))}
-              {this.props.user.selectedClass === 'Medic' &&
-                (this.props.isMyTurn ? (
-                  <button
-                    type="submit"
-                    className="buttonStyle3"
-                    onClick={() => {
-                      if (this.props.canDraw) {
-                        this.props.engagedHeal()
-                      } else {
-                        toast.warning('Not your turn!', {
-                          position: toast.POSITION.TOP_CENTER
-                        })
-                      }
-                    }}
-                  >
-                    Medic Heal Power
-                  </button>
-                ) : (
-                  <button type="submit" className="buttonStyle4">
-                    Medic Heal Power
-                  </button>
-                ))}
-              {this.props.user.selectedClass === 'Bandit' && (
-                <div>
-                  <BanditComponent />
-                </div>
-              )}
+                      }}
+                    >
+                      Cultist Draw Card
+                    </button>
+                  ) : (
+                    <button type="submit" className="buttonStyle4">
+                      Cultist Draw Card
+                    </button>
+                  ))}
+                {/* good */}
+                {this.props.user.selectedClass === 'Metalhead' &&
+                  (this.props.isMyTurn ? (
+                    <button
+                      type="submit"
+                      className="buttonStyle3"
+                      onClick={() => {
+                        if (this.props.canDraw) {
+                          if (!this.props.metalHeadUsed) {
+                            this.props.metalHeadSummon(this.props.player)
+                          } else {
+                            toast.warning(
+                              'You can only use Metalhead power once per turn',
+                              {
+                                position: toast.POSITION.TOP_CENTER
+                              }
+                            )
+                          }
+                        } else {
+                          toast.warning('Not your turn!', {
+                            position: toast.POSITION.TOP_CENTER
+                          })
+                        }
+                      }}
+                    >
+                      Metalhead Power
+                    </button>
+                  ) : (
+                    <button type="submit" className="buttonStyle4">
+                      Metalhead Power
+                    </button>
+                  ))}
+                {this.props.user.selectedClass === 'Medic' &&
+                  (this.props.isMyTurn ? (
+                    <button
+                      type="submit"
+                      className="buttonStyle3"
+                      onClick={() => {
+                        if (this.props.canDraw) {
+                          this.props.engagedHeal()
+                        } else {
+                          toast.warning('Not your turn!', {
+                            position: toast.POSITION.TOP_CENTER
+                          })
+                        }
+                      }}
+                    >
+                      Medic Heal Power
+                    </button>
+                  ) : (
+                    <button type="submit" className="buttonStyle4">
+                      Medic Heal Power
+                    </button>
+                  ))}
+                {this.props.user.selectedClass === 'Bandit' && (
+                  <div>
+                    <BanditComponent />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}
