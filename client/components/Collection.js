@@ -47,21 +47,6 @@ function Collection(props) {
             style={{margin: 0, padding: 0}}
           >{`${props.collection.name}`}</p>
         </div>
-        <span className="deckCount">
-          {props.collection.cards.length}
-          {props.collection.isDeck ? '/20' : ''}
-          {!['Default Deck', 'My Cards'].includes(props.collection.name) ? (
-            <button
-              style={{marginLeft: '1vh'}}
-              onClick={() => props.removeCollection(props.collection._id)}
-              type="button"
-            >
-              X
-            </button>
-          ) : (
-            ''
-          )}
-        </span>
       </div>
     </div>
   ) : (

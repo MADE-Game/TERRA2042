@@ -234,7 +234,9 @@ export const createDeck = name => async dispatch => {
 export const removeCollection = collectionId => async dispatch => {
   try {
     await axios.delete(`/api/collections/${collectionId}`)
-    dispatch(removedCollection(collectionId))
+    setTimeout(() => {
+      dispatch(removedCollection(collectionId))
+    }, 750)
   } catch (error) {
     console.error(error)
   }

@@ -2,7 +2,8 @@ import {
   getAllUserCollections,
   getCollection,
   createDeck,
-  removeFromCollection
+  removeFromCollection,
+  removeCollection
 } from '../store/reducers/user.js'
 import Collection from './Collection'
 import DisplayCard from './DisplayCard'
@@ -15,11 +16,21 @@ import {toast} from 'react-toastify'
 import Button from '@material-ui/core/Button'
 import {MyButton as Button2} from './Button'
 import 'react-toastify/dist/ReactToastify.css'
-import {zoomOut} from 'react-animations'
+import {zoomOut, fadeOut, fadeInUp} from 'react-animations'
 import styled, {keyframes} from 'styled-components'
+import {confirmAlert} from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 const Zoom = styled.div`
   animation: 1s ${keyframes`${zoomOut}`};
+`
+
+const Fade = styled.div`
+  animation: 1s ${keyframes`${fadeOut}`};
+`
+
+const FadeInUp = styled.div`
+  animation: 1s ${keyframes`${fadeInUp}`};
 `
 
 class CollectionList extends Component {
@@ -27,7 +38,8 @@ class CollectionList extends Component {
     super()
     this.state = {
       name: '',
-      recentlyDeleted: ''
+      recentlyDeletedCard: '',
+      recentlyDeletedColl: ''
     }
 
     this.handleClick = this.handleClick.bind(this)
@@ -37,16 +49,11 @@ class CollectionList extends Component {
   }
 
   componentDidMount() {
-    console.log('mounting')
-    //this.props.loadInitialData(this.props.user._id)
     this.props.loadCards(this.props.userCollections[0]._id)
-    // let allCardsDiv = document.getElementsByClassName('buttonContainer')
-    // this.props.loadCards(this.props.selectedCollection._id)
   }
 
   handleClick(collectionId) {
     this.props.loadCards(collectionId)
-    // this.props.loadInitialData(this.props.user._id)
   }
 
   handleSubmit(event) {
@@ -72,7 +79,7 @@ class CollectionList extends Component {
   handleRemove(coll, cardId) {
     this.props.removeFromCollection(coll, cardId)
     this.setState({
-      recentlyDeleted: cardId
+      recentlyDeletedCard: cardId
     })
   }
 
@@ -153,14 +160,102 @@ class CollectionList extends Component {
               </div>
               <div id="collections">
                 {this.props.userCollections.map(collection => {
-                  return (
-                    <Collection
-                      handleClick={() => {
-                        this.handleClick(collection._id)
-                      }}
-                      key={collection._id}
-                      collection={collection}
-                    />
+                  return this.state.recentlyDeletedColl !==
+                    collection._id.toString() ? (
+                    <div>
+                      <Collection
+                        handleClick={() => {
+                          this.handleClick(collection._id)
+                        }}
+                        key={collection._id}
+                        collection={collection}
+                        changeState={this.setState}
+                      />
+                      <span className="deckCount">
+                        {collection.cards.length}
+                        {collection.isDeck ? '/20' : ''}
+                        {!['Default Deck', 'My Cards'].includes(
+                          collection.name
+                        ) ? (
+                          <button
+                            style={{marginLeft: '1vh'}}
+                            onClick={() =>
+                              confirmAlert({
+                                title: 'Confirm',
+                                message:
+                                  'Are you sure you want to permanently delete this deck?',
+                                buttons: [
+                                  {
+                                    label: 'Yes',
+                                    onClick: () => {
+                                      this.props.removeCollection(
+                                        collection._id
+                                      )
+                                      this.setState({
+                                        recentlyDeletedColl: collection._id.toString()
+                                      })
+                                    }
+                                  },
+                                  {
+                                    label: 'Cancel'
+                                  }
+                                ]
+                              })
+                            }
+                            type="button"
+                          >
+                            X
+                          </button>
+                        ) : (
+                          ''
+                        )}
+                      </span>
+                    </div>
+                  ) : (
+                    <div>
+                      <Fade key={collection._id}>
+                        <Collection
+                          key={collection._id}
+                          collection={collection}
+                        />
+                      </Fade>
+                      <span className="deckCount">
+                        {collection.cards.length}
+                        {collection.isDeck ? '/20' : ''}
+                        {!['Default Deck', 'My Cards'].includes(
+                          collection.name
+                        ) ? (
+                          <button
+                            style={{marginLeft: '1vh'}}
+                            onClick={() =>
+                              confirmAlert({
+                                title: 'Confirm',
+                                message:
+                                  'Are you sure you want to permanently delete this deck?',
+                                buttons: [
+                                  {
+                                    label: 'Yes',
+                                    onClick: () => {
+                                      this.props.removeCollection(
+                                        collection._id
+                                      )
+                                    }
+                                  },
+                                  {
+                                    label: 'Cancel'
+                                  }
+                                ]
+                              })
+                            }
+                            type="button"
+                          >
+                            X
+                          </button>
+                        ) : (
+                          ''
+                        )}
+                      </span>
+                    </div>
                   )
                 })}
               </div>
@@ -168,15 +263,17 @@ class CollectionList extends Component {
           </div>
           <div id="selectedCollection">
             {this.props.selectedCollection.cards.map(card => {
-              return this.state.recentlyDeleted !== card._id ? (
-                <DisplayCard
-                  key={card._id}
-                  card={card}
-                  isDeck={this.props.selectedCollection.isDeck}
-                  handleRemove={() =>
-                    this.handleRemove(this.props.selectedCollection, card._id)
-                  }
-                />
+              return this.state.recentlyDeletedCard !== card._id ? (
+                <FadeInUp key={card._id}>
+                  <DisplayCard
+                    key={card._id}
+                    card={card}
+                    isDeck={this.props.selectedCollection.isDeck}
+                    handleRemove={() =>
+                      this.handleRemove(this.props.selectedCollection, card._id)
+                    }
+                  />
+                </FadeInUp>
               ) : (
                 <Zoom key={card._id}>
                   <DisplayCard
@@ -215,7 +312,8 @@ const mapDispatch = dispatch => {
       dispatch(createDeck(deckName))
     },
     removeFromCollection: (collection, cardId) =>
-      dispatch(removeFromCollection(collection, cardId))
+      dispatch(removeFromCollection(collection, cardId)),
+    removeCollection: collId => dispatch(removeCollection(collId))
   }
 }
 
