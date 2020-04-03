@@ -54,6 +54,7 @@ export function MyIconButton(props) {
                 label: 'Yes',
                 onClick: () => {
                   props.removeCollection(props.collection._id)
+                  props.handleChangeState(props.collection._id.toString())
                 }
               },
               {
