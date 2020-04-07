@@ -20,13 +20,13 @@ Terra 2042 is a web-based tabletop card game. It features live multiplayer games
 ### Shop gif
 ![shop](https://images.squarespace-cdn.com/content/v1/5363e3d1e4b0b6dbd37bcdd6/1586294589983-XOEGI2LGHW1L22SUIKZ0/ke17ZwdGBToddI8pDm48kLR91wanN1DY-mWerraBVdJZw-zPPgdn4jUwVcJE1ZvWhcwhEtWJXoshNdA9f1qD7b5OXqMJq-_Z7YP0m2eXPLljZIVKfK11Snr8nfI7YR4ZZC96nJIDUnOiLzqnBiln6w/Shop.gif?format=300w)
 ### deck building gif
-![create a deck](https://images.squarespace-cdn.com/content/5363e3d1e4b0b6dbd37bcdd6/1586293461093-G2OSE95SX0ZPKZRGPYGA/?content-type=image%2Fgif)
+![create a deck](https://images.squarespace-cdn.com/content/5363e3d1e4b0b6dbd37bcdd6/1586295376078-YHQR7D86TRAIQP7YAUDK/deck-builder.gif?content-type=image%2Fgif)
 ### match history gif
-![see your stats](https://images.squarespace-cdn.com/content/5363e3d1e4b0b6dbd37bcdd6/1586293610101-N45I0R9YR7AQ9CPD7UKF/?content-type=image%2Fgif)
+![see your stats](https://images.squarespace-cdn.com/content/5363e3d1e4b0b6dbd37bcdd6/1586295677098-SEUVTSH0PNR6E8AA4073/match-history.gif?content-type=image%2Fgif)
 ### creating a game gif
-![create a game](https://images.squarespace-cdn.com/content/5363e3d1e4b0b6dbd37bcdd6/1586293583699-GH79I7M6GAW4FWMUNXH9/?content-type=image%2Fgif)
+![create a game](https://images.squarespace-cdn.com/content/5363e3d1e4b0b6dbd37bcdd6/1586295517889-FUSU7BAR3K6XKD5MKPZR/make-a-room.gif?content-type=image%2Fgif)
 ### chatting gif
-![trash-talk your opponent](https://images.squarespace-cdn.com/content/5363e3d1e4b0b6dbd37bcdd6/1586293526571-SNUL3435IH9BRY82MZBN/?content-type=image%2Fgif)
+![trash-talk your opponent](https://images.squarespace-cdn.com/content/5363e3d1e4b0b6dbd37bcdd6/1586295118149-AJOVHT66VVXKT9JAK299/chat.gif?content-type=image%2Fgif)
 
 ## Challenges
 
