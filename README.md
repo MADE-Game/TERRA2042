@@ -18,10 +18,15 @@ Terra 2042 is a web-based tabletop card game. It features live multiplayer games
 - [Material UI](https://material-ui.com/)
 
 ### Shop gif
+![shop](https://images.squarespace-cdn.com/content/5363e3d1e4b0b6dbd37bcdd6/1586293655459-D2F8Z8J0J5EJW3NDWYK8/Shop.gif?content-type=image%2Fgif)
 ### deck building gif
+![create a deck](https://images.squarespace-cdn.com/content/5363e3d1e4b0b6dbd37bcdd6/1586293461093-G2OSE95SX0ZPKZRGPYGA/?content-type=image%2Fgif)
 ### match history gif
+![see your stats](https://images.squarespace-cdn.com/content/5363e3d1e4b0b6dbd37bcdd6/1586293610101-N45I0R9YR7AQ9CPD7UKF/?content-type=image%2Fgif)
 ### creating a game gif
+![create a game](https://images.squarespace-cdn.com/content/5363e3d1e4b0b6dbd37bcdd6/1586293583699-GH79I7M6GAW4FWMUNXH9/?content-type=image%2Fgif)
 ### chatting gif
+![trash-talk your opponent](https://images.squarespace-cdn.com/content/5363e3d1e4b0b6dbd37bcdd6/1586293526571-SNUL3435IH9BRY82MZBN/?content-type=image%2Fgif)
 
 ## Challenges
 
