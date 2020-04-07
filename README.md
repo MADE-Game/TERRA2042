@@ -23,7 +23,7 @@ Terra 2042 is a web-based tabletop card game. It features live multiplayer games
 ![shop](https://images.squarespace-cdn.com/content/v1/5363e3d1e4b0b6dbd37bcdd6/1586294589983-XOEGI2LGHW1L22SUIKZ0/ke17ZwdGBToddI8pDm48kLR91wanN1DY-mWerraBVdJZw-zPPgdn4jUwVcJE1ZvWhcwhEtWJXoshNdA9f1qD7b5OXqMJq-_Z7YP0m2eXPLljZIVKfK11Snr8nfI7YR4ZZC96nJIDUnOiLzqnBiln6w/Shop.gif?format=300w)<br/>
 Users start out with five gold coins they can use in the shop to buy new cards. Players also earn gold coins by playing games; three for the winner, one for the loser.
 ### Build your own deck
-![create a deck](https://images.squarespace-cdn.com/content/5363e3d1e4b0b6dbd37bcdd6/1586295376078-YHQR7D86TRAIQP7YAUDK/deck-builder.gif?content-type=image%2Fgif)<br/>
+![create a deck](/public/images/deck-builder.gif)<br/>
 Aside from the default deck, users can build their own custom decks consisting of cards in their collection.
 ### Check your stats
 ![see your stats](https://images.squarespace-cdn.com/content/5363e3d1e4b0b6dbd37bcdd6/1586295677098-SEUVTSH0PNR6E8AA4073/match-history.gif?content-type=image%2Fgif)<br/>
@@ -32,7 +32,7 @@ Users can visit the stats page to see their match history. In the stats page, us
 ![create a game](https://images.squarespace-cdn.com/content/5363e3d1e4b0b6dbd37bcdd6/1586295517889-FUSU7BAR3K6XKD5MKPZR/make-a-room.gif?content-type=image%2Fgif)<br/>
 Terra 2042 is a two-plater game. Create a game and share the room code with a friend to battle it out.
 ### Trash talk your opponent
-![trash-talk your opponent](https://images.squarespace-cdn.com/content/5363e3d1e4b0b6dbd37bcdd6/1586295118149-AJOVHT66VVXKT9JAK299/chat.gif?content-type=image%2Fgif)<br/>
+![trash-talk your opponent](/public/images/chat.gif)<br/>
 Trash talk your opponent while in game and assert your dominance.
 
 ## Challenges
