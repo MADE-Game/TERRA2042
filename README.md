@@ -23,6 +23,12 @@ Terra 2042 is a web-based tabletop card game. It features live multiplayer games
 ### creating a game gif
 ### chatting gif
 
+## Challenges
+
+- Terra 2042 makes use of a NoSQL database, something we were not familiar with. One of our challenges was figuring out how to 
+set up associations in a document model as opposed to a relational model, especially when respresenting and storing game state.
+- Saving and loading in real-time was also a challenge we faced intrinsic to multiplayer games. We had to devise a way of validating our API so that only valid moves by the correct player could be made. We also had to come up with a way to provide real-time updates to both players. Therefore, after each valid move, a socket is sent to the opposing player notifying them that the game has been updated. 
+- Another challenge we faced was connecting 2 people to play a game with each other without interference from other games. This meant that socket connections had to be kept private so players wouldn’t be notified about messages or moves coming from a different game. This was done by defining socket channels that players could join by providing a shared code.
 
 ## How to play
 
