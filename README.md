@@ -35,8 +35,8 @@ set up associations in a document model as opposed to a relational model, especi
 ### Create/join a game
 1. Click "PLAY" on the main menu to visit the games lobby.
 2. Select your deck and class.
-3a. If you are the first player in the lobby, click on "CREATE GAME" to generate a room code. Send the code to your friend!
-3b. If you are the second player in the lobby, click on "JOIN GAME" and enter the room code you got from your friend.
+3. If you are the first player in the lobby, click on "CREATE GAME" to generate a room code. Send the code to your friend!
+4. If you are the second player in the lobby, click on "JOIN GAME" and enter the room code you got from your friend.
 The match will start as soon as two players have entered the game.
 
 ### Playing a game
