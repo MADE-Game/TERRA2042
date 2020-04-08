@@ -101,3 +101,9 @@ The Cultist class allows a player to draw an extra card at the cost of 2 extra s
 At the cost of 2 settlers, the Bandit class gives players the option to either: Active a previously unactivated fighter on their battlefield, or decrease their opponent's settlers by 4. 
 #### Hoarder (passive)
 The Hoarder class gives players a 1 in 4 chance to draw 2 cards instead of 1. 
+
+## Contributors
+- Max Van Buskirk https://github.com/cmax1018
+- Akil Grant https://github.com/akilgrant93
+- Dylan Horgan https://github.com/dyhorgan
+- Erick Canals https://github.com/EC7495
