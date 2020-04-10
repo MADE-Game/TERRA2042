@@ -21,12 +21,6 @@ import 'react-toastify/dist/ReactToastify.css'
 const STUTTER = 350
 window.KEY = Math.random()
 
-const enemySide = {
-  heroUrl: '/images/monsters/11.png'
-}
-const playerSide = {
-  heroUrl: '/images/monsters/14.png'
-}
 class Board extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired
@@ -156,8 +150,8 @@ class Board extends Component {
       <DndProvider backend={Backend}>
         <div className="board">
           <div className="container">
-            <Side top={true} side={enemySide} />
-            <Side side={playerSide} gameId={this.props.match.params.id} />
+            <Side top={true} />
+            <Side gameId={this.props.match.params.id} />
           </div>
         </div>
       </DndProvider>

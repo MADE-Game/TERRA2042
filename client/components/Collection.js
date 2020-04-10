@@ -29,7 +29,12 @@ function Collection(props) {
       <div
         onClick={props.handleClick}
         ref={drop}
-        style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}
+        style={{
+          display: 'flex',
+          marginTop: '2vh',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}
       >
         <div
           className={

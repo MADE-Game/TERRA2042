@@ -127,6 +127,7 @@ class CollectionList extends Component {
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
+                  marginRight: '1vh',
                   justifyContent: 'center'
                 }}
               >

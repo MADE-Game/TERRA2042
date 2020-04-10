@@ -128,11 +128,10 @@ class Chat extends Component {
               style={{
                 resize: 'none',
                 borderRadius: '5px',
-                border: 'none',
+                border: 0,
                 margin: 0,
-                width: '98%'
+                width: '97%'
               }}
-              cols="50"
               rows="3"
               name="message"
               value={this.state.message}

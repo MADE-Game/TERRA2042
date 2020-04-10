@@ -11,18 +11,21 @@ const initialState = {
   deck: 0,
   inPlay: [],
   hand: 0,
-  settlers: 30
+  settlers: 30,
+  class: ''
 }
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case LOAD_GAME:
+      console.log(action)
       return {
         ...state,
         inPlay: action.game.game.opponent.inPlay,
         hand: action.game.game.opponent.hand,
         deck: action.game.game.opponent.deck,
-        settlers: action.game.game.opponent.settlers
+        settlers: action.game.game.opponent.settlers,
+        class: action.game.game.opponent.class
       }
     case CLEAR_BOARD:
       return initialState

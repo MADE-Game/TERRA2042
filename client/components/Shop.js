@@ -85,7 +85,8 @@ class Shop extends Component {
             paddingLeft: '2vw',
             paddingRight: '2vw',
             backgroundColor: 'rgba(255, 255, 255, 0.25)',
-            borderRadius: '5px'
+            borderRadius: '5px',
+            boxShadow: 'inset 0px 0px 10px'
           }}
         >
           <img src="./images/coin.gif" style={{maxWidth: '1em'}} />{' '}
@@ -116,6 +117,7 @@ class Shop extends Component {
         <Pagination
           page={this.state.page}
           count={Math.ceil(this.props.inShop.length / 8)}
+          style={{marginTop: '2vh'}}
           size="large"
           hideNextButton={true}
           hidePrevButton={true}

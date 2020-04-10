@@ -18,27 +18,38 @@ const useStyles = makeStyles(theme => ({
 const Dropdown = props => {
   const classes = useStyles()
   const [name, setDeck] = React.useState('')
+  const [className, setClass] = React.useState('')
 
-  const onChange = event => {
+  const onDeckChange = event => {
     setDeck(event.target.value)
   }
+  const onClassChange = event => {
+    setClass(event.target.value)
+  }
+  console.log(props)
 
   return (
     <div>
       <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Deck</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={name}
-          onChange={onChange}
-        >
-          {props.decks.map(deck => (
-            <MenuItem value={deck} key={deck}>
-              {deck}
-            </MenuItem>
-          ))}
-        </Select>
+        <InputLabel>{props.label}</InputLabel>
+        {props.label === 'Deck' ? (
+          <Select value={name} onChange={onDeckChange}>
+            {props.items.map(item => (
+              <MenuItem value={item} key={item}>
+                {item}
+              </MenuItem>
+            ))}
+          </Select>
+        ) : (
+          // drowndown for classes
+          <Select value={className} onChange={onClassChange}>
+            {props.items.map(item => (
+              <MenuItem value={item} key={item}>
+                {item}
+              </MenuItem>
+            ))}
+          </Select>
+        )}
       </FormControl>
     </div>
   )

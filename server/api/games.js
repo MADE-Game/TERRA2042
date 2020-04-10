@@ -156,7 +156,7 @@ router.post('/newGame', userOnly, async (req, res, next) => {
       p2: req.body.p2,
       isFinished: false
     })
-
+    console.log('req.body', req.body)
     if (game) {
       return res.json(game)
     } else {

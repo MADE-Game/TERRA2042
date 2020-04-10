@@ -32,6 +32,7 @@ const Draw = styled.div`
 class Side extends React.Component {
   // eslint-disable-next-line complexity
   render() {
+    // console.log('props in side',this.props)
     return (
       <div className="side">
         {/* player or opponent boolean check */}
@@ -88,9 +89,9 @@ class Side extends React.Component {
                   />
                 </div>
               </div>
-              <div style={{paddingRight: '2vh'}}>
+              <div style={{paddingRight: '5vh'}}>
                 <Player
-                  imgUrl={this.props.side.heroUrl}
+                  imgUrl={this.props.user.selectedClass}
                   player={this.props.opponent}
                   side="top"
                   size={this.props.opponent.hand}
@@ -133,7 +134,7 @@ class Side extends React.Component {
               >
                 <div style={{display: 'flex', flexDirection: 'row'}}>
                   <Player
-                    imgUrl={this.props.side.heroUrl}
+                    imgUrl={this.props.user.selectedClass}
                     player={this.props.player}
                     side="bottom"
                   />
@@ -155,56 +156,6 @@ class Side extends React.Component {
             </div>
 
             <div>
-              {/* draw card */}
-              {/* <button
-                    className="buttonStyle4"
-                    type="submit"
-                    value="disable"
-                    onClick={() => props.drawCard(props.player.deck)}
-                  >
-                    <p className="buttonText">Draw Card</p>
-                  </button> */}
-
-              {/* hurt by draw */}
-              {/* <button
-                      type="submit"
-                      onClick={() => this.props.hurtByDraw(this.props.player)}
-                    >
-                      Draw Card Button
-                    </button> */}
-
-              {/* end turn */}
-              {/* <div id="buttonContainer">
-                      <button
-                        disabled={!this.props.gameState.data.isMyTurn}
-                        className="buttonStyle3"
-                        type="submit"
-                        style={{marginTop: '-4vh'}}
-                        onClick={() => {
-                          this.props.endTurn(
-                            this.props.gameId,
-                            this.props.gameState,
-                            this.props.player,
-                            this.props.user
-                          )
-
-                          window.KEY = Math.random()
-                        }}
-                      >
-                        <p className="buttonText">End Turn</p>
-                      </button>
-                    </div> */}
-
-              {/* game over */}
-              {/* <div>
-                      <h1>Game Over!</h1>
-                      <Link to="/lobby">
-                        <button type="submit" className="buttonStyle2">
-                          Back to Lobby?
-                        </button>
-                      </Link>
-                    </div> */}
-
               <div style={{display: 'flex', flexDirection: 'row'}}>
                 {this.props.isMyTurn === true &&
                   (this.props.allowedToDraw ? (
