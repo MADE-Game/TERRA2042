@@ -1,4 +1,4 @@
-# [Terra 2042](terra-2042.herokuapp.com)
+# [Terra 2042](https://terra-2042.herokuapp.com/m)
 
 ![Terra 2042](public/images/logo.png)
 
