@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import {auth} from '../store'
 import {Link} from 'react-router-dom'
 import {MyButton as Button} from './Button'
+import TextField from '@material-ui/core/TextField'
+import {display} from '@material-ui/system'
 
 /**
  * COMPONENT
@@ -17,7 +19,7 @@ const AuthForm = props => {
   return (
     <div className="formContainer">
       <p id="title">
-        <i>TERRA-2042</i>
+        <i>TERRA 2042</i>
       </p>
       <form onSubmit={handleSubmit} name={name} className="formColumn">
         {displayName === 'Sign Up' && (
@@ -55,20 +57,14 @@ const AuthForm = props => {
         </div>
 
         <div className="loginButtons">
-          <button type="submit" className="buttonStyle0">
-            {displayName}
-          </button>
+          <Button text={displayName} color="default" icon={displayName} />
           {displayName === 'Login' ? (
             <Link to="/signup">
-              <button type="submit" className="buttonStyle6">
-                Sign Up
-              </button>
+              <Button text="Sign Up" color="default" icon="Sign Up" />
             </Link>
           ) : (
             <Link to="/login">
-              <button type="submit" className="buttonStyle6">
-                Login
-              </button>
+              <Button text="Login" color="default" icon="Login" />
             </Link>
           )}
         </div>
@@ -116,6 +112,7 @@ const mapDispatch = dispatch => {
       if (evt.target.email) {
         email = evt.target.email.value
       }
+      console.log(evt.target)
       const password = evt.target.password.value
       const username = evt.target.username.value
 

@@ -1,9 +1,9 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Badge from '@material-ui/core/Badge'
-import MailIcon from '@material-ui/icons/Mail'
-import StyleIcon from '@material-ui/icons/Style'
-import GroupIcon from '@material-ui/icons/Group'
+import MailIconTwoToneIcon from '@material-ui/icons/MailTwoTone'
+import StyleIconTwoToneIcon from '@material-ui/icons/StyleTwoTone'
+import GroupIconTwoToneIcon from '@material-ui/icons/GroupTwoTone'
 import SvgIcon from '@material-ui/core/SvgIcon'
 
 function DeckIcon(props) {
@@ -44,13 +44,35 @@ export function BadgeOne(props) {
         ) : (
           ''
         )}
-        {props.name === 'playerSettlers' ? (
+
+        {/* {props.name === 'playerSettlers' ? (
           <GroupIcon style={{color: '#fff'}} />
         ) : (
           ''
         )}
+        {props.content < 15 ? (<GroupIcon style={{color: '#fff'}} />) : ('')} */}
+
+        {props.name === 'playerSettlers' ? (
+          props.content < 10 ? (
+            <GroupIconTwoToneIcon
+              className="shadowpulse"
+              style={{
+                color: '#EA474F',
+                filter: 'drop-shadow(0px 0px 5px #C41A1C)'
+              }}
+            />
+          ) : (
+            <GroupIconTwoToneIcon style={{color: '#fff'}} />
+          )
+        ) : (
+          // <GroupIcon style={{color: '#fff'}} />
+          ''
+        )}
+
         {props.name === 'opponentHand' ? (
-          <StyleIcon style={{color: '#fff'}} />
+          <StyleIconTwoToneIcon
+            style={{color: '#fff', filter: 'drop-shadow(0px 0px 5px #fff)'}}
+          />
         ) : (
           ''
         )}
@@ -65,7 +87,7 @@ export function BadgeTwo(props) {
   return (
     <div className={classes.root}>
       <Badge badgeContent={4} color="secondary">
-        <MailIcon />
+        <MailIconTwoToneIcon />
       </Badge>
     </div>
   )

@@ -13,6 +13,20 @@ body {
   min-height: 100vh;
 }
 
+@keyframes shadow-pulse1 {
+  0% {
+    box-shadow: 0 0 0px 0px rgba(196, 26, 28, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 15px 25px rgba(196, 26, 28, 0);
+  }
+}
+
+.shadowpulse {
+  border-radius: 10px;
+  animation: shadow-pulse1 1s infinite;
+}
+
 a {
   text-decoration: none;
 }
@@ -137,6 +151,36 @@ label {
   text-align: center;
 }
 
+.time-wrapper {
+  position: relative;
+  width: 50px;
+  height: 40px;
+}
+
+.time-wrapper .time {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(0);
+  opacity: 1;
+  transition: all 0.2s;
+}
+
+.time-wrapper .time.up {
+  opacity: 0;
+  transform: translateY(-100%);
+}
+
+.time-wrapper .time.down {
+  opacity: 0;
+  transform: translateY(100%);
+}
+
 .column {
   display: flex;
   flex-direction: column;
@@ -155,7 +199,13 @@ label {
 
 .hero {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+}
+
+.opponent {
+  display: flex;
+  flex-direction: row-reverse;
   align-items: center;
 }
 
@@ -178,13 +228,11 @@ label {
 
 .inputStyle {
   width: 100%;
-  margin: 0;
-  padding-left: 5vh;
-  padding-right: 5vh;
-  padding-top: 0.5vh;
+  margin: 0px 0px 1vh 0px;
+  padding: 1vh 5vh 1vh 5vh;
   font-size: 13px;
-  padding-bottom: 0.5vh;
   border-radius: 0.5vh;
+  border: 0px;
 }
 
 .inputStyle1 {
@@ -224,6 +272,7 @@ label {
 .loginButtons {
   margin: 0;
   width: 100%;
+  margin-left: -1.5vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -311,9 +360,9 @@ label {
   padding-bottom: 2vh;
 }
 
-.hero img {
+/* .hero img {
   width: 10vh;
-}
+} */
 
 .heroText {
   margin: 0;
@@ -474,11 +523,12 @@ label {
 
 #msg {
   background-color: rgba(255, 255, 255, 0.25);
+  box-shadow: inset 0px 0px 3.5px;
   width: 98%;
   border-radius: 5px;
   border: none;
   margin: 0;
-  padding: 0;
+  padding: 1vh 0 1vh;
   /* margin-right: 1vh; */
   max-height: 10vh;
   overflow: auto;
