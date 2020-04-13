@@ -45,7 +45,6 @@ const Player = props => {
       item: monitor.getItem()
     })
   })
-  console.log('props in player', props)
   return attacked ? (
     <div>
       {props.side === 'bottom' ? (

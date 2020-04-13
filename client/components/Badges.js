@@ -40,7 +40,9 @@ export function BadgeOne(props) {
         color="secondary"
       >
         {props.name === 'opponentDeck' || props.name === 'playerDeck' ? (
-          <DeckIcon style={{color: '#fff'}} />
+          <DeckIcon
+            style={{color: '#fff', filter: 'drop-shadow(0px 0px 5px #fff)'}}
+          />
         ) : (
           ''
         )}
@@ -62,7 +64,9 @@ export function BadgeOne(props) {
               }}
             />
           ) : (
-            <GroupIconTwoToneIcon style={{color: '#fff'}} />
+            <GroupIconTwoToneIcon
+              style={{color: '#fff', filter: 'drop-shadow(0px 0px 5px #fff)'}}
+            />
           )
         ) : (
           // <GroupIcon style={{color: '#fff'}} />
