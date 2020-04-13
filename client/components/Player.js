@@ -48,38 +48,50 @@ const Player = props => {
   console.log('props in player', props)
   return attacked ? (
     <div>
-      <Bounce>
-        <div className="hero" ref={drop}>
-          <img src={props.imgUrl} />
-        </div>
-      </Bounce>
-      <BadgeOne name="playerSettlers" content={props.player.settlers} />
       {props.side === 'bottom' ? (
-        <div>
-          {/* <Badges /> */}
-          <BadgeOne name="playerDeck" content={props.player.deck.length} />
-        </div>
+        <Bounce>
+          <div className="hero" ref={drop}>
+            <img src={props.imgUrl} />
+
+            <BadgeOne name="playerSettlers" content={props.player.settlers} />
+
+            <div>
+              <BadgeOne name="playerDeck" content={props.player.deck.length} />
+            </div>
+          </div>
+        </Bounce>
       ) : (
-        <div style={{display: 'flex', flexDirection: 'row'}}>
-          <BadgeOne name="opponentHand" content={props.size} />
-          <BadgeOne content={props.opponent.deck} />
-        </div>
+        <Bounce>
+          <div className="opponent" ref={drop}>
+            <img src={props.imgUrl} />
+            <BadgeOne name="playerSettlers" content={props.player.settlers} />
+            <div style={{display: 'flex', flexDirection: 'row'}}>
+              <BadgeOne name="opponentHand" content={props.size} />
+              <BadgeOne name="opponentDeck" content={props.opponent.deck} />
+            </div>
+          </div>
+        </Bounce>
       )}
     </div>
   ) : (
-    <div className="hero" ref={drop}>
-      <img src={props.imgUrl} />
-      <p></p>
-      <BadgeOne name="playerSettlers" content={props.player.settlers} />
+    <div>
       {props.side === 'bottom' ? (
-        <div>
-          {/* <Badges /> */}
-          <BadgeOne name="playerDeck" content={props.player.deck.length} />
+        <div className="hero" ref={drop}>
+          <img src={props.imgUrl} />
+          <BadgeOne name="playerSettlers" content={props.player.settlers} />
+
+          <div>
+            <BadgeOne name="playerDeck" content={props.player.deck.length} />
+          </div>
         </div>
       ) : (
-        <div style={{display: 'flex', flexDirection: 'row'}}>
-          <BadgeOne name="opponentHand" content={props.size} />
-          <BadgeOne name="opponentDeck" content={props.opponent.deck} />
+        <div className="opponent" ref={drop}>
+          <img src={props.imgUrl} />
+          <BadgeOne name="playerSettlers" content={props.player.settlers} />
+          <div style={{display: 'flex', flexDirection: 'row'}}>
+            <BadgeOne name="opponentHand" content={props.size} />
+            <BadgeOne name="opponentDeck" content={props.opponent.deck} />
+          </div>
         </div>
       )}
     </div>

@@ -26,8 +26,6 @@ const Dropdown = props => {
   const onClassChange = event => {
     setClass(event.target.value)
   }
-  console.log(props)
-
   return (
     <div>
       <FormControl className={classes.formControl}>

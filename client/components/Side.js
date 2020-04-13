@@ -23,6 +23,7 @@ import {zoomInLeft} from 'react-animations'
 import styled, {keyframes} from 'styled-components'
 import {toast} from 'react-toastify'
 import {CountdownCircleTimer} from 'react-countdown-circle-timer'
+import {renderTime} from '../timeRender'
 
 const Draw = styled.div`
   animation: 1s ${keyframes`${zoomInLeft}`};
@@ -33,6 +34,7 @@ class Side extends React.Component {
   // eslint-disable-next-line complexity
   render() {
     // console.log('props in side',this.props)
+    console.log(this.state)
     return (
       <div className="side">
         {/* player or opponent boolean check */}
@@ -67,7 +69,8 @@ class Side extends React.Component {
                   <CountdownCircleTimer
                     size={50}
                     strokeWidth={5}
-                    trailColor="black"
+                    trailColor="rgba(99, 14, 14, 0.25)"
+                    strokeLinecap="square"
                     onComplete={() => {
                       if (this.props.isMyTurn) {
                         this.props.forfeitTurn(
@@ -83,13 +86,21 @@ class Side extends React.Component {
                       window.KEY = Math.random()
                     }}
                     isPlaying={this.props.isMyTurn}
-                    durationSeconds={30}
-                    colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
+                    durationSeconds={60}
+                    renderTime={renderTime}
+                    isLinearGradient
+                    colors={[['#D38411', 0.9], ['#630E0E']]}
                     key={window.KEY}
                   />
                 </div>
               </div>
-              <div style={{paddingRight: '5vh'}}>
+              <div
+                style={{
+                  paddingRight: '5vh',
+                  display: 'flex',
+                  flexDirection: 'row-reverse'
+                }}
+              >
                 <Player
                   imgUrl={this.props.user.selectedClass}
                   player={this.props.opponent}
@@ -156,7 +167,14 @@ class Side extends React.Component {
             </div>
 
             <div>
-              <div style={{display: 'flex', flexDirection: 'row'}}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  marginLeft: '3vh',
+                  marginTop: '-5vh'
+                }}
+              >
                 {this.props.isMyTurn === true &&
                   (this.props.allowedToDraw ? (
                     <button
