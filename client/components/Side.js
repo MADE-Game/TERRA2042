@@ -1,7 +1,9 @@
+/* eslint-disable complexity */
 import React from 'react'
 import Card from './Card'
 import Plane from './Plane'
 import {MyButton as Button} from './Button'
+import {MyIconButton as IconButton} from './IconButton'
 import BanditComponent from './BanditComponent'
 import {
   endTurn,
@@ -32,9 +34,33 @@ const Draw = styled.div`
 // eslint-disable-next-line complexity
 class Side extends React.Component {
   // eslint-disable-next-line complexity
+  constructor() {
+    super()
+    this.state = {
+      opponentClass: ''
+    }
+  }
+
+  componentDidMount() {
+    if (localStorage.roomId) {
+      socket.emit('exchange class', {
+        roomId: localStorage.roomId,
+        class: this.props.user.selectedClass
+      })
+    }
+
+    socket.on('exchange class', data => {
+      this.setState({opponentClass: data.class})
+      console.log('opponents class here->>>>>>>', data.class)
+    })
+  }
+
+  handleClick() {
+    this.props.drawCard(this.props.player.deck, this.props.user)
+  }
   render() {
     // console.log('props in side',this.props)
-    console.log(this.state)
+    // console.log(this.state)
     return (
       <div className="side">
         {/* player or opponent boolean check */}
@@ -66,32 +92,39 @@ class Side extends React.Component {
                   />
                 </a>
                 <div style={{marginLeft: '2vh'}}>
-                  <CountdownCircleTimer
-                    size={50}
-                    strokeWidth={5}
-                    trailColor="rgba(99, 14, 14, 0.25)"
-                    strokeLinecap="square"
-                    onComplete={() => {
-                      if (this.props.isMyTurn) {
-                        this.props.forfeitTurn(
-                          localStorage.gameId,
-                          this.props.gameState
-                        )
-                        socket.emit('end turn', {roomId: localStorage.roomId})
-                        toast.error('You forfeited your turn!', {
-                          position: toast.POSITION.TOP_CENTER
-                        })
-                      }
-
-                      window.KEY = Math.random()
+                  <div
+                    style={{
+                      filter: 'drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.75))'
                     }}
-                    isPlaying={this.props.isMyTurn}
-                    durationSeconds={60}
-                    renderTime={renderTime}
-                    isLinearGradient
-                    colors={[['#D38411', 0.9], ['#630E0E']]}
-                    key={window.KEY}
-                  />
+                  >
+                    <CountdownCircleTimer
+                      id="timer"
+                      size={50}
+                      strokeWidth={5}
+                      trailColor="rgba(99, 14, 14, 0.25)"
+                      strokeLinecap="square"
+                      onComplete={() => {
+                        if (this.props.isMyTurn) {
+                          this.props.forfeitTurn(
+                            localStorage.gameId,
+                            this.props.gameState
+                          )
+                          socket.emit('end turn', {roomId: localStorage.roomId})
+                          toast.error('You forfeited your turn!', {
+                            position: toast.POSITION.TOP_CENTER
+                          })
+                        }
+
+                        window.KEY = Math.random()
+                      }}
+                      isPlaying={this.props.isMyTurn}
+                      durationSeconds={60}
+                      renderTime={renderTime}
+                      isLinearGradient
+                      colors={[['#D38411', 0.9], ['#630E0E']]}
+                      key={window.KEY}
+                    />
+                  </div>
                 </div>
               </div>
               <div
@@ -102,7 +135,7 @@ class Side extends React.Component {
                 }}
               >
                 <Player
-                  imgUrl={this.props.user.selectedClass}
+                  imgUrl={this.props.opponent.class}
                   player={this.props.opponent}
                   side="top"
                   size={this.props.opponent.hand}
@@ -145,7 +178,7 @@ class Side extends React.Component {
               >
                 <div style={{display: 'flex', flexDirection: 'row'}}>
                   <Player
-                    imgUrl={this.props.user.selectedClass}
+                    imgUrl={this.state.opponentClass}
                     player={this.props.player}
                     side="bottom"
                   />
@@ -177,41 +210,30 @@ class Side extends React.Component {
               >
                 {this.props.isMyTurn === true &&
                   (this.props.allowedToDraw ? (
-                    <button
-                      className="buttonStyle3"
-                      type="submit"
-                      onClick={() =>
-                        this.props.drawCard(
-                          this.props.player.deck,
-                          this.props.user
-                        )
-                      }
-                    >
-                      <p className="buttonText">Draw Card</p>
-                    </button>
+                    <IconButton
+                      text="canDraw"
+                      drawCard={this.props.drawCard}
+                      player={{deck: this.props.player.deck}}
+                      user={this.props.user}
+                    />
                   ) : (
-                    <button type="submit" className="buttonStyle4">
-                      Draw Card
-                    </button>
+                    // <IconButton text="cantDraw"/>
+                    ''
                   ))}
-                {/* {this.props.isMyTurn === true ? ( */}
-                <button
-                  disabled={!this.props.gameState.data.isMyTurn}
-                  className="buttonStyle3"
-                  type="submit"
-                  onClick={() => {
-                    this.props.endTurn(
-                      this.props.gameId,
-                      this.props.gameState,
-                      this.props.player,
-                      this.props.user
-                    )
 
-                    window.KEY = Math.random()
-                  }}
-                >
-                  <p className="buttonText">End Turn</p>
-                </button>
+                {this.props.isMyTurn ? (
+                  <IconButton
+                    text="endTurn"
+                    endTurn={this.props.endTurn}
+                    user={this.props.user}
+                    player={this.props.player}
+                    gameId={this.props.gameId}
+                    gameState={this.props.gameState}
+                  />
+                ) : (
+                  <IconButton text="cantEnd" />
+                )}
+
                 {this.props.user.selectedClass === 'Cultist' &&
                   (this.props.isMyTurn ? (
                     <button

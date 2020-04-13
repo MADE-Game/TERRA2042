@@ -17,6 +17,13 @@ const GAMENSP = gameNsp => {
       console.log(`Connection ${socket.id} has left the lobby`)
     })
 
+    socket.on('exchange class', data => {
+      console.log('data---------->', data)
+      console.log('data.roomId------------->', data.roomId)
+      console.log('exchanging classes----------->')
+      socket.to(`room${data.roomId}`).emit('exchange class', data)
+    })
+
     // handles a player's initial join
     socket.on('join', data => {
       socket.join(`room${data.roomId}`)
