@@ -40,6 +40,14 @@ passport.deserializeUser(async (id, done) => {
   }
 })
 
+if (process.env.NODE_ENV === 'production') {
+  app.use((req, res, next) => {
+    if (req.header('x-forwarded-proto') !== 'https')
+      res.redirect(`https://${req.header('host')}${req.url}`)
+    else next()
+  })
+}
+
 const createApp = () => {
   // logging middleware
   app.use(morgan('dev'))
