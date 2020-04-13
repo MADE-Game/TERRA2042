@@ -4,7 +4,7 @@ import {MyIconButton as IconButton} from './IconButton'
 export const ShopCard = ({card, handleClick}) => {
   const {name, attack, health, imageUrl, cost} = card
   return (
-    <div style={{marginBottom: '3vh'}}>
+    <div>
       <div>
         <div
           className="collectionCard"
@@ -52,7 +52,9 @@ export const ShopCard = ({card, handleClick}) => {
           </div>
         </div>
       </div>
-      <IconButton handleClick={handleClick} text="BUY" card={card} />
+      <div style={{marginLeft: '-2vh'}}>
+        <IconButton handleClick={handleClick} text="BUY" card={card} />
+      </div>
     </div>
   )
 }

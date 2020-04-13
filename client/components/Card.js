@@ -82,8 +82,8 @@ const Card = props => {
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
-              minWidth: '12vh',
-              minHeight: '20vh',
+              minWidth: '9vh',
+              minHeight: '15vh',
               display: 'flex',
               flexDirection: 'column',
               color: '#fff',
@@ -92,6 +92,7 @@ const Card = props => {
           >
             <h3
               style={{
+                fontSize: '8px',
                 textAlign: 'center',
                 margin: 0,
                 color: '#fff'
@@ -99,7 +100,11 @@ const Card = props => {
             >
               {cost}
             </h3>
-            <h3 style={{textAlign: 'center', paddingTop: '7.5vh'}}>{name}</h3>
+            <h3
+              style={{fontSize: '8px', textAlign: 'center', paddingTop: '6vh'}}
+            >
+              {name}
+            </h3>
             <div
               style={{
                 display: 'flex',
@@ -107,9 +112,9 @@ const Card = props => {
                 justifyContent: 'space-evenly'
               }}
             >
-              <h3 style={{margin: 0}}>{attack}</h3>
+              <h3 style={{fontSize: '8px', margin: 0}}>{attack}</h3>
 
-              <h3 style={{margin: 0}}>{health}</h3>
+              <h3 style={{fontSize: '8px', margin: 0}}>{health}</h3>
             </div>
           </div>
         </div>

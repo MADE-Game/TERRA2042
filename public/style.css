@@ -58,7 +58,7 @@ nav a {
 .container {
   background-image: url('./images/made-board.png');
   border-radius: 15px;
-  box-shadow: 5px 5px 10px;
+  box-shadow: inset 0px 0px 15px;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -75,7 +75,8 @@ nav a {
 
 .collectionCard {
   margin-left: 1vh;
-  margin-bottom: 2.5vh;
+  margin-top: 1.5vh;
+  margin-bottom: 4vh;
   margin-right: 1vh;
 }
 
@@ -85,7 +86,7 @@ nav a {
 
 .plane,
 .hand {
-  min-height: 10vh;
+  min-height: 16vh;
 }
 
 #buttonContainer {
@@ -332,7 +333,7 @@ label {
   border-radius: 10px;
   border: 0;
   max-width: 81.5vw;
-  box-shadow: 1.25px 2.5px 2.5px;
+  box-shadow: inset 0px 0px 10px;
   overflow-x: scroll;
 }
 
@@ -341,7 +342,7 @@ label {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  width: 60%;
+  width: 90%;
   align-self: center;
   margin-bottom: 4vh;
   border-bottom-left-radius: 15px;
@@ -351,8 +352,10 @@ label {
   padding-right: 1.75%;
   padding-left: 1.75%;
   padding-bottom: 3vh;
+  max-height: 60vh;
+  overflow-y: auto;
   justify-content: center;
-  box-shadow: 1.25px 2.5px 2.5px;
+  box-shadow: inset 0px 0px 10px;
 }
 
 #title {
@@ -463,6 +466,7 @@ label {
   flex-direction: column;
   justify-content: flex-end;
   width: 35%;
+  align-self: flex-end;
   max-width: 35%;
   min-width: 325px;
   overflow-y: auto;
@@ -508,9 +512,10 @@ label {
 #shop-cards {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-gap: 100px;
+  grid-row-gap: 50px;
+  grid-column-gap: 95px;
   grid-auto-rows: minmax(5%, auto);
-  margin: 5% 3% auto 3%;
+  margin: 3% 3% auto 3%;
 }
 
 #card:hover {

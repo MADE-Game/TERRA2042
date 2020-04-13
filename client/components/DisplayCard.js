@@ -68,7 +68,7 @@ const DisplayCard = props => {
         </div>
       </div>
       {props.isDeck ? (
-        <div style={{paddingLeft: '10%', width: '30%'}}>
+        <div style={{width: '30%'}}>
           <IconButton handleRemove={props.handleRemove} text="deleteFromDeck" />
         </div>
       ) : (

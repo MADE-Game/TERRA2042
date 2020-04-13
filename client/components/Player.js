@@ -7,6 +7,7 @@ import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import {bounceIn} from 'react-animations'
 import styled, {keyframes} from 'styled-components'
+import {BadgeOne, BadgeTwo} from './Badges'
 
 const Bounce = styled.div`
   animation: 1s ${keyframes`${bounceIn}`};
@@ -44,6 +45,7 @@ const Player = props => {
       item: monitor.getItem()
     })
   })
+  console.log('props in player', props)
   return attacked ? (
     <div>
       <Bounce>
@@ -51,26 +53,33 @@ const Player = props => {
           <img src={props.imgUrl} />
         </div>
       </Bounce>
-      <p className="heroText">Settlers: {props.player.settlers}</p>
+      <BadgeOne name="playerSettlers" content={props.player.settlers} />
       {props.side === 'bottom' ? (
-        <p className="heroText">Deck: {props.player.deck.length} cards left.</p>
-      ) : (
         <div>
-          <p className="heroText">Deck: {props.opponent.deck} cards left.</p>
-          <p className="heroText">Opponent hand size is:{props.size}</p>
+          {/* <Badges /> */}
+          <BadgeOne name="playerDeck" content={props.player.deck.length} />
+        </div>
+      ) : (
+        <div style={{display: 'flex', flexDirection: 'row'}}>
+          <BadgeOne name="opponentHand" content={props.size} />
+          <BadgeOne content={props.opponent.deck} />
         </div>
       )}
     </div>
   ) : (
     <div className="hero" ref={drop}>
       <img src={props.imgUrl} />
-      <p className="heroText">Settlers: {props.player.settlers}</p>
+      <p></p>
+      <BadgeOne name="playerSettlers" content={props.player.settlers} />
       {props.side === 'bottom' ? (
-        <p className="heroText">Deck: {props.player.deck.length} cards left.</p>
-      ) : (
         <div>
-          <p className="heroText">Deck: {props.opponent.deck} cards left.</p>
-          <p className="heroText">Opponent hand size is:{props.size}</p>
+          {/* <Badges /> */}
+          <BadgeOne name="playerDeck" content={props.player.deck.length} />
+        </div>
+      ) : (
+        <div style={{display: 'flex', flexDirection: 'row'}}>
+          <BadgeOne name="opponentHand" content={props.size} />
+          <BadgeOne name="opponentDeck" content={props.opponent.deck} />
         </div>
       )}
     </div>

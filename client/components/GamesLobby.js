@@ -64,9 +64,16 @@ class GamesLobby extends Component {
             <Button text="Home" color="default" icon="home" />
           </Link>
           <Dropdown
+            label="Deck"
             selectDeck={this.props.selectDeck}
             name={this.state.name}
-            decks={this.props.decks}
+            items={this.props.decks}
+          />
+          <Dropdown
+            label="Class"
+            selectClass={this.props.selectClass}
+            name={this.state.name}
+            items={classesArray}
           />
           <select
             name="class"
