@@ -1,229 +1,109 @@
-# Boilermaker
+# [Terra 2042](terra-2042.herokuapp.com)
 
-_Good things come in pairs_
+![Terra 2042](public/images/logo.png)
 
-Looking to mix up a backend with `express`/`sequelize` and a frontend with
-`react`/`redux`? That's `boilermaker`!
+## Overview
 
-Follow along with the boilerplate workshop to make your own! This canonical
-version can serve as a reference, or a starting point. For an in depth
-discussion into the code that makes up this repository, see the
-[Boilermaker Guided Tour][boilermaker-yt]
+Terra 2042 is a web-based tabletop card game. It features live multiplayer games, custom deck building, and a shop to spend your spoils. Terra 2042 takes place in a post-apocalyptic world where players must battle each other to protect their settlements. 
 
-[boilermaker-yt]: https://www.youtube.com/playlist?list=PLx0iOsdUOUmn7D5XL4mRUftn8hvAJGs8H
+## Tech Stack
 
-## Setup
+- [MongoDB](https://www.mongodb.com/)
+- [Express](https://expressjs.com/)
+- [React](https://reactjs.org/)
+- [Node](https://nodejs.org/en/)
+- [Redux](https://redux.js.org/)
+- [Socket.io](https://socket.io/)
+- [React DnD](https://react-dnd.github.io/react-dnd/about)
+- [Material UI](https://material-ui.com/)
 
-To use this as boilerplate, you'll need to take the following steps:
+## Features
 
-- Don't fork or clone this repo! Instead, create a new, empty
-  directory on your machine and `git init` (or create an empty repo on
-  Github and clone it to your local machine)
-- Run the following commands:
+### Shop for cards
+![shop](https://images.squarespace-cdn.com/content/v1/5363e3d1e4b0b6dbd37bcdd6/1586294589983-XOEGI2LGHW1L22SUIKZ0/ke17ZwdGBToddI8pDm48kLR91wanN1DY-mWerraBVdJZw-zPPgdn4jUwVcJE1ZvWhcwhEtWJXoshNdA9f1qD7b5OXqMJq-_Z7YP0m2eXPLljZIVKfK11Snr8nfI7YR4ZZC96nJIDUnOiLzqnBiln6w/Shop.gif?format=300w)<br/>
+Users start out with five gold coins they can use in the shop to buy new cards. Players also earn gold coins by playing games; three for the winner, one for the loser.
+### Build your own deck
+![create a deck](/public/images/deck-builder.gif)<br/>
+Aside from the default deck, users can build their own custom decks consisting of cards in their collection.
+### Check your stats
+![see your stats](https://images.squarespace-cdn.com/content/5363e3d1e4b0b6dbd37bcdd6/1586295677098-SEUVTSH0PNR6E8AA4073/match-history.gif?content-type=image%2Fgif)<br/>
+Users can visit the stats page to see their match history. In the stats page, users can see all their recent games, including score, opponent's name, and outcome. 
+### Play with your friends
+![create a game](https://images.squarespace-cdn.com/content/5363e3d1e4b0b6dbd37bcdd6/1586295517889-FUSU7BAR3K6XKD5MKPZR/make-a-room.gif?content-type=image%2Fgif)<br/>
+Terra 2042 is a two-plater game. Create a game and share the room code with a friend to battle it out.
+### Trash talk your opponent
+![trash-talk your opponent](/public/images/chat.gif)<br/>
+Trash talk your opponent while in game and assert your dominance.
 
-```
-git remote add boilermaker https://github.com/FullstackAcademy/boilermaker.git
-git fetch boilermaker
-git merge boilermaker/master
-```
+## Challenges
 
-Why did we do that? Because every once in a while, `boilermaker` may
-be updated with additional features or bug fixes, and you can easily
-get those changes from now on by entering:
+- Terra 2042 makes use of a NoSQL database, something we were not familiar with. One of our challenges was figuring out how to 
+set up associations in a document model as opposed to a relational model, especially when respresenting and storing game state.
+- Saving and loading in real-time was also a challenge we faced intrinsic to multiplayer games. We had to devise a way of validating our API so that only valid moves by the correct player could be made. We also had to come up with a way to provide real-time updates to both players. Therefore, after each valid move, a socket is sent to the opposing player notifying them that the game has been updated. 
+- Another challenge we faced was connecting 2 people to play a game with each other without interference from other games. This meant that socket connections had to be kept private so players wouldn’t be notified about messages or moves coming from a different game. This was done by defining socket channels that players could join by providing a shared code.
 
-```
-git fetch boilermaker
-git merge boilermaker/master
-```
+## How to play
 
-## Customize
+### Create/join a game
+1. Click "PLAY" on the main menu to visit the games lobby.
+2. Select your deck and class.
+3. If you are the first player in the lobby, click on "CREATE GAME" to generate a room code. Send the code to your friend!
+4. If you are the second player in the lobby, click on "JOIN GAME" and enter the room code you got from your friend.
+The match will start as soon as two players have entered the game.
 
-Now that you've got the code, follow these steps to get acclimated:
+### Playing a game
+1. A player will be randomly chosen to go first.
+2. At the start of your turn, the turn-clock will begin to tick. Hurry, you only have 30 seconds!
+3. The player with the first turn will start out with 3 cards. The other player starts out with 4.
+4. At any given turn, a player has the option to:
+- Draw a card
+- Summon a card onto the playing field
+- Attack an opponent's card
+- Attack an opponent's hero
+5. Each player starts out with 30 settlers, which is the equivalent to health points.
+6. At the end of their turns, players will receive an additional settler.
 
-- Update project name and description in `package.json` and
-  `.travis.yml` files
-- `npm install`
-- Create two postgres databases (`MY_APP_NAME` should match the `name`
-  parameter in `package.json`):
+### Drawing a card
+- You can draw a card at any point during your turn.
+- A card can only be drawn once per turn.
+- Attempting to draw from an empty deck will decrease that player's settlers by 2.
 
-```
-export MY_APP_NAME=boilermaker
-createdb $MY_APP_NAME
-createdb $MY_APP_NAME-test
-```
+### Summoning a card
+- To summon a card, simply drag it from your hand onto your playing field (just below the dotted line.)
+- Summoning cards costs settlers. The cost to play each card is displayed on the top of the card. 
+- You can summon as many cards as you want in a turn. However, your battlefield can only hold 5 cards at a time.
+- A summoned card cannot be used to attack until your next turn.
 
-- By default, running `npm test` will use `boilermaker-test`, while
-  regular development uses `boilermaker`
-- Create a file called `secrets.js` in the project root
-  - This file is listed in `.gitignore`, and will _only_ be required
-    in your _development_ environment
-  - Its purpose is to attach the secret environment variables that you
-    will use while developing
-  - However, it's **very** important that you **not** push it to
-    Github! Otherwise, _prying eyes_ will find your secret API keys!
-  - It might look like this:
+### Attacking with a card
+- To attack with a card, simply drag it onto an opponent's card or hero.
+- You will know a card is ready to attack when it starts to pulse on the battlefield.
+- A card may only attack once per turn.
+- After an attack, both cards will receive damage based on the other's attack.
+- A card whose health reaches 0 will be removed from the board.
+- A card attacking a hero takes no damage. 
 
-```
-process.env.GOOGLE_CLIENT_ID = 'hush hush'
-process.env.GOOGLE_CLIENT_SECRET = 'pretty secret'
-process.env.GOOGLE_CALLBACK = '/auth/google/callback'
-```
+### Winning the game
+- The game is over when one of the player's settlers reaches 0.
+- The winning player is compensated with 3 gold coins.
+- The losing player is compensated with 1 gold coin.
 
-### OAuth
+### Classes & Special Abilities
+Before each game, players select a class that gives them a unique ability to use once during their turn.
+#### Forager (passive)
+The Forager class gives players 2 settlers instead of 1 at the end of each turn.
+#### Medic (active)
+The Medic class allows players to heal a card on their battlefield for 3 extra health points. 
+#### Metalhead (active)
+The Metalhead class allows a player to summon a minion straight onto the battlefield if there's not already a minion in play.
+#### Cultist (active)
+The Cultist class allows a player to draw an extra card at the cost of 2 extra settlers.
+#### Bandit (active)
+At the cost of 2 settlers, the Bandit class gives players the option to either: Active a previously unactivated fighter on their battlefield, or decrease their opponent's settlers by 4. 
+#### Hoarder (passive)
+The Hoarder class gives players a 1 in 4 chance to draw 2 cards instead of 1. 
 
-- To use OAuth with Google, complete the steps above with a real client
-  ID and client secret supplied from Google
-  - You can get them from the [Google APIs dashboard][google-apis].
-
-[google-apis]: https://console.developers.google.com/apis/credentials
-
-## Linting
-
-Linters are fundamental to any project. They ensure that your code
-has a consistent style, which is critical to writing readable code.
-
-Boilermaker comes with a working linter (ESLint, with
-`eslint-config-fullstack`) "out of the box." However, everyone has
-their own style, so we recommend that you and your team work out yours
-and stick to it. Any linter rule that you object to can be "turned
-off" in `.eslintrc.json`. You may also choose an entirely different
-config if you don't like ours:
-
-- [Standard style guide](https://standardjs.com/)
-- [Airbnb style guide](https://github.com/airbnb/javascript)
-- [Google style guide](https://google.github.io/styleguide/jsguide.html)
-
-## Start
-
-Running `npm run start-dev` will make great things happen!
-
-If you want to run the server and/or `webpack` separately, you can also
-`npm run start-server` and `npm run build-client`.
-
-From there, just follow your bliss.
-
-## Deployment
-
-Ready to go world wide? Here's a guide to deployment! There are two
-supported ways to deploy in Boilermaker:
-
-- automatically, via continuous deployment with Travis.
-- "manually", from your local machine via the `deploy` script.
-
-Either way, you'll need to set up your deployment server to start.
-The steps below are also covered in the CI/CD workshop.
-
-### Heroku
-
-1.  Set up the [Heroku command line tools][heroku-cli]
-2.  `heroku login`
-3.  Add a git remote for heroku:
-
-[heroku-cli]: https://devcenter.heroku.com/articles/heroku-cli
-
-- **If you are creating a new app...**
-
-  1.  `heroku create` or `heroku create your-app-name` if you have a
-      name in mind.
-  2.  `heroku addons:create heroku-postgresql:hobby-dev` to add
-      ("provision") a postgres database to your heroku dyno
-
-- **If you already have a Heroku app...**
-
-  1.  `heroku git:remote your-app-name` You'll need to be a
-      collaborator on the app.
-
-### Travis
-
-_**NOTE**_ that this step assumes that Travis-CI is already testing your code.
-Continuous Integration is not about testing per se – it's about _continuously
-integrating_ your changes into the live application, instead of periodically
-_releasing_ new versions. CI tools can not only test your code, but then
-automatically deploy your app. This is known as Continuous Deployment.
-Boilermaker comes with a `.travis.yml` configuration almost ready for
-continuous deployment; follow these steps to the job.
-
-1.  Run the following commands to create a new branch:
-
-```
-git checkout master
-git pull
-git checkout -b f/travis-deploy
-```
-
-2.  Run the following script to finish configuring `travis.yml` :
-    `npm run heroku-token`
-    This will use your `heroku` CLI (that you configured previously, if
-    not then see [above](#Heroku)) to generate an authentication token. It
-    will then use `openssl` to encrypt this token using a public key that
-    Travis has generated for you. It will then update your `.travis.yml`
-    file with the encrypted value to be sent with the `secure` key under
-    the `api_key`.
-3.  Run the following commands to commit these changes
-
-```
-git add .travis.yml
-git commit -m 'travis: activate deployment'
-git push -u origin f/travis-deploy
-```
-
-4.  Make a Pull Request for the new branch, get it approved, and merge it into
-    the master branch.
-
-_**NOTE**_ that this script depends on your local `origin` Git remote matching
-your GitHub URL, and your local `heroku` remote matching the name of your
-Heroku app. This is only an issue if you rename your GitHub organization,
-repository name or Heroku app name. You can update these values using
-`git remote` and its related commands.
-
-#### Travis CLI
-
-There is a procedure to complete the above steps by installing the official
-[Travis CLI tools][travis-cli]. This requires a recent Ruby, but this step
-should not be, strictly speaking, necessary. Only explore this option when the
-above has failed.
-
-[travis-cli]: https://github.com/travis-ci/travis.rb#installation
-
-That's it! From now on, whenever `master` is updated on GitHub, Travis
-will automatically push the app to Heroku for you.
-
-### Cody's own deploy script
-
-Your local copy of the application can be pushed up to Heroku at will,
-using Boilermaker's handy deployment script:
-
-1.  Make sure that all your work is fully committed and merged into your
-    master branch on Github.
-2.  If you currently have an existing branch called "deploy", delete
-    it now (`git branch -d deploy`). We will use a dummy branch
-    with the name `deploy` (see below), so and the script below will error if a
-    branch with that name already exists.
-3.  `npm run deploy`
-    _ this will cause the following commands to happen in order:
-    _ `git checkout -b deploy`: checks out a new branch called
-    `deploy`. Note that the name `deploy` here is not magical, but it needs
-    to match the name of the branch we specify when we push to our `heroku`
-    remote.
-    _ `webpack -p`: webpack will run in "production mode"
-    _ `git add -f public/bundle.js public/bundle.js.map`: "force" add
-    these files which are listed in `.gitignore`.
-    _ `git commit --allow-empty -m 'Deploying'`: create a commit, even
-    if nothing changed
-    _ `git push --force heroku deploy:master`: push your local
-    `deploy` branch to the `master` branch on `heroku`
-    _ `git checkout master`: return to your master branch
-    _ `git branch -D deploy`: remove the deploy branch
-
-Now, you should be deployed!
-
-Why do all of these steps? The big reason is because we don't want our
-production server to be cluttered up with dev dependencies like
-`webpack`, but at the same time we don't want our development
-git-tracking to be cluttered with production build files like
-`bundle.js`! By doing these steps, we make sure our development and
-production environments both stay nice and clean!
-
-#### Rules
-
-Rules will go here.
+## Contributors
+- Max Van Buskirk https://github.com/cmax1018
+- Akil Grant https://github.com/akilgrant93
+- Dylan Horgan https://github.com/dyhorgan
+- Erick Canals https://github.com/EC7495
