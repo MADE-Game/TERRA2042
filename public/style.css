@@ -151,6 +151,32 @@ label {
   text-align: center;
 }
 
+.toolTip {
+  font-size: 10px;
+}
+
+#playerDeck,
+#playerSettlers,
+#opponentSettlers,
+#opponentHand,
+#opponentDeck,
+#Draw,
+#End {
+  /* margin: 0; */
+  padding: 1vh;
+}
+
+#opponentSettlers,
+#opponentHand,
+#opponentDeck {
+  margin-top: 3vh;
+}
+
+#playerSettlers,
+#playerDeck {
+  margin-bottom: 3vh;
+}
+
 .time-wrapper {
   position: relative;
   width: 50px;

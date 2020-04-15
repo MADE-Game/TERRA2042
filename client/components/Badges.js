@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Badge from '@material-ui/core/Badge'
@@ -5,6 +6,7 @@ import MailIconTwoToneIcon from '@material-ui/icons/MailTwoTone'
 import StyleIconTwoToneIcon from '@material-ui/icons/StyleTwoTone'
 import GroupIconTwoToneIcon from '@material-ui/icons/GroupTwoTone'
 import SvgIcon from '@material-ui/core/SvgIcon'
+import ReactTooltip from 'react-tooltip'
 
 function DeckIcon(props) {
   return (
@@ -30,57 +32,106 @@ export function BadgeOne(props) {
   const classes = useStyles()
   return (
     <div className={classes.root}>
-      <Badge
-        badgeContent={props.content}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right'
-        }}
-        showZero
-        color="secondary"
-      >
-        {props.name === 'opponentDeck' || props.name === 'playerDeck' ? (
-          <DeckIcon
-            style={{color: '#fff', filter: 'drop-shadow(0px 0px 5px #fff)'}}
-          />
-        ) : (
-          ''
-        )}
+      <a data-tip data-for={props.name}>
+        <Badge
+          badgeContent={props.content}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right'
+          }}
+          showZero
+          color="secondary"
+        >
+          {props.name === 'opponentDeck' || props.name === 'playerDeck' ? (
+            <DeckIcon
+              style={{color: '#fff', filter: 'drop-shadow(0px 0px 5px #fff)'}}
+            />
+          ) : (
+            ''
+          )}
 
-        {/* {props.name === 'playerSettlers' ? (
+          {/* {props.name === 'playerSettlers' ? (
           <GroupIcon style={{color: '#fff'}} />
         ) : (
           ''
         )}
         {props.content < 15 ? (<GroupIcon style={{color: '#fff'}} />) : ('')} */}
 
-        {props.name === 'playerSettlers' ? (
-          props.content < 10 ? (
-            <GroupIconTwoToneIcon
-              className="shadowpulse"
-              style={{
-                color: '#EA474F',
-                filter: 'drop-shadow(0px 0px 5px #C41A1C)'
-              }}
-            />
+          {props.name === 'playerSettlers' ||
+          props.name === 'opponentSettlers' ? (
+            props.content < 10 ? (
+              <GroupIconTwoToneIcon
+                className="shadowpulse"
+                style={{
+                  color: '#EA474F',
+                  filter: 'drop-shadow(0px 0px 5px #C41A1C)'
+                }}
+              />
+            ) : (
+              <GroupIconTwoToneIcon
+                style={{color: '#fff', filter: 'drop-shadow(0px 0px 5px #fff)'}}
+              />
+            )
           ) : (
-            <GroupIconTwoToneIcon
+            // <GroupIcon style={{color: '#fff'}} />
+            ''
+          )}
+
+          {props.name === 'opponentHand' ? (
+            <StyleIconTwoToneIcon
               style={{color: '#fff', filter: 'drop-shadow(0px 0px 5px #fff)'}}
             />
-          )
-        ) : (
-          // <GroupIcon style={{color: '#fff'}} />
-          ''
-        )}
-
-        {props.name === 'opponentHand' ? (
-          <StyleIconTwoToneIcon
-            style={{color: '#fff', filter: 'drop-shadow(0px 0px 5px #fff)'}}
-          />
-        ) : (
-          ''
-        )}
-      </Badge>
+          ) : (
+            ''
+          )}
+        </Badge>
+      </a>
+      {props.side === 'top' ? (
+        <ReactTooltip
+          id={props.name}
+          place="bottom"
+          type="dark"
+          effect="solid"
+          className="toolBox"
+          style={{margin: 0, padding: 0}}
+        >
+          {props.name === 'opponentHand' ? (
+            <span className="toolTip">Enemy Hand</span>
+          ) : (
+            ''
+          )}
+          {props.name === 'opponentDeck' ? (
+            <span className="toolTip">Enemy Deck</span>
+          ) : (
+            ''
+          )}
+          {props.name === 'opponentSettlers' ? (
+            <span className="toolTip">Settlers</span>
+          ) : (
+            ''
+          )}
+        </ReactTooltip>
+      ) : (
+        <ReactTooltip
+          id={props.name}
+          place="top"
+          type="dark"
+          effect="solid"
+          className="toolBox"
+          style={{margin: 0, padding: 0}}
+        >
+          {props.name === 'playerSettlers' ? (
+            <span className="toolTip">Settlers</span>
+          ) : (
+            ''
+          )}
+          {props.name === 'playerDeck' ? (
+            <span className="toolTip">Your Deck</span>
+          ) : (
+            ''
+          )}
+        </ReactTooltip>
+      )}
     </div>
   )
 }

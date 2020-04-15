@@ -89,9 +89,9 @@ const engine = {
       name: 'Minion',
       type: 'Fighter',
       imageUrl: '/images/monsters/30.png',
-      cost: 2,
-      attack: 2,
-      health: 2,
+      cost: 1,
+      attack: 1,
+      health: 1,
       attackOccurred: true,
       _v: 0,
       _id: 1

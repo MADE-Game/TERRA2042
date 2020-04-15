@@ -4,6 +4,7 @@ import Card from './Card'
 import Plane from './Plane'
 import {MyButton as Button} from './Button'
 import {MyIconButton as IconButton} from './IconButton'
+import {myHeroButton as HeroButton, PassiveHero} from './HeroButton'
 import BanditComponent from './BanditComponent'
 import {
   endTurn,
@@ -26,6 +27,7 @@ import styled, {keyframes} from 'styled-components'
 import {toast} from 'react-toastify'
 import {CountdownCircleTimer} from 'react-countdown-circle-timer'
 import {renderTime} from '../timeRender'
+import {Icon} from '@material-ui/core'
 
 const Draw = styled.div`
   animation: 1s ${keyframes`${zoomInLeft}`};
@@ -217,7 +219,6 @@ class Side extends React.Component {
                       user={this.props.user}
                     />
                   ) : (
-                    // <IconButton text="cantDraw"/>
                     ''
                   ))}
 
@@ -231,93 +232,98 @@ class Side extends React.Component {
                     gameState={this.props.gameState}
                   />
                 ) : (
-                  <IconButton text="cantEnd" />
+                  <div>
+                    <IconButton text="cantDraw" />
+                    <IconButton text="cantEnd" />
+                  </div>
                 )}
 
                 {this.props.user.selectedClass === 'Cultist' &&
                   (this.props.isMyTurn ? (
-                    <button
-                      type="submit"
-                      className="buttonStyle3"
-                      onClick={() => {
-                        if (this.props.canDraw) {
-                          this.props.cultistDraw(
-                            this.props.player.deck,
-                            this.props.player
-                          )
-                        } else {
-                          toast.warning('Not your turn!', {
-                            position: toast.POSITION.TOP_CENTER
-                          })
-                        }
-                      }}
-                    >
-                      Cultist Draw Card
-                    </button>
+                    <HeroButton
+                      text="cultistDraw"
+                      canDraw={this.props.canDraw}
+                      cultistDraw={this.props.cultistDraw}
+                      deck={this.props.player.deck}
+                      player={this.props.player}
+                    />
                   ) : (
-                    <button type="submit" className="buttonStyle4">
-                      Cultist Draw Card
-                    </button>
+                    <HeroButton text="disableHero" />
+                    // <button type="submit" className="buttonStyle4">
+                    //   Cultist Draw Card
+                    // </button>
                   ))}
                 {/* good */}
                 {this.props.user.selectedClass === 'Metalhead' &&
                   (this.props.isMyTurn ? (
-                    <button
-                      type="submit"
-                      className="buttonStyle3"
-                      onClick={() => {
-                        if (this.props.canDraw) {
-                          if (!this.props.metalHeadUsed) {
-                            this.props.metalHeadSummon(this.props.player)
-                          } else {
-                            toast.warning(
-                              'You can only use Metalhead power once per turn',
-                              {
-                                position: toast.POSITION.TOP_CENTER
-                              }
-                            )
-                          }
-                        } else {
-                          toast.warning('Not your turn!', {
-                            position: toast.POSITION.TOP_CENTER
-                          })
-                        }
-                      }}
-                    >
-                      Metalhead Power
-                    </button>
+                    <HeroButton
+                      text="metalHeadSummon"
+                      canDraw={this.props.canDraw}
+                      metalHeadSummon={this.props.metalHeadSummon}
+                      metalHeadUsed={this.props.metalHeadUsed}
+                      player={this.props.player}
+                    />
                   ) : (
-                    <button type="submit" className="buttonStyle4">
-                      Metalhead Power
-                    </button>
+                    // <button
+                    //   type="submit"
+                    //   className="buttonStyle3"
+                    //   onClick={() => {
+                    //     if (this.props.canDraw) {
+                    //       if (!this.props.metalHeadUsed) {
+                    //         this.props.metalHeadSummon(this.props.player)
+                    //       } else {
+                    //         toast.warning(
+                    //           'You can only use Metalhead power once per turn',
+                    //           {
+                    //             position: toast.POSITION.TOP_CENTER
+                    //           }
+                    //         )
+                    //       }
+                    //     } else {
+                    //       toast.warning('Not your turn!', {
+                    //         position: toast.POSITION.TOP_CENTER
+                    //       })
+                    //     }
+                    //   }}
+                    // >
+                    //   Metalhead Power
+                    // </button>
+                    <HeroButton text="disableHero" />
+                    // <button type="submit" className="buttonStyle4">
+                    //   Metalhead Power
+                    // </button>
                   ))}
                 {this.props.user.selectedClass === 'Medic' &&
                   (this.props.isMyTurn ? (
-                    <button
-                      type="submit"
-                      className="buttonStyle3"
-                      onClick={() => {
-                        if (this.props.canDraw) {
-                          this.props.engagedHeal()
-                        } else {
-                          toast.warning('Not your turn!', {
-                            position: toast.POSITION.TOP_CENTER
-                          })
-                        }
-                      }}
-                    >
-                      Medic Heal Power
-                    </button>
+                    <HeroButton
+                      text="medicHeal"
+                      canDraw={this.props.canDraw}
+                      engagedHeal={this.props.engagedHeal}
+                    />
                   ) : (
-                    <button type="submit" className="buttonStyle4">
-                      Medic Heal Power
-                    </button>
+                    <HeroButton text="disableHero" />
                   ))}
-                {this.props.user.selectedClass === 'Bandit' && (
-                  <div>
-                    <BanditComponent />
-                  </div>
-                )}
+
+                {this.props.user.selectedClass === 'Bandit' &&
+                  (this.props.isMyTurn ? (
+                    <PassiveHero text="Bandit" />
+                  ) : (
+                    <PassiveHero text="disableHero" />
+                  ))}
+
+                {this.props.user.selectedClass === 'Hoarder' &&
+                  (this.props.isMyTurn ? (
+                    <PassiveHero text="Hoarder" />
+                  ) : (
+                    <PassiveHero text="disableHero" />
+                  ))}
+
+                {this.props.user.selectedClass === 'Forager' &&
+                  (this.props.isMyTurn ? (
+                    <PassiveHero text="Forager" />
+                  ) : (
+                    <PassiveHero text="disableHero" />
+                  ))}
               </div>
             </div>
           </div>
